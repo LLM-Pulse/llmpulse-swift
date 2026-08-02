@@ -1,0 +1,28 @@
+# IntelligenceTask
+
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**id** | **Int** |  | [optional] 
+**publicId** | **String** |  | [optional] 
+**projectId** | **Int** |  | [optional] 
+**taskType** | **String** |  | [optional] 
+**title** | **String** |  | [optional] 
+**status** | **String** |  | [optional] 
+**promptId** | **Int** |  | [optional] 
+**promptText** | **String** |  | [optional] 
+**agenticMode** | **Bool** |  | [optional] 
+**customTopic** | **String** |  | [optional] 
+**userInstructions** | **String** |  | [optional] 
+**outputLanguageCode** | **String** |  | [optional] 
+**wordCount** | **Int** |  | [optional] 
+**resultData** | **JSONValue** | Only present when status&#x3D;&#39;completed&#39; | [optional] 
+**errorMessage** | **String** |  | [optional] 
+**estimatedTime** | **String** |  | [optional] 
+**createdAt** | **Date** |  | [optional] 
+**processedAt** | **Date** |  | [optional] 
+**requestId** | **String** |  | [optional] 
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+
