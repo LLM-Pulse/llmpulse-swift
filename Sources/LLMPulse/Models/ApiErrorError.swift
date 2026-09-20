@@ -22,6 +22,8 @@ public struct ApiErrorError: Sendable, Codable, Hashable {
         case errProjectNotFound = "ERR_PROJECT_NOT_FOUND"
         case errNotFound = "ERR_NOT_FOUND"
         case errSearchConsoleNotConnected = "ERR_SEARCH_CONSOLE_NOT_CONNECTED"
+        case errSearchConsoleAccessRevoked = "ERR_SEARCH_CONSOLE_ACCESS_REVOKED"
+        case errSearchConsoleUpstream = "ERR_SEARCH_CONSOLE_UPSTREAM"
         case errAiTrafficNotConnected = "ERR_AI_TRAFFIC_NOT_CONNECTED"
         case errAgentTrafficNotConnected = "ERR_AGENT_TRAFFIC_NOT_CONNECTED"
         case errInvalidParam = "ERR_INVALID_PARAM"

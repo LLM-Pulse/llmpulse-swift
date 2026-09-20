@@ -10,154 +10,6 @@ import Foundation
 open class MetricsAPI {
 
     /**
-     * enum for parameter groupBy
-     */
-    public enum GroupBy_getAgentTraffic: String, Sendable, CaseIterable {
-        case bot = "bot"
-        case company = "company"
-    }
-
-    /**
-     * enum for parameter granularity
-     */
-    public enum Granularity_getAgentTraffic: String, Sendable, CaseIterable {
-        case day = "day"
-        case week = "week"
-        case month = "month"
-    }
-
-    /**
-     AI bot crawler traffic (Scale+, Beta)
-     
-     - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
-     - parameter from: (query)  (optional)
-     - parameter to: (query)  (optional)
-     - parameter bot: (query) Filter by bot slug (e.g. gptbot, claudebot, perplexitybot) (optional)
-     - parameter company: (query) Filter by company (e.g. openai, anthropic, google) (optional)
-     - parameter groupBy: (query)  (optional, default to .bot)
-     - parameter granularity: (query)  (optional)
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: AgentTrafficResponse
-     */
-    open class func getAgentTraffic(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, bot: String? = nil, company: String? = nil, groupBy: GroupBy_getAgentTraffic? = nil, granularity: Granularity_getAgentTraffic? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> AgentTrafficResponse {
-        return try await getAgentTrafficWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, bot: bot, company: company, groupBy: groupBy, granularity: granularity, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     AI bot crawler traffic (Scale+, Beta)
-     - GET /metrics/agent_traffic
-     - Aggregated AI bot traffic hitting the project's origin server (GPTBot, PerplexityBot, ClaudeBot, OAI-SearchBot, Google-Extended, etc.). Sourced from Cloudflare or CSV uploads. Requires the Scale plan; lower tiers receive ERR_PLAN_REQUIRED.
-     - Bearer Token:
-       - type: http
-       - name: BearerAuth
-     - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
-     - parameter from: (query)  (optional)
-     - parameter to: (query)  (optional)
-     - parameter bot: (query) Filter by bot slug (e.g. gptbot, claudebot, perplexitybot) (optional)
-     - parameter company: (query) Filter by company (e.g. openai, anthropic, google) (optional)
-     - parameter groupBy: (query)  (optional, default to .bot)
-     - parameter granularity: (query)  (optional)
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<AgentTrafficResponse> 
-     */
-    open class func getAgentTrafficWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, bot: String? = nil, company: String? = nil, groupBy: GroupBy_getAgentTraffic? = nil, granularity: Granularity_getAgentTraffic? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<AgentTrafficResponse> {
-        let localVariablePath = "/metrics/agent_traffic"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "project_id": (wrappedValue: projectId.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-            "range": (wrappedValue: range?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-            "from": (wrappedValue: from?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-            "to": (wrappedValue: to?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-            "bot": (wrappedValue: bot?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-            "company": (wrappedValue: company?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-            "group_by": (wrappedValue: groupBy?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-            "granularity": (wrappedValue: granularity?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AgentTrafficResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     * enum for parameter granularity
-     */
-    public enum Granularity_getAiTraffic: String, Sendable, CaseIterable {
-        case day = "day"
-        case week = "week"
-        case month = "month"
-    }
-
-    /**
-     AI referral traffic (Scale+)
-     
-     - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
-     - parameter from: (query)  (optional)
-     - parameter to: (query)  (optional)
-     - parameter source: (query) Filter by a single AI source slug (e.g. chatgpt, perplexity, gemini, claude) (optional)
-     - parameter granularity: (query)  (optional)
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    open class func getAiTraffic(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, source: String? = nil, granularity: Granularity_getAiTraffic? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await getAiTrafficWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, source: source, granularity: granularity, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     AI referral traffic (Scale+)
-     - GET /metrics/ai_traffic
-     - AI referral traffic for a project: human visits arriving from AI assistants (ChatGPT, Perplexity, Gemini, Claude, etc.), measured from the connected web analytics provider (Google Analytics 4, Adobe Analytics, PostHog, Plausible or Piano). Returns per-source users, sessions and conversions with totals and a conversion rate. Requires a connected provider and the Scale plan; otherwise returns ERR_AI_TRAFFIC_NOT_CONNECTED or ERR_PLAN_REQUIRED.
-     - Bearer Token:
-       - type: http
-       - name: BearerAuth
-     - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
-     - parameter from: (query)  (optional)
-     - parameter to: (query)  (optional)
-     - parameter source: (query) Filter by a single AI source slug (e.g. chatgpt, perplexity, gemini, claude) (optional)
-     - parameter granularity: (query)  (optional)
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func getAiTrafficWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, source: String? = nil, granularity: Granularity_getAiTraffic? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
-        let localVariablePath = "/metrics/ai_traffic"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "project_id": (wrappedValue: projectId.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-            "range": (wrappedValue: range?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-            "from": (wrappedValue: from?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-            "to": (wrappedValue: to?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-            "source": (wrappedValue: source?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-            "granularity": (wrappedValue: granularity?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
      * enum for parameter breakdown
      */
     public enum Breakdown_getPromptSummary: String, Sendable, CaseIterable {
@@ -179,16 +31,8 @@ open class MetricsAPI {
         case deepseek = "deepseek"
         case metaAi = "meta_ai"
         case amazonRufus = "amazon_rufus"
-    }
-
-    /**
-     * enum for parameter promptType
-     */
-    public enum PromptType_getPromptSummary: String, Sendable, CaseIterable {
-        case informational = "informational"
-        case navigational = "navigational"
-        case commercial = "commercial"
-        case transactional = "transactional"
+        case naverAi = "naver_ai"
+        case baiduAi = "baidu_ai"
     }
 
     /**
@@ -236,14 +80,14 @@ open class MetricsAPI {
      - parameter projectId: (query) Project ID 
      - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
      - parameter from: (query)  (optional)
-     - parameter to: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter breakdown: (query) Add per-(prompt, model) rows to the output (optional)
      - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     - parameter collectionId: (query)  (optional)
-     - parameter countryCode: (query) ISO country code (e.g. US, GB, DE) (optional)
-     - parameter languageCode: (query) ISO language code (e.g. en, es, de) (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      - parameter prompt: (query) Filter by prompt ID (optional)
-     - parameter promptType: (query) Filter by prompt type (search intent) (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter sort: (query)  (optional, default to .responses)
      - parameter sortDir: (query)  (optional, default to .desc)
@@ -253,7 +97,7 @@ open class MetricsAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: PromptSummaryResponse
      */
-    open class func getPromptSummary(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, breakdown: Breakdown_getPromptSummary? = nil, model: Model_getPromptSummary? = nil, collectionId: Int? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: PromptType_getPromptSummary? = nil, brandKind: BrandKind_getPromptSummary? = nil, sort: Sort_getPromptSummary? = nil, sortDir: SortDir_getPromptSummary? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_getPromptSummary? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> PromptSummaryResponse {
+    open class func getPromptSummary(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, breakdown: Breakdown_getPromptSummary? = nil, model: Model_getPromptSummary? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getPromptSummary? = nil, sort: Sort_getPromptSummary? = nil, sortDir: SortDir_getPromptSummary? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_getPromptSummary? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> PromptSummaryResponse {
         return try await getPromptSummaryWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, breakdown: breakdown, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, promptType: promptType, brandKind: brandKind, sort: sort, sortDir: sortDir, page: page, perPage: perPage, output: output, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -267,14 +111,14 @@ open class MetricsAPI {
      - parameter projectId: (query) Project ID 
      - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
      - parameter from: (query)  (optional)
-     - parameter to: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter breakdown: (query) Add per-(prompt, model) rows to the output (optional)
      - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     - parameter collectionId: (query)  (optional)
-     - parameter countryCode: (query) ISO country code (e.g. US, GB, DE) (optional)
-     - parameter languageCode: (query) ISO language code (e.g. en, es, de) (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      - parameter prompt: (query) Filter by prompt ID (optional)
-     - parameter promptType: (query) Filter by prompt type (search intent) (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter sort: (query)  (optional, default to .responses)
      - parameter sortDir: (query)  (optional, default to .desc)
@@ -284,7 +128,7 @@ open class MetricsAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<PromptSummaryResponse> 
      */
-    open class func getPromptSummaryWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, breakdown: Breakdown_getPromptSummary? = nil, model: Model_getPromptSummary? = nil, collectionId: Int? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: PromptType_getPromptSummary? = nil, brandKind: BrandKind_getPromptSummary? = nil, sort: Sort_getPromptSummary? = nil, sortDir: SortDir_getPromptSummary? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_getPromptSummary? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<PromptSummaryResponse> {
+    open class func getPromptSummaryWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, breakdown: Breakdown_getPromptSummary? = nil, model: Model_getPromptSummary? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getPromptSummary? = nil, sort: Sort_getPromptSummary? = nil, sortDir: SortDir_getPromptSummary? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_getPromptSummary? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<PromptSummaryResponse> {
         let localVariablePath = "/metrics/prompt_summary"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -345,16 +189,8 @@ open class MetricsAPI {
         case deepseek = "deepseek"
         case metaAi = "meta_ai"
         case amazonRufus = "amazon_rufus"
-    }
-
-    /**
-     * enum for parameter promptType
-     */
-    public enum PromptType_getShareOfVoice: String, Sendable, CaseIterable {
-        case informational = "informational"
-        case navigational = "navigational"
-        case commercial = "commercial"
-        case transactional = "transactional"
+        case naverAi = "naver_ai"
+        case baiduAi = "baidu_ai"
     }
 
     /**
@@ -389,20 +225,20 @@ open class MetricsAPI {
      - parameter projectId: (query) Project ID 
      - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
      - parameter from: (query)  (optional)
-     - parameter to: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter granularity: (query)  (optional)
      - parameter competitors: (query) Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     - parameter collectionId: (query)  (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs (optional)
      - parameter prompt: (query) Filter by prompt ID (optional)
-     - parameter promptType: (query) Filter by prompt type (search intent) (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter view: (query) Which Share of Voice projection to flatten. Only valid together with &#39;output&#39;. &#39;over_time&#39; (default) is one row per date and actor, &#39;current&#39; the ranked snapshot, &#39;breakdown&#39; the Top 4 plus Others. (optional, default to .overTime)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: SovResponse
      */
-    open class func getShareOfVoice(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getShareOfVoice? = nil, competitors: String? = nil, model: Model_getShareOfVoice? = nil, collectionId: Int? = nil, prompt: Int? = nil, promptType: PromptType_getShareOfVoice? = nil, brandKind: BrandKind_getShareOfVoice? = nil, output: Output_getShareOfVoice? = nil, view: View_getShareOfVoice? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SovResponse {
+    open class func getShareOfVoice(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getShareOfVoice? = nil, competitors: String? = nil, model: Model_getShareOfVoice? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getShareOfVoice? = nil, output: Output_getShareOfVoice? = nil, view: View_getShareOfVoice? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SovResponse {
         return try await getShareOfVoiceWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, granularity: granularity, competitors: competitors, model: model, collectionId: collectionId, prompt: prompt, promptType: promptType, brandKind: brandKind, output: output, view: view, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -416,20 +252,20 @@ open class MetricsAPI {
      - parameter projectId: (query) Project ID 
      - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
      - parameter from: (query)  (optional)
-     - parameter to: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter granularity: (query)  (optional)
      - parameter competitors: (query) Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     - parameter collectionId: (query)  (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs (optional)
      - parameter prompt: (query) Filter by prompt ID (optional)
-     - parameter promptType: (query) Filter by prompt type (search intent) (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter view: (query) Which Share of Voice projection to flatten. Only valid together with &#39;output&#39;. &#39;over_time&#39; (default) is one row per date and actor, &#39;current&#39; the ranked snapshot, &#39;breakdown&#39; the Top 4 plus Others. (optional, default to .overTime)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<SovResponse> 
      */
-    open class func getShareOfVoiceWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getShareOfVoice? = nil, competitors: String? = nil, model: Model_getShareOfVoice? = nil, collectionId: Int? = nil, prompt: Int? = nil, promptType: PromptType_getShareOfVoice? = nil, brandKind: BrandKind_getShareOfVoice? = nil, output: Output_getShareOfVoice? = nil, view: View_getShareOfVoice? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SovResponse> {
+    open class func getShareOfVoiceWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getShareOfVoice? = nil, competitors: String? = nil, model: Model_getShareOfVoice? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getShareOfVoice? = nil, output: Output_getShareOfVoice? = nil, view: View_getShareOfVoice? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SovResponse> {
         let localVariablePath = "/metrics/sov"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -486,16 +322,8 @@ open class MetricsAPI {
         case deepseek = "deepseek"
         case metaAi = "meta_ai"
         case amazonRufus = "amazon_rufus"
-    }
-
-    /**
-     * enum for parameter promptType
-     */
-    public enum PromptType_getSummary: String, Sendable, CaseIterable {
-        case informational = "informational"
-        case navigational = "navigational"
-        case commercial = "commercial"
-        case transactional = "transactional"
+        case naverAi = "naver_ai"
+        case baiduAi = "baidu_ai"
     }
 
     /**
@@ -523,18 +351,18 @@ open class MetricsAPI {
      - parameter granularity: (query)  (optional)
      - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
      - parameter from: (query)  (optional)
-     - parameter to: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter competitors: (query) Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     - parameter collectionId: (query)  (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs (optional)
      - parameter prompt: (query) Filter by prompt ID (optional)
-     - parameter promptType: (query) Filter by prompt type (search intent) (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: SummaryResponse
      */
-    open class func getSummary(projectId: Int, metrics: String? = nil, granularity: Granularity_getSummary? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, competitors: String? = nil, model: Model_getSummary? = nil, collectionId: Int? = nil, prompt: Int? = nil, promptType: PromptType_getSummary? = nil, brandKind: BrandKind_getSummary? = nil, output: Output_getSummary? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SummaryResponse {
+    open class func getSummary(projectId: Int, metrics: String? = nil, granularity: Granularity_getSummary? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, competitors: String? = nil, model: Model_getSummary? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getSummary? = nil, output: Output_getSummary? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SummaryResponse {
         return try await getSummaryWithRequestBuilder(projectId: projectId, metrics: metrics, granularity: granularity, range: range, from: from, to: to, competitors: competitors, model: model, collectionId: collectionId, prompt: prompt, promptType: promptType, brandKind: brandKind, output: output, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -550,18 +378,18 @@ open class MetricsAPI {
      - parameter granularity: (query)  (optional)
      - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
      - parameter from: (query)  (optional)
-     - parameter to: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter competitors: (query) Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     - parameter collectionId: (query)  (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs (optional)
      - parameter prompt: (query) Filter by prompt ID (optional)
-     - parameter promptType: (query) Filter by prompt type (search intent) (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<SummaryResponse> 
      */
-    open class func getSummaryWithRequestBuilder(projectId: Int, metrics: String? = nil, granularity: Granularity_getSummary? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, competitors: String? = nil, model: Model_getSummary? = nil, collectionId: Int? = nil, prompt: Int? = nil, promptType: PromptType_getSummary? = nil, brandKind: BrandKind_getSummary? = nil, output: Output_getSummary? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SummaryResponse> {
+    open class func getSummaryWithRequestBuilder(projectId: Int, metrics: String? = nil, granularity: Granularity_getSummary? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, competitors: String? = nil, model: Model_getSummary? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getSummary? = nil, output: Output_getSummary? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SummaryResponse> {
         let localVariablePath = "/metrics/summary"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -618,16 +446,8 @@ open class MetricsAPI {
         case deepseek = "deepseek"
         case metaAi = "meta_ai"
         case amazonRufus = "amazon_rufus"
-    }
-
-    /**
-     * enum for parameter promptType
-     */
-    public enum PromptType_getTimeseries: String, Sendable, CaseIterable {
-        case informational = "informational"
-        case navigational = "navigational"
-        case commercial = "commercial"
-        case transactional = "transactional"
+        case naverAi = "naver_ai"
+        case baiduAi = "baidu_ai"
     }
 
     /**
@@ -655,21 +475,21 @@ open class MetricsAPI {
      - parameter granularity: (query)  (optional)
      - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
      - parameter from: (query)  (optional)
-     - parameter to: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter competitors: (query) Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     - parameter collectionId: (query)  (optional)
-     - parameter countryCode: (query) ISO country code (e.g. US, GB, DE) (optional)
-     - parameter languageCode: (query) ISO language code (e.g. en, es, de) (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      - parameter prompt: (query) Filter by prompt ID (optional)
-     - parameter promptType: (query) Filter by prompt type (search intent) (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter includeProject: (query)  (optional, default to true)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: TimeseriesResponse
      */
-    open class func getTimeseries(projectId: Int, metrics: String? = nil, granularity: Granularity_getTimeseries? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, competitors: String? = nil, model: Model_getTimeseries? = nil, collectionId: Int? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: PromptType_getTimeseries? = nil, brandKind: BrandKind_getTimeseries? = nil, includeProject: Bool? = nil, output: Output_getTimeseries? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> TimeseriesResponse {
+    open class func getTimeseries(projectId: Int, metrics: String? = nil, granularity: Granularity_getTimeseries? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, competitors: String? = nil, model: Model_getTimeseries? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getTimeseries? = nil, includeProject: Bool? = nil, output: Output_getTimeseries? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> TimeseriesResponse {
         return try await getTimeseriesWithRequestBuilder(projectId: projectId, metrics: metrics, granularity: granularity, range: range, from: from, to: to, competitors: competitors, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, promptType: promptType, brandKind: brandKind, includeProject: includeProject, output: output, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -685,21 +505,21 @@ open class MetricsAPI {
      - parameter granularity: (query)  (optional)
      - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
      - parameter from: (query)  (optional)
-     - parameter to: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter competitors: (query) Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     - parameter collectionId: (query)  (optional)
-     - parameter countryCode: (query) ISO country code (e.g. US, GB, DE) (optional)
-     - parameter languageCode: (query) ISO language code (e.g. en, es, de) (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      - parameter prompt: (query) Filter by prompt ID (optional)
-     - parameter promptType: (query) Filter by prompt type (search intent) (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter includeProject: (query)  (optional, default to true)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<TimeseriesResponse> 
      */
-    open class func getTimeseriesWithRequestBuilder(projectId: Int, metrics: String? = nil, granularity: Granularity_getTimeseries? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, competitors: String? = nil, model: Model_getTimeseries? = nil, collectionId: Int? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: PromptType_getTimeseries? = nil, brandKind: BrandKind_getTimeseries? = nil, includeProject: Bool? = nil, output: Output_getTimeseries? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<TimeseriesResponse> {
+    open class func getTimeseriesWithRequestBuilder(projectId: Int, metrics: String? = nil, granularity: Granularity_getTimeseries? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, competitors: String? = nil, model: Model_getTimeseries? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getTimeseries? = nil, includeProject: Bool? = nil, output: Output_getTimeseries? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<TimeseriesResponse> {
         let localVariablePath = "/metrics/timeseries"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -750,16 +570,8 @@ open class MetricsAPI {
         case deepseek = "deepseek"
         case metaAi = "meta_ai"
         case amazonRufus = "amazon_rufus"
-    }
-
-    /**
-     * enum for parameter promptType
-     */
-    public enum PromptType_getTopSources: String, Sendable, CaseIterable {
-        case informational = "informational"
-        case navigational = "navigational"
-        case commercial = "commercial"
-        case transactional = "transactional"
+        case naverAi = "naver_ai"
+        case baiduAi = "baidu_ai"
     }
 
     /**
@@ -794,13 +606,13 @@ open class MetricsAPI {
      - parameter projectId: (query) Project ID 
      - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
      - parameter from: (query)  (optional)
-     - parameter to: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     - parameter collectionId: (query)  (optional)
-     - parameter countryCode: (query) ISO country code (e.g. US, GB, DE) (optional)
-     - parameter languageCode: (query) ISO language code (e.g. en, es, de) (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      - parameter prompt: (query) Filter by prompt ID (optional)
-     - parameter promptType: (query) Filter by prompt type (search intent) (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter sort: (query)  (optional, default to .totalResponses)
      - parameter query: (query) Filter domains by case-insensitive partial match (optional)
@@ -810,7 +622,7 @@ open class MetricsAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: TopSourcesResponse
      */
-    open class func getTopSources(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, model: Model_getTopSources? = nil, collectionId: Int? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: PromptType_getTopSources? = nil, brandKind: BrandKind_getTopSources? = nil, sort: Sort_getTopSources? = nil, query: String? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_getTopSources? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> TopSourcesResponse {
+    open class func getTopSources(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, model: Model_getTopSources? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getTopSources? = nil, sort: Sort_getTopSources? = nil, query: String? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_getTopSources? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> TopSourcesResponse {
         return try await getTopSourcesWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, promptType: promptType, brandKind: brandKind, sort: sort, query: query, page: page, perPage: perPage, output: output, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -824,13 +636,13 @@ open class MetricsAPI {
      - parameter projectId: (query) Project ID 
      - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
      - parameter from: (query)  (optional)
-     - parameter to: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     - parameter collectionId: (query)  (optional)
-     - parameter countryCode: (query) ISO country code (e.g. US, GB, DE) (optional)
-     - parameter languageCode: (query) ISO language code (e.g. en, es, de) (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      - parameter prompt: (query) Filter by prompt ID (optional)
-     - parameter promptType: (query) Filter by prompt type (search intent) (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter sort: (query)  (optional, default to .totalResponses)
      - parameter query: (query) Filter domains by case-insensitive partial match (optional)
@@ -840,7 +652,7 @@ open class MetricsAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<TopSourcesResponse> 
      */
-    open class func getTopSourcesWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, model: Model_getTopSources? = nil, collectionId: Int? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: PromptType_getTopSources? = nil, brandKind: BrandKind_getTopSources? = nil, sort: Sort_getTopSources? = nil, query: String? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_getTopSources? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<TopSourcesResponse> {
+    open class func getTopSourcesWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, model: Model_getTopSources? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getTopSources? = nil, sort: Sort_getTopSources? = nil, query: String? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_getTopSources? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<TopSourcesResponse> {
         let localVariablePath = "/metrics/top_sources"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil

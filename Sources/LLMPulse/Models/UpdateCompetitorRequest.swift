@@ -9,24 +9,40 @@ import Foundation
 
 public struct UpdateCompetitorRequest: Sendable, Codable, Hashable {
 
+    public enum CitationMatchMode: String, Sendable, Codable, CaseIterable {
+        case domain = "domain"
+        case host = "host"
+        case pathPrefix = "path_prefix"
+    }
     public var projectId: Int
     public var brandName: String?
+    /** Website domain or host used for citation matching. A full URL is accepted and normalised to its host. */
+    public var domain: String?
     public var matchingNames: [String]?
     /** Hex color, e.g. #1a2b3c */
     public var color: String?
+    public var citationMatchMode: CitationMatchMode?
+    /** Required when changing citation_match_mode to path_prefix */
+    public var citationMatchPath: String?
 
-    public init(projectId: Int, brandName: String? = nil, matchingNames: [String]? = nil, color: String? = nil) {
+    public init(projectId: Int, brandName: String? = nil, domain: String? = nil, matchingNames: [String]? = nil, color: String? = nil, citationMatchMode: CitationMatchMode? = nil, citationMatchPath: String? = nil) {
         self.projectId = projectId
         self.brandName = brandName
+        self.domain = domain
         self.matchingNames = matchingNames
         self.color = color
+        self.citationMatchMode = citationMatchMode
+        self.citationMatchPath = citationMatchPath
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case projectId = "project_id"
         case brandName = "brand_name"
+        case domain
         case matchingNames = "matching_names"
         case color
+        case citationMatchMode = "citation_match_mode"
+        case citationMatchPath = "citation_match_path"
     }
 
     // Encodable protocol methods
@@ -35,8 +51,11 @@ public struct UpdateCompetitorRequest: Sendable, Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(projectId, forKey: .projectId)
         try container.encodeIfPresent(brandName, forKey: .brandName)
+        try container.encodeIfPresent(domain, forKey: .domain)
         try container.encodeIfPresent(matchingNames, forKey: .matchingNames)
         try container.encodeIfPresent(color, forKey: .color)
+        try container.encodeIfPresent(citationMatchMode, forKey: .citationMatchMode)
+        try container.encodeIfPresent(citationMatchPath, forKey: .citationMatchPath)
     }
 }
 

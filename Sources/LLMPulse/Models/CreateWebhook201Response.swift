@@ -17,6 +17,7 @@ public struct CreateWebhook201Response: Sendable, Codable, Hashable {
         case sentimentPeriodNegativeDetected = "sentiment.negative_detected"
         case recommendationPeriodCompleted = "recommendation.completed"
         case intelligenceTaskPeriodCompleted = "intelligence_task.completed"
+        case intelligenceTaskPeriodUpdated = "intelligence_task.updated"
     }
     public var id: Int?
     public var projectId: Int?

@@ -10,14 +10,57 @@ import Foundation
 open class SentimentsAPI {
 
     /**
-     * enum for parameter analysis
+     * enum for parameter output
      */
-    public enum Analysis_listSentimentRecords: String, Sendable, CaseIterable {
-        case veryPositive = "very_positive"
-        case positive = "positive"
-        case neutral = "neutral"
-        case negative = "negative"
-        case veryNegative = "very_negative"
+    public enum Output_listSentimentCategories: String, Sendable, CaseIterable {
+        case flat = "flat"
+        case csv = "csv"
+    }
+
+    /**
+     List sentiment categories
+     
+     - parameter projectId: (query) Project ID 
+     - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    open class func listSentimentCategories(projectId: Int, output: Output_listSentimentCategories? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await listSentimentCategoriesWithRequestBuilder(projectId: projectId, output: output, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     List sentiment categories
+     - GET /dimensions/sentiments
+     - Sentiment metric keys + labels + colors. For records, use /sentiments.
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter projectId: (query) Project ID 
+     - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func listSentimentCategoriesWithRequestBuilder(projectId: Int, output: Output_listSentimentCategories? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/dimensions/sentiments"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "project_id": (wrappedValue: projectId.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "output": (wrappedValue: output?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -35,6 +78,8 @@ open class SentimentsAPI {
         case deepseek = "deepseek"
         case metaAi = "meta_ai"
         case amazonRufus = "amazon_rufus"
+        case naverAi = "naver_ai"
+        case baiduAi = "baidu_ai"
     }
 
     /**
@@ -43,19 +88,19 @@ open class SentimentsAPI {
      - parameter projectId: (query) Project ID 
      - parameter competitorId: (query)  (optional)
      - parameter brandOnly: (query)  (optional)
-     - parameter analysis: (query)  (optional)
+     - parameter analysis: (query) One sentiment level or a comma-separated list: very_positive, positive, neutral, negative, very_negative (optional)
      - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     - parameter collectionId: (query)  (optional)
-     - parameter countryCode: (query) ISO country code (e.g. US, GB, DE) (optional)
-     - parameter languageCode: (query) ISO language code (e.g. en, es, de) (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      - parameter from: (query)  (optional)
-     - parameter to: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    open class func listSentimentRecords(projectId: Int, competitorId: Int? = nil, brandOnly: Bool? = nil, analysis: Analysis_listSentimentRecords? = nil, model: Model_listSentimentRecords? = nil, collectionId: Int? = nil, countryCode: String? = nil, languageCode: String? = nil, from: Date? = nil, to: Date? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listSentimentRecords(projectId: Int, competitorId: Int? = nil, brandOnly: Bool? = nil, analysis: String? = nil, model: Model_listSentimentRecords? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, countryCode: String? = nil, languageCode: String? = nil, from: Date? = nil, to: Date? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await listSentimentRecordsWithRequestBuilder(projectId: projectId, competitorId: competitorId, brandOnly: brandOnly, analysis: analysis, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, from: from, to: to, page: page, perPage: perPage, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -68,19 +113,19 @@ open class SentimentsAPI {
      - parameter projectId: (query) Project ID 
      - parameter competitorId: (query)  (optional)
      - parameter brandOnly: (query)  (optional)
-     - parameter analysis: (query)  (optional)
+     - parameter analysis: (query) One sentiment level or a comma-separated list: very_positive, positive, neutral, negative, very_negative (optional)
      - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     - parameter collectionId: (query)  (optional)
-     - parameter countryCode: (query) ISO country code (e.g. US, GB, DE) (optional)
-     - parameter languageCode: (query) ISO language code (e.g. en, es, de) (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      - parameter from: (query)  (optional)
-     - parameter to: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func listSentimentRecordsWithRequestBuilder(projectId: Int, competitorId: Int? = nil, brandOnly: Bool? = nil, analysis: Analysis_listSentimentRecords? = nil, model: Model_listSentimentRecords? = nil, collectionId: Int? = nil, countryCode: String? = nil, languageCode: String? = nil, from: Date? = nil, to: Date? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listSentimentRecordsWithRequestBuilder(projectId: Int, competitorId: Int? = nil, brandOnly: Bool? = nil, analysis: String? = nil, model: Model_listSentimentRecords? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, countryCode: String? = nil, languageCode: String? = nil, from: Date? = nil, to: Date? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/sentiments"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil

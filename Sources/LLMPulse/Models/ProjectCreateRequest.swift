@@ -19,6 +19,18 @@ public struct ProjectCreateRequest: Sendable, Codable, Hashable {
     public var brandName: String?
     public var description: String?
     public var industry: [String]?
+    /** Business model key (e.g. B2B_SAAS, MARKETPLACE); unknown keys are rejected */
+    public var businessModel: String?
+    /** Free-text business model, only accepted when business_model is OTHER; rejected against any other key */
+    public var businessModelOther: String?
+    /** Who the brand sells to. Context for Recommendations and GEO Writer (Brand Book) */
+    public var targetAudience: String?
+    /** Tone of voice guidance for generated content (Brand Book) */
+    public var brandVoice: String?
+    /** What the brand wants to achieve. Context for GEO Writer and prompt suggestions */
+    public var goals: String?
+    /** Main products or services */
+    public var primaryProducts: [String]?
     public var matchingNames: [String]?
     public var prompts: [String]?
     public var competitors: [ProjectCreateRequestCompetitorsInner]?
@@ -29,7 +41,7 @@ public struct ProjectCreateRequest: Sendable, Codable, Hashable {
     public var externalIdentifier: String?
     public var executePromptsImmediately: Bool? = true
 
-    public init(websiteUrl: String, name: String, mainCountry: String, mainLanguage: String, brandName: String? = nil, description: String? = nil, industry: [String]? = nil, matchingNames: [String]? = nil, prompts: [String]? = nil, competitors: [ProjectCreateRequestCompetitorsInner]? = nil, ownedMedia: ProjectCreateRequestOwnedMedia? = nil, useSubdomain: Bool? = false, weeklyEmailSubscribed: Bool? = false, externalIdentifier: String? = nil, executePromptsImmediately: Bool? = true) {
+    public init(websiteUrl: String, name: String, mainCountry: String, mainLanguage: String, brandName: String? = nil, description: String? = nil, industry: [String]? = nil, businessModel: String? = nil, businessModelOther: String? = nil, targetAudience: String? = nil, brandVoice: String? = nil, goals: String? = nil, primaryProducts: [String]? = nil, matchingNames: [String]? = nil, prompts: [String]? = nil, competitors: [ProjectCreateRequestCompetitorsInner]? = nil, ownedMedia: ProjectCreateRequestOwnedMedia? = nil, useSubdomain: Bool? = false, weeklyEmailSubscribed: Bool? = false, externalIdentifier: String? = nil, executePromptsImmediately: Bool? = true) {
         self.websiteUrl = websiteUrl
         self.name = name
         self.mainCountry = mainCountry
@@ -37,6 +49,12 @@ public struct ProjectCreateRequest: Sendable, Codable, Hashable {
         self.brandName = brandName
         self.description = description
         self.industry = industry
+        self.businessModel = businessModel
+        self.businessModelOther = businessModelOther
+        self.targetAudience = targetAudience
+        self.brandVoice = brandVoice
+        self.goals = goals
+        self.primaryProducts = primaryProducts
         self.matchingNames = matchingNames
         self.prompts = prompts
         self.competitors = competitors
@@ -55,6 +73,12 @@ public struct ProjectCreateRequest: Sendable, Codable, Hashable {
         case brandName = "brand_name"
         case description
         case industry
+        case businessModel = "business_model"
+        case businessModelOther = "business_model_other"
+        case targetAudience = "target_audience"
+        case brandVoice = "brand_voice"
+        case goals
+        case primaryProducts = "primary_products"
         case matchingNames = "matching_names"
         case prompts
         case competitors
@@ -76,6 +100,12 @@ public struct ProjectCreateRequest: Sendable, Codable, Hashable {
         try container.encodeIfPresent(brandName, forKey: .brandName)
         try container.encodeIfPresent(description, forKey: .description)
         try container.encodeIfPresent(industry, forKey: .industry)
+        try container.encodeIfPresent(businessModel, forKey: .businessModel)
+        try container.encodeIfPresent(businessModelOther, forKey: .businessModelOther)
+        try container.encodeIfPresent(targetAudience, forKey: .targetAudience)
+        try container.encodeIfPresent(brandVoice, forKey: .brandVoice)
+        try container.encodeIfPresent(goals, forKey: .goals)
+        try container.encodeIfPresent(primaryProducts, forKey: .primaryProducts)
         try container.encodeIfPresent(matchingNames, forKey: .matchingNames)
         try container.encodeIfPresent(prompts, forKey: .prompts)
         try container.encodeIfPresent(competitors, forKey: .competitors)

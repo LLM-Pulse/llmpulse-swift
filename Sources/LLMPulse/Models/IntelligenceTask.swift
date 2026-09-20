@@ -28,9 +28,13 @@ public struct IntelligenceTask: Sendable, Codable, Hashable {
     public var estimatedTime: String?
     public var createdAt: Date?
     public var processedAt: Date?
+    /** When the content was last edited by hand; null while the output is as generated */
+    public var manuallyEditedAt: Date?
+    /** User behind the last manual edit; null for an unedited task or an edit made from an embedded portal */
+    public var editedByUserId: Int?
     public var requestId: String?
 
-    public init(id: Int? = nil, publicId: String? = nil, projectId: Int? = nil, taskType: String? = nil, title: String? = nil, status: String? = nil, promptId: Int? = nil, promptText: String? = nil, agenticMode: Bool? = nil, customTopic: String? = nil, userInstructions: String? = nil, outputLanguageCode: String? = nil, wordCount: Int? = nil, resultData: JSONValue? = nil, errorMessage: String? = nil, estimatedTime: String? = nil, createdAt: Date? = nil, processedAt: Date? = nil, requestId: String? = nil) {
+    public init(id: Int? = nil, publicId: String? = nil, projectId: Int? = nil, taskType: String? = nil, title: String? = nil, status: String? = nil, promptId: Int? = nil, promptText: String? = nil, agenticMode: Bool? = nil, customTopic: String? = nil, userInstructions: String? = nil, outputLanguageCode: String? = nil, wordCount: Int? = nil, resultData: JSONValue? = nil, errorMessage: String? = nil, estimatedTime: String? = nil, createdAt: Date? = nil, processedAt: Date? = nil, manuallyEditedAt: Date? = nil, editedByUserId: Int? = nil, requestId: String? = nil) {
         self.id = id
         self.publicId = publicId
         self.projectId = projectId
@@ -49,6 +53,8 @@ public struct IntelligenceTask: Sendable, Codable, Hashable {
         self.estimatedTime = estimatedTime
         self.createdAt = createdAt
         self.processedAt = processedAt
+        self.manuallyEditedAt = manuallyEditedAt
+        self.editedByUserId = editedByUserId
         self.requestId = requestId
     }
 
@@ -71,6 +77,8 @@ public struct IntelligenceTask: Sendable, Codable, Hashable {
         case estimatedTime = "estimated_time"
         case createdAt = "created_at"
         case processedAt = "processed_at"
+        case manuallyEditedAt = "manually_edited_at"
+        case editedByUserId = "edited_by_user_id"
         case requestId = "request_id"
     }
 
@@ -96,6 +104,8 @@ public struct IntelligenceTask: Sendable, Codable, Hashable {
         try container.encodeIfPresent(estimatedTime, forKey: .estimatedTime)
         try container.encodeIfPresent(createdAt, forKey: .createdAt)
         try container.encodeIfPresent(processedAt, forKey: .processedAt)
+        try container.encodeIfPresent(manuallyEditedAt, forKey: .manuallyEditedAt)
+        try container.encodeIfPresent(editedByUserId, forKey: .editedByUserId)
         try container.encodeIfPresent(requestId, forKey: .requestId)
     }
 }

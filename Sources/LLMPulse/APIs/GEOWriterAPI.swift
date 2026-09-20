@@ -159,4 +159,97 @@ open class GEOWriterAPI {
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
+
+    /**
+     Revert GEO Writer task content
+     
+     - parameter projectId: (query) Project ID 
+     - parameter id: (path) Numeric task ID or public_id string token 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IntelligenceTask
+     */
+    open class func revertIntelligenceTaskContent(projectId: Int, id: String, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> IntelligenceTask {
+        return try await revertIntelligenceTaskContentWithRequestBuilder(projectId: projectId, id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Revert GEO Writer task content
+     - POST /intelligence_tasks/{id}/revert
+     - Discards every manual edit on the task and restores the output exactly as it was generated. Returns ERR_INVALID_PARAM when the task has no manual edits. Requires a `read_write` scope API key and, for team members, update permission on GEO Writer.
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter projectId: (query) Project ID 
+     - parameter id: (path) Numeric task ID or public_id string token 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IntelligenceTask> 
+     */
+    open class func revertIntelligenceTaskContentWithRequestBuilder(projectId: Int, id: String, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<IntelligenceTask> {
+        var localVariablePath = "/intelligence_tasks/{id}/revert"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "project_id": (wrappedValue: projectId.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IntelligenceTask>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Edit GEO Writer task content
+     
+     - parameter id: (path) Numeric task ID or public_id string token 
+     - parameter intelligenceTaskUpdateRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IntelligenceTaskUpdateResponse
+     */
+    open class func updateIntelligenceTaskContent(id: String, intelligenceTaskUpdateRequest: IntelligenceTaskUpdateRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> IntelligenceTaskUpdateResponse {
+        return try await updateIntelligenceTaskContentWithRequestBuilder(id: id, intelligenceTaskUpdateRequest: intelligenceTaskUpdateRequest, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Edit GEO Writer task content
+     - PATCH /intelligence_tasks/{id}
+     - Edits the text of a completed task in place. `edits` maps dotted paths into result_data (for example `title` or `sections.0.content`) to replacement text. Only string fields that already exist can change: a path that does not resolve to text, a blank `title`, a value over 20,000 characters or an empty `edits` object is rejected with ERR_INVALID_PARAM and nothing is written. Values identical to the stored text are ignored, and the response lists the paths that actually changed. The first edit keeps a copy of the generated output so POST /intelligence_tasks/{id}/revert can restore it; regenerating the task replaces the edited content. Requires a `read_write` scope API key and, for team members, update permission on GEO Writer.
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter id: (path) Numeric task ID or public_id string token 
+     - parameter intelligenceTaskUpdateRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IntelligenceTaskUpdateResponse> 
+     */
+    open class func updateIntelligenceTaskContentWithRequestBuilder(id: String, intelligenceTaskUpdateRequest: IntelligenceTaskUpdateRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<IntelligenceTaskUpdateResponse> {
+        var localVariablePath = "/intelligence_tasks/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: intelligenceTaskUpdateRequest, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IntelligenceTaskUpdateResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
 }

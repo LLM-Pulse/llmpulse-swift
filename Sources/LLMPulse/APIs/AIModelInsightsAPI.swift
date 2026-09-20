@@ -19,16 +19,6 @@ open class AIModelInsightsAPI {
     }
 
     /**
-     * enum for parameter promptType
-     */
-    public enum PromptType_getAiModelInsightsSummary: String, Sendable, CaseIterable {
-        case informational = "informational"
-        case navigational = "navigational"
-        case commercial = "commercial"
-        case transactional = "transactional"
-    }
-
-    /**
      * enum for parameter brandKind
      */
     public enum BrandKind_getAiModelInsightsSummary: String, Sendable, CaseIterable {
@@ -43,18 +33,18 @@ open class AIModelInsightsAPI {
      - parameter projectId: (query) Project ID 
      - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
      - parameter from: (query)  (optional)
-     - parameter to: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter granularity: (query)  (optional)
-     - parameter collectionId: (query)  (optional)
-     - parameter countryCode: (query) ISO country code (e.g. US, GB, DE) (optional)
-     - parameter languageCode: (query) ISO language code (e.g. en, es, de) (optional)
-     - parameter promptType: (query) Filter by prompt type (search intent) (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter competitors: (query) Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    open class func getAiModelInsightsSummary(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getAiModelInsightsSummary? = nil, collectionId: Int? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: PromptType_getAiModelInsightsSummary? = nil, brandKind: BrandKind_getAiModelInsightsSummary? = nil, competitors: String? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getAiModelInsightsSummary(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getAiModelInsightsSummary? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_getAiModelInsightsSummary? = nil, competitors: String? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiModelInsightsSummaryWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, granularity: granularity, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, promptType: promptType, brandKind: brandKind, competitors: competitors, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -68,18 +58,18 @@ open class AIModelInsightsAPI {
      - parameter projectId: (query) Project ID 
      - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
      - parameter from: (query)  (optional)
-     - parameter to: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter granularity: (query)  (optional)
-     - parameter collectionId: (query)  (optional)
-     - parameter countryCode: (query) ISO country code (e.g. US, GB, DE) (optional)
-     - parameter languageCode: (query) ISO language code (e.g. en, es, de) (optional)
-     - parameter promptType: (query) Filter by prompt type (search intent) (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter competitors: (query) Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func getAiModelInsightsSummaryWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getAiModelInsightsSummary? = nil, collectionId: Int? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: PromptType_getAiModelInsightsSummary? = nil, brandKind: BrandKind_getAiModelInsightsSummary? = nil, competitors: String? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getAiModelInsightsSummaryWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getAiModelInsightsSummary? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_getAiModelInsightsSummary? = nil, competitors: String? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/reports/ai_model_insights/summary"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -120,16 +110,6 @@ open class AIModelInsightsAPI {
     }
 
     /**
-     * enum for parameter promptType
-     */
-    public enum PromptType_getAiModelPositionDistribution: String, Sendable, CaseIterable {
-        case informational = "informational"
-        case navigational = "navigational"
-        case commercial = "commercial"
-        case transactional = "transactional"
-    }
-
-    /**
      * enum for parameter brandKind
      */
     public enum BrandKind_getAiModelPositionDistribution: String, Sendable, CaseIterable {
@@ -153,6 +133,8 @@ open class AIModelInsightsAPI {
         case deepseek = "deepseek"
         case metaAi = "meta_ai"
         case amazonRufus = "amazon_rufus"
+        case naverAi = "naver_ai"
+        case baiduAi = "baidu_ai"
     }
 
     /**
@@ -161,12 +143,12 @@ open class AIModelInsightsAPI {
      - parameter projectId: (query) Project ID 
      - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
      - parameter from: (query)  (optional)
-     - parameter to: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter granularity: (query)  (optional)
-     - parameter collectionId: (query)  (optional)
-     - parameter countryCode: (query) ISO country code (e.g. US, GB, DE) (optional)
-     - parameter languageCode: (query) ISO language code (e.g. en, es, de) (optional)
-     - parameter promptType: (query) Filter by prompt type (search intent) (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
      - parameter brand1: (query) Competitor ID for the first comparison brand (omit to compare project brand) (optional)
@@ -174,7 +156,7 @@ open class AIModelInsightsAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    open class func getAiModelPositionDistribution(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getAiModelPositionDistribution? = nil, collectionId: Int? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: PromptType_getAiModelPositionDistribution? = nil, brandKind: BrandKind_getAiModelPositionDistribution? = nil, model: Model_getAiModelPositionDistribution? = nil, brand1: Int? = nil, brand2: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getAiModelPositionDistribution(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getAiModelPositionDistribution? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_getAiModelPositionDistribution? = nil, model: Model_getAiModelPositionDistribution? = nil, brand1: Int? = nil, brand2: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiModelPositionDistributionWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, granularity: granularity, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, promptType: promptType, brandKind: brandKind, model: model, brand1: brand1, brand2: brand2, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -187,12 +169,12 @@ open class AIModelInsightsAPI {
      - parameter projectId: (query) Project ID 
      - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
      - parameter from: (query)  (optional)
-     - parameter to: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter granularity: (query)  (optional)
-     - parameter collectionId: (query)  (optional)
-     - parameter countryCode: (query) ISO country code (e.g. US, GB, DE) (optional)
-     - parameter languageCode: (query) ISO language code (e.g. en, es, de) (optional)
-     - parameter promptType: (query) Filter by prompt type (search intent) (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
      - parameter brand1: (query) Competitor ID for the first comparison brand (omit to compare project brand) (optional)
@@ -200,7 +182,7 @@ open class AIModelInsightsAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func getAiModelPositionDistributionWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getAiModelPositionDistribution? = nil, collectionId: Int? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: PromptType_getAiModelPositionDistribution? = nil, brandKind: BrandKind_getAiModelPositionDistribution? = nil, model: Model_getAiModelPositionDistribution? = nil, brand1: Int? = nil, brand2: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getAiModelPositionDistributionWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getAiModelPositionDistribution? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_getAiModelPositionDistribution? = nil, model: Model_getAiModelPositionDistribution? = nil, brand1: Int? = nil, brand2: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/reports/ai_model_insights/position_distribution"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -243,16 +225,6 @@ open class AIModelInsightsAPI {
     }
 
     /**
-     * enum for parameter promptType
-     */
-    public enum PromptType_getAiOverviewResults: String, Sendable, CaseIterable {
-        case informational = "informational"
-        case navigational = "navigational"
-        case commercial = "commercial"
-        case transactional = "transactional"
-    }
-
-    /**
      * enum for parameter brandKind
      */
     public enum BrandKind_getAiOverviewResults: String, Sendable, CaseIterable {
@@ -267,19 +239,19 @@ open class AIModelInsightsAPI {
      - parameter projectId: (query) Project ID 
      - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
      - parameter from: (query)  (optional)
-     - parameter to: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter granularity: (query)  (optional)
-     - parameter collectionId: (query)  (optional)
-     - parameter countryCode: (query) ISO country code (e.g. US, GB, DE) (optional)
-     - parameter languageCode: (query) ISO language code (e.g. en, es, de) (optional)
-     - parameter promptType: (query) Filter by prompt type (search intent) (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    open class func getAiOverviewResults(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getAiOverviewResults? = nil, collectionId: Int? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: PromptType_getAiOverviewResults? = nil, brandKind: BrandKind_getAiOverviewResults? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getAiOverviewResults(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getAiOverviewResults? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_getAiOverviewResults? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiOverviewResultsWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, granularity: granularity, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, promptType: promptType, brandKind: brandKind, page: page, perPage: perPage, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -292,19 +264,19 @@ open class AIModelInsightsAPI {
      - parameter projectId: (query) Project ID 
      - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
      - parameter from: (query)  (optional)
-     - parameter to: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter granularity: (query)  (optional)
-     - parameter collectionId: (query)  (optional)
-     - parameter countryCode: (query) ISO country code (e.g. US, GB, DE) (optional)
-     - parameter languageCode: (query) ISO language code (e.g. en, es, de) (optional)
-     - parameter promptType: (query) Filter by prompt type (search intent) (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func getAiOverviewResultsWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getAiOverviewResults? = nil, collectionId: Int? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: PromptType_getAiOverviewResults? = nil, brandKind: BrandKind_getAiOverviewResults? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getAiOverviewResultsWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getAiOverviewResults? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_getAiOverviewResults? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/reports/ai_model_insights/ai_overview_results"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil

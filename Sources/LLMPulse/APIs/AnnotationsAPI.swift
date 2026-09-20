@@ -23,7 +23,7 @@ open class AnnotationsAPI {
     /**
      Create a timeline annotation
      - POST /annotations
-     - Marks a date in the project timeseries with a title + description. Requires the **Growth** plan or above. Requires a `read_write` scope API key.
+     - Marks a date in the project timeseries with a title + description. Available on every plan. Requires a `read_write` scope API key.
      - Bearer Token:
        - type: http
        - name: BearerAuth
@@ -64,7 +64,7 @@ open class AnnotationsAPI {
     /**
      Delete a timeline annotation
      - DELETE /annotations/{id}
-     - Deletes an annotation. Same ownership rule as PATCH. Requires the **Growth** plan or above and a `read_write` scope API key.
+     - Deletes an annotation. Same ownership rule as PATCH. Available on every plan and requires a `read_write` scope API key.
      - Bearer Token:
        - type: http
        - name: BearerAuth
@@ -116,7 +116,7 @@ open class AnnotationsAPI {
     /**
      List timeline annotations
      - GET /annotations
-     - Lists the project timeline annotations (user-created + system), newest first. The category field tells them apart; editable says whether the requesting user may modify the row. Requires the **Growth** plan or above.
+     - Lists project timeline annotations, newest first. Rows can come from manual notes, project automations, GEO tests, or platform events. The origin field distinguishes them; editable says whether the requesting user may modify the row. Available on every plan.
      - Bearer Token:
        - type: http
        - name: BearerAuth
@@ -170,7 +170,7 @@ open class AnnotationsAPI {
     /**
      Update a timeline annotation
      - PATCH /annotations/{id}
-     - Updates title, description, annotation_date, color and/or annotation_category_id. Only user-created annotations belonging to the requesting user can be updated (system annotations never). Requires the **Growth** plan or above and a `read_write` scope API key.
+     - Updates title, description, annotation_date, color and/or annotation_category_id. Only user-created annotations belonging to the requesting user can be updated (system annotations never). Available on every plan and requires a `read_write` scope API key.
      - Bearer Token:
        - type: http
        - name: BearerAuth

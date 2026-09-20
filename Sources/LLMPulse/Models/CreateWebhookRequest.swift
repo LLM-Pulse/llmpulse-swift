@@ -17,6 +17,7 @@ public struct CreateWebhookRequest: Sendable, Codable, Hashable {
         case sentimentPeriodNegativeDetected = "sentiment.negative_detected"
         case recommendationPeriodCompleted = "recommendation.completed"
         case intelligenceTaskPeriodCompleted = "intelligence_task.completed"
+        case intelligenceTaskPeriodUpdated = "intelligence_task.updated"
     }
     public var projectId: Int
     public var eventType: EventType

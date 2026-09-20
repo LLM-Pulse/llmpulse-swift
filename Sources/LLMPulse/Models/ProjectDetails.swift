@@ -19,9 +19,12 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
     public var matchingNames: [String]?
     public var industry: String?
     public var businessModel: String?
-    public var primaryProducts: String?
+    /** Set only when business_model is OTHER */
+    public var businessModelOther: String?
+    public var primaryProducts: [String]?
     public var targetAudience: String?
     public var brandVoice: String?
+    public var goals: String?
     public var countryCode: String?
     public var languageCode: String?
     public var paused: Bool?
@@ -30,7 +33,7 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
     public var createdAt: Date?
     public var stats: ProjectDetailsAllOfStats?
 
-    public init(id: Int? = nil, name: String? = nil, brandName: String? = nil, url: String? = nil, description: String? = nil, matchingNames: [String]? = nil, industry: String? = nil, businessModel: String? = nil, primaryProducts: String? = nil, targetAudience: String? = nil, brandVoice: String? = nil, countryCode: String? = nil, languageCode: String? = nil, paused: Bool? = nil, googlePlayId: String? = nil, appStoreId: String? = nil, createdAt: Date? = nil, stats: ProjectDetailsAllOfStats? = nil) {
+    public init(id: Int? = nil, name: String? = nil, brandName: String? = nil, url: String? = nil, description: String? = nil, matchingNames: [String]? = nil, industry: String? = nil, businessModel: String? = nil, businessModelOther: String? = nil, primaryProducts: [String]? = nil, targetAudience: String? = nil, brandVoice: String? = nil, goals: String? = nil, countryCode: String? = nil, languageCode: String? = nil, paused: Bool? = nil, googlePlayId: String? = nil, appStoreId: String? = nil, createdAt: Date? = nil, stats: ProjectDetailsAllOfStats? = nil) {
         self.id = id
         self.name = name
         self.brandName = brandName
@@ -39,9 +42,11 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
         self.matchingNames = matchingNames
         self.industry = industry
         self.businessModel = businessModel
+        self.businessModelOther = businessModelOther
         self.primaryProducts = primaryProducts
         self.targetAudience = targetAudience
         self.brandVoice = brandVoice
+        self.goals = goals
         self.countryCode = countryCode
         self.languageCode = languageCode
         self.paused = paused
@@ -60,9 +65,11 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
         case matchingNames = "matching_names"
         case industry
         case businessModel = "business_model"
+        case businessModelOther = "business_model_other"
         case primaryProducts = "primary_products"
         case targetAudience = "target_audience"
         case brandVoice = "brand_voice"
+        case goals
         case countryCode = "country_code"
         case languageCode = "language_code"
         case paused
@@ -84,9 +91,11 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
         try container.encodeIfPresent(matchingNames, forKey: .matchingNames)
         try container.encodeIfPresent(industry, forKey: .industry)
         try container.encodeIfPresent(businessModel, forKey: .businessModel)
+        try container.encodeIfPresent(businessModelOther, forKey: .businessModelOther)
         try container.encodeIfPresent(primaryProducts, forKey: .primaryProducts)
         try container.encodeIfPresent(targetAudience, forKey: .targetAudience)
         try container.encodeIfPresent(brandVoice, forKey: .brandVoice)
+        try container.encodeIfPresent(goals, forKey: .goals)
         try container.encodeIfPresent(countryCode, forKey: .countryCode)
         try container.encodeIfPresent(languageCode, forKey: .languageCode)
         try container.encodeIfPresent(paused, forKey: .paused)

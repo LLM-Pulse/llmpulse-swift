@@ -9,17 +9,28 @@ import Foundation
 
 public struct CreateCompetitorRequest: Sendable, Codable, Hashable {
 
+    public enum CitationMatchMode: String, Sendable, Codable, CaseIterable {
+        case domain = "domain"
+        case host = "host"
+        case pathPrefix = "path_prefix"
+    }
     public var projectId: Int
     public var brandName: String
     /** URL is accepted and normalised to host (e.g. https://www.openai.com → openai.com) */
     public var domain: String
     public var matchingNames: [String]?
+    /** domain includes the registrable domain and all subdomains; host requires the exact hostname; path_prefix also requires citation_match_path */
+    public var citationMatchMode: CitationMatchMode? = .domain
+    /** Required when citation_match_mode=path_prefix, e.g. /es. Case-sensitive; trailing slash is optional; query and fragment are ignored */
+    public var citationMatchPath: String?
 
-    public init(projectId: Int, brandName: String, domain: String, matchingNames: [String]? = nil) {
+    public init(projectId: Int, brandName: String, domain: String, matchingNames: [String]? = nil, citationMatchMode: CitationMatchMode? = .domain, citationMatchPath: String? = nil) {
         self.projectId = projectId
         self.brandName = brandName
         self.domain = domain
         self.matchingNames = matchingNames
+        self.citationMatchMode = citationMatchMode
+        self.citationMatchPath = citationMatchPath
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -27,6 +38,8 @@ public struct CreateCompetitorRequest: Sendable, Codable, Hashable {
         case brandName = "brand_name"
         case domain
         case matchingNames = "matching_names"
+        case citationMatchMode = "citation_match_mode"
+        case citationMatchPath = "citation_match_path"
     }
 
     // Encodable protocol methods
@@ -37,6 +50,8 @@ public struct CreateCompetitorRequest: Sendable, Codable, Hashable {
         try container.encode(brandName, forKey: .brandName)
         try container.encode(domain, forKey: .domain)
         try container.encodeIfPresent(matchingNames, forKey: .matchingNames)
+        try container.encodeIfPresent(citationMatchMode, forKey: .citationMatchMode)
+        try container.encodeIfPresent(citationMatchPath, forKey: .citationMatchPath)
     }
 }
 
