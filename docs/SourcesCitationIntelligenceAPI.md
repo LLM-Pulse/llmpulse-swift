@@ -118,7 +118,7 @@ Void (empty response body)
 
 # **getMentionsByCitingDomain**
 ```swift
-    open class func getMentionsByCitingDomain(projectId: Int, domains: [String], model: Model_getMentionsByCitingDomain? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, brandKind: BrandKind_getMentionsByCitingDomain? = nil, from: Date? = nil, to: Date? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func getMentionsByCitingDomain(projectId: Int, domains: [String], model: Model_getMentionsByCitingDomain? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, brandKind: BrandKind_getMentionsByCitingDomain? = nil, from: Date? = nil, to: Date? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Mention share by citing domain
@@ -133,7 +133,7 @@ import LLMPulse
 let projectId = 987 // Int | Project ID
 let domains = ["inner_example"] // [String] | Source domains to analyze, e.g. domains[]=gmac.com&domains[]=educaweb.com
 let model = "model_example" // String | Filter by AI model. Models the API key's user has not enabled are silently dropped. (optional)
-let collectionId = getTimeseries_collection_id_parameter() // GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (optional)
+let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
 let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
 let prompt = 987 // Int | Filter by prompt ID (optional)
@@ -161,7 +161,7 @@ Name | Type | Description  | Notes
  **projectId** | **Int** | Project ID | 
  **domains** | [**[String]**](String.md) | Source domains to analyze, e.g. domains[]&#x3D;gmac.com&amp;domains[]&#x3D;educaweb.com | 
  **model** | **String** | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
- **collectionId** | [**GetTimeseriesCollectionIdParameter**](.md) | One collection/tag ID or a comma-separated list of IDs | [optional] 
+ **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
  **prompt** | **Int** | Filter by prompt ID | [optional] 
@@ -186,7 +186,7 @@ Void (empty response body)
 
 # **listCitationGroups**
 ```swift
-    open class func listCitationGroups(projectId: Int, view: View_listCitationGroups? = nil, page: Int? = nil, perPage: Int? = nil, order: Order_listCitationGroups? = nil, direction: Direction_listCitationGroups? = nil, model: Model_listCitationGroups? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, query: String? = nil, sourceType: SourceType_listCitationGroups? = nil, sentiment: Sentiment_listCitationGroups? = nil, contentGap: ContentGap_listCitationGroups? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listCitationGroups(projectId: Int, view: View_listCitationGroups? = nil, page: Int? = nil, perPage: Int? = nil, order: Order_listCitationGroups? = nil, direction: Direction_listCitationGroups? = nil, model: Model_listCitationGroups? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, query: String? = nil, sourceType: SourceType_listCitationGroups? = nil, sentiment: Sentiment_listCitationGroups? = nil, contentGap: ContentGap_listCitationGroups? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Grouped citation intelligence
@@ -205,7 +205,7 @@ let perPage = 987 // Int |  (optional) (default to 20)
 let order = "order_example" // String |  (optional)
 let direction = "direction_example" // String |  (optional)
 let model = "model_example" // String | Filter by AI model. Models the API key's user has not enabled are silently dropped. (optional)
-let collectionId = getTimeseries_collection_id_parameter() // GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (optional)
+let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
 let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
 let prompt = 987 // Int | Filter by prompt ID (optional)
@@ -240,7 +240,7 @@ Name | Type | Description  | Notes
  **order** | **String** |  | [optional] 
  **direction** | **String** |  | [optional] 
  **model** | **String** | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
- **collectionId** | [**GetTimeseriesCollectionIdParameter**](.md) | One collection/tag ID or a comma-separated list of IDs | [optional] 
+ **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
  **prompt** | **Int** | Filter by prompt ID | [optional] 
@@ -322,7 +322,7 @@ Void (empty response body)
 
 # **listSources**
 ```swift
-    open class func listSources(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listSources? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, sourceType: SourceType_listSources? = nil, mentionFilter: MentionFilter_listSources? = nil, competitors: String? = nil, output: Output_listSources? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listSources(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listSources? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, sourceType: SourceType_listSources? = nil, mentionFilter: MentionFilter_listSources? = nil, competitors: String? = nil, output: Output_listSources? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 List source URLs
@@ -336,7 +336,7 @@ let projectId = 987 // Int | Project ID
 let page = 987 // Int |  (optional) (default to 1)
 let perPage = 987 // Int |  (optional) (default to 20)
 let model = "model_example" // String | Filter by AI model. Models the API key's user has not enabled are silently dropped. (optional)
-let collectionId = getTimeseries_collection_id_parameter() // GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (optional)
+let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
 let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
 let prompt = 987 // Int | Filter by prompt ID (optional)
@@ -368,7 +368,7 @@ Name | Type | Description  | Notes
  **page** | **Int** |  | [optional] [default to 1]
  **perPage** | **Int** |  | [optional] [default to 20]
  **model** | **String** | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
- **collectionId** | [**GetTimeseriesCollectionIdParameter**](.md) | One collection/tag ID or a comma-separated list of IDs | [optional] 
+ **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
  **prompt** | **Int** | Filter by prompt ID | [optional] 

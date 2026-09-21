@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 # **getPromptSummary**
 ```swift
-    open class func getPromptSummary(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, breakdown: Breakdown_getPromptSummary? = nil, model: Model_getPromptSummary? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getPromptSummary? = nil, sort: Sort_getPromptSummary? = nil, sortDir: SortDir_getPromptSummary? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_getPromptSummary? = nil, completion: @escaping (_ data: PromptSummaryResponse?, _ error: Error?) -> Void)
+    open class func getPromptSummary(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, breakdown: Breakdown_getPromptSummary? = nil, model: Model_getPromptSummary? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getPromptSummary? = nil, sort: Sort_getPromptSummary? = nil, sortDir: SortDir_getPromptSummary? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_getPromptSummary? = nil, completion: @escaping (_ data: PromptSummaryResponse?, _ error: Error?) -> Void)
 ```
 
 Per-prompt metrics summary
@@ -31,7 +31,7 @@ let from = Date() // Date |  (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
 let breakdown = "breakdown_example" // String | Add per-(prompt, model) rows to the output (optional)
 let model = "model_example" // String | Filter by AI model. Models the API key's user has not enabled are silently dropped. (optional)
-let collectionId = getTimeseries_collection_id_parameter() // GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (optional)
+let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
 let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
 let prompt = 987 // Int | Filter by prompt ID (optional)
@@ -66,7 +66,7 @@ Name | Type | Description  | Notes
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **breakdown** | **String** | Add per-(prompt, model) rows to the output | [optional] 
  **model** | **String** | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
- **collectionId** | [**GetTimeseriesCollectionIdParameter**](.md) | One collection/tag ID or a comma-separated list of IDs | [optional] 
+ **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
  **prompt** | **Int** | Filter by prompt ID | [optional] 
@@ -95,7 +95,7 @@ Name | Type | Description  | Notes
 
 # **getShareOfVoice**
 ```swift
-    open class func getShareOfVoice(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getShareOfVoice? = nil, competitors: String? = nil, model: Model_getShareOfVoice? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getShareOfVoice? = nil, output: Output_getShareOfVoice? = nil, view: View_getShareOfVoice? = nil, completion: @escaping (_ data: SovResponse?, _ error: Error?) -> Void)
+    open class func getShareOfVoice(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getShareOfVoice? = nil, competitors: String? = nil, model: Model_getShareOfVoice? = nil, collectionId: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getShareOfVoice? = nil, output: Output_getShareOfVoice? = nil, view: View_getShareOfVoice? = nil, completion: @escaping (_ data: SovResponse?, _ error: Error?) -> Void)
 ```
 
 Share of Voice
@@ -114,7 +114,7 @@ let to = Date() // Date | End of the window. A date-only value such as 2026-09-0
 let granularity = "granularity_example" // String |  (optional)
 let competitors = "competitors_example" // String | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
 let model = "model_example" // String | Filter by AI model. Models the API key's user has not enabled are silently dropped. (optional)
-let collectionId = getTimeseries_collection_id_parameter() // GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (optional)
+let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let prompt = 987 // Int | Filter by prompt ID (optional)
 let promptType = "promptType_example" // String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
 let brandKind = "brandKind_example" // String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
@@ -145,7 +145,7 @@ Name | Type | Description  | Notes
  **granularity** | **String** |  | [optional] 
  **competitors** | **String** | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
  **model** | **String** | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
- **collectionId** | [**GetTimeseriesCollectionIdParameter**](.md) | One collection/tag ID or a comma-separated list of IDs | [optional] 
+ **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **prompt** | **Int** | Filter by prompt ID | [optional] 
  **promptType** | **String** | One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
  **brandKind** | **String** | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
@@ -169,7 +169,7 @@ Name | Type | Description  | Notes
 
 # **getSummary**
 ```swift
-    open class func getSummary(projectId: Int, metrics: String? = nil, granularity: Granularity_getSummary? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, competitors: String? = nil, model: Model_getSummary? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getSummary? = nil, output: Output_getSummary? = nil, completion: @escaping (_ data: SummaryResponse?, _ error: Error?) -> Void)
+    open class func getSummary(projectId: Int, metrics: String? = nil, granularity: Granularity_getSummary? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, competitors: String? = nil, model: Model_getSummary? = nil, collectionId: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getSummary? = nil, output: Output_getSummary? = nil, completion: @escaping (_ data: SummaryResponse?, _ error: Error?) -> Void)
 ```
 
 Aggregated metrics summary
@@ -189,7 +189,7 @@ let from = Date() // Date |  (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
 let competitors = "competitors_example" // String | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
 let model = "model_example" // String | Filter by AI model. Models the API key's user has not enabled are silently dropped. (optional)
-let collectionId = getTimeseries_collection_id_parameter() // GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (optional)
+let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let prompt = 987 // Int | Filter by prompt ID (optional)
 let promptType = "promptType_example" // String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
 let brandKind = "brandKind_example" // String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
@@ -220,7 +220,7 @@ Name | Type | Description  | Notes
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **competitors** | **String** | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
  **model** | **String** | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
- **collectionId** | [**GetTimeseriesCollectionIdParameter**](.md) | One collection/tag ID or a comma-separated list of IDs | [optional] 
+ **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **prompt** | **Int** | Filter by prompt ID | [optional] 
  **promptType** | **String** | One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
  **brandKind** | **String** | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
@@ -243,7 +243,7 @@ Name | Type | Description  | Notes
 
 # **getTimeseries**
 ```swift
-    open class func getTimeseries(projectId: Int, metrics: String? = nil, granularity: Granularity_getTimeseries? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, competitors: String? = nil, model: Model_getTimeseries? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getTimeseries? = nil, includeProject: Bool? = nil, output: Output_getTimeseries? = nil, completion: @escaping (_ data: TimeseriesResponse?, _ error: Error?) -> Void)
+    open class func getTimeseries(projectId: Int, metrics: String? = nil, granularity: Granularity_getTimeseries? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, competitors: String? = nil, model: Model_getTimeseries? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getTimeseries? = nil, includeProject: Bool? = nil, output: Output_getTimeseries? = nil, completion: @escaping (_ data: TimeseriesResponse?, _ error: Error?) -> Void)
 ```
 
 Time-series metrics
@@ -263,7 +263,7 @@ let from = Date() // Date |  (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
 let competitors = "competitors_example" // String | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
 let model = "model_example" // String | Filter by AI model. Models the API key's user has not enabled are silently dropped. (optional)
-let collectionId = getTimeseries_collection_id_parameter() // GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (optional)
+let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
 let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
 let prompt = 987 // Int | Filter by prompt ID (optional)
@@ -297,7 +297,7 @@ Name | Type | Description  | Notes
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **competitors** | **String** | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
  **model** | **String** | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
- **collectionId** | [**GetTimeseriesCollectionIdParameter**](.md) | One collection/tag ID or a comma-separated list of IDs | [optional] 
+ **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
  **prompt** | **Int** | Filter by prompt ID | [optional] 
@@ -323,7 +323,7 @@ Name | Type | Description  | Notes
 
 # **getTopSources**
 ```swift
-    open class func getTopSources(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, model: Model_getTopSources? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getTopSources? = nil, sort: Sort_getTopSources? = nil, query: String? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_getTopSources? = nil, completion: @escaping (_ data: TopSourcesResponse?, _ error: Error?) -> Void)
+    open class func getTopSources(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, model: Model_getTopSources? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getTopSources? = nil, sort: Sort_getTopSources? = nil, query: String? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_getTopSources? = nil, completion: @escaping (_ data: TopSourcesResponse?, _ error: Error?) -> Void)
 ```
 
 Top cited sources
@@ -340,7 +340,7 @@ let range = 987 // Int | Number of days to look back (alternative to from/to) (o
 let from = Date() // Date |  (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
 let model = "model_example" // String | Filter by AI model. Models the API key's user has not enabled are silently dropped. (optional)
-let collectionId = getTimeseries_collection_id_parameter() // GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (optional)
+let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
 let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
 let prompt = 987 // Int | Filter by prompt ID (optional)
@@ -374,7 +374,7 @@ Name | Type | Description  | Notes
  **from** | **Date** |  | [optional] 
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **model** | **String** | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
- **collectionId** | [**GetTimeseriesCollectionIdParameter**](.md) | One collection/tag ID or a comma-separated list of IDs | [optional] 
+ **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
  **prompt** | **Int** | Filter by prompt ID | [optional] 

@@ -88,7 +88,7 @@ open class OwnedMediaCommunitiesAPI {
      - parameter store: (query) provider&#x3D;mobile_apps only (optional, default to .googlePlay)
      - parameter owned: (query) Return only rows belonging to the account&#39;s own connected profile (optional)
      - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
@@ -99,7 +99,7 @@ open class OwnedMediaCommunitiesAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    open class func listOwnedMedia(projectId: Int, provider: Provider_listOwnedMedia, page: Int? = nil, perPage: Int? = nil, view: View_listOwnedMedia? = nil, store: Store_listOwnedMedia? = nil, owned: Bool? = nil, model: Model_listOwnedMedia? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, countryCode: String? = nil, languageCode: String? = nil, brandKind: BrandKind_listOwnedMedia? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listOwnedMedia? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listOwnedMedia(projectId: Int, provider: Provider_listOwnedMedia, page: Int? = nil, perPage: Int? = nil, view: View_listOwnedMedia? = nil, store: Store_listOwnedMedia? = nil, owned: Bool? = nil, model: Model_listOwnedMedia? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, brandKind: BrandKind_listOwnedMedia? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listOwnedMedia? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await listOwnedMediaWithRequestBuilder(projectId: projectId, provider: provider, page: page, perPage: perPage, view: view, store: store, owned: owned, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, brandKind: brandKind, range: range, from: from, to: to, output: output, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -118,7 +118,7 @@ open class OwnedMediaCommunitiesAPI {
      - parameter store: (query) provider&#x3D;mobile_apps only (optional, default to .googlePlay)
      - parameter owned: (query) Return only rows belonging to the account&#39;s own connected profile (optional)
      - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
@@ -129,13 +129,13 @@ open class OwnedMediaCommunitiesAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func listOwnedMediaWithRequestBuilder(projectId: Int, provider: Provider_listOwnedMedia, page: Int? = nil, perPage: Int? = nil, view: View_listOwnedMedia? = nil, store: Store_listOwnedMedia? = nil, owned: Bool? = nil, model: Model_listOwnedMedia? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, countryCode: String? = nil, languageCode: String? = nil, brandKind: BrandKind_listOwnedMedia? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listOwnedMedia? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listOwnedMediaWithRequestBuilder(projectId: Int, provider: Provider_listOwnedMedia, page: Int? = nil, perPage: Int? = nil, view: View_listOwnedMedia? = nil, store: Store_listOwnedMedia? = nil, owned: Bool? = nil, model: Model_listOwnedMedia? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, brandKind: BrandKind_listOwnedMedia? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listOwnedMedia? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/dimensions/owned_media"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+        let localVariableQueryItems: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
             "project_id": (wrappedValue: projectId.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "page": (wrappedValue: page?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "per_page": (wrappedValue: perPage?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
@@ -152,7 +152,8 @@ open class OwnedMediaCommunitiesAPI {
             "from": (wrappedValue: from?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "to": (wrappedValue: to?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "output": (wrappedValue: output?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-        ])
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
@@ -257,7 +258,7 @@ open class OwnedMediaCommunitiesAPI {
      - parameter order: (query) Sort field; the allowed set depends on view (optional)
      - parameter direction: (query)  (optional, default to .desc)
      - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
@@ -268,7 +269,7 @@ open class OwnedMediaCommunitiesAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    open class func listRedditCitations(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listRedditCitations? = nil, subreddit: String? = nil, author: String? = nil, status: Status_listRedditCitations? = nil, owned: Bool? = nil, brand: String? = nil, order: Order_listRedditCitations? = nil, direction: Direction_listRedditCitations? = nil, model: Model_listRedditCitations? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, countryCode: String? = nil, languageCode: String? = nil, brandKind: BrandKind_listRedditCitations? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listRedditCitations? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listRedditCitations(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listRedditCitations? = nil, subreddit: String? = nil, author: String? = nil, status: Status_listRedditCitations? = nil, owned: Bool? = nil, brand: String? = nil, order: Order_listRedditCitations? = nil, direction: Direction_listRedditCitations? = nil, model: Model_listRedditCitations? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, brandKind: BrandKind_listRedditCitations? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listRedditCitations? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await listRedditCitationsWithRequestBuilder(projectId: projectId, page: page, perPage: perPage, view: view, subreddit: subreddit, author: author, status: status, owned: owned, brand: brand, order: order, direction: direction, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, brandKind: brandKind, range: range, from: from, to: to, output: output, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -291,7 +292,7 @@ open class OwnedMediaCommunitiesAPI {
      - parameter order: (query) Sort field; the allowed set depends on view (optional)
      - parameter direction: (query)  (optional, default to .desc)
      - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
@@ -302,13 +303,13 @@ open class OwnedMediaCommunitiesAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func listRedditCitationsWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listRedditCitations? = nil, subreddit: String? = nil, author: String? = nil, status: Status_listRedditCitations? = nil, owned: Bool? = nil, brand: String? = nil, order: Order_listRedditCitations? = nil, direction: Direction_listRedditCitations? = nil, model: Model_listRedditCitations? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, countryCode: String? = nil, languageCode: String? = nil, brandKind: BrandKind_listRedditCitations? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listRedditCitations? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listRedditCitationsWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listRedditCitations? = nil, subreddit: String? = nil, author: String? = nil, status: Status_listRedditCitations? = nil, owned: Bool? = nil, brand: String? = nil, order: Order_listRedditCitations? = nil, direction: Direction_listRedditCitations? = nil, model: Model_listRedditCitations? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, brandKind: BrandKind_listRedditCitations? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listRedditCitations? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/dimensions/reddit"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+        let localVariableQueryItems: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
             "project_id": (wrappedValue: projectId.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "page": (wrappedValue: page?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "per_page": (wrappedValue: perPage?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
@@ -329,7 +330,8 @@ open class OwnedMediaCommunitiesAPI {
             "from": (wrappedValue: from?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "to": (wrappedValue: to?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "output": (wrappedValue: output?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-        ])
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :

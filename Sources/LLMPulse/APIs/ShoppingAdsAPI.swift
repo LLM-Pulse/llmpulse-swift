@@ -86,7 +86,7 @@ open class ShoppingAdsAPI {
      - parameter direction: (query) Sort direction for view&#x3D;advertisers. Defaults to desc, except avg_position and domain which default to asc. (optional)
      - parameter query: (query) Case-insensitive substring filter on the ad title, domain or snippet (optional)
      - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      - parameter prompt: (query) Filter by prompt ID (optional)
@@ -99,7 +99,7 @@ open class ShoppingAdsAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    open class func listAds(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listAds? = nil, owned: Bool? = nil, order: Order_listAds? = nil, direction: Direction_listAds? = nil, query: String? = nil, model: Model_listAds? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listAds? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAds? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listAds(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listAds? = nil, owned: Bool? = nil, order: Order_listAds? = nil, direction: Direction_listAds? = nil, query: String? = nil, model: Model_listAds? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listAds? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAds? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await listAdsWithRequestBuilder(projectId: projectId, page: page, perPage: perPage, view: view, owned: owned, order: order, direction: direction, query: query, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, promptType: promptType, brandKind: brandKind, range: range, from: from, to: to, output: output, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -119,7 +119,7 @@ open class ShoppingAdsAPI {
      - parameter direction: (query) Sort direction for view&#x3D;advertisers. Defaults to desc, except avg_position and domain which default to asc. (optional)
      - parameter query: (query) Case-insensitive substring filter on the ad title, domain or snippet (optional)
      - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      - parameter prompt: (query) Filter by prompt ID (optional)
@@ -132,13 +132,13 @@ open class ShoppingAdsAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func listAdsWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listAds? = nil, owned: Bool? = nil, order: Order_listAds? = nil, direction: Direction_listAds? = nil, query: String? = nil, model: Model_listAds? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listAds? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAds? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listAdsWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listAds? = nil, owned: Bool? = nil, order: Order_listAds? = nil, direction: Direction_listAds? = nil, query: String? = nil, model: Model_listAds? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listAds? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAds? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/dimensions/ads"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+        let localVariableQueryItems: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
             "project_id": (wrappedValue: projectId.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "page": (wrappedValue: page?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "per_page": (wrappedValue: perPage?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
@@ -158,7 +158,8 @@ open class ShoppingAdsAPI {
             "from": (wrappedValue: from?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "to": (wrappedValue: to?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "output": (wrappedValue: output?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-        ])
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
@@ -249,7 +250,7 @@ open class ShoppingAdsAPI {
      - parameter direction: (query)  (optional, default to .desc)
      - parameter query: (query) Case-insensitive substring filter on the product title (optional)
      - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      - parameter prompt: (query) Filter by prompt ID (optional)
@@ -262,7 +263,7 @@ open class ShoppingAdsAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    open class func listShopping(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listShopping? = nil, owned: Bool? = nil, order: Order_listShopping? = nil, direction: Direction_listShopping? = nil, query: String? = nil, model: Model_listShopping? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listShopping? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listShopping? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listShopping(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listShopping? = nil, owned: Bool? = nil, order: Order_listShopping? = nil, direction: Direction_listShopping? = nil, query: String? = nil, model: Model_listShopping? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listShopping? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listShopping? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await listShoppingWithRequestBuilder(projectId: projectId, page: page, perPage: perPage, view: view, owned: owned, order: order, direction: direction, query: query, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, promptType: promptType, brandKind: brandKind, range: range, from: from, to: to, output: output, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -282,7 +283,7 @@ open class ShoppingAdsAPI {
      - parameter direction: (query)  (optional, default to .desc)
      - parameter query: (query) Case-insensitive substring filter on the product title (optional)
      - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
-     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      - parameter prompt: (query) Filter by prompt ID (optional)
@@ -295,13 +296,13 @@ open class ShoppingAdsAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func listShoppingWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listShopping? = nil, owned: Bool? = nil, order: Order_listShopping? = nil, direction: Direction_listShopping? = nil, query: String? = nil, model: Model_listShopping? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listShopping? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listShopping? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listShoppingWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listShopping? = nil, owned: Bool? = nil, order: Order_listShopping? = nil, direction: Direction_listShopping? = nil, query: String? = nil, model: Model_listShopping? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listShopping? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listShopping? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/dimensions/shopping"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+        let localVariableQueryItems: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
             "project_id": (wrappedValue: projectId.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "page": (wrappedValue: page?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "per_page": (wrappedValue: perPage?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
@@ -321,7 +322,8 @@ open class ShoppingAdsAPI {
             "from": (wrappedValue: from?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "to": (wrappedValue: to?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "output": (wrappedValue: output?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-        ])
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :

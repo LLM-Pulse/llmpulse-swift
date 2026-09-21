@@ -66,7 +66,6 @@ Sources/LLMPulse/Models/GetAccount200Response.swift
 Sources/LLMPulse/Models/GetAccount200ResponseLimits.swift
 Sources/LLMPulse/Models/GetAccount200ResponseRateLimits.swift
 Sources/LLMPulse/Models/GetAccount200ResponseSubscription.swift
-Sources/LLMPulse/Models/GetTimeseriesCollectionIdParameter.swift
 Sources/LLMPulse/Models/IntelligenceTask.swift
 Sources/LLMPulse/Models/IntelligenceTaskCreateRequest.swift
 Sources/LLMPulse/Models/IntelligenceTaskUpdateRequest.swift
@@ -148,7 +147,6 @@ docs/GetAccount200Response.md
 docs/GetAccount200ResponseLimits.md
 docs/GetAccount200ResponseRateLimits.md
 docs/GetAccount200ResponseSubscription.md
-docs/GetTimeseriesCollectionIdParameter.md
 docs/HealthAPI.md
 docs/IntelligenceTask.md
 docs/IntelligenceTaskCreateRequest.md

@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 # **listAds**
 ```swift
-    open class func listAds(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listAds? = nil, owned: Bool? = nil, order: Order_listAds? = nil, direction: Direction_listAds? = nil, query: String? = nil, model: Model_listAds? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listAds? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAds? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listAds(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listAds? = nil, owned: Bool? = nil, order: Order_listAds? = nil, direction: Direction_listAds? = nil, query: String? = nil, model: Model_listAds? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listAds? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAds? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 List AI ad placements
@@ -31,7 +31,7 @@ let order = "order_example" // String | Sort field; the allowed set depends on v
 let direction = "direction_example" // String | Sort direction for view=advertisers. Defaults to desc, except avg_position and domain which default to asc. (optional)
 let query = "query_example" // String | Case-insensitive substring filter on the ad title, domain or snippet (optional)
 let model = "model_example" // String | Filter by AI model. Models the API key's user has not enabled are silently dropped. (optional)
-let collectionId = getTimeseries_collection_id_parameter() // GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (optional)
+let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
 let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
 let prompt = 987 // Int | Filter by prompt ID (optional)
@@ -68,7 +68,7 @@ Name | Type | Description  | Notes
  **direction** | **String** | Sort direction for view&#x3D;advertisers. Defaults to desc, except avg_position and domain which default to asc. | [optional] 
  **query** | **String** | Case-insensitive substring filter on the ad title, domain or snippet | [optional] 
  **model** | **String** | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
- **collectionId** | [**GetTimeseriesCollectionIdParameter**](.md) | One collection/tag ID or a comma-separated list of IDs | [optional] 
+ **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
  **prompt** | **Int** | Filter by prompt ID | [optional] 
@@ -96,7 +96,7 @@ Void (empty response body)
 
 # **listShopping**
 ```swift
-    open class func listShopping(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listShopping? = nil, owned: Bool? = nil, order: Order_listShopping? = nil, direction: Direction_listShopping? = nil, query: String? = nil, model: Model_listShopping? = nil, collectionId: GetTimeseriesCollectionIdParameter? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listShopping? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listShopping? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listShopping(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listShopping? = nil, owned: Bool? = nil, order: Order_listShopping? = nil, direction: Direction_listShopping? = nil, query: String? = nil, model: Model_listShopping? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listShopping? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listShopping? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 List shopping results
@@ -117,7 +117,7 @@ let order = "order_example" // String | Sort field; the allowed set depends on v
 let direction = "direction_example" // String |  (optional) (default to .desc)
 let query = "query_example" // String | Case-insensitive substring filter on the product title (optional)
 let model = "model_example" // String | Filter by AI model. Models the API key's user has not enabled are silently dropped. (optional)
-let collectionId = getTimeseries_collection_id_parameter() // GetTimeseriesCollectionIdParameter | One collection/tag ID or a comma-separated list of IDs (optional)
+let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
 let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
 let prompt = 987 // Int | Filter by prompt ID (optional)
@@ -154,7 +154,7 @@ Name | Type | Description  | Notes
  **direction** | **String** |  | [optional] [default to .desc]
  **query** | **String** | Case-insensitive substring filter on the product title | [optional] 
  **model** | **String** | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
- **collectionId** | [**GetTimeseriesCollectionIdParameter**](.md) | One collection/tag ID or a comma-separated list of IDs | [optional] 
+ **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
  **prompt** | **Int** | Filter by prompt ID | [optional] 
