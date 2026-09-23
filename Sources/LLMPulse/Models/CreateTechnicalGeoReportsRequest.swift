@@ -13,17 +13,21 @@ public struct CreateTechnicalGeoReportsRequest: Sendable, Codable, Hashable {
     public var url: String
     /** Defaults to the project country */
     public var countryCode: String?
+    /** ISO 639-1 code of the language the llms.txt files are written in (for example es). Defaults to the project language, else en. Only the llms.txt report of the bundle uses it; an unsupported code returns 422 ERR_INVALID_PARAM */
+    public var outputLanguageCode: String?
 
-    public init(projectId: Int, url: String, countryCode: String? = nil) {
+    public init(projectId: Int, url: String, countryCode: String? = nil, outputLanguageCode: String? = nil) {
         self.projectId = projectId
         self.url = url
         self.countryCode = countryCode
+        self.outputLanguageCode = outputLanguageCode
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case projectId = "project_id"
         case url
         case countryCode = "country_code"
+        case outputLanguageCode = "output_language_code"
     }
 
     // Encodable protocol methods
@@ -33,6 +37,7 @@ public struct CreateTechnicalGeoReportsRequest: Sendable, Codable, Hashable {
         try container.encode(projectId, forKey: .projectId)
         try container.encode(url, forKey: .url)
         try container.encodeIfPresent(countryCode, forKey: .countryCode)
+        try container.encodeIfPresent(outputLanguageCode, forKey: .outputLanguageCode)
     }
 }
 

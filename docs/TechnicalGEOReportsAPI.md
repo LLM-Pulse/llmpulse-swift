@@ -23,7 +23,7 @@ Launches the full technical GEO analysis bundle (crawlability, schema, content r
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import LLMPulse
 
-let createTechnicalGeoReportsRequest = createTechnicalGeoReports_request(projectId: 123, url: "url_example", countryCode: "countryCode_example") // CreateTechnicalGeoReportsRequest | 
+let createTechnicalGeoReportsRequest = createTechnicalGeoReports_request(projectId: 123, url: "url_example", countryCode: "countryCode_example", outputLanguageCode: "outputLanguageCode_example") // CreateTechnicalGeoReportsRequest | 
 
 // Run technical GEO analysis
 TechnicalGEOReportsAPI.createTechnicalGeoReports(createTechnicalGeoReportsRequest: createTechnicalGeoReportsRequest) { (response, error) in
@@ -66,7 +66,7 @@ Void (empty response body)
 
 Get a technical GEO report
 
-Returns the current status and the full result_data once the report is completed. While it is running, result_data is null and poll_after_seconds tells clients when to check again.
+Returns the current status and the full result_data once the report is completed. While it is running, result_data is null and poll_after_seconds tells clients when to check again. Summaries carry output_language_code (the ISO 639-1 code an llms_txt report was requested in; null for an llms_txt report left on the website's own language in the app, and for every other report type); a completed llms_txt result_data also returns manually_edited_at, original_llms_txt_content and original_llms_full_txt_content (the generated files, set once the customer edited the files in the app) and metadata.output_language_code.
 
 ### Example
 ```swift
