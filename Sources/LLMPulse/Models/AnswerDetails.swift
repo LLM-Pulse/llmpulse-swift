@@ -29,8 +29,10 @@ public struct AnswerDetails: Sendable, Codable, Hashable {
     public var brandEntities: [JSONValue]?
     public var localBusinesses: [JSONValue]?
     public var locale: AnswerDetailsLocale?
+    /** Opens this answer in the app. The link names its project, so it opens there for any user with access to that project */
+    public var appUrl: String?
 
-    public init(id: Int? = nil, promptId: Int? = nil, promptText: String? = nil, model: String? = nil, response: String? = nil, responseTruncated: Bool? = nil, executedAt: Date? = nil, durationMs: Int? = nil, success: Bool? = nil, fanOutQueries: [String]? = nil, mentions: [JSONValue]? = nil, citations: [JSONValue]? = nil, competitorMentions: [JSONValue]? = nil, competitorCitations: [JSONValue]? = nil, sentiments: [JSONValue]? = nil, sources: [JSONValue]? = nil, shoppingProducts: [JSONValue]? = nil, brandEntities: [JSONValue]? = nil, localBusinesses: [JSONValue]? = nil, locale: AnswerDetailsLocale? = nil) {
+    public init(id: Int? = nil, promptId: Int? = nil, promptText: String? = nil, model: String? = nil, response: String? = nil, responseTruncated: Bool? = nil, executedAt: Date? = nil, durationMs: Int? = nil, success: Bool? = nil, fanOutQueries: [String]? = nil, mentions: [JSONValue]? = nil, citations: [JSONValue]? = nil, competitorMentions: [JSONValue]? = nil, competitorCitations: [JSONValue]? = nil, sentiments: [JSONValue]? = nil, sources: [JSONValue]? = nil, shoppingProducts: [JSONValue]? = nil, brandEntities: [JSONValue]? = nil, localBusinesses: [JSONValue]? = nil, locale: AnswerDetailsLocale? = nil, appUrl: String? = nil) {
         self.id = id
         self.promptId = promptId
         self.promptText = promptText
@@ -51,6 +53,7 @@ public struct AnswerDetails: Sendable, Codable, Hashable {
         self.brandEntities = brandEntities
         self.localBusinesses = localBusinesses
         self.locale = locale
+        self.appUrl = appUrl
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -74,6 +77,7 @@ public struct AnswerDetails: Sendable, Codable, Hashable {
         case brandEntities = "brand_entities"
         case localBusinesses = "local_businesses"
         case locale
+        case appUrl = "app_url"
     }
 
     // Encodable protocol methods
@@ -100,6 +104,7 @@ public struct AnswerDetails: Sendable, Codable, Hashable {
         try container.encodeIfPresent(brandEntities, forKey: .brandEntities)
         try container.encodeIfPresent(localBusinesses, forKey: .localBusinesses)
         try container.encodeIfPresent(locale, forKey: .locale)
+        try container.encodeIfPresent(appUrl, forKey: .appUrl)
     }
 }
 

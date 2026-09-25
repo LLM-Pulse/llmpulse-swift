@@ -21,8 +21,10 @@ public struct PromptSummaryRow: Sendable, Codable, Hashable {
     public var citationRate: Double?
     public var avgMentionPosition: Double?
     public var avgPosition: Double?
+    /** Opens this prompt in the app. The link names its project, so it opens there for any user with access to that project */
+    public var appUrl: String?
 
-    public init(promptId: Int? = nil, promptText: String? = nil, model: String? = nil, responses: Int? = nil, mentions: Int? = nil, citations: Int? = nil, visibility: Double? = nil, mentionRate: Double? = nil, citationRate: Double? = nil, avgMentionPosition: Double? = nil, avgPosition: Double? = nil) {
+    public init(promptId: Int? = nil, promptText: String? = nil, model: String? = nil, responses: Int? = nil, mentions: Int? = nil, citations: Int? = nil, visibility: Double? = nil, mentionRate: Double? = nil, citationRate: Double? = nil, avgMentionPosition: Double? = nil, avgPosition: Double? = nil, appUrl: String? = nil) {
         self.promptId = promptId
         self.promptText = promptText
         self.model = model
@@ -34,6 +36,7 @@ public struct PromptSummaryRow: Sendable, Codable, Hashable {
         self.citationRate = citationRate
         self.avgMentionPosition = avgMentionPosition
         self.avgPosition = avgPosition
+        self.appUrl = appUrl
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -48,6 +51,7 @@ public struct PromptSummaryRow: Sendable, Codable, Hashable {
         case citationRate = "citation_rate"
         case avgMentionPosition = "avg_mention_position"
         case avgPosition = "avg_position"
+        case appUrl = "app_url"
     }
 
     // Encodable protocol methods
@@ -65,6 +69,7 @@ public struct PromptSummaryRow: Sendable, Codable, Hashable {
         try container.encodeIfPresent(citationRate, forKey: .citationRate)
         try container.encodeIfPresent(avgMentionPosition, forKey: .avgMentionPosition)
         try container.encodeIfPresent(avgPosition, forKey: .avgPosition)
+        try container.encodeIfPresent(appUrl, forKey: .appUrl)
     }
 }
 
