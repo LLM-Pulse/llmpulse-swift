@@ -18,7 +18,7 @@ open class SentimentsAPI {
     }
 
     /**
-     List sentiment categories
+     List sentiment categories (Growth plan or above)
      
      - parameter projectId: (query) Project ID 
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
@@ -30,9 +30,9 @@ open class SentimentsAPI {
     }
 
     /**
-     List sentiment categories
+     List sentiment categories (Growth plan or above)
      - GET /dimensions/sentiments
-     - Sentiment metric keys + labels + colors. For records, use /sentiments.
+     - Sentiment metric keys + labels + colors. For records, use /sentiments. Requires the Growth plan; lower tiers receive ERR_PLAN_REQUIRED.
      - Bearer Token:
        - type: http
        - name: BearerAuth
@@ -84,7 +84,7 @@ open class SentimentsAPI {
     }
 
     /**
-     List sentiment records
+     List sentiment records (Growth plan or above)
      
      - parameter projectId: (query) Project ID 
      - parameter competitorId: (query)  (optional)
@@ -106,8 +106,9 @@ open class SentimentsAPI {
     }
 
     /**
-     List sentiment records
+     List sentiment records (Growth plan or above)
      - GET /sentiments
+     - Requires the Growth plan; lower tiers receive ERR_PLAN_REQUIRED.
      - Bearer Token:
        - type: http
        - name: BearerAuth

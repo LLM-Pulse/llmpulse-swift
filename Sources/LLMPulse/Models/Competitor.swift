@@ -15,6 +15,7 @@ public struct Competitor: Sendable, Codable, Hashable {
     }
     public var id: Int?
     public var name: String?
+    /** Bare (scheme-less) domain. Null only on the own-brand row (include_project_brand=true) when the project has no URL. */
     public var domain: String?
     /** Only present when include_project_brand=true */
     public var actorType: ActorType?

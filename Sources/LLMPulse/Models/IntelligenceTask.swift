@@ -22,7 +22,7 @@ public struct IntelligenceTask: Sendable, Codable, Hashable {
     public var userInstructions: String?
     public var outputLanguageCode: String?
     public var wordCount: Int?
-    /** Only present when status='completed' */
+    /** The generated content once status is completed; null before that */
     public var resultData: JSONValue?
     public var errorMessage: String?
     public var estimatedTime: String?

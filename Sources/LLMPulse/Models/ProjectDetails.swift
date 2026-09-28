@@ -12,7 +12,7 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
     public var id: Int?
     /** Internal project label (sidebar, settings, admin) */
     public var name: String?
-    /** LLM-facing brand label (used in prompts and customer-facing charts). Defaults to `name` when not set. */
+    /** LLM-facing brand label (used in prompts and customer-facing charts). Null when not set, in which case prompts and charts use `name`. */
     public var brandName: String?
     public var url: String?
     public var description: String?

@@ -16,7 +16,9 @@ public struct AnswerDetails: Sendable, Codable, Hashable {
     public var response: String?
     public var responseTruncated: Bool?
     public var executedAt: Date?
-    public var durationMs: Int?
+    /** Milliseconds, rounded to one decimal place */
+    public var durationMs: Double?
+    /** Null while the answer is still pending */
     public var success: Bool?
     public var fanOutQueries: [String]?
     public var mentions: [JSONValue]?
@@ -32,7 +34,7 @@ public struct AnswerDetails: Sendable, Codable, Hashable {
     /** Opens this answer in the app. The link names its project, so it opens there for any user with access to that project */
     public var appUrl: String?
 
-    public init(id: Int? = nil, promptId: Int? = nil, promptText: String? = nil, model: String? = nil, response: String? = nil, responseTruncated: Bool? = nil, executedAt: Date? = nil, durationMs: Int? = nil, success: Bool? = nil, fanOutQueries: [String]? = nil, mentions: [JSONValue]? = nil, citations: [JSONValue]? = nil, competitorMentions: [JSONValue]? = nil, competitorCitations: [JSONValue]? = nil, sentiments: [JSONValue]? = nil, sources: [JSONValue]? = nil, shoppingProducts: [JSONValue]? = nil, brandEntities: [JSONValue]? = nil, localBusinesses: [JSONValue]? = nil, locale: AnswerDetailsLocale? = nil, appUrl: String? = nil) {
+    public init(id: Int? = nil, promptId: Int? = nil, promptText: String? = nil, model: String? = nil, response: String? = nil, responseTruncated: Bool? = nil, executedAt: Date? = nil, durationMs: Double? = nil, success: Bool? = nil, fanOutQueries: [String]? = nil, mentions: [JSONValue]? = nil, citations: [JSONValue]? = nil, competitorMentions: [JSONValue]? = nil, competitorCitations: [JSONValue]? = nil, sentiments: [JSONValue]? = nil, sources: [JSONValue]? = nil, shoppingProducts: [JSONValue]? = nil, brandEntities: [JSONValue]? = nil, localBusinesses: [JSONValue]? = nil, locale: AnswerDetailsLocale? = nil, appUrl: String? = nil) {
         self.id = id
         self.promptId = promptId
         self.promptText = promptText

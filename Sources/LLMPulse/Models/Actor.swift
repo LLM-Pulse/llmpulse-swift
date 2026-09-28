@@ -17,7 +17,7 @@ public struct Actor: Sendable, Codable, Hashable {
     public var id: Int?
     public var competitorId: Int?
     public var name: String?
-    /** Bare (scheme-less) domain */
+    /** Bare (scheme-less) domain. Null for the project actor when the project has no URL. */
     public var domain: String?
 
     public init(type: ModelType? = nil, id: Int? = nil, competitorId: Int? = nil, name: String? = nil, domain: String? = nil) {

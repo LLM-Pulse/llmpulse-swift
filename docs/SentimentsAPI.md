@@ -4,8 +4,8 @@ All URIs are relative to *https://api.llmpulse.ai/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**listSentimentCategories**](SentimentsAPI.md#listsentimentcategories) | **GET** /dimensions/sentiments | List sentiment categories
-[**listSentimentRecords**](SentimentsAPI.md#listsentimentrecords) | **GET** /sentiments | List sentiment records
+[**listSentimentCategories**](SentimentsAPI.md#listsentimentcategories) | **GET** /dimensions/sentiments | List sentiment categories (Growth plan or above)
+[**listSentimentRecords**](SentimentsAPI.md#listsentimentrecords) | **GET** /sentiments | List sentiment records (Growth plan or above)
 
 
 # **listSentimentCategories**
@@ -13,9 +13,9 @@ Method | HTTP request | Description
     open class func listSentimentCategories(projectId: Int, output: Output_listSentimentCategories? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
-List sentiment categories
+List sentiment categories (Growth plan or above)
 
-Sentiment metric keys + labels + colors. For records, use /sentiments.
+Sentiment metric keys + labels + colors. For records, use /sentiments. Requires the Growth plan; lower tiers receive ERR_PLAN_REQUIRED.
 
 ### Example
 ```swift
@@ -25,7 +25,7 @@ import LLMPulse
 let projectId = 987 // Int | Project ID
 let output = "output_example" // String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (optional)
 
-// List sentiment categories
+// List sentiment categories (Growth plan or above)
 SentimentsAPI.listSentimentCategories(projectId: projectId, output: output) { (response, error) in
     guard error == nil else {
         print(error)
@@ -56,7 +56,7 @@ Void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -65,7 +65,9 @@ Void (empty response body)
     open class func listSentimentRecords(projectId: Int, competitorId: Int? = nil, brandOnly: Bool? = nil, analysis: String? = nil, model: Model_listSentimentRecords? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, from: Date? = nil, to: Date? = nil, page: Int? = nil, perPage: Int? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
-List sentiment records
+List sentiment records (Growth plan or above)
+
+Requires the Growth plan; lower tiers receive ERR_PLAN_REQUIRED.
 
 ### Example
 ```swift
@@ -85,7 +87,7 @@ let to = Date() // Date | End of the window. A date-only value such as 2026-09-0
 let page = 987 // Int |  (optional) (default to 1)
 let perPage = 987 // Int |  (optional) (default to 20)
 
-// List sentiment records
+// List sentiment records (Growth plan or above)
 SentimentsAPI.listSentimentRecords(projectId: projectId, competitorId: competitorId, brandOnly: brandOnly, analysis: analysis, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, from: from, to: to, page: page, perPage: perPage) { (response, error) in
     guard error == nil else {
         print(error)

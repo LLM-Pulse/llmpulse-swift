@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 **userInstructions** | **String** |  | [optional] 
 **outputLanguageCode** | **String** |  | [optional] 
 **wordCount** | **Int** |  | [optional] 
-**resultData** | **JSONValue** | Only present when status&#x3D;&#39;completed&#39; | [optional] 
+**resultData** | **JSONValue** | The generated content once status is completed; null before that | [optional] 
 **errorMessage** | **String** |  | [optional] 
 **estimatedTime** | **String** |  | [optional] 
 **createdAt** | **Date** |  | [optional] 
