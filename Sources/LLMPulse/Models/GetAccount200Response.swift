@@ -15,6 +15,8 @@ public struct GetAccount200Response: Sendable, Codable, Hashable {
     }
     /** Plan key (starter, growth, scale, ...) */
     public var plan: String?
+    /** Display name of the plan to show people (e.g. Scale++ for the scaleplusplus key) */
+    public var planName: String?
     /** How often prompts run (weekly, daily, monthly, ...) */
     public var trackingFrequency: String?
     /** Whether the key belongs to the account owner or a team member */
@@ -24,8 +26,9 @@ public struct GetAccount200Response: Sendable, Codable, Hashable {
     public var rateLimits: GetAccount200ResponseRateLimits?
     public var requestId: String?
 
-    public init(plan: String? = nil, trackingFrequency: String? = nil, role: Role? = nil, subscription: GetAccount200ResponseSubscription? = nil, limits: GetAccount200ResponseLimits? = nil, rateLimits: GetAccount200ResponseRateLimits? = nil, requestId: String? = nil) {
+    public init(plan: String? = nil, planName: String? = nil, trackingFrequency: String? = nil, role: Role? = nil, subscription: GetAccount200ResponseSubscription? = nil, limits: GetAccount200ResponseLimits? = nil, rateLimits: GetAccount200ResponseRateLimits? = nil, requestId: String? = nil) {
         self.plan = plan
+        self.planName = planName
         self.trackingFrequency = trackingFrequency
         self.role = role
         self.subscription = subscription
@@ -36,6 +39,7 @@ public struct GetAccount200Response: Sendable, Codable, Hashable {
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case plan
+        case planName = "plan_name"
         case trackingFrequency = "tracking_frequency"
         case role
         case subscription
@@ -49,6 +53,7 @@ public struct GetAccount200Response: Sendable, Codable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(plan, forKey: .plan)
+        try container.encodeIfPresent(planName, forKey: .planName)
         try container.encodeIfPresent(trackingFrequency, forKey: .trackingFrequency)
         try container.encodeIfPresent(role, forKey: .role)
         try container.encodeIfPresent(subscription, forKey: .subscription)

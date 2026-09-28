@@ -10,14 +10,17 @@ import Foundation
 public struct ProjectCreateRequest: Sendable, Codable, Hashable {
 
     public static let promptsRule = ArrayRule(minItems: nil, maxItems: 100, uniqueItems: false)
+    public static let collectionsRule = ArrayRule(minItems: nil, maxItems: 50, uniqueItems: false)
     public static let externalIdentifierRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^[a-z0-9_-]{1,64}$/")
     /** Public HTTP(S) URL with a DNS hostname or public IP address. Credentials, private and special IP addresses, localhost and internal hostnames are rejected. */
     public var websiteUrl: String
+    /** Project name, as plain text. It can be changed later with PATCH /projects/{id} */
     public var name: String
     public var mainCountry: String
     public var mainLanguage: String
     public var brandName: String?
     public var description: String?
+    /** Industry keys, case-insensitive; a single key string is also accepted. An unknown key returns ERR_INVALID_PARAM listing the valid keys (the same list as the in-app industry picker, e.g. TECHNOLOGY, SAAS, ECOMMERCE) */
     public var industry: [String]?
     /** Business model key (e.g. B2B_SAAS, MARKETPLACE); unknown keys are rejected */
     public var businessModel: String?
@@ -33,6 +36,8 @@ public struct ProjectCreateRequest: Sendable, Codable, Hashable {
     public var primaryProducts: [String]?
     public var matchingNames: [String]?
     public var prompts: [String]?
+    /** Collections (prompt tags) created with the project, each tagging prompts of this request by their exact text, so no separate tagging calls are needed. A text that is not in prompts returns ERR_INVALID_PARAM. A team member also needs Tags: Create permission. */
+    public var collections: [ProjectCreateRequestCollectionsInner]?
     public var competitors: [ProjectCreateRequestCompetitorsInner]?
     public var ownedMedia: ProjectCreateRequestOwnedMedia?
     public var useSubdomain: Bool? = false
@@ -41,7 +46,7 @@ public struct ProjectCreateRequest: Sendable, Codable, Hashable {
     public var externalIdentifier: String?
     public var executePromptsImmediately: Bool? = true
 
-    public init(websiteUrl: String, name: String, mainCountry: String, mainLanguage: String, brandName: String? = nil, description: String? = nil, industry: [String]? = nil, businessModel: String? = nil, businessModelOther: String? = nil, targetAudience: String? = nil, brandVoice: String? = nil, goals: String? = nil, primaryProducts: [String]? = nil, matchingNames: [String]? = nil, prompts: [String]? = nil, competitors: [ProjectCreateRequestCompetitorsInner]? = nil, ownedMedia: ProjectCreateRequestOwnedMedia? = nil, useSubdomain: Bool? = false, weeklyEmailSubscribed: Bool? = false, externalIdentifier: String? = nil, executePromptsImmediately: Bool? = true) {
+    public init(websiteUrl: String, name: String, mainCountry: String, mainLanguage: String, brandName: String? = nil, description: String? = nil, industry: [String]? = nil, businessModel: String? = nil, businessModelOther: String? = nil, targetAudience: String? = nil, brandVoice: String? = nil, goals: String? = nil, primaryProducts: [String]? = nil, matchingNames: [String]? = nil, prompts: [String]? = nil, collections: [ProjectCreateRequestCollectionsInner]? = nil, competitors: [ProjectCreateRequestCompetitorsInner]? = nil, ownedMedia: ProjectCreateRequestOwnedMedia? = nil, useSubdomain: Bool? = false, weeklyEmailSubscribed: Bool? = false, externalIdentifier: String? = nil, executePromptsImmediately: Bool? = true) {
         self.websiteUrl = websiteUrl
         self.name = name
         self.mainCountry = mainCountry
@@ -57,6 +62,7 @@ public struct ProjectCreateRequest: Sendable, Codable, Hashable {
         self.primaryProducts = primaryProducts
         self.matchingNames = matchingNames
         self.prompts = prompts
+        self.collections = collections
         self.competitors = competitors
         self.ownedMedia = ownedMedia
         self.useSubdomain = useSubdomain
@@ -81,6 +87,7 @@ public struct ProjectCreateRequest: Sendable, Codable, Hashable {
         case primaryProducts = "primary_products"
         case matchingNames = "matching_names"
         case prompts
+        case collections
         case competitors
         case ownedMedia = "owned_media"
         case useSubdomain = "use_subdomain"
@@ -108,6 +115,7 @@ public struct ProjectCreateRequest: Sendable, Codable, Hashable {
         try container.encodeIfPresent(primaryProducts, forKey: .primaryProducts)
         try container.encodeIfPresent(matchingNames, forKey: .matchingNames)
         try container.encodeIfPresent(prompts, forKey: .prompts)
+        try container.encodeIfPresent(collections, forKey: .collections)
         try container.encodeIfPresent(competitors, forKey: .competitors)
         try container.encodeIfPresent(ownedMedia, forKey: .ownedMedia)
         try container.encodeIfPresent(useSubdomain, forKey: .useSubdomain)

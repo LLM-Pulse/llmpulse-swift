@@ -10,16 +10,18 @@ import Foundation
 public struct SovResponse: Sendable, Codable, Hashable {
 
     public var projectId: Int?
-    /** Per-bucket sample size and completeness: mentions is the total the shares were computed on (1-3 mentions produce the 100/50/33.33 low-sample patterns); partial marks buckets still collecting data or clipped by the requested window. */
+    /** Per-bucket sample size and completeness: mentions is the total the shares were computed on (1-3 mentions produce the 100/50/33.33 low-sample patterns); partial marks buckets still collecting data or clipped by the requested window; confidence and margin_of_error read the sample size. */
     public var periods: [SovResponsePeriodsInner]?
+    public var sample: SovResponseSample?
     public var overTime: [SovResponseOverTimeInner]?
     public var current: [SovResponseCurrentInner]?
     public var breakdown: [SovResponseBreakdownInner]?
     public var others: [JSONValue]?
 
-    public init(projectId: Int? = nil, periods: [SovResponsePeriodsInner]? = nil, overTime: [SovResponseOverTimeInner]? = nil, current: [SovResponseCurrentInner]? = nil, breakdown: [SovResponseBreakdownInner]? = nil, others: [JSONValue]? = nil) {
+    public init(projectId: Int? = nil, periods: [SovResponsePeriodsInner]? = nil, sample: SovResponseSample? = nil, overTime: [SovResponseOverTimeInner]? = nil, current: [SovResponseCurrentInner]? = nil, breakdown: [SovResponseBreakdownInner]? = nil, others: [JSONValue]? = nil) {
         self.projectId = projectId
         self.periods = periods
+        self.sample = sample
         self.overTime = overTime
         self.current = current
         self.breakdown = breakdown
@@ -29,6 +31,7 @@ public struct SovResponse: Sendable, Codable, Hashable {
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case projectId = "project_id"
         case periods
+        case sample
         case overTime = "over_time"
         case current
         case breakdown
@@ -41,6 +44,7 @@ public struct SovResponse: Sendable, Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(projectId, forKey: .projectId)
         try container.encodeIfPresent(periods, forKey: .periods)
+        try container.encodeIfPresent(sample, forKey: .sample)
         try container.encodeIfPresent(overTime, forKey: .overTime)
         try container.encodeIfPresent(current, forKey: .current)
         try container.encodeIfPresent(breakdown, forKey: .breakdown)

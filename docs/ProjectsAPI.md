@@ -23,14 +23,14 @@ Method | HTTP request | Description
 
 Create a project (fast mode)
 
-Create a complete project in one call: project fields, prompts (queued for execution and categorization), competitors, weekly email subscription. Idempotent via `external_identifier` (embed-enabled accounts only; replay returns 200 with the existing project). Requires a `read_write` scope API key.
+Create a complete project in one call: project fields, prompts (queued for execution and categorization), collections tagging those prompts, competitors, weekly email subscription. The response lists same_domain_projects so an accidental duplicate is visible; it never blocks the create. Idempotent via `external_identifier` (embed-enabled accounts only; replay returns 200 with the existing project). Requires a `read_write` scope API key.
 
 ### Example
 ```swift
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import LLMPulse
 
-let projectCreateRequest = ProjectCreateRequest(websiteUrl: "websiteUrl_example", name: "name_example", mainCountry: "mainCountry_example", mainLanguage: "mainLanguage_example", brandName: "brandName_example", description: "description_example", industry: ["industry_example"], businessModel: "businessModel_example", businessModelOther: "businessModelOther_example", targetAudience: "targetAudience_example", brandVoice: "brandVoice_example", goals: "goals_example", primaryProducts: ["primaryProducts_example"], matchingNames: ["matchingNames_example"], prompts: ["prompts_example"], competitors: [ProjectCreateRequest_competitors_inner(domain: "domain_example", brandName: "brandName_example", matchingNames: ["matchingNames_example"])], ownedMedia: ProjectCreateRequest_owned_media(youtubeChannelUrl: "youtubeChannelUrl_example", instagramProfileUrl: "instagramProfileUrl_example", facebookPageUrl: "facebookPageUrl_example", tiktokProfileUrl: "tiktokProfileUrl_example", appStoreUrl: "appStoreUrl_example", googlePlayUrl: "googlePlayUrl_example"), useSubdomain: false, weeklyEmailSubscribed: false, externalIdentifier: "externalIdentifier_example", executePromptsImmediately: false) // ProjectCreateRequest | 
+let projectCreateRequest = ProjectCreateRequest(websiteUrl: "websiteUrl_example", name: "name_example", mainCountry: "mainCountry_example", mainLanguage: "mainLanguage_example", brandName: "brandName_example", description: "description_example", industry: ["industry_example"], businessModel: "businessModel_example", businessModelOther: "businessModelOther_example", targetAudience: "targetAudience_example", brandVoice: "brandVoice_example", goals: "goals_example", primaryProducts: ["primaryProducts_example"], matchingNames: ["matchingNames_example"], prompts: ["prompts_example"], collections: [ProjectCreateRequest_collections_inner(name: "name_example", prompts: ["prompts_example"])], competitors: [ProjectCreateRequest_competitors_inner(domain: "domain_example", brandName: "brandName_example", matchingNames: ["matchingNames_example"])], ownedMedia: ProjectCreateRequest_owned_media(youtubeChannelUrl: "youtubeChannelUrl_example", instagramProfileUrl: "instagramProfileUrl_example", facebookPageUrl: "facebookPageUrl_example", tiktokProfileUrl: "tiktokProfileUrl_example", appStoreUrl: "appStoreUrl_example", googlePlayUrl: "googlePlayUrl_example"), useSubdomain: false, weeklyEmailSubscribed: false, externalIdentifier: "externalIdentifier_example", executePromptsImmediately: false) // ProjectCreateRequest | 
 
 // Create a project (fast mode)
 ProjectsAPI.createProject(projectCreateRequest: projectCreateRequest) { (response, error) in
@@ -421,7 +421,7 @@ Name | Type | Description  | Notes
 
 Update a project profile (Brand Book)
 
-Updates the project profile, the same fields as Project Settings: brand_name, description, industry, business_model (plus business_model_other when it is OTHER), target_audience, brand_voice, goals, primary_products, matching_names. Send only the fields to change; unknown fields are rejected. All seven Brand Book fields feed every GEO Writer task and prompt suggestions; only industry, description, and target_audience help Recommendations. A matching_names change re-runs mention/citation matching over the project history in the background (rematching=true); further edits are rejected while that runs. Requires a `read_write` scope API key.
+Updates the project name and profile, the same fields as Project Settings: name, brand_name, description, industry, business_model (plus business_model_other when it is OTHER), target_audience, brand_voice, goals, primary_products, matching_names. Send only the fields to change; unknown fields are rejected. All seven Brand Book fields feed every GEO Writer task and prompt suggestions; only industry, description, and target_audience help Recommendations. A matching_names change re-runs mention/citation matching over the project history in the background (rematching=true); further edits are rejected while that runs. Requires a `read_write` scope API key.
 
 ### Example
 ```swift
@@ -429,7 +429,7 @@ Updates the project profile, the same fields as Project Settings: brand_name, de
 import LLMPulse
 
 let id = 987 // Int | 
-let updateProjectRequest = updateProject_request(brandName: "brandName_example", description: "description_example", industry: "industry_example", businessModel: "businessModel_example", businessModelOther: "businessModelOther_example", targetAudience: "targetAudience_example", brandVoice: "brandVoice_example", goals: "goals_example", primaryProducts: ["primaryProducts_example"], matchingNames: ["matchingNames_example"]) // UpdateProjectRequest | 
+let updateProjectRequest = updateProject_request(name: "name_example", brandName: "brandName_example", description: "description_example", industry: "industry_example", businessModel: "businessModel_example", businessModelOther: "businessModelOther_example", targetAudience: "targetAudience_example", brandVoice: "brandVoice_example", goals: "goals_example", primaryProducts: ["primaryProducts_example"], matchingNames: ["matchingNames_example"]) // UpdateProjectRequest | 
 
 // Update a project profile (Brand Book)
 ProjectsAPI.updateProject(id: id, updateProjectRequest: updateProjectRequest) { (response, error) in

@@ -17,7 +17,8 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
     public var url: String?
     public var description: String?
     public var matchingNames: [String]?
-    public var industry: String?
+    /** Industry as stored: one key as a string (e.g. SAAS), or an array of key strings when the project was created with a list or the in-app multi-select. Deliberately untyped so generated clients decode either shape */
+    public var industry: JSONValue?
     public var businessModel: String?
     /** Set only when business_model is OTHER */
     public var businessModelOther: String?
@@ -33,7 +34,7 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
     public var createdAt: Date?
     public var stats: ProjectDetailsAllOfStats?
 
-    public init(id: Int? = nil, name: String? = nil, brandName: String? = nil, url: String? = nil, description: String? = nil, matchingNames: [String]? = nil, industry: String? = nil, businessModel: String? = nil, businessModelOther: String? = nil, primaryProducts: [String]? = nil, targetAudience: String? = nil, brandVoice: String? = nil, goals: String? = nil, countryCode: String? = nil, languageCode: String? = nil, paused: Bool? = nil, googlePlayId: String? = nil, appStoreId: String? = nil, createdAt: Date? = nil, stats: ProjectDetailsAllOfStats? = nil) {
+    public init(id: Int? = nil, name: String? = nil, brandName: String? = nil, url: String? = nil, description: String? = nil, matchingNames: [String]? = nil, industry: JSONValue? = nil, businessModel: String? = nil, businessModelOther: String? = nil, primaryProducts: [String]? = nil, targetAudience: String? = nil, brandVoice: String? = nil, goals: String? = nil, countryCode: String? = nil, languageCode: String? = nil, paused: Bool? = nil, googlePlayId: String? = nil, appStoreId: String? = nil, createdAt: Date? = nil, stats: ProjectDetailsAllOfStats? = nil) {
         self.id = id
         self.name = name
         self.brandName = brandName

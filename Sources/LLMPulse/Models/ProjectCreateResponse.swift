@@ -13,16 +13,22 @@ public struct ProjectCreateResponse: Sendable, Codable, Hashable {
     public var project: JSONValue?
     public var prompts: ProjectCreateResponsePrompts?
     public var competitors: ProjectCreateResponseCompetitors?
+    /** Collections created from the request's collections field (empty when none were sent; absent on an idempotent replay) */
+    public var collections: [ProjectCreateResponseCollectionsInner]?
+    /** Projects the caller can already see on the same domain (absent on an idempotent replay). Informational only: the create is never blocked, since one domain tracked per market is a normal setup. */
+    public var sameDomainProjects: [ProjectCreateResponseSameDomainProjectsInner]?
     public var emailSubscription: ProjectCreateResponseEmailSubscription?
     public var limits: ProjectCreateResponseLimits?
     /** Present and true only on external_identifier replays */
     public var idempotent: Bool?
     public var requestId: String?
 
-    public init(project: JSONValue? = nil, prompts: ProjectCreateResponsePrompts? = nil, competitors: ProjectCreateResponseCompetitors? = nil, emailSubscription: ProjectCreateResponseEmailSubscription? = nil, limits: ProjectCreateResponseLimits? = nil, idempotent: Bool? = nil, requestId: String? = nil) {
+    public init(project: JSONValue? = nil, prompts: ProjectCreateResponsePrompts? = nil, competitors: ProjectCreateResponseCompetitors? = nil, collections: [ProjectCreateResponseCollectionsInner]? = nil, sameDomainProjects: [ProjectCreateResponseSameDomainProjectsInner]? = nil, emailSubscription: ProjectCreateResponseEmailSubscription? = nil, limits: ProjectCreateResponseLimits? = nil, idempotent: Bool? = nil, requestId: String? = nil) {
         self.project = project
         self.prompts = prompts
         self.competitors = competitors
+        self.collections = collections
+        self.sameDomainProjects = sameDomainProjects
         self.emailSubscription = emailSubscription
         self.limits = limits
         self.idempotent = idempotent
@@ -33,6 +39,8 @@ public struct ProjectCreateResponse: Sendable, Codable, Hashable {
         case project
         case prompts
         case competitors
+        case collections
+        case sameDomainProjects = "same_domain_projects"
         case emailSubscription = "email_subscription"
         case limits
         case idempotent
@@ -46,6 +54,8 @@ public struct ProjectCreateResponse: Sendable, Codable, Hashable {
         try container.encodeIfPresent(project, forKey: .project)
         try container.encodeIfPresent(prompts, forKey: .prompts)
         try container.encodeIfPresent(competitors, forKey: .competitors)
+        try container.encodeIfPresent(collections, forKey: .collections)
+        try container.encodeIfPresent(sameDomainProjects, forKey: .sameDomainProjects)
         try container.encodeIfPresent(emailSubscription, forKey: .emailSubscription)
         try container.encodeIfPresent(limits, forKey: .limits)
         try container.encodeIfPresent(idempotent, forKey: .idempotent)

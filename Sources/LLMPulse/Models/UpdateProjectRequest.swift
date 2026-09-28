@@ -9,11 +9,13 @@ import Foundation
 
 public struct UpdateProjectRequest: Sendable, Codable, Hashable {
 
+    /** Project name shown in the app. A label: it does not change mention detection unless brand_name is empty. Cannot be blank */
+    public var name: String?
     /** Brand name used to detect mentions. Applies to future runs; it does not rewrite history */
     public var brandName: String?
     /** What the brand does. Context for Recommendations and GEO Writer (Brand Book) */
     public var description: String?
-    /** Single industry key (e.g. SAAS); unknown keys are rejected */
+    /** Single industry key (e.g. SAAS), stored as sent; an array of keys is also accepted and stored as an array, like the in-app multi-select. Unknown keys are rejected with the valid keys listed */
     public var industry: String?
     /** Business model key (e.g. B2B_SAAS); unknown keys are rejected */
     public var businessModel: String?
@@ -30,7 +32,8 @@ public struct UpdateProjectRequest: Sendable, Codable, Hashable {
     /** FULL replacement list of the brand-name variants used to detect mentions; send every variant to keep */
     public var matchingNames: [String]?
 
-    public init(brandName: String? = nil, description: String? = nil, industry: String? = nil, businessModel: String? = nil, businessModelOther: String? = nil, targetAudience: String? = nil, brandVoice: String? = nil, goals: String? = nil, primaryProducts: [String]? = nil, matchingNames: [String]? = nil) {
+    public init(name: String? = nil, brandName: String? = nil, description: String? = nil, industry: String? = nil, businessModel: String? = nil, businessModelOther: String? = nil, targetAudience: String? = nil, brandVoice: String? = nil, goals: String? = nil, primaryProducts: [String]? = nil, matchingNames: [String]? = nil) {
+        self.name = name
         self.brandName = brandName
         self.description = description
         self.industry = industry
@@ -44,6 +47,7 @@ public struct UpdateProjectRequest: Sendable, Codable, Hashable {
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case name
         case brandName = "brand_name"
         case description
         case industry
@@ -60,6 +64,7 @@ public struct UpdateProjectRequest: Sendable, Codable, Hashable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(name, forKey: .name)
         try container.encodeIfPresent(brandName, forKey: .brandName)
         try container.encodeIfPresent(description, forKey: .description)
         try container.encodeIfPresent(industry, forKey: .industry)
