@@ -75,6 +75,8 @@ Sources/LLMPulse/Models/ListCompetitors200Response.swift
 Sources/LLMPulse/Models/ListProjects200Response.swift
 Sources/LLMPulse/Models/ListWebhooks200Response.swift
 Sources/LLMPulse/Models/ListWebhooks200ResponseDataInner.swift
+Sources/LLMPulse/Models/LlmsTxtTechnicalGeoReport.swift
+Sources/LLMPulse/Models/LlmsTxtTechnicalGeoReportResultData.swift
 Sources/LLMPulse/Models/Ping200Response.swift
 Sources/LLMPulse/Models/Project.swift
 Sources/LLMPulse/Models/ProjectCreateRequest.swift
@@ -107,6 +109,10 @@ Sources/LLMPulse/Models/SovResponseSample.swift
 Sources/LLMPulse/Models/SummaryResponse.swift
 Sources/LLMPulse/Models/SummaryResponseAllOfPositionDistribution.swift
 Sources/LLMPulse/Models/SummaryResponseAllOfSummaryValueInner.swift
+Sources/LLMPulse/Models/TechnicalGeoReportContentRevertRequest.swift
+Sources/LLMPulse/Models/TechnicalGeoReportContentUpdateRequest.swift
+Sources/LLMPulse/Models/TechnicalGeoReportContentUpdateRequestEdits.swift
+Sources/LLMPulse/Models/TechnicalGeoReportContentUpdateResponse.swift
 Sources/LLMPulse/Models/TimeseriesPoint.swift
 Sources/LLMPulse/Models/TimeseriesResponse.swift
 Sources/LLMPulse/Models/TimeseriesSeries.swift
@@ -161,6 +167,8 @@ docs/ListCompetitors200Response.md
 docs/ListProjects200Response.md
 docs/ListWebhooks200Response.md
 docs/ListWebhooks200ResponseDataInner.md
+docs/LlmsTxtTechnicalGeoReport.md
+docs/LlmsTxtTechnicalGeoReportResultData.md
 docs/MentionsCitationsAPI.md
 docs/MetricsAPI.md
 docs/OwnedMediaCommunitiesAPI.md
@@ -205,6 +213,10 @@ docs/SummaryResponse.md
 docs/SummaryResponseAllOfPositionDistribution.md
 docs/SummaryResponseAllOfSummaryValueInner.md
 docs/TechnicalGEOReportsAPI.md
+docs/TechnicalGeoReportContentRevertRequest.md
+docs/TechnicalGeoReportContentUpdateRequest.md
+docs/TechnicalGeoReportContentUpdateRequestEdits.md
+docs/TechnicalGeoReportContentUpdateResponse.md
 docs/TimeseriesPoint.md
 docs/TimeseriesResponse.md
 docs/TimeseriesSeries.md
