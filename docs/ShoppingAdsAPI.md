@@ -5,6 +5,7 @@ All URIs are relative to *https://api.llmpulse.ai/api/v1*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**listAds**](ShoppingAdsAPI.md#listads) | **GET** /dimensions/ads | List AI ad placements
+[**listLocalBusinesses**](ShoppingAdsAPI.md#listlocalbusinesses) | **GET** /dimensions/local_businesses | List local businesses
 [**listShopping**](ShoppingAdsAPI.md#listshopping) | **GET** /dimensions/shopping | List shopping results
 
 
@@ -82,6 +83,90 @@ Name | Type | Description  | Notes
 ### Return type
 
 Void (empty response body)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **listLocalBusinesses**
+```swift
+    open class func listLocalBusinesses(projectId: Int, page: Int? = nil, perPage: Int? = nil, owned: Bool? = nil, order: Order_listLocalBusinesses? = nil, direction: Direction_listLocalBusinesses? = nil, query: String? = nil, model: Model_listLocalBusinesses? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listLocalBusinesses? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listLocalBusinesses? = nil, completion: @escaping (_ data: LocalBusinessesResponse?, _ error: Error?) -> Void)
+```
+
+List local businesses
+
+Local businesses (shops, restaurants, services) listed inside AI answers, one row per business: its name at its address, so two locations of a chain are two rows. Each row carries its appearance count, the number of prompts that listed it, its average rating and average position in the list, its review count, and whether it is yours or a tracked competitor. Every response also carries a totals block matching the KPI cards in the app. Local business lists come from a subset of models and only for prompts with local intent. Available on every plan.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import LLMPulse
+
+let projectId = 987 // Int | Project ID
+let page = 987 // Int |  (optional) (default to 1)
+let perPage = 987 // Int |  (optional) (default to 20)
+let owned = true // Bool | Return only listings identified as the tracked brand's own locations. The totals block stays account-wide. (optional)
+let order = "order_example" // String | Sort field (optional) (default to .appearances)
+let direction = "direction_example" // String |  (optional) (default to .desc)
+let query = "query_example" // String | Case-insensitive substring filter on the business name or address (optional)
+let model = "model_example" // String | Filter by AI model. Models the API key's user has not enabled are silently dropped. (optional)
+let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+let prompt = 987 // Int | Filter by prompt ID (optional)
+let promptType = "promptType_example" // String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+let brandKind = "brandKind_example" // String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+let range = 987 // Int | Number of days to look back (alternative to from/to) (optional)
+let from = Date() // Date |  (optional)
+let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+let output = "output_example" // String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (optional)
+
+// List local businesses
+ShoppingAdsAPI.listLocalBusinesses(projectId: projectId, page: page, perPage: perPage, owned: owned, order: order, direction: direction, query: query, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, promptType: promptType, brandKind: brandKind, range: range, from: from, to: to, output: output) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **projectId** | **Int** | Project ID | 
+ **page** | **Int** |  | [optional] [default to 1]
+ **perPage** | **Int** |  | [optional] [default to 20]
+ **owned** | **Bool** | Return only listings identified as the tracked brand&#39;s own locations. The totals block stays account-wide. | [optional] 
+ **order** | **String** | Sort field | [optional] [default to .appearances]
+ **direction** | **String** |  | [optional] [default to .desc]
+ **query** | **String** | Case-insensitive substring filter on the business name or address | [optional] 
+ **model** | **String** | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
+ **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
+ **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
+ **prompt** | **Int** | Filter by prompt ID | [optional] 
+ **promptType** | **String** | One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
+ **brandKind** | **String** | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
+ **range** | **Int** | Number of days to look back (alternative to from/to) | [optional] 
+ **from** | **Date** |  | [optional] 
+ **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
+ **output** | **String** | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
+
+### Return type
+
+[**LocalBusinessesResponse**](LocalBusinessesResponse.md)
 
 ### Authorization
 

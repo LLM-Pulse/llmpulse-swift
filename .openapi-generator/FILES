@@ -77,6 +77,9 @@ Sources/LLMPulse/Models/ListWebhooks200Response.swift
 Sources/LLMPulse/Models/ListWebhooks200ResponseDataInner.swift
 Sources/LLMPulse/Models/LlmsTxtTechnicalGeoReport.swift
 Sources/LLMPulse/Models/LlmsTxtTechnicalGeoReportResultData.swift
+Sources/LLMPulse/Models/LocalBusiness.swift
+Sources/LLMPulse/Models/LocalBusinessesResponse.swift
+Sources/LLMPulse/Models/LocalBusinessesTotals.swift
 Sources/LLMPulse/Models/Ping200Response.swift
 Sources/LLMPulse/Models/Project.swift
 Sources/LLMPulse/Models/ProjectCreateRequest.swift
@@ -169,6 +172,9 @@ docs/ListWebhooks200Response.md
 docs/ListWebhooks200ResponseDataInner.md
 docs/LlmsTxtTechnicalGeoReport.md
 docs/LlmsTxtTechnicalGeoReportResultData.md
+docs/LocalBusiness.md
+docs/LocalBusinessesResponse.md
+docs/LocalBusinessesTotals.md
 docs/MentionsCitationsAPI.md
 docs/MetricsAPI.md
 docs/OwnedMediaCommunitiesAPI.md

@@ -173,6 +173,157 @@ open class ShoppingAdsAPI {
     }
 
     /**
+     * enum for parameter order
+     */
+    public enum Order_listLocalBusinesses: String, Sendable, CaseIterable {
+        case appearances = "appearances"
+        case business = "business"
+        case rating = "rating"
+        case reviews = "reviews"
+        case avgPosition = "avg_position"
+        case prompts = "prompts"
+    }
+
+    /**
+     * enum for parameter direction
+     */
+    public enum Direction_listLocalBusinesses: String, Sendable, CaseIterable {
+        case asc = "asc"
+        case desc = "desc"
+    }
+
+    /**
+     * enum for parameter model
+     */
+    public enum Model_listLocalBusinesses: String, Sendable, CaseIterable {
+        case chatgpt = "chatgpt"
+        case perplexity = "perplexity"
+        case gemini = "gemini"
+        case aiOverview = "ai_overview"
+        case aiMode = "ai_mode"
+        case copilot = "copilot"
+        case claude = "claude"
+        case grok = "grok"
+        case deepseek = "deepseek"
+        case metaAi = "meta_ai"
+        case amazonRufus = "amazon_rufus"
+        case naverAi = "naver_ai"
+        case baiduAi = "baidu_ai"
+    }
+
+    /**
+     * enum for parameter brandKind
+     */
+    public enum BrandKind_listLocalBusinesses: String, Sendable, CaseIterable {
+        case brand = "brand"
+        case brandOther = "brand_other"
+        case nonBrand = "non_brand"
+    }
+
+    /**
+     * enum for parameter output
+     */
+    public enum Output_listLocalBusinesses: String, Sendable, CaseIterable {
+        case flat = "flat"
+        case csv = "csv"
+    }
+
+    /**
+     List local businesses
+     
+     - parameter projectId: (query) Project ID 
+     - parameter page: (query)  (optional, default to 1)
+     - parameter perPage: (query)  (optional, default to 20)
+     - parameter owned: (query) Return only listings identified as the tracked brand&#39;s own locations. The totals block stays account-wide. (optional)
+     - parameter order: (query) Sort field (optional, default to .appearances)
+     - parameter direction: (query)  (optional, default to .desc)
+     - parameter query: (query) Case-insensitive substring filter on the business name or address (optional)
+     - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter prompt: (query) Filter by prompt ID (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
+     - parameter from: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: LocalBusinessesResponse
+     */
+    open class func listLocalBusinesses(projectId: Int, page: Int? = nil, perPage: Int? = nil, owned: Bool? = nil, order: Order_listLocalBusinesses? = nil, direction: Direction_listLocalBusinesses? = nil, query: String? = nil, model: Model_listLocalBusinesses? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listLocalBusinesses? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listLocalBusinesses? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> LocalBusinessesResponse {
+        return try await listLocalBusinessesWithRequestBuilder(projectId: projectId, page: page, perPage: perPage, owned: owned, order: order, direction: direction, query: query, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, promptType: promptType, brandKind: brandKind, range: range, from: from, to: to, output: output, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     List local businesses
+     - GET /dimensions/local_businesses
+     - Local businesses (shops, restaurants, services) listed inside AI answers, one row per business: its name at its address, so two locations of a chain are two rows. Each row carries its appearance count, the number of prompts that listed it, its average rating and average position in the list, its review count, and whether it is yours or a tracked competitor. Every response also carries a totals block matching the KPI cards in the app. Local business lists come from a subset of models and only for prompts with local intent. Available on every plan.
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter projectId: (query) Project ID 
+     - parameter page: (query)  (optional, default to 1)
+     - parameter perPage: (query)  (optional, default to 20)
+     - parameter owned: (query) Return only listings identified as the tracked brand&#39;s own locations. The totals block stays account-wide. (optional)
+     - parameter order: (query) Sort field (optional, default to .appearances)
+     - parameter direction: (query)  (optional, default to .desc)
+     - parameter query: (query) Case-insensitive substring filter on the business name or address (optional)
+     - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter prompt: (query) Filter by prompt ID (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
+     - parameter from: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<LocalBusinessesResponse> 
+     */
+    open class func listLocalBusinessesWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, owned: Bool? = nil, order: Order_listLocalBusinesses? = nil, direction: Direction_listLocalBusinesses? = nil, query: String? = nil, model: Model_listLocalBusinesses? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listLocalBusinesses? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listLocalBusinesses? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<LocalBusinessesResponse> {
+        let localVariablePath = "/dimensions/local_businesses"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        let localVariableQueryItems: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
+            "project_id": (wrappedValue: projectId.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "page": (wrappedValue: page?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "per_page": (wrappedValue: perPage?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "owned": (wrappedValue: owned?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "order": (wrappedValue: order?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "direction": (wrappedValue: direction?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "query": (wrappedValue: query?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "model": (wrappedValue: model?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "collection_id": (wrappedValue: collectionId?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "country_code": (wrappedValue: countryCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "language_code": (wrappedValue: languageCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "prompt": (wrappedValue: prompt?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "prompt_type": (wrappedValue: promptType?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "brand_kind": (wrappedValue: brandKind?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "range": (wrappedValue: range?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "from": (wrappedValue: from?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "to": (wrappedValue: to?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "output": (wrappedValue: output?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<LocalBusinessesResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      * enum for parameter view
      */
     public enum View_listShopping: String, Sendable, CaseIterable {
