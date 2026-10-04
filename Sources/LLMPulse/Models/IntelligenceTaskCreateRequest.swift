@@ -15,17 +15,24 @@ public struct IntelligenceTaskCreateRequest: Sendable, Codable, Hashable {
         case update = "update"
         case prInsights = "pr_insights"
         case custom = "custom"
+        case productListing = "product_listing"
     }
+    public static let promptIdsRule = ArrayRule(minItems: nil, maxItems: 20, uniqueItems: false)
     public var projectId: Int
+    /** product_listing is API-only: it needs product and returns ready-to-apply product page copy */
     public var taskType: TaskType
+    /** Not used by product_listing; send null or omit it */
     public var promptId: Int?
     public var customTopic: String?
     public var userInstructions: String?
     public var outputLanguageCode: String?
     public var existingContent: String?
     public var existingContentUrl: String?
+    public var product: IntelligenceTaskProduct?
+    /** product_listing only: up to 20 project prompts the copy should answer */
+    public var promptIds: [Int]?
 
-    public init(projectId: Int, taskType: TaskType, promptId: Int? = nil, customTopic: String? = nil, userInstructions: String? = nil, outputLanguageCode: String? = nil, existingContent: String? = nil, existingContentUrl: String? = nil) {
+    public init(projectId: Int, taskType: TaskType, promptId: Int? = nil, customTopic: String? = nil, userInstructions: String? = nil, outputLanguageCode: String? = nil, existingContent: String? = nil, existingContentUrl: String? = nil, product: IntelligenceTaskProduct? = nil, promptIds: [Int]? = nil) {
         self.projectId = projectId
         self.taskType = taskType
         self.promptId = promptId
@@ -34,6 +41,8 @@ public struct IntelligenceTaskCreateRequest: Sendable, Codable, Hashable {
         self.outputLanguageCode = outputLanguageCode
         self.existingContent = existingContent
         self.existingContentUrl = existingContentUrl
+        self.product = product
+        self.promptIds = promptIds
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -45,6 +54,8 @@ public struct IntelligenceTaskCreateRequest: Sendable, Codable, Hashable {
         case outputLanguageCode = "output_language_code"
         case existingContent = "existing_content"
         case existingContentUrl = "existing_content_url"
+        case product
+        case promptIds = "prompt_ids"
     }
 
     // Encodable protocol methods
@@ -59,6 +70,8 @@ public struct IntelligenceTaskCreateRequest: Sendable, Codable, Hashable {
         try container.encodeIfPresent(outputLanguageCode, forKey: .outputLanguageCode)
         try container.encodeIfPresent(existingContent, forKey: .existingContent)
         try container.encodeIfPresent(existingContentUrl, forKey: .existingContentUrl)
+        try container.encodeIfPresent(product, forKey: .product)
+        try container.encodeIfPresent(promptIds, forKey: .promptIds)
     }
 }
 

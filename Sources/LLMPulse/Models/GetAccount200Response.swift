@@ -13,24 +13,27 @@ public struct GetAccount200Response: Sendable, Codable, Hashable {
         case owner = "owner"
         case member = "member"
     }
-    /** Plan key (starter, growth, scale, ...) */
+    /** Plan key (starter, growth, scale, ...). Absent for a key limited to some projects. */
     public var plan: String?
-    /** Display name of the plan to show people (e.g. Scale++ for the scaleplusplus key) */
+    /** Display name of the plan to show people (e.g. Scale++ for the scaleplusplus key). Absent for a key limited to some projects. */
     public var planName: String?
     /** How often prompts run (weekly, daily, monthly, ...) */
     public var trackingFrequency: String?
     /** Whether the key belongs to the account owner or a team member */
     public var role: Role?
+    /** The projects the calling API key is limited to; null for a key that sees the whole account, and for OAuth */
+    public var apiKeyProjectIds: [Int]?
     public var subscription: GetAccount200ResponseSubscription?
     public var limits: GetAccount200ResponseLimits?
     public var rateLimits: GetAccount200ResponseRateLimits?
     public var requestId: String?
 
-    public init(plan: String? = nil, planName: String? = nil, trackingFrequency: String? = nil, role: Role? = nil, subscription: GetAccount200ResponseSubscription? = nil, limits: GetAccount200ResponseLimits? = nil, rateLimits: GetAccount200ResponseRateLimits? = nil, requestId: String? = nil) {
+    public init(plan: String? = nil, planName: String? = nil, trackingFrequency: String? = nil, role: Role? = nil, apiKeyProjectIds: [Int]? = nil, subscription: GetAccount200ResponseSubscription? = nil, limits: GetAccount200ResponseLimits? = nil, rateLimits: GetAccount200ResponseRateLimits? = nil, requestId: String? = nil) {
         self.plan = plan
         self.planName = planName
         self.trackingFrequency = trackingFrequency
         self.role = role
+        self.apiKeyProjectIds = apiKeyProjectIds
         self.subscription = subscription
         self.limits = limits
         self.rateLimits = rateLimits
@@ -42,6 +45,7 @@ public struct GetAccount200Response: Sendable, Codable, Hashable {
         case planName = "plan_name"
         case trackingFrequency = "tracking_frequency"
         case role
+        case apiKeyProjectIds = "api_key_project_ids"
         case subscription
         case limits
         case rateLimits = "rate_limits"
@@ -56,6 +60,7 @@ public struct GetAccount200Response: Sendable, Codable, Hashable {
         try container.encodeIfPresent(planName, forKey: .planName)
         try container.encodeIfPresent(trackingFrequency, forKey: .trackingFrequency)
         try container.encodeIfPresent(role, forKey: .role)
+        try container.encodeIfPresent(apiKeyProjectIds, forKey: .apiKeyProjectIds)
         try container.encodeIfPresent(subscription, forKey: .subscription)
         try container.encodeIfPresent(limits, forKey: .limits)
         try container.encodeIfPresent(rateLimits, forKey: .rateLimits)

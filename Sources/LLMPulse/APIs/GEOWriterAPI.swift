@@ -23,6 +23,7 @@ open class GEOWriterAPI {
     /**
      Create a GEO Writer task
      - POST /intelligence_tasks
+     - Creates a GEO Writer task, processed asynchronously: poll GET /intelligence_tasks/{id} until status is completed. Prompt-based mode takes prompt_id; agentic mode takes custom_topic and/or user_instructions. task_type product_listing is API-only and serves store apps: send a product object (title required) and optionally prompt_ids, and the completed result_data holds ready-to-apply product page copy. Edit and revert it with PATCH /intelligence_tasks/{id} and POST /intelligence_tasks/{id}/revert. Requires a `read_write` scope API key.
      - Bearer Token:
        - type: http
        - name: BearerAuth
@@ -105,6 +106,7 @@ open class GEOWriterAPI {
         case update = "update"
         case prInsights = "pr_insights"
         case custom = "custom"
+        case productListing = "product_listing"
     }
 
     /**

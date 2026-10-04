@@ -22,7 +22,7 @@ public struct IntelligenceTask: Sendable, Codable, Hashable {
     public var userInstructions: String?
     public var outputLanguageCode: String?
     public var wordCount: Int?
-    /** The generated content once status is completed; null before that */
+    /** The generated content once status is completed; null before that. A product_listing task returns title, summary, description_html (p, ul, ol, li, strong, em, h3 and br only), faq (question and answer pairs), seo_title, seo_description, image_alts (image_id and alt), changes (field and reason) and labels */
     public var resultData: JSONValue?
     public var errorMessage: String?
     public var estimatedTime: String?
