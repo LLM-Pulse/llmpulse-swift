@@ -115,7 +115,7 @@ Void (empty response body)
 
 # **listPromptExecutions**
 ```swift
-    open class func listPromptExecutions(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listPromptExecutions? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, mentionFilter: MentionFilter_listPromptExecutions? = nil, citationFilter: CitationFilter_listPromptExecutions? = nil, competitors: String? = nil, output: Output_listPromptExecutions? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listPromptExecutions(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listPromptExecutions? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, mentionFilter: MentionFilter_listPromptExecutions? = nil, citationFilter: CitationFilter_listPromptExecutions? = nil, competitors: String? = nil, output: Output_listPromptExecutions? = nil, completion: @escaping (_ data: PromptExecutionsResponse?, _ error: Error?) -> Void)
 ```
 
 List prompt executions
@@ -174,7 +174,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**PromptExecutionsResponse**](PromptExecutionsResponse.md)
 
 ### Authorization
 
@@ -183,13 +183,13 @@ Void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **listPrompts**
 ```swift
-    open class func listPrompts(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listPrompts? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listPrompts? = nil, from: Date? = nil, to: Date? = nil, output: Output_listPrompts? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listPrompts(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listPrompts? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listPrompts? = nil, from: Date? = nil, to: Date? = nil, output: Output_listPrompts? = nil, completion: @escaping (_ data: PromptsResponse?, _ error: Error?) -> Void)
 ```
 
 List prompts
@@ -244,7 +244,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**PromptsResponse**](PromptsResponse.md)
 
 ### Authorization
 
@@ -253,7 +253,7 @@ Void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

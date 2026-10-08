@@ -150,7 +150,7 @@ Void (empty response body)
 
 # **listCitations**
 ```swift
-    open class func listCitations(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listCitations? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCitations? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listCitations(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listCitations? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCitations? = nil, completion: @escaping (_ data: CitationsResponse?, _ error: Error?) -> Void)
 ```
 
 List brand citations
@@ -205,7 +205,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**CitationsResponse**](CitationsResponse.md)
 
 ### Authorization
 
@@ -214,7 +214,7 @@ Void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -288,7 +288,7 @@ Void (empty response body)
 
 # **listCompetitorMentions**
 ```swift
-    open class func listCompetitorMentions(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listCompetitorMentions? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCompetitorMentions? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listCompetitorMentions(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listCompetitorMentions? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCompetitorMentions? = nil, completion: @escaping (_ data: CompetitorMentionsResponse?, _ error: Error?) -> Void)
 ```
 
 List competitor mentions
@@ -339,7 +339,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**CompetitorMentionsResponse**](CompetitorMentionsResponse.md)
 
 ### Authorization
 
@@ -348,13 +348,13 @@ Void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **listMentions**
 ```swift
-    open class func listMentions(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listMentions? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listMentions? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listMentions(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listMentions? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listMentions? = nil, completion: @escaping (_ data: MentionsResponse?, _ error: Error?) -> Void)
 ```
 
 List brand mentions
@@ -407,7 +407,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**MentionsResponse**](MentionsResponse.md)
 
 ### Authorization
 
@@ -416,7 +416,7 @@ Void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

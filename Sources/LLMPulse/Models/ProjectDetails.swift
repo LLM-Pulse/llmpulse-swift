@@ -33,8 +33,10 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
     public var appStoreId: String?
     public var createdAt: Date?
     public var stats: ProjectDetailsAllOfStats?
+    public var dataCoverage: ProjectDetailsAllOfDataCoverage?
+    public var requestId: String?
 
-    public init(id: Int? = nil, name: String? = nil, brandName: String? = nil, url: String? = nil, description: String? = nil, matchingNames: [String]? = nil, industry: JSONValue? = nil, businessModel: String? = nil, businessModelOther: String? = nil, primaryProducts: [String]? = nil, targetAudience: String? = nil, brandVoice: String? = nil, goals: String? = nil, countryCode: String? = nil, languageCode: String? = nil, paused: Bool? = nil, googlePlayId: String? = nil, appStoreId: String? = nil, createdAt: Date? = nil, stats: ProjectDetailsAllOfStats? = nil) {
+    public init(id: Int? = nil, name: String? = nil, brandName: String? = nil, url: String? = nil, description: String? = nil, matchingNames: [String]? = nil, industry: JSONValue? = nil, businessModel: String? = nil, businessModelOther: String? = nil, primaryProducts: [String]? = nil, targetAudience: String? = nil, brandVoice: String? = nil, goals: String? = nil, countryCode: String? = nil, languageCode: String? = nil, paused: Bool? = nil, googlePlayId: String? = nil, appStoreId: String? = nil, createdAt: Date? = nil, stats: ProjectDetailsAllOfStats? = nil, dataCoverage: ProjectDetailsAllOfDataCoverage? = nil, requestId: String? = nil) {
         self.id = id
         self.name = name
         self.brandName = brandName
@@ -55,6 +57,8 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
         self.appStoreId = appStoreId
         self.createdAt = createdAt
         self.stats = stats
+        self.dataCoverage = dataCoverage
+        self.requestId = requestId
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -78,6 +82,8 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
         case appStoreId = "app_store_id"
         case createdAt = "created_at"
         case stats
+        case dataCoverage = "data_coverage"
+        case requestId = "request_id"
     }
 
     // Encodable protocol methods
@@ -104,6 +110,8 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
         try container.encodeIfPresent(appStoreId, forKey: .appStoreId)
         try container.encodeIfPresent(createdAt, forKey: .createdAt)
         try container.encodeIfPresent(stats, forKey: .stats)
+        try container.encodeIfPresent(dataCoverage, forKey: .dataCoverage)
+        try container.encodeIfPresent(requestId, forKey: .requestId)
     }
 }
 

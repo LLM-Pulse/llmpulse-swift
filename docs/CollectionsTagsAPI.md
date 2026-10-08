@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 # **assignPromptTags**
 ```swift
-    open class func assignPromptTags(assignPromptTagsRequest: AssignPromptTagsRequest, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func assignPromptTags(assignPromptTagsRequest: AssignPromptTagsRequest, completion: @escaping (_ data: PromptTagsAssignResponse?, _ error: Error?) -> Void)
 ```
 
 Bulk-attach tags to prompts
@@ -49,7 +49,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**PromptTagsAssignResponse**](PromptTagsAssignResponse.md)
 
 ### Authorization
 
@@ -64,7 +64,7 @@ Void (empty response body)
 
 # **createCollection**
 ```swift
-    open class func createCollection(createCollectionRequest: CreateCollectionRequest, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func createCollection(createCollectionRequest: CreateCollectionRequest, completion: @escaping (_ data: CollectionCreateResponse?, _ error: Error?) -> Void)
 ```
 
 Create a tag
@@ -99,7 +99,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**CollectionCreateResponse**](CollectionCreateResponse.md)
 
 ### Authorization
 
@@ -166,7 +166,7 @@ Void (empty response body)
 
 # **listCollections**
 ```swift
-    open class func listCollections(projectId: Int, output: Output_listCollections? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listCollections(projectId: Int, output: Output_listCollections? = nil, completion: @escaping (_ data: CollectionsResponse?, _ error: Error?) -> Void)
 ```
 
 List tags/collections
@@ -201,7 +201,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**CollectionsResponse**](CollectionsResponse.md)
 
 ### Authorization
 
@@ -210,13 +210,13 @@ Void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **listTags**
 ```swift
-    open class func listTags(projectId: Int, output: Output_listTags? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listTags(projectId: Int, output: Output_listTags? = nil, completion: @escaping (_ data: CollectionsResponse?, _ error: Error?) -> Void)
 ```
 
 List tags (alias for /collections)
@@ -251,7 +251,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**CollectionsResponse**](CollectionsResponse.md)
 
 ### Authorization
 
@@ -260,7 +260,7 @@ Void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -14,9 +14,9 @@ open class AnnotationsAPI {
      
      - parameter createAnnotationRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: AnnotationCreateResponse
      */
-    open class func createAnnotation(createAnnotationRequest: CreateAnnotationRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func createAnnotation(createAnnotationRequest: CreateAnnotationRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> AnnotationCreateResponse {
         return try await createAnnotationWithRequestBuilder(createAnnotationRequest: createAnnotationRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -29,9 +29,9 @@ open class AnnotationsAPI {
        - name: BearerAuth
      - parameter createAnnotationRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<AnnotationCreateResponse> 
      */
-    open class func createAnnotationWithRequestBuilder(createAnnotationRequest: CreateAnnotationRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func createAnnotationWithRequestBuilder(createAnnotationRequest: CreateAnnotationRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<AnnotationCreateResponse> {
         let localVariablePath = "/annotations"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: createAnnotationRequest, codableHelper: apiConfiguration.codableHelper)
@@ -44,7 +44,7 @@ open class AnnotationsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<AnnotationCreateResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

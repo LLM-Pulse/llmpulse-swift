@@ -270,7 +270,7 @@ Void (empty response body)
 
 # **listLocales**
 ```swift
-    open class func listLocales(projectId: Int, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listLocales(projectId: Int, completion: @escaping (_ data: LocalesResponse?, _ error: Error?) -> Void)
 ```
 
 List locales with data
@@ -303,7 +303,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**LocalesResponse**](LocalesResponse.md)
 
 ### Authorization
 
@@ -312,13 +312,13 @@ Void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **listModels**
 ```swift
-    open class func listModels(projectId: Int, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listModels(projectId: Int, completion: @escaping (_ data: ModelsResponse?, _ error: Error?) -> Void)
 ```
 
 List models with data
@@ -351,7 +351,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**ModelsResponse**](ModelsResponse.md)
 
 ### Authorization
 
@@ -360,7 +360,7 @@ Void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

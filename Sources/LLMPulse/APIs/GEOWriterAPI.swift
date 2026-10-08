@@ -118,9 +118,9 @@ open class GEOWriterAPI {
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: IntelligenceTasksResponse
      */
-    open class func listIntelligenceTasks(projectId: Int, taskType: TaskType_listIntelligenceTasks? = nil, status: String? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listIntelligenceTasks(projectId: Int, taskType: TaskType_listIntelligenceTasks? = nil, status: String? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> IntelligenceTasksResponse {
         return try await listIntelligenceTasksWithRequestBuilder(projectId: projectId, taskType: taskType, status: status, page: page, perPage: perPage, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -136,9 +136,9 @@ open class GEOWriterAPI {
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<IntelligenceTasksResponse> 
      */
-    open class func listIntelligenceTasksWithRequestBuilder(projectId: Int, taskType: TaskType_listIntelligenceTasks? = nil, status: String? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listIntelligenceTasksWithRequestBuilder(projectId: Int, taskType: TaskType_listIntelligenceTasks? = nil, status: String? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<IntelligenceTasksResponse> {
         let localVariablePath = "/intelligence_tasks"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -159,7 +159,7 @@ open class GEOWriterAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<IntelligenceTasksResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

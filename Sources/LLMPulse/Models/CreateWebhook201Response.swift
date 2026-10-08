@@ -18,6 +18,8 @@ public struct CreateWebhook201Response: Sendable, Codable, Hashable {
         case recommendationPeriodCompleted = "recommendation.completed"
         case intelligenceTaskPeriodCompleted = "intelligence_task.completed"
         case intelligenceTaskPeriodUpdated = "intelligence_task.updated"
+        case geoAuditRunPeriodCompleted = "geo_audit_run.completed"
+        case geoAuditAlertPeriodTriggered = "geo_audit_alert.triggered"
     }
     public var id: Int?
     public var projectId: Int?
@@ -29,8 +31,9 @@ public struct CreateWebhook201Response: Sendable, Codable, Hashable {
     public var createdAt: Date?
     /** HMAC signing secret (whsec_...). Only returned on create. */
     public var secret: String?
+    public var requestId: String?
 
-    public init(id: Int? = nil, projectId: Int? = nil, eventType: EventType? = nil, targetUrl: String? = nil, disabled: Bool? = nil, failureCount: Int? = nil, lastDeliveredAt: Date? = nil, createdAt: Date? = nil, secret: String? = nil) {
+    public init(id: Int? = nil, projectId: Int? = nil, eventType: EventType? = nil, targetUrl: String? = nil, disabled: Bool? = nil, failureCount: Int? = nil, lastDeliveredAt: Date? = nil, createdAt: Date? = nil, secret: String? = nil, requestId: String? = nil) {
         self.id = id
         self.projectId = projectId
         self.eventType = eventType
@@ -40,6 +43,7 @@ public struct CreateWebhook201Response: Sendable, Codable, Hashable {
         self.lastDeliveredAt = lastDeliveredAt
         self.createdAt = createdAt
         self.secret = secret
+        self.requestId = requestId
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -52,6 +56,7 @@ public struct CreateWebhook201Response: Sendable, Codable, Hashable {
         case lastDeliveredAt = "last_delivered_at"
         case createdAt = "created_at"
         case secret
+        case requestId = "request_id"
     }
 
     // Encodable protocol methods
@@ -67,6 +72,7 @@ public struct CreateWebhook201Response: Sendable, Codable, Hashable {
         try container.encodeIfPresent(lastDeliveredAt, forKey: .lastDeliveredAt)
         try container.encodeIfPresent(createdAt, forKey: .createdAt)
         try container.encodeIfPresent(secret, forKey: .secret)
+        try container.encodeIfPresent(requestId, forKey: .requestId)
     }
 }
 

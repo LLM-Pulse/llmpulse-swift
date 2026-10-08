@@ -4,7 +4,9 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **actor** | [**Actor**](Actor.md) |  | [optional] 
+**metric** | **String** |  | [optional] 
 **total** | **Double** |  | [optional] 
+**aggregation** | **String** | How total combines the buckets | [optional] 
 **min** | **Double** |  | [optional] 
 **max** | **Double** |  | [optional] 
 **last** | **Double** |  | [optional] 

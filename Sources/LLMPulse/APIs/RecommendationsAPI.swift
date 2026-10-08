@@ -141,9 +141,9 @@ open class RecommendationsAPI {
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: RecommendationsResponse
      */
-    open class func listRecommendations(projectId: Int, recommendationType: RecommendationType_listRecommendations? = nil, status: Status_listRecommendations? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listRecommendations(projectId: Int, recommendationType: RecommendationType_listRecommendations? = nil, status: Status_listRecommendations? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> RecommendationsResponse {
         return try await listRecommendationsWithRequestBuilder(projectId: projectId, recommendationType: recommendationType, status: status, page: page, perPage: perPage, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -159,9 +159,9 @@ open class RecommendationsAPI {
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<RecommendationsResponse> 
      */
-    open class func listRecommendationsWithRequestBuilder(projectId: Int, recommendationType: RecommendationType_listRecommendations? = nil, status: Status_listRecommendations? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listRecommendationsWithRequestBuilder(projectId: Int, recommendationType: RecommendationType_listRecommendations? = nil, status: Status_listRecommendations? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<RecommendationsResponse> {
         let localVariablePath = "/recommendations"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -182,7 +182,7 @@ open class RecommendationsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<RecommendationsResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

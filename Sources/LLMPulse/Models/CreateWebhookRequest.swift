@@ -18,6 +18,8 @@ public struct CreateWebhookRequest: Sendable, Codable, Hashable {
         case recommendationPeriodCompleted = "recommendation.completed"
         case intelligenceTaskPeriodCompleted = "intelligence_task.completed"
         case intelligenceTaskPeriodUpdated = "intelligence_task.updated"
+        case geoAuditRunPeriodCompleted = "geo_audit_run.completed"
+        case geoAuditAlertPeriodTriggered = "geo_audit_alert.triggered"
     }
     public var projectId: Int
     public var eventType: EventType

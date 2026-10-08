@@ -10,32 +10,49 @@ import Foundation
 public struct SovResponse: Sendable, Codable, Hashable {
 
     public var projectId: Int?
+    public var from: Date?
+    public var to: Date?
+    /** day, week or month */
+    public var granularity: String?
+    public var filters: MetricsFiltersEcho?
     /** Per-bucket sample size and completeness: mentions is the total the shares were computed on (1-3 mentions produce the 100/50/33.33 low-sample patterns); partial marks buckets still collecting data or clipped by the requested window; confidence and margin_of_error read the sample size. */
     public var periods: [SovResponsePeriodsInner]?
     public var sample: SovResponseSample?
     public var overTime: [SovResponseOverTimeInner]?
     public var current: [SovResponseCurrentInner]?
     public var breakdown: [SovResponseBreakdownInner]?
-    public var others: [JSONValue]?
+    /** Actors ranked fifth and below, folded into the Others share of breakdown */
+    public var others: [SovResponseOthersInner]?
+    public var requestId: String?
 
-    public init(projectId: Int? = nil, periods: [SovResponsePeriodsInner]? = nil, sample: SovResponseSample? = nil, overTime: [SovResponseOverTimeInner]? = nil, current: [SovResponseCurrentInner]? = nil, breakdown: [SovResponseBreakdownInner]? = nil, others: [JSONValue]? = nil) {
+    public init(projectId: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: String? = nil, filters: MetricsFiltersEcho? = nil, periods: [SovResponsePeriodsInner]? = nil, sample: SovResponseSample? = nil, overTime: [SovResponseOverTimeInner]? = nil, current: [SovResponseCurrentInner]? = nil, breakdown: [SovResponseBreakdownInner]? = nil, others: [SovResponseOthersInner]? = nil, requestId: String? = nil) {
         self.projectId = projectId
+        self.from = from
+        self.to = to
+        self.granularity = granularity
+        self.filters = filters
         self.periods = periods
         self.sample = sample
         self.overTime = overTime
         self.current = current
         self.breakdown = breakdown
         self.others = others
+        self.requestId = requestId
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case projectId = "project_id"
+        case from
+        case to
+        case granularity
+        case filters
         case periods
         case sample
         case overTime = "over_time"
         case current
         case breakdown
         case others
+        case requestId = "request_id"
     }
 
     // Encodable protocol methods
@@ -43,12 +60,17 @@ public struct SovResponse: Sendable, Codable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(projectId, forKey: .projectId)
+        try container.encodeIfPresent(from, forKey: .from)
+        try container.encodeIfPresent(to, forKey: .to)
+        try container.encodeIfPresent(granularity, forKey: .granularity)
+        try container.encodeIfPresent(filters, forKey: .filters)
         try container.encodeIfPresent(periods, forKey: .periods)
         try container.encodeIfPresent(sample, forKey: .sample)
         try container.encodeIfPresent(overTime, forKey: .overTime)
         try container.encodeIfPresent(current, forKey: .current)
         try container.encodeIfPresent(breakdown, forKey: .breakdown)
         try container.encodeIfPresent(others, forKey: .others)
+        try container.encodeIfPresent(requestId, forKey: .requestId)
     }
 }
 

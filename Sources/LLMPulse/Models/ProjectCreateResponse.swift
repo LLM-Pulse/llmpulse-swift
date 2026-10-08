@@ -9,6 +9,8 @@ import Foundation
 
 public struct ProjectCreateResponse: Sendable, Codable, Hashable {
 
+    /** The finalized draft; only present on POST /project_drafts/{id}/finalize */
+    public var draftId: String?
     /** Same shape as GET /dimensions/projects/{id} */
     public var project: JSONValue?
     public var prompts: ProjectCreateResponsePrompts?
@@ -23,7 +25,8 @@ public struct ProjectCreateResponse: Sendable, Codable, Hashable {
     public var idempotent: Bool?
     public var requestId: String?
 
-    public init(project: JSONValue? = nil, prompts: ProjectCreateResponsePrompts? = nil, competitors: ProjectCreateResponseCompetitors? = nil, collections: [ProjectCreateResponseCollectionsInner]? = nil, sameDomainProjects: [ProjectCreateResponseSameDomainProjectsInner]? = nil, emailSubscription: ProjectCreateResponseEmailSubscription? = nil, limits: ProjectCreateResponseLimits? = nil, idempotent: Bool? = nil, requestId: String? = nil) {
+    public init(draftId: String? = nil, project: JSONValue? = nil, prompts: ProjectCreateResponsePrompts? = nil, competitors: ProjectCreateResponseCompetitors? = nil, collections: [ProjectCreateResponseCollectionsInner]? = nil, sameDomainProjects: [ProjectCreateResponseSameDomainProjectsInner]? = nil, emailSubscription: ProjectCreateResponseEmailSubscription? = nil, limits: ProjectCreateResponseLimits? = nil, idempotent: Bool? = nil, requestId: String? = nil) {
+        self.draftId = draftId
         self.project = project
         self.prompts = prompts
         self.competitors = competitors
@@ -36,6 +39,7 @@ public struct ProjectCreateResponse: Sendable, Codable, Hashable {
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case draftId = "draft_id"
         case project
         case prompts
         case competitors
@@ -51,6 +55,7 @@ public struct ProjectCreateResponse: Sendable, Codable, Hashable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(draftId, forKey: .draftId)
         try container.encodeIfPresent(project, forKey: .project)
         try container.encodeIfPresent(prompts, forKey: .prompts)
         try container.encodeIfPresent(competitors, forKey: .competitors)

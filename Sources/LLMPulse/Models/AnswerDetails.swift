@@ -20,6 +20,8 @@ public struct AnswerDetails: Sendable, Codable, Hashable {
     public var durationMs: Double?
     /** Null while the answer is still pending */
     public var success: Bool?
+    /** True for a sentinel non-answer (the provider returned nothing after retries); excluded from platform metrics */
+    public var noResult: Bool?
     public var fanOutQueries: [String]?
     public var mentions: [JSONValue]?
     public var citations: [JSONValue]?
@@ -33,8 +35,9 @@ public struct AnswerDetails: Sendable, Codable, Hashable {
     public var locale: AnswerDetailsLocale?
     /** Opens this answer in the app. The link names its project, so it opens there for any user with access to that project */
     public var appUrl: String?
+    public var requestId: String?
 
-    public init(id: Int? = nil, promptId: Int? = nil, promptText: String? = nil, model: String? = nil, response: String? = nil, responseTruncated: Bool? = nil, executedAt: Date? = nil, durationMs: Double? = nil, success: Bool? = nil, fanOutQueries: [String]? = nil, mentions: [JSONValue]? = nil, citations: [JSONValue]? = nil, competitorMentions: [JSONValue]? = nil, competitorCitations: [JSONValue]? = nil, sentiments: [JSONValue]? = nil, sources: [JSONValue]? = nil, shoppingProducts: [JSONValue]? = nil, brandEntities: [JSONValue]? = nil, localBusinesses: [JSONValue]? = nil, locale: AnswerDetailsLocale? = nil, appUrl: String? = nil) {
+    public init(id: Int? = nil, promptId: Int? = nil, promptText: String? = nil, model: String? = nil, response: String? = nil, responseTruncated: Bool? = nil, executedAt: Date? = nil, durationMs: Double? = nil, success: Bool? = nil, noResult: Bool? = nil, fanOutQueries: [String]? = nil, mentions: [JSONValue]? = nil, citations: [JSONValue]? = nil, competitorMentions: [JSONValue]? = nil, competitorCitations: [JSONValue]? = nil, sentiments: [JSONValue]? = nil, sources: [JSONValue]? = nil, shoppingProducts: [JSONValue]? = nil, brandEntities: [JSONValue]? = nil, localBusinesses: [JSONValue]? = nil, locale: AnswerDetailsLocale? = nil, appUrl: String? = nil, requestId: String? = nil) {
         self.id = id
         self.promptId = promptId
         self.promptText = promptText
@@ -44,6 +47,7 @@ public struct AnswerDetails: Sendable, Codable, Hashable {
         self.executedAt = executedAt
         self.durationMs = durationMs
         self.success = success
+        self.noResult = noResult
         self.fanOutQueries = fanOutQueries
         self.mentions = mentions
         self.citations = citations
@@ -56,6 +60,7 @@ public struct AnswerDetails: Sendable, Codable, Hashable {
         self.localBusinesses = localBusinesses
         self.locale = locale
         self.appUrl = appUrl
+        self.requestId = requestId
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -68,6 +73,7 @@ public struct AnswerDetails: Sendable, Codable, Hashable {
         case executedAt = "executed_at"
         case durationMs = "duration_ms"
         case success
+        case noResult = "no_result"
         case fanOutQueries = "fan_out_queries"
         case mentions
         case citations
@@ -80,6 +86,7 @@ public struct AnswerDetails: Sendable, Codable, Hashable {
         case localBusinesses = "local_businesses"
         case locale
         case appUrl = "app_url"
+        case requestId = "request_id"
     }
 
     // Encodable protocol methods
@@ -95,6 +102,7 @@ public struct AnswerDetails: Sendable, Codable, Hashable {
         try container.encodeIfPresent(executedAt, forKey: .executedAt)
         try container.encodeIfPresent(durationMs, forKey: .durationMs)
         try container.encodeIfPresent(success, forKey: .success)
+        try container.encodeIfPresent(noResult, forKey: .noResult)
         try container.encodeIfPresent(fanOutQueries, forKey: .fanOutQueries)
         try container.encodeIfPresent(mentions, forKey: .mentions)
         try container.encodeIfPresent(citations, forKey: .citations)
@@ -107,6 +115,7 @@ public struct AnswerDetails: Sendable, Codable, Hashable {
         try container.encodeIfPresent(localBusinesses, forKey: .localBusinesses)
         try container.encodeIfPresent(locale, forKey: .locale)
         try container.encodeIfPresent(appUrl, forKey: .appUrl)
+        try container.encodeIfPresent(requestId, forKey: .requestId)
     }
 }
 

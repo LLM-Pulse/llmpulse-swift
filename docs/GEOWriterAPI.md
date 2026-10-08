@@ -113,7 +113,7 @@ Name | Type | Description  | Notes
 
 # **listIntelligenceTasks**
 ```swift
-    open class func listIntelligenceTasks(projectId: Int, taskType: TaskType_listIntelligenceTasks? = nil, status: String? = nil, page: Int? = nil, perPage: Int? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listIntelligenceTasks(projectId: Int, taskType: TaskType_listIntelligenceTasks? = nil, status: String? = nil, page: Int? = nil, perPage: Int? = nil, completion: @escaping (_ data: IntelligenceTasksResponse?, _ error: Error?) -> Void)
 ```
 
 List GEO Writer tasks
@@ -154,7 +154,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**IntelligenceTasksResponse**](IntelligenceTasksResponse.md)
 
 ### Authorization
 
@@ -163,7 +163,7 @@ Void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

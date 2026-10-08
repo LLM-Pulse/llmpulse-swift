@@ -9,15 +9,24 @@ import Foundation
 
 public struct SummaryResponseAllOfSummaryValueInner: Sendable, Codable, Hashable {
 
+    public enum Aggregation: String, Sendable, Codable, CaseIterable {
+        case sum = "sum"
+        case average = "average"
+    }
     public var actor: Actor?
+    public var metric: String?
     public var total: Double?
+    /** How total combines the buckets */
+    public var aggregation: Aggregation?
     public var min: Double?
     public var max: Double?
     public var last: Double?
 
-    public init(actor: Actor? = nil, total: Double? = nil, min: Double? = nil, max: Double? = nil, last: Double? = nil) {
+    public init(actor: Actor? = nil, metric: String? = nil, total: Double? = nil, aggregation: Aggregation? = nil, min: Double? = nil, max: Double? = nil, last: Double? = nil) {
         self.actor = actor
+        self.metric = metric
         self.total = total
+        self.aggregation = aggregation
         self.min = min
         self.max = max
         self.last = last
@@ -25,7 +34,9 @@ public struct SummaryResponseAllOfSummaryValueInner: Sendable, Codable, Hashable
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case actor
+        case metric
         case total
+        case aggregation
         case min
         case max
         case last
@@ -36,7 +47,9 @@ public struct SummaryResponseAllOfSummaryValueInner: Sendable, Codable, Hashable
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(actor, forKey: .actor)
+        try container.encodeIfPresent(metric, forKey: .metric)
         try container.encodeIfPresent(total, forKey: .total)
+        try container.encodeIfPresent(aggregation, forKey: .aggregation)
         try container.encodeIfPresent(min, forKey: .min)
         try container.encodeIfPresent(max, forKey: .max)
         try container.encodeIfPresent(last, forKey: .last)

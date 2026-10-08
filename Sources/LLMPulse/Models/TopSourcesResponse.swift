@@ -12,32 +12,38 @@ public struct TopSourcesResponse: Sendable, Codable, Hashable {
     public var projectId: Int?
     public var from: Date?
     public var to: Date?
+    public var filters: MetricsFiltersEcho?
     public var sort: String?
     public var page: Int?
     public var perPage: Int?
     public var total: Int?
     public var data: [TopSourcesResponseDataInner]?
+    public var requestId: String?
 
-    public init(projectId: Int? = nil, from: Date? = nil, to: Date? = nil, sort: String? = nil, page: Int? = nil, perPage: Int? = nil, total: Int? = nil, data: [TopSourcesResponseDataInner]? = nil) {
+    public init(projectId: Int? = nil, from: Date? = nil, to: Date? = nil, filters: MetricsFiltersEcho? = nil, sort: String? = nil, page: Int? = nil, perPage: Int? = nil, total: Int? = nil, data: [TopSourcesResponseDataInner]? = nil, requestId: String? = nil) {
         self.projectId = projectId
         self.from = from
         self.to = to
+        self.filters = filters
         self.sort = sort
         self.page = page
         self.perPage = perPage
         self.total = total
         self.data = data
+        self.requestId = requestId
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case projectId = "project_id"
         case from
         case to
+        case filters
         case sort
         case page
         case perPage = "per_page"
         case total
         case data
+        case requestId = "request_id"
     }
 
     // Encodable protocol methods
@@ -47,11 +53,13 @@ public struct TopSourcesResponse: Sendable, Codable, Hashable {
         try container.encodeIfPresent(projectId, forKey: .projectId)
         try container.encodeIfPresent(from, forKey: .from)
         try container.encodeIfPresent(to, forKey: .to)
+        try container.encodeIfPresent(filters, forKey: .filters)
         try container.encodeIfPresent(sort, forKey: .sort)
         try container.encodeIfPresent(page, forKey: .page)
         try container.encodeIfPresent(perPage, forKey: .perPage)
         try container.encodeIfPresent(total, forKey: .total)
         try container.encodeIfPresent(data, forKey: .data)
+        try container.encodeIfPresent(requestId, forKey: .requestId)
     }
 }
 

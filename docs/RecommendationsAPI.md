@@ -115,7 +115,7 @@ Void (empty response body)
 
 # **listRecommendations**
 ```swift
-    open class func listRecommendations(projectId: Int, recommendationType: RecommendationType_listRecommendations? = nil, status: Status_listRecommendations? = nil, page: Int? = nil, perPage: Int? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listRecommendations(projectId: Int, recommendationType: RecommendationType_listRecommendations? = nil, status: Status_listRecommendations? = nil, page: Int? = nil, perPage: Int? = nil, completion: @escaping (_ data: RecommendationsResponse?, _ error: Error?) -> Void)
 ```
 
 List recommendation runs
@@ -156,7 +156,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**RecommendationsResponse**](RecommendationsResponse.md)
 
 ### Authorization
 
@@ -165,7 +165,7 @@ Void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

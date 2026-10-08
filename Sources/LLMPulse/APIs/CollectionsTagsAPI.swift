@@ -14,9 +14,9 @@ open class CollectionsTagsAPI {
      
      - parameter assignPromptTagsRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: PromptTagsAssignResponse
      */
-    open class func assignPromptTags(assignPromptTagsRequest: AssignPromptTagsRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func assignPromptTags(assignPromptTagsRequest: AssignPromptTagsRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> PromptTagsAssignResponse {
         return try await assignPromptTagsWithRequestBuilder(assignPromptTagsRequest: assignPromptTagsRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -29,9 +29,9 @@ open class CollectionsTagsAPI {
        - name: BearerAuth
      - parameter assignPromptTagsRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<PromptTagsAssignResponse> 
      */
-    open class func assignPromptTagsWithRequestBuilder(assignPromptTagsRequest: AssignPromptTagsRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func assignPromptTagsWithRequestBuilder(assignPromptTagsRequest: AssignPromptTagsRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<PromptTagsAssignResponse> {
         let localVariablePath = "/prompts/assign_tags"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: assignPromptTagsRequest, codableHelper: apiConfiguration.codableHelper)
@@ -44,7 +44,7 @@ open class CollectionsTagsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<PromptTagsAssignResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -54,9 +54,9 @@ open class CollectionsTagsAPI {
      
      - parameter createCollectionRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: CollectionCreateResponse
      */
-    open class func createCollection(createCollectionRequest: CreateCollectionRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func createCollection(createCollectionRequest: CreateCollectionRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> CollectionCreateResponse {
         return try await createCollectionWithRequestBuilder(createCollectionRequest: createCollectionRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -69,9 +69,9 @@ open class CollectionsTagsAPI {
        - name: BearerAuth
      - parameter createCollectionRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<CollectionCreateResponse> 
      */
-    open class func createCollectionWithRequestBuilder(createCollectionRequest: CreateCollectionRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func createCollectionWithRequestBuilder(createCollectionRequest: CreateCollectionRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<CollectionCreateResponse> {
         let localVariablePath = "/collections"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: createCollectionRequest, codableHelper: apiConfiguration.codableHelper)
@@ -84,7 +84,7 @@ open class CollectionsTagsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CollectionCreateResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -152,9 +152,9 @@ open class CollectionsTagsAPI {
      - parameter projectId: (query) Project ID 
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: CollectionsResponse
      */
-    open class func listCollections(projectId: Int, output: Output_listCollections? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listCollections(projectId: Int, output: Output_listCollections? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> CollectionsResponse {
         return try await listCollectionsWithRequestBuilder(projectId: projectId, output: output, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -167,9 +167,9 @@ open class CollectionsTagsAPI {
      - parameter projectId: (query) Project ID 
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<CollectionsResponse> 
      */
-    open class func listCollectionsWithRequestBuilder(projectId: Int, output: Output_listCollections? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listCollectionsWithRequestBuilder(projectId: Int, output: Output_listCollections? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<CollectionsResponse> {
         let localVariablePath = "/dimensions/collections"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -187,7 +187,7 @@ open class CollectionsTagsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CollectionsResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -206,9 +206,9 @@ open class CollectionsTagsAPI {
      - parameter projectId: (query) Project ID 
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: CollectionsResponse
      */
-    open class func listTags(projectId: Int, output: Output_listTags? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listTags(projectId: Int, output: Output_listTags? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> CollectionsResponse {
         return try await listTagsWithRequestBuilder(projectId: projectId, output: output, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -221,9 +221,9 @@ open class CollectionsTagsAPI {
      - parameter projectId: (query) Project ID 
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<CollectionsResponse> 
      */
-    open class func listTagsWithRequestBuilder(projectId: Int, output: Output_listTags? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listTagsWithRequestBuilder(projectId: Int, output: Output_listTags? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<CollectionsResponse> {
         let localVariablePath = "/dimensions/tags"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -241,7 +241,7 @@ open class CollectionsTagsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CollectionsResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

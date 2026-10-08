@@ -11,15 +11,18 @@ public struct ListCompetitors200Response: Sendable, Codable, Hashable {
 
     public var projectId: Int?
     public var competitors: [Competitor]?
+    public var requestId: String?
 
-    public init(projectId: Int? = nil, competitors: [Competitor]? = nil) {
+    public init(projectId: Int? = nil, competitors: [Competitor]? = nil, requestId: String? = nil) {
         self.projectId = projectId
         self.competitors = competitors
+        self.requestId = requestId
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case projectId = "project_id"
         case competitors
+        case requestId = "request_id"
     }
 
     // Encodable protocol methods
@@ -28,6 +31,7 @@ public struct ListCompetitors200Response: Sendable, Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(projectId, forKey: .projectId)
         try container.encodeIfPresent(competitors, forKey: .competitors)
+        try container.encodeIfPresent(requestId, forKey: .requestId)
     }
 }
 

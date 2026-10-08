@@ -1,0 +1,14 @@
+# MentionRecord
+
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**id** | **Int** |  | 
+**name** | **String** | The project&#39;s brand name (its name when no brand name is set) | 
+**promptId** | **Int** |  | 
+**promptExecutionId** | **Int** |  | 
+**createdAt** | **Date** |  | 
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

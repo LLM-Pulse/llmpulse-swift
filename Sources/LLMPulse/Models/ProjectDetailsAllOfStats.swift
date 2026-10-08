@@ -10,17 +10,20 @@ import Foundation
 public struct ProjectDetailsAllOfStats: Sendable, Codable, Hashable {
 
     public var promptsCount: Int?
+    public var promptsByBrandKind: ProjectDetailsAllOfStatsPromptsByBrandKind?
     public var competitorsCount: Int?
     public var collectionsCount: Int?
 
-    public init(promptsCount: Int? = nil, competitorsCount: Int? = nil, collectionsCount: Int? = nil) {
+    public init(promptsCount: Int? = nil, promptsByBrandKind: ProjectDetailsAllOfStatsPromptsByBrandKind? = nil, competitorsCount: Int? = nil, collectionsCount: Int? = nil) {
         self.promptsCount = promptsCount
+        self.promptsByBrandKind = promptsByBrandKind
         self.competitorsCount = competitorsCount
         self.collectionsCount = collectionsCount
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case promptsCount = "prompts_count"
+        case promptsByBrandKind = "prompts_by_brand_kind"
         case competitorsCount = "competitors_count"
         case collectionsCount = "collections_count"
     }
@@ -30,6 +33,7 @@ public struct ProjectDetailsAllOfStats: Sendable, Codable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(promptsCount, forKey: .promptsCount)
+        try container.encodeIfPresent(promptsByBrandKind, forKey: .promptsByBrandKind)
         try container.encodeIfPresent(competitorsCount, forKey: .competitorsCount)
         try container.encodeIfPresent(collectionsCount, forKey: .collectionsCount)
     }

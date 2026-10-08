@@ -17,15 +17,23 @@ public struct Competitor: Sendable, Codable, Hashable {
     public var name: String?
     /** Bare (scheme-less) domain. Null only on the own-brand row (include_project_brand=true) when the project has no URL. */
     public var domain: String?
+    /** Alternative names matched as this competitor. Absent on the own-brand row */
+    public var matchingNames: [String]?
+    public var citationMatchMode: CitationMatchMode?
+    /** Set only when citation_match_mode is path_prefix */
+    public var citationMatchPath: String?
     /** Only present when include_project_brand=true */
     public var actorType: ActorType?
     /** Only present when include_project_brand=true */
     public var isOwn: Bool?
 
-    public init(id: Int? = nil, name: String? = nil, domain: String? = nil, actorType: ActorType? = nil, isOwn: Bool? = nil) {
+    public init(id: Int? = nil, name: String? = nil, domain: String? = nil, matchingNames: [String]? = nil, citationMatchMode: CitationMatchMode? = nil, citationMatchPath: String? = nil, actorType: ActorType? = nil, isOwn: Bool? = nil) {
         self.id = id
         self.name = name
         self.domain = domain
+        self.matchingNames = matchingNames
+        self.citationMatchMode = citationMatchMode
+        self.citationMatchPath = citationMatchPath
         self.actorType = actorType
         self.isOwn = isOwn
     }
@@ -34,6 +42,9 @@ public struct Competitor: Sendable, Codable, Hashable {
         case id
         case name
         case domain
+        case matchingNames = "matching_names"
+        case citationMatchMode = "citation_match_mode"
+        case citationMatchPath = "citation_match_path"
         case actorType = "actor_type"
         case isOwn = "is_own"
     }
@@ -45,6 +56,9 @@ public struct Competitor: Sendable, Codable, Hashable {
         try container.encodeIfPresent(id, forKey: .id)
         try container.encodeIfPresent(name, forKey: .name)
         try container.encodeIfPresent(domain, forKey: .domain)
+        try container.encodeIfPresent(matchingNames, forKey: .matchingNames)
+        try container.encodeIfPresent(citationMatchMode, forKey: .citationMatchMode)
+        try container.encodeIfPresent(citationMatchPath, forKey: .citationMatchPath)
         try container.encodeIfPresent(actorType, forKey: .actorType)
         try container.encodeIfPresent(isOwn, forKey: .isOwn)
     }

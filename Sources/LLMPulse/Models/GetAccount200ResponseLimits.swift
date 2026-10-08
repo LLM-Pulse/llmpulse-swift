@@ -14,13 +14,17 @@ public struct GetAccount200ResponseLimits: Sendable, Codable, Hashable {
     public var competitorsPerProject: AccountCapacity?
     public var intelligenceTasks: AccountQuota?
     public var teamMembers: AccountCapacity?
+    public var recurringGeoAudits: AccountQuota?
+    public var geoAuditManualRuns: AccountQuota?
 
-    public init(prompts: AccountQuota? = nil, projects: AccountQuota? = nil, competitorsPerProject: AccountCapacity? = nil, intelligenceTasks: AccountQuota? = nil, teamMembers: AccountCapacity? = nil) {
+    public init(prompts: AccountQuota? = nil, projects: AccountQuota? = nil, competitorsPerProject: AccountCapacity? = nil, intelligenceTasks: AccountQuota? = nil, teamMembers: AccountCapacity? = nil, recurringGeoAudits: AccountQuota? = nil, geoAuditManualRuns: AccountQuota? = nil) {
         self.prompts = prompts
         self.projects = projects
         self.competitorsPerProject = competitorsPerProject
         self.intelligenceTasks = intelligenceTasks
         self.teamMembers = teamMembers
+        self.recurringGeoAudits = recurringGeoAudits
+        self.geoAuditManualRuns = geoAuditManualRuns
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -29,6 +33,8 @@ public struct GetAccount200ResponseLimits: Sendable, Codable, Hashable {
         case competitorsPerProject = "competitors_per_project"
         case intelligenceTasks = "intelligence_tasks"
         case teamMembers = "team_members"
+        case recurringGeoAudits = "recurring_geo_audits"
+        case geoAuditManualRuns = "geo_audit_manual_runs"
     }
 
     // Encodable protocol methods
@@ -40,6 +46,8 @@ public struct GetAccount200ResponseLimits: Sendable, Codable, Hashable {
         try container.encodeIfPresent(competitorsPerProject, forKey: .competitorsPerProject)
         try container.encodeIfPresent(intelligenceTasks, forKey: .intelligenceTasks)
         try container.encodeIfPresent(teamMembers, forKey: .teamMembers)
+        try container.encodeIfPresent(recurringGeoAudits, forKey: .recurringGeoAudits)
+        try container.encodeIfPresent(geoAuditManualRuns, forKey: .geoAuditManualRuns)
     }
 }
 

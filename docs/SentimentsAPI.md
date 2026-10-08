@@ -62,7 +62,7 @@ Void (empty response body)
 
 # **listSentimentRecords**
 ```swift
-    open class func listSentimentRecords(projectId: Int, competitorId: Int? = nil, brandOnly: Bool? = nil, analysis: String? = nil, model: Model_listSentimentRecords? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, from: Date? = nil, to: Date? = nil, page: Int? = nil, perPage: Int? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listSentimentRecords(projectId: Int, competitorId: Int? = nil, brandOnly: Bool? = nil, analysis: String? = nil, model: Model_listSentimentRecords? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, from: Date? = nil, to: Date? = nil, page: Int? = nil, perPage: Int? = nil, completion: @escaping (_ data: SentimentsResponse?, _ error: Error?) -> Void)
 ```
 
 List sentiment records (Growth plan or above)
@@ -119,7 +119,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**SentimentsResponse**](SentimentsResponse.md)
 
 ### Authorization
 

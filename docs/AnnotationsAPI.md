@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 # **createAnnotation**
 ```swift
-    open class func createAnnotation(createAnnotationRequest: CreateAnnotationRequest, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func createAnnotation(createAnnotationRequest: CreateAnnotationRequest, completion: @escaping (_ data: AnnotationCreateResponse?, _ error: Error?) -> Void)
 ```
 
 Create a timeline annotation
@@ -47,7 +47,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**AnnotationCreateResponse**](AnnotationCreateResponse.md)
 
 ### Authorization
 

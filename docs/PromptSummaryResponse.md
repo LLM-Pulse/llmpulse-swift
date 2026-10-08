@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 **projectId** | **Int** |  | [optional] 
 **from** | **Date** |  | [optional] 
 **to** | **Date** |  | [optional] 
-**filters** | **JSONValue** |  | [optional] 
+**filters** | [**MetricsFiltersEcho**](MetricsFiltersEcho.md) |  | [optional] 
 **breakdown** | **String** |  | [optional] 
 **sort** | **String** |  | [optional] 
 **sortDir** | **String** |  | [optional] 

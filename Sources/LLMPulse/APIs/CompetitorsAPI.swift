@@ -14,9 +14,9 @@ open class CompetitorsAPI {
      
      - parameter createCompetitorRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: CompetitorCreateResponse
      */
-    open class func createCompetitor(createCompetitorRequest: CreateCompetitorRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func createCompetitor(createCompetitorRequest: CreateCompetitorRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> CompetitorCreateResponse {
         return try await createCompetitorWithRequestBuilder(createCompetitorRequest: createCompetitorRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -29,9 +29,9 @@ open class CompetitorsAPI {
        - name: BearerAuth
      - parameter createCompetitorRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<CompetitorCreateResponse> 
      */
-    open class func createCompetitorWithRequestBuilder(createCompetitorRequest: CreateCompetitorRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func createCompetitorWithRequestBuilder(createCompetitorRequest: CreateCompetitorRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<CompetitorCreateResponse> {
         let localVariablePath = "/competitors"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: createCompetitorRequest, codableHelper: apiConfiguration.codableHelper)
@@ -44,7 +44,7 @@ open class CompetitorsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CompetitorCreateResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

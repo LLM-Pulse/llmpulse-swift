@@ -70,17 +70,17 @@ open class SentimentsAPI {
     public enum Model_listSentimentRecords: String, Sendable, CaseIterable {
         case chatgpt = "chatgpt"
         case perplexity = "perplexity"
-        case gemini = "gemini"
-        case aiOverview = "ai_overview"
         case aiMode = "ai_mode"
+        case aiOverview = "ai_overview"
+        case gemini = "gemini"
         case copilot = "copilot"
+        case amazonRufus = "amazon_rufus"
         case claude = "claude"
         case grok = "grok"
         case deepseek = "deepseek"
-        case metaAi = "meta_ai"
-        case amazonRufus = "amazon_rufus"
         case naverAi = "naver_ai"
         case baiduAi = "baidu_ai"
+        case metaAi = "meta_ai"
     }
 
     /**
@@ -99,9 +99,9 @@ open class SentimentsAPI {
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: SentimentsResponse
      */
-    open class func listSentimentRecords(projectId: Int, competitorId: Int? = nil, brandOnly: Bool? = nil, analysis: String? = nil, model: Model_listSentimentRecords? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, from: Date? = nil, to: Date? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listSentimentRecords(projectId: Int, competitorId: Int? = nil, brandOnly: Bool? = nil, analysis: String? = nil, model: Model_listSentimentRecords? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, from: Date? = nil, to: Date? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SentimentsResponse {
         return try await listSentimentRecordsWithRequestBuilder(projectId: projectId, competitorId: competitorId, brandOnly: brandOnly, analysis: analysis, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, from: from, to: to, page: page, perPage: perPage, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -125,9 +125,9 @@ open class SentimentsAPI {
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<SentimentsResponse> 
      */
-    open class func listSentimentRecordsWithRequestBuilder(projectId: Int, competitorId: Int? = nil, brandOnly: Bool? = nil, analysis: String? = nil, model: Model_listSentimentRecords? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, from: Date? = nil, to: Date? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listSentimentRecordsWithRequestBuilder(projectId: Int, competitorId: Int? = nil, brandOnly: Bool? = nil, analysis: String? = nil, model: Model_listSentimentRecords? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, from: Date? = nil, to: Date? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SentimentsResponse> {
         let localVariablePath = "/sentiments"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -155,7 +155,7 @@ open class SentimentsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<SentimentsResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

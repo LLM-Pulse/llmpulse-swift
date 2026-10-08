@@ -16,10 +16,22 @@ public struct CompetitorDetails: Sendable, Codable, Hashable {
     public var matchingNames: [String]?
     public var googlePlayId: String?
     public var appStoreId: String?
+    public var citationMatchMode: CitationMatchMode?
+    /** Set only when citation_match_mode is path_prefix */
+    public var citationMatchPath: String?
+    /** English app name on Google Play, when the competitor has an Android app */
+    public var googlePlayName: String?
+    /** English app name on the App Store, when the competitor has an iOS app */
+    public var appStoreName: String?
+    public var googlePlayIconUrl: String?
+    public var appStoreIconUrl: String?
     public var color: String?
+    /** True while the competitor's historical mentions are being recalculated */
+    public var processing: Bool?
     public var createdAt: Date?
+    public var requestId: String?
 
-    public init(id: Int? = nil, projectId: Int? = nil, brandName: String? = nil, domain: String? = nil, matchingNames: [String]? = nil, googlePlayId: String? = nil, appStoreId: String? = nil, color: String? = nil, createdAt: Date? = nil) {
+    public init(id: Int? = nil, projectId: Int? = nil, brandName: String? = nil, domain: String? = nil, matchingNames: [String]? = nil, googlePlayId: String? = nil, appStoreId: String? = nil, citationMatchMode: CitationMatchMode? = nil, citationMatchPath: String? = nil, googlePlayName: String? = nil, appStoreName: String? = nil, googlePlayIconUrl: String? = nil, appStoreIconUrl: String? = nil, color: String? = nil, processing: Bool? = nil, createdAt: Date? = nil, requestId: String? = nil) {
         self.id = id
         self.projectId = projectId
         self.brandName = brandName
@@ -27,8 +39,16 @@ public struct CompetitorDetails: Sendable, Codable, Hashable {
         self.matchingNames = matchingNames
         self.googlePlayId = googlePlayId
         self.appStoreId = appStoreId
+        self.citationMatchMode = citationMatchMode
+        self.citationMatchPath = citationMatchPath
+        self.googlePlayName = googlePlayName
+        self.appStoreName = appStoreName
+        self.googlePlayIconUrl = googlePlayIconUrl
+        self.appStoreIconUrl = appStoreIconUrl
         self.color = color
+        self.processing = processing
         self.createdAt = createdAt
+        self.requestId = requestId
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -39,8 +59,16 @@ public struct CompetitorDetails: Sendable, Codable, Hashable {
         case matchingNames = "matching_names"
         case googlePlayId = "google_play_id"
         case appStoreId = "app_store_id"
+        case citationMatchMode = "citation_match_mode"
+        case citationMatchPath = "citation_match_path"
+        case googlePlayName = "google_play_name"
+        case appStoreName = "app_store_name"
+        case googlePlayIconUrl = "google_play_icon_url"
+        case appStoreIconUrl = "app_store_icon_url"
         case color
+        case processing
         case createdAt = "created_at"
+        case requestId = "request_id"
     }
 
     // Encodable protocol methods
@@ -54,8 +82,16 @@ public struct CompetitorDetails: Sendable, Codable, Hashable {
         try container.encodeIfPresent(matchingNames, forKey: .matchingNames)
         try container.encodeIfPresent(googlePlayId, forKey: .googlePlayId)
         try container.encodeIfPresent(appStoreId, forKey: .appStoreId)
+        try container.encodeIfPresent(citationMatchMode, forKey: .citationMatchMode)
+        try container.encodeIfPresent(citationMatchPath, forKey: .citationMatchPath)
+        try container.encodeIfPresent(googlePlayName, forKey: .googlePlayName)
+        try container.encodeIfPresent(appStoreName, forKey: .appStoreName)
+        try container.encodeIfPresent(googlePlayIconUrl, forKey: .googlePlayIconUrl)
+        try container.encodeIfPresent(appStoreIconUrl, forKey: .appStoreIconUrl)
         try container.encodeIfPresent(color, forKey: .color)
+        try container.encodeIfPresent(processing, forKey: .processing)
         try container.encodeIfPresent(createdAt, forKey: .createdAt)
+        try container.encodeIfPresent(requestId, forKey: .requestId)
     }
 }
 

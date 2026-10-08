@@ -230,9 +230,9 @@ open class ProjectsAPI {
      
      - parameter projectId: (query) Project ID 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: LocalesResponse
      */
-    open class func listLocales(projectId: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listLocales(projectId: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> LocalesResponse {
         return try await listLocalesWithRequestBuilder(projectId: projectId, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -244,9 +244,9 @@ open class ProjectsAPI {
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<LocalesResponse> 
      */
-    open class func listLocalesWithRequestBuilder(projectId: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listLocalesWithRequestBuilder(projectId: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<LocalesResponse> {
         let localVariablePath = "/dimensions/locales"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -263,7 +263,7 @@ open class ProjectsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<LocalesResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -273,9 +273,9 @@ open class ProjectsAPI {
      
      - parameter projectId: (query) Project ID 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: ModelsResponse
      */
-    open class func listModels(projectId: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listModels(projectId: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> ModelsResponse {
         return try await listModelsWithRequestBuilder(projectId: projectId, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -287,9 +287,9 @@ open class ProjectsAPI {
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<ModelsResponse> 
      */
-    open class func listModelsWithRequestBuilder(projectId: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listModelsWithRequestBuilder(projectId: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<ModelsResponse> {
         let localVariablePath = "/dimensions/models"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -306,7 +306,7 @@ open class ProjectsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ModelsResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

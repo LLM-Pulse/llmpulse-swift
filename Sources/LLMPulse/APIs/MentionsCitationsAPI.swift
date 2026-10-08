@@ -15,17 +15,17 @@ open class MentionsCitationsAPI {
     public enum Model_listAllCitations: String, Sendable, CaseIterable {
         case chatgpt = "chatgpt"
         case perplexity = "perplexity"
-        case gemini = "gemini"
-        case aiOverview = "ai_overview"
         case aiMode = "ai_mode"
+        case aiOverview = "ai_overview"
+        case gemini = "gemini"
         case copilot = "copilot"
+        case amazonRufus = "amazon_rufus"
         case claude = "claude"
         case grok = "grok"
         case deepseek = "deepseek"
-        case metaAi = "meta_ai"
-        case amazonRufus = "amazon_rufus"
         case naverAi = "naver_ai"
         case baiduAi = "baidu_ai"
+        case metaAi = "meta_ai"
     }
 
     /**
@@ -113,17 +113,17 @@ open class MentionsCitationsAPI {
     public enum Model_listAllMentions: String, Sendable, CaseIterable {
         case chatgpt = "chatgpt"
         case perplexity = "perplexity"
-        case gemini = "gemini"
-        case aiOverview = "ai_overview"
         case aiMode = "ai_mode"
+        case aiOverview = "ai_overview"
+        case gemini = "gemini"
         case copilot = "copilot"
+        case amazonRufus = "amazon_rufus"
         case claude = "claude"
         case grok = "grok"
         case deepseek = "deepseek"
-        case metaAi = "meta_ai"
-        case amazonRufus = "amazon_rufus"
         case naverAi = "naver_ai"
         case baiduAi = "baidu_ai"
+        case metaAi = "meta_ai"
     }
 
     /**
@@ -211,17 +211,17 @@ open class MentionsCitationsAPI {
     public enum Model_listCitations: String, Sendable, CaseIterable {
         case chatgpt = "chatgpt"
         case perplexity = "perplexity"
-        case gemini = "gemini"
-        case aiOverview = "ai_overview"
         case aiMode = "ai_mode"
+        case aiOverview = "ai_overview"
+        case gemini = "gemini"
         case copilot = "copilot"
+        case amazonRufus = "amazon_rufus"
         case claude = "claude"
         case grok = "grok"
         case deepseek = "deepseek"
-        case metaAi = "meta_ai"
-        case amazonRufus = "amazon_rufus"
         case naverAi = "naver_ai"
         case baiduAi = "baidu_ai"
+        case metaAi = "meta_ai"
     }
 
     /**
@@ -247,9 +247,9 @@ open class MentionsCitationsAPI {
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: CitationsResponse
      */
-    open class func listCitations(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listCitations? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCitations? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listCitations(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listCitations? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCitations? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> CitationsResponse {
         return try await listCitationsWithRequestBuilder(projectId: projectId, page: page, perPage: perPage, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, from: from, to: to, output: output, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -272,9 +272,9 @@ open class MentionsCitationsAPI {
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<CitationsResponse> 
      */
-    open class func listCitationsWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listCitations? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCitations? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listCitationsWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listCitations? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCitations? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<CitationsResponse> {
         let localVariablePath = "/dimensions/citations"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -301,7 +301,7 @@ open class MentionsCitationsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CitationsResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -312,17 +312,17 @@ open class MentionsCitationsAPI {
     public enum Model_listCompetitorCitations: String, Sendable, CaseIterable {
         case chatgpt = "chatgpt"
         case perplexity = "perplexity"
-        case gemini = "gemini"
-        case aiOverview = "ai_overview"
         case aiMode = "ai_mode"
+        case aiOverview = "ai_overview"
+        case gemini = "gemini"
         case copilot = "copilot"
+        case amazonRufus = "amazon_rufus"
         case claude = "claude"
         case grok = "grok"
         case deepseek = "deepseek"
-        case metaAi = "meta_ai"
-        case amazonRufus = "amazon_rufus"
         case naverAi = "naver_ai"
         case baiduAi = "baidu_ai"
+        case metaAi = "meta_ai"
     }
 
     /**
@@ -410,17 +410,17 @@ open class MentionsCitationsAPI {
     public enum Model_listCompetitorMentions: String, Sendable, CaseIterable {
         case chatgpt = "chatgpt"
         case perplexity = "perplexity"
-        case gemini = "gemini"
-        case aiOverview = "ai_overview"
         case aiMode = "ai_mode"
+        case aiOverview = "ai_overview"
+        case gemini = "gemini"
         case copilot = "copilot"
+        case amazonRufus = "amazon_rufus"
         case claude = "claude"
         case grok = "grok"
         case deepseek = "deepseek"
-        case metaAi = "meta_ai"
-        case amazonRufus = "amazon_rufus"
         case naverAi = "naver_ai"
         case baiduAi = "baidu_ai"
+        case metaAi = "meta_ai"
     }
 
     /**
@@ -445,9 +445,9 @@ open class MentionsCitationsAPI {
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: CompetitorMentionsResponse
      */
-    open class func listCompetitorMentions(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listCompetitorMentions? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCompetitorMentions? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listCompetitorMentions(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listCompetitorMentions? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCompetitorMentions? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> CompetitorMentionsResponse {
         return try await listCompetitorMentionsWithRequestBuilder(projectId: projectId, competitors: competitors, page: page, perPage: perPage, model: model, collectionId: collectionId, prompt: prompt, from: from, to: to, output: output, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -468,9 +468,9 @@ open class MentionsCitationsAPI {
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<CompetitorMentionsResponse> 
      */
-    open class func listCompetitorMentionsWithRequestBuilder(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listCompetitorMentions? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCompetitorMentions? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listCompetitorMentionsWithRequestBuilder(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listCompetitorMentions? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCompetitorMentions? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<CompetitorMentionsResponse> {
         let localVariablePath = "/dimensions/competitor_mentions"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -496,7 +496,7 @@ open class MentionsCitationsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CompetitorMentionsResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -507,17 +507,17 @@ open class MentionsCitationsAPI {
     public enum Model_listMentions: String, Sendable, CaseIterable {
         case chatgpt = "chatgpt"
         case perplexity = "perplexity"
-        case gemini = "gemini"
-        case aiOverview = "ai_overview"
         case aiMode = "ai_mode"
+        case aiOverview = "ai_overview"
+        case gemini = "gemini"
         case copilot = "copilot"
+        case amazonRufus = "amazon_rufus"
         case claude = "claude"
         case grok = "grok"
         case deepseek = "deepseek"
-        case metaAi = "meta_ai"
-        case amazonRufus = "amazon_rufus"
         case naverAi = "naver_ai"
         case baiduAi = "baidu_ai"
+        case metaAi = "meta_ai"
     }
 
     /**
@@ -543,9 +543,9 @@ open class MentionsCitationsAPI {
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: MentionsResponse
      */
-    open class func listMentions(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listMentions? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listMentions? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listMentions(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listMentions? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listMentions? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> MentionsResponse {
         return try await listMentionsWithRequestBuilder(projectId: projectId, page: page, perPage: perPage, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, from: from, to: to, output: output, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -567,9 +567,9 @@ open class MentionsCitationsAPI {
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<MentionsResponse> 
      */
-    open class func listMentionsWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listMentions? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listMentions? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listMentionsWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listMentions? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listMentions? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<MentionsResponse> {
         let localVariablePath = "/dimensions/mentions"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -596,7 +596,7 @@ open class MentionsCitationsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<MentionsResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

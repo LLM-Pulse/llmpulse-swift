@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 # **createCompetitor**
 ```swift
-    open class func createCompetitor(createCompetitorRequest: CreateCompetitorRequest, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func createCompetitor(createCompetitorRequest: CreateCompetitorRequest, completion: @escaping (_ data: CompetitorCreateResponse?, _ error: Error?) -> Void)
 ```
 
 Add a competitor
@@ -48,7 +48,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**CompetitorCreateResponse**](CompetitorCreateResponse.md)
 
 ### Authorization
 

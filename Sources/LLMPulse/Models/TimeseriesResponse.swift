@@ -12,12 +12,13 @@ public struct TimeseriesResponse: Sendable, Codable, Hashable {
     public var projectId: Int?
     public var from: Date?
     public var to: Date?
+    /** day, week or month */
     public var granularity: String?
-    public var filters: JSONValue?
+    public var filters: MetricsFiltersEcho?
     public var series: [String: [TimeseriesSeries]]?
     public var requestId: String?
 
-    public init(projectId: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: String? = nil, filters: JSONValue? = nil, series: [String: [TimeseriesSeries]]? = nil, requestId: String? = nil) {
+    public init(projectId: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: String? = nil, filters: MetricsFiltersEcho? = nil, series: [String: [TimeseriesSeries]]? = nil, requestId: String? = nil) {
         self.projectId = projectId
         self.from = from
         self.to = to

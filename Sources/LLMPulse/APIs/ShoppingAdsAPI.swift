@@ -44,17 +44,17 @@ open class ShoppingAdsAPI {
     public enum Model_listAds: String, Sendable, CaseIterable {
         case chatgpt = "chatgpt"
         case perplexity = "perplexity"
-        case gemini = "gemini"
-        case aiOverview = "ai_overview"
         case aiMode = "ai_mode"
+        case aiOverview = "ai_overview"
+        case gemini = "gemini"
         case copilot = "copilot"
+        case amazonRufus = "amazon_rufus"
         case claude = "claude"
         case grok = "grok"
         case deepseek = "deepseek"
-        case metaAi = "meta_ai"
-        case amazonRufus = "amazon_rufus"
         case naverAi = "naver_ai"
         case baiduAi = "baidu_ai"
+        case metaAi = "meta_ai"
     }
 
     /**
@@ -198,17 +198,17 @@ open class ShoppingAdsAPI {
     public enum Model_listLocalBusinesses: String, Sendable, CaseIterable {
         case chatgpt = "chatgpt"
         case perplexity = "perplexity"
-        case gemini = "gemini"
-        case aiOverview = "ai_overview"
         case aiMode = "ai_mode"
+        case aiOverview = "ai_overview"
+        case gemini = "gemini"
         case copilot = "copilot"
+        case amazonRufus = "amazon_rufus"
         case claude = "claude"
         case grok = "grok"
         case deepseek = "deepseek"
-        case metaAi = "meta_ai"
-        case amazonRufus = "amazon_rufus"
         case naverAi = "naver_ai"
         case baiduAi = "baidu_ai"
+        case metaAi = "meta_ai"
     }
 
     /**
@@ -359,17 +359,17 @@ open class ShoppingAdsAPI {
     public enum Model_listShopping: String, Sendable, CaseIterable {
         case chatgpt = "chatgpt"
         case perplexity = "perplexity"
-        case gemini = "gemini"
-        case aiOverview = "ai_overview"
         case aiMode = "ai_mode"
+        case aiOverview = "ai_overview"
+        case gemini = "gemini"
         case copilot = "copilot"
+        case amazonRufus = "amazon_rufus"
         case claude = "claude"
         case grok = "grok"
         case deepseek = "deepseek"
-        case metaAi = "meta_ai"
-        case amazonRufus = "amazon_rufus"
         case naverAi = "naver_ai"
         case baiduAi = "baidu_ai"
+        case metaAi = "meta_ai"
     }
 
     /**

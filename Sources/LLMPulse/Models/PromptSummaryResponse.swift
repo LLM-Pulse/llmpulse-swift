@@ -12,7 +12,7 @@ public struct PromptSummaryResponse: Sendable, Codable, Hashable {
     public var projectId: Int?
     public var from: Date?
     public var to: Date?
-    public var filters: JSONValue?
+    public var filters: MetricsFiltersEcho?
     public var breakdown: String?
     public var sort: String?
     public var sortDir: String?
@@ -22,7 +22,7 @@ public struct PromptSummaryResponse: Sendable, Codable, Hashable {
     public var data: [PromptSummaryRow]?
     public var requestId: String?
 
-    public init(projectId: Int? = nil, from: Date? = nil, to: Date? = nil, filters: JSONValue? = nil, breakdown: String? = nil, sort: String? = nil, sortDir: String? = nil, page: Int? = nil, perPage: Int? = nil, total: Int? = nil, data: [PromptSummaryRow]? = nil, requestId: String? = nil) {
+    public init(projectId: Int? = nil, from: Date? = nil, to: Date? = nil, filters: MetricsFiltersEcho? = nil, breakdown: String? = nil, sort: String? = nil, sortDir: String? = nil, page: Int? = nil, perPage: Int? = nil, total: Int? = nil, data: [PromptSummaryRow]? = nil, requestId: String? = nil) {
         self.projectId = projectId
         self.from = from
         self.to = to
