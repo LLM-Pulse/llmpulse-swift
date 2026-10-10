@@ -6,7 +6,9 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**getAgentTraffic**](AIAgentTrafficAPI.md#getagenttraffic) | **GET** /metrics/agent_traffic | AI bot crawler traffic (Scale plan or above, Beta)
 [**getAiTraffic**](AIAgentTrafficAPI.md#getaitraffic) | **GET** /metrics/ai_traffic | AI referral traffic (Scale plan or above)
+[**getWebAnalyticsSchema**](AIAgentTrafficAPI.md#getwebanalyticsschema) | **GET** /web_analytics/schema | Web analytics query format (Growth+)
 [**listAgentBots**](AIAgentTrafficAPI.md#listagentbots) | **GET** /dimensions/agent_bots | AI bot catalog (Scale plan or above)
+[**queryWebAnalytics**](AIAgentTrafficAPI.md#querywebanalytics) | **POST** /web_analytics/query | Live web analytics query (Growth+)
 
 
 # **getAgentTraffic**
@@ -133,6 +135,56 @@ Void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **getWebAnalyticsSchema**
+```swift
+    open class func getWebAnalyticsSchema(projectId: Int, completion: @escaping (_ data: WebAnalyticsSchemaResponse?, _ error: Error?) -> Void)
+```
+
+Web analytics query format (Growth+)
+
+How to query the web analytics provider connected to the project, live: the provider, the property every query runs on, the native query format it accepts, the allowed top-level fields, the rules the bridge enforces (the connected property is always used, only reads run, row limits), a worked example and, where the provider offers it, its live field list. Cached for an hour. Supported providers: Google Analytics 4, Adobe Analytics or Customer Journey Analytics, Matomo, PostHog, Plausible and Piano, connected on the AI Traffic page. Requires the Growth plan or above; otherwise ERR_PLAN_REQUIRED. Without a connected provider returns ERR_WEB_ANALYTICS_NOT_CONNECTED (404); a provider that refuses the stored credentials returns ERR_WEB_ANALYTICS_ACCESS_REVOKED (403); an unavailable provider, an exhausted provider quota, more than 20 uncached queries a minute or too many running at once for the project returns ERR_WEB_ANALYTICS_UPSTREAM (503): wait for the number of seconds in Retry-After before retrying.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import LLMPulse
+
+let projectId = 987 // Int | Project ID
+
+// Web analytics query format (Growth+)
+AIAgentTrafficAPI.getWebAnalyticsSchema(projectId: projectId) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **projectId** | **Int** | Project ID | 
+
+### Return type
+
+[**WebAnalyticsSchemaResponse**](WebAnalyticsSchemaResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **listAgentBots**
 ```swift
     open class func listAgentBots(projectId: Int, output: Output_listAgentBots? = nil, completion: @escaping (_ data: AgentBotsResponse?, _ error: Error?) -> Void)
@@ -181,6 +233,56 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **queryWebAnalytics**
+```swift
+    open class func queryWebAnalytics(queryWebAnalyticsRequest: QueryWebAnalyticsRequest, completion: @escaping (_ data: WebAnalyticsQueryResponse?, _ error: Error?) -> Void)
+```
+
+Live web analytics query (Growth+)
+
+Runs a read-only query, written in the connected provider's native format, against the project's property and returns columns and rows: a GA4 Data API runReport body, an Adobe Analytics or Customer Journey Analytics report request, Matomo Reporting API parameters (get methods only), PostHog HogQL, a Plausible Stats API v2 query or a Piano getData body. The connected property, site, report suite or project is always used and any property field in the query is ignored. Rows default to 100 and are capped at 5,000. Identical queries are answered from a 10-minute cache (cached: true). A query the provider rejects returns ERR_WEB_ANALYTICS_INVALID_QUERY (422) with the provider's own validation message. Each uncached query spends the customer's provider API quota. A read: no writable key is needed. Supported providers: Google Analytics 4, Adobe Analytics or Customer Journey Analytics, Matomo, PostHog, Plausible and Piano, connected on the AI Traffic page. Requires the Growth plan or above; otherwise ERR_PLAN_REQUIRED. Without a connected provider returns ERR_WEB_ANALYTICS_NOT_CONNECTED (404); a provider that refuses the stored credentials returns ERR_WEB_ANALYTICS_ACCESS_REVOKED (403); an unavailable provider, an exhausted provider quota, more than 20 uncached queries a minute or too many running at once for the project returns ERR_WEB_ANALYTICS_UPSTREAM (503): wait for the number of seconds in Retry-After before retrying.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import LLMPulse
+
+let queryWebAnalyticsRequest = queryWebAnalytics_request(projectId: 123, query: 123) // QueryWebAnalyticsRequest | 
+
+// Live web analytics query (Growth+)
+AIAgentTrafficAPI.queryWebAnalytics(queryWebAnalyticsRequest: queryWebAnalyticsRequest) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **queryWebAnalyticsRequest** | [**QueryWebAnalyticsRequest**](QueryWebAnalyticsRequest.md) |  | 
+
+### Return type
+
+[**WebAnalyticsQueryResponse**](WebAnalyticsQueryResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

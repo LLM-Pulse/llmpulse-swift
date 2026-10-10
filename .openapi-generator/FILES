@@ -172,6 +172,7 @@ Sources/LLMPulse/Models/PromptsCreateRequest.swift
 Sources/LLMPulse/Models/PromptsCreateResponse.swift
 Sources/LLMPulse/Models/PromptsCreateResponseDataInner.swift
 Sources/LLMPulse/Models/PromptsResponse.swift
+Sources/LLMPulse/Models/QueryWebAnalyticsRequest.swift
 Sources/LLMPulse/Models/RecommendationSummary.swift
 Sources/LLMPulse/Models/RecommendationSummarySummary.swift
 Sources/LLMPulse/Models/RecommendationsResponse.swift
@@ -209,6 +210,9 @@ Sources/LLMPulse/Models/UpdateCollectionRequest.swift
 Sources/LLMPulse/Models/UpdateCompetitorRequest.swift
 Sources/LLMPulse/Models/UpdateProjectDraftRequest.swift
 Sources/LLMPulse/Models/UpdateProjectRequest.swift
+Sources/LLMPulse/Models/WebAnalyticsQueryResponse.swift
+Sources/LLMPulse/Models/WebAnalyticsQueryResponseColumnsInner.swift
+Sources/LLMPulse/Models/WebAnalyticsSchemaResponse.swift
 docs/AIAgentTrafficAPI.md
 docs/AIModelInsightsAPI.md
 docs/AccountAPI.md
@@ -354,6 +358,7 @@ docs/PromptsCreateRequest.md
 docs/PromptsCreateResponse.md
 docs/PromptsCreateResponseDataInner.md
 docs/PromptsResponse.md
+docs/QueryWebAnalyticsRequest.md
 docs/RecommendationSummary.md
 docs/RecommendationSummarySummary.md
 docs/RecommendationsAPI.md
@@ -399,6 +404,9 @@ docs/UpdateCollectionRequest.md
 docs/UpdateCompetitorRequest.md
 docs/UpdateProjectDraftRequest.md
 docs/UpdateProjectRequest.md
+docs/WebAnalyticsQueryResponse.md
+docs/WebAnalyticsQueryResponseColumnsInner.md
+docs/WebAnalyticsSchemaResponse.md
 docs/WebhooksAPI.md
 git_push.sh
 project.yml
