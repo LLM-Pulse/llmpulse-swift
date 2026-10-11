@@ -21,8 +21,10 @@ public struct IntelligenceTaskSummary: Sendable, Codable, Hashable {
     public var manuallyEditedAt: Date?
     public var createdAt: Date
     public var processedAt: Date?
+    /** Concurrency token for content edits: send it back as result_version on PATCH /intelligence_tasks/{id} so an edit composed before a regeneration is refused with ERR_STALE_CONTENT (409). It is \"0\" until the task first completes, then changes each time a generation or regeneration replaces result_data, never on a manual edit or a revert. Treat it as opaque text */
+    public var resultVersion: String
 
-    public init(id: Int, publicId: String, taskType: String, title: String, status: String, promptId: Int?, promptText: String?, wordCount: Int?, manuallyEditedAt: Date?, createdAt: Date, processedAt: Date?) {
+    public init(id: Int, publicId: String, taskType: String, title: String, status: String, promptId: Int?, promptText: String?, wordCount: Int?, manuallyEditedAt: Date?, createdAt: Date, processedAt: Date?, resultVersion: String) {
         self.id = id
         self.publicId = publicId
         self.taskType = taskType
@@ -34,6 +36,7 @@ public struct IntelligenceTaskSummary: Sendable, Codable, Hashable {
         self.manuallyEditedAt = manuallyEditedAt
         self.createdAt = createdAt
         self.processedAt = processedAt
+        self.resultVersion = resultVersion
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -48,6 +51,7 @@ public struct IntelligenceTaskSummary: Sendable, Codable, Hashable {
         case manuallyEditedAt = "manually_edited_at"
         case createdAt = "created_at"
         case processedAt = "processed_at"
+        case resultVersion = "result_version"
     }
 
     // Encodable protocol methods
@@ -65,6 +69,7 @@ public struct IntelligenceTaskSummary: Sendable, Codable, Hashable {
         try container.encode(manuallyEditedAt, forKey: .manuallyEditedAt)
         try container.encode(createdAt, forKey: .createdAt)
         try container.encode(processedAt, forKey: .processedAt)
+        try container.encode(resultVersion, forKey: .resultVersion)
     }
 }
 

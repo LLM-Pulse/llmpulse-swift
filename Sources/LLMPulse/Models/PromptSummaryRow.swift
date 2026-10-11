@@ -23,8 +23,32 @@ public struct PromptSummaryRow: Sendable, Codable, Hashable {
     public var avgPosition: Double?
     /** Opens this prompt in the app. The link names its project, so it opens there for any user with access to that project */
     public var appUrl: String?
+    /** Country of the prompt, as in /dimensions/prompts */
+    public var countryCode: String?
+    /** Language of the prompt, as in /dimensions/prompts */
+    public var languageCode: String?
+    /** Search intent: informational, navigational, commercial or transactional. Null until the prompt is classified */
+    public var promptType: String?
+    /** Brand focus: brand, brand_other or non_brand. Null until the prompt is classified */
+    public var brandKind: String?
+    /** Every tag the prompt belongs to */
+    public var tags: [TagRef]?
+    /** Responses in the window with a sentiment verdict for the brand, the base of the sentiment percentages (deduplicated like the sentiment timeseries) */
+    public var sentimentResponses: Int?
+    /** Percentage (0-100) of sentiment_responses whose brand verdict is very positive; null when sentiment_responses is 0 */
+    public var sentimentVeryPositive: Double?
+    /** Percentage (0-100) of sentiment_responses whose brand verdict is positive; null when sentiment_responses is 0 */
+    public var sentimentPositive: Double?
+    /** Percentage (0-100) of sentiment_responses whose brand verdict is neutral; null when sentiment_responses is 0 */
+    public var sentimentNeutral: Double?
+    /** Percentage (0-100) of sentiment_responses whose brand verdict is negative; null when sentiment_responses is 0 */
+    public var sentimentNegative: Double?
+    /** Percentage (0-100) of sentiment_responses whose brand verdict is very negative; null when sentiment_responses is 0 */
+    public var sentimentVeryNegative: Double?
+    /** Positive minus negative percentages (-100 to 100), neutral counted in the base; null when sentiment_responses is 0 */
+    public var netSentiment: Double?
 
-    public init(promptId: Int? = nil, promptText: String? = nil, model: String? = nil, responses: Int? = nil, mentions: Int? = nil, citations: Int? = nil, visibility: Double? = nil, mentionRate: Double? = nil, citationRate: Double? = nil, avgMentionPosition: Double? = nil, avgPosition: Double? = nil, appUrl: String? = nil) {
+    public init(promptId: Int? = nil, promptText: String? = nil, model: String? = nil, responses: Int? = nil, mentions: Int? = nil, citations: Int? = nil, visibility: Double? = nil, mentionRate: Double? = nil, citationRate: Double? = nil, avgMentionPosition: Double? = nil, avgPosition: Double? = nil, appUrl: String? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: String? = nil, tags: [TagRef]? = nil, sentimentResponses: Int? = nil, sentimentVeryPositive: Double? = nil, sentimentPositive: Double? = nil, sentimentNeutral: Double? = nil, sentimentNegative: Double? = nil, sentimentVeryNegative: Double? = nil, netSentiment: Double? = nil) {
         self.promptId = promptId
         self.promptText = promptText
         self.model = model
@@ -37,6 +61,18 @@ public struct PromptSummaryRow: Sendable, Codable, Hashable {
         self.avgMentionPosition = avgMentionPosition
         self.avgPosition = avgPosition
         self.appUrl = appUrl
+        self.countryCode = countryCode
+        self.languageCode = languageCode
+        self.promptType = promptType
+        self.brandKind = brandKind
+        self.tags = tags
+        self.sentimentResponses = sentimentResponses
+        self.sentimentVeryPositive = sentimentVeryPositive
+        self.sentimentPositive = sentimentPositive
+        self.sentimentNeutral = sentimentNeutral
+        self.sentimentNegative = sentimentNegative
+        self.sentimentVeryNegative = sentimentVeryNegative
+        self.netSentiment = netSentiment
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -52,6 +88,18 @@ public struct PromptSummaryRow: Sendable, Codable, Hashable {
         case avgMentionPosition = "avg_mention_position"
         case avgPosition = "avg_position"
         case appUrl = "app_url"
+        case countryCode = "country_code"
+        case languageCode = "language_code"
+        case promptType = "prompt_type"
+        case brandKind = "brand_kind"
+        case tags
+        case sentimentResponses = "sentiment_responses"
+        case sentimentVeryPositive = "sentiment_very_positive"
+        case sentimentPositive = "sentiment_positive"
+        case sentimentNeutral = "sentiment_neutral"
+        case sentimentNegative = "sentiment_negative"
+        case sentimentVeryNegative = "sentiment_very_negative"
+        case netSentiment = "net_sentiment"
     }
 
     // Encodable protocol methods
@@ -70,6 +118,18 @@ public struct PromptSummaryRow: Sendable, Codable, Hashable {
         try container.encodeIfPresent(avgMentionPosition, forKey: .avgMentionPosition)
         try container.encodeIfPresent(avgPosition, forKey: .avgPosition)
         try container.encodeIfPresent(appUrl, forKey: .appUrl)
+        try container.encodeIfPresent(countryCode, forKey: .countryCode)
+        try container.encodeIfPresent(languageCode, forKey: .languageCode)
+        try container.encodeIfPresent(promptType, forKey: .promptType)
+        try container.encodeIfPresent(brandKind, forKey: .brandKind)
+        try container.encodeIfPresent(tags, forKey: .tags)
+        try container.encodeIfPresent(sentimentResponses, forKey: .sentimentResponses)
+        try container.encodeIfPresent(sentimentVeryPositive, forKey: .sentimentVeryPositive)
+        try container.encodeIfPresent(sentimentPositive, forKey: .sentimentPositive)
+        try container.encodeIfPresent(sentimentNeutral, forKey: .sentimentNeutral)
+        try container.encodeIfPresent(sentimentNegative, forKey: .sentimentNegative)
+        try container.encodeIfPresent(sentimentVeryNegative, forKey: .sentimentVeryNegative)
+        try container.encodeIfPresent(netSentiment, forKey: .netSentiment)
     }
 }
 

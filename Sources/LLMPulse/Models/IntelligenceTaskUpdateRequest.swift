@@ -12,15 +12,19 @@ public struct IntelligenceTaskUpdateRequest: Sendable, Codable, Hashable {
     public var projectId: Int
     /** Dotted result_data paths (title, sections.0.content, key_points.2) mapped to their replacement text. Only string fields that already exist are editable; sections cannot be added or removed. */
     public var edits: [String: String]
+    /** Optional. The result_version of the task as last read. When sent, the edit is refused with ERR_STALE_CONTENT (409) and nothing is written if the task was regenerated since. Omitted, null or empty, the edits apply to whatever the task holds now */
+    public var resultVersion: String?
 
-    public init(projectId: Int, edits: [String: String]) {
+    public init(projectId: Int, edits: [String: String], resultVersion: String? = nil) {
         self.projectId = projectId
         self.edits = edits
+        self.resultVersion = resultVersion
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case projectId = "project_id"
         case edits
+        case resultVersion = "result_version"
     }
 
     // Encodable protocol methods
@@ -29,6 +33,7 @@ public struct IntelligenceTaskUpdateRequest: Sendable, Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(projectId, forKey: .projectId)
         try container.encode(edits, forKey: .edits)
+        try container.encodeIfPresent(resultVersion, forKey: .resultVersion)
     }
 }
 

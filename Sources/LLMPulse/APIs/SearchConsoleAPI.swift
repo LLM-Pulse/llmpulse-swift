@@ -48,48 +48,61 @@ open class SearchConsoleAPI {
     }
 
     /**
+     * enum for parameter aggregationType
+     */
+    public enum AggregationType_getSearchConsolePages: String, Sendable, CaseIterable {
+        case auto = "auto"
+        case bypage = "byPage"
+        case byproperty = "byProperty"
+    }
+
+    /**
      Top Search Console pages (Growth+)
      
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
-     - parameter from: (query)  (optional)
-     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
+     - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
      - parameter sort: (query)  (optional, default to .impressions)
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
+     - parameter startRow: (query) Google ranks rows by clicks and returns at most 25,000 per request. start_row moves that window down the ranking (e.g. 25000 for the next block); sort and pagination apply within the window. (optional, default to 0)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter searchType: (query) Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to .web)
      - parameter filters: (query) Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      - parameter dataState: (query) final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to ._final)
+     - parameter aggregationType: (query) How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to .auto)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: SearchConsoleListResponse
      */
-    open class func getSearchConsolePages(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, sort: Sort_getSearchConsolePages? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_getSearchConsolePages? = nil, searchType: SearchType_getSearchConsolePages? = nil, filters: String? = nil, dataState: DataState_getSearchConsolePages? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await getSearchConsolePagesWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, sort: sort, page: page, perPage: perPage, output: output, searchType: searchType, filters: filters, dataState: dataState, apiConfiguration: apiConfiguration).execute().body
+    open class func getSearchConsolePages(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, sort: Sort_getSearchConsolePages? = nil, page: Int? = nil, perPage: Int? = nil, startRow: Int? = nil, output: Output_getSearchConsolePages? = nil, searchType: SearchType_getSearchConsolePages? = nil, filters: String? = nil, dataState: DataState_getSearchConsolePages? = nil, aggregationType: AggregationType_getSearchConsolePages? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SearchConsoleListResponse {
+        return try await getSearchConsolePagesWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, sort: sort, page: page, perPage: perPage, startRow: startRow, output: output, searchType: searchType, filters: filters, dataState: dataState, aggregationType: aggregationType, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Top Search Console pages (Growth+)
      - GET /search_console/pages
-     - Top Google Search Console landing pages over a date range, ranked by impressions, clicks, ctr or position, paginated. Requires a connected Search Console property (Growth+). X-Search-Console-Backend identifies stored or live reads. Stored reads use synced data without contacting Google. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access; reconnect the property in Preferences > Project Settings > Data Connections. They return ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying. total counts the rows returned by one Google request, up to 25,000; truncated: true means that limit was reached. Page rows are counted per page rather than per property, so they can differ from the totals. Sorting and pagination apply to the available set. Stored reads cannot answer this endpoint and return ERR_INVALID_PARAM.
+     - Top Google Search Console landing pages over a date range, ranked by impressions, clicks, ctr or position, paginated. Requires a connected Search Console property (Growth+). X-Search-Console-Backend identifies stored or live reads. Stored reads use synced data without contacting Google. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access; reconnect the property in Preferences > Project Settings > Data Connections. They return ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying. total counts the rows returned by one Google request, up to 25,000; truncated: true means that limit was reached, and start_row reads the next block. Page rows are counted per page rather than per property, so they can differ from the totals. Sorting and pagination apply to the available set. Stored reads cannot answer this endpoint and return ERR_INVALID_PARAM.
      - Bearer Token:
        - type: http
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
-     - parameter from: (query)  (optional)
-     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
+     - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
      - parameter sort: (query)  (optional, default to .impressions)
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
+     - parameter startRow: (query) Google ranks rows by clicks and returns at most 25,000 per request. start_row moves that window down the ranking (e.g. 25000 for the next block); sort and pagination apply within the window. (optional, default to 0)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter searchType: (query) Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to .web)
      - parameter filters: (query) Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      - parameter dataState: (query) final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to ._final)
+     - parameter aggregationType: (query) How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to .auto)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<SearchConsoleListResponse> 
      */
-    open class func getSearchConsolePagesWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, sort: Sort_getSearchConsolePages? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_getSearchConsolePages? = nil, searchType: SearchType_getSearchConsolePages? = nil, filters: String? = nil, dataState: DataState_getSearchConsolePages? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getSearchConsolePagesWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, sort: Sort_getSearchConsolePages? = nil, page: Int? = nil, perPage: Int? = nil, startRow: Int? = nil, output: Output_getSearchConsolePages? = nil, searchType: SearchType_getSearchConsolePages? = nil, filters: String? = nil, dataState: DataState_getSearchConsolePages? = nil, aggregationType: AggregationType_getSearchConsolePages? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SearchConsoleListResponse> {
         let localVariablePath = "/search_console/pages"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -103,10 +116,12 @@ open class SearchConsoleAPI {
             "sort": (wrappedValue: sort?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "page": (wrappedValue: page?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "per_page": (wrappedValue: perPage?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "start_row": (wrappedValue: startRow?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "output": (wrappedValue: output?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "search_type": (wrappedValue: searchType?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "filters": (wrappedValue: filters?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "data_state": (wrappedValue: dataState?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "aggregation_type": (wrappedValue: aggregationType?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ]
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
 
@@ -116,7 +131,7 @@ open class SearchConsoleAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<SearchConsoleListResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -160,48 +175,61 @@ open class SearchConsoleAPI {
     }
 
     /**
+     * enum for parameter aggregationType
+     */
+    public enum AggregationType_getSearchConsoleQueries: String, Sendable, CaseIterable {
+        case auto = "auto"
+        case bypage = "byPage"
+        case byproperty = "byProperty"
+    }
+
+    /**
      Top Search Console queries (Growth+)
      
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
-     - parameter from: (query)  (optional)
-     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
+     - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
      - parameter sort: (query)  (optional, default to .impressions)
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
+     - parameter startRow: (query) Google ranks rows by clicks and returns at most 25,000 per request. start_row moves that window down the ranking (e.g. 25000 for the next block); sort and pagination apply within the window. (optional, default to 0)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter searchType: (query) Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to .web)
      - parameter filters: (query) Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      - parameter dataState: (query) final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to ._final)
+     - parameter aggregationType: (query) How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to .auto)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: SearchConsoleListResponse
      */
-    open class func getSearchConsoleQueries(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, sort: Sort_getSearchConsoleQueries? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_getSearchConsoleQueries? = nil, searchType: SearchType_getSearchConsoleQueries? = nil, filters: String? = nil, dataState: DataState_getSearchConsoleQueries? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await getSearchConsoleQueriesWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, sort: sort, page: page, perPage: perPage, output: output, searchType: searchType, filters: filters, dataState: dataState, apiConfiguration: apiConfiguration).execute().body
+    open class func getSearchConsoleQueries(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, sort: Sort_getSearchConsoleQueries? = nil, page: Int? = nil, perPage: Int? = nil, startRow: Int? = nil, output: Output_getSearchConsoleQueries? = nil, searchType: SearchType_getSearchConsoleQueries? = nil, filters: String? = nil, dataState: DataState_getSearchConsoleQueries? = nil, aggregationType: AggregationType_getSearchConsoleQueries? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SearchConsoleListResponse {
+        return try await getSearchConsoleQueriesWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, sort: sort, page: page, perPage: perPage, startRow: startRow, output: output, searchType: searchType, filters: filters, dataState: dataState, aggregationType: aggregationType, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Top Search Console queries (Growth+)
      - GET /search_console/queries
-     - Top Google Search Console search queries over a date range, ranked by impressions, clicks, ctr or position, paginated. Excludes anonymized queries; for headline totals use /search_console/summary. Requires a connected Search Console property (Growth+). X-Search-Console-Backend identifies stored or live reads. Stored reads use synced data without contacting Google. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access; reconnect the property in Preferences > Project Settings > Data Connections. They return ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying. total counts the rows returned by one Google request, up to 25,000; truncated: true means that limit was reached, so the rows add up to less than the totals. Sorting and pagination apply to the available set. Stored reads cannot answer this endpoint and return ERR_INVALID_PARAM.
+     - Top Google Search Console search queries over a date range, ranked by impressions, clicks, ctr or position, paginated. Excludes anonymized queries; for headline totals use /search_console/summary. Requires a connected Search Console property (Growth+). X-Search-Console-Backend identifies stored or live reads. Stored reads use synced data without contacting Google. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access; reconnect the property in Preferences > Project Settings > Data Connections. They return ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying. total counts the rows returned by one Google request, up to 25,000; truncated: true means that limit was reached, so the rows add up to less than the totals, and start_row reads the next block. Sorting and pagination apply to the available set. Stored reads cannot answer this endpoint and return ERR_INVALID_PARAM.
      - Bearer Token:
        - type: http
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
-     - parameter from: (query)  (optional)
-     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
+     - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
      - parameter sort: (query)  (optional, default to .impressions)
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
+     - parameter startRow: (query) Google ranks rows by clicks and returns at most 25,000 per request. start_row moves that window down the ranking (e.g. 25000 for the next block); sort and pagination apply within the window. (optional, default to 0)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter searchType: (query) Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to .web)
      - parameter filters: (query) Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      - parameter dataState: (query) final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to ._final)
+     - parameter aggregationType: (query) How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to .auto)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<SearchConsoleListResponse> 
      */
-    open class func getSearchConsoleQueriesWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, sort: Sort_getSearchConsoleQueries? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_getSearchConsoleQueries? = nil, searchType: SearchType_getSearchConsoleQueries? = nil, filters: String? = nil, dataState: DataState_getSearchConsoleQueries? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getSearchConsoleQueriesWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, sort: Sort_getSearchConsoleQueries? = nil, page: Int? = nil, perPage: Int? = nil, startRow: Int? = nil, output: Output_getSearchConsoleQueries? = nil, searchType: SearchType_getSearchConsoleQueries? = nil, filters: String? = nil, dataState: DataState_getSearchConsoleQueries? = nil, aggregationType: AggregationType_getSearchConsoleQueries? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SearchConsoleListResponse> {
         let localVariablePath = "/search_console/queries"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -215,10 +243,12 @@ open class SearchConsoleAPI {
             "sort": (wrappedValue: sort?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "page": (wrappedValue: page?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "per_page": (wrappedValue: perPage?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "start_row": (wrappedValue: startRow?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "output": (wrappedValue: output?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "search_type": (wrappedValue: searchType?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "filters": (wrappedValue: filters?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "data_state": (wrappedValue: dataState?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "aggregation_type": (wrappedValue: aggregationType?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ]
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
 
@@ -228,7 +258,137 @@ open class SearchConsoleAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<SearchConsoleListResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     * enum for parameter sort
+     */
+    public enum Sort_getSearchConsoleRows: String, Sendable, CaseIterable {
+        case impressions = "impressions"
+        case clicks = "clicks"
+        case ctr = "ctr"
+        case position = "position"
+    }
+
+    /**
+     * enum for parameter output
+     */
+    public enum Output_getSearchConsoleRows: String, Sendable, CaseIterable {
+        case flat = "flat"
+        case csv = "csv"
+    }
+
+    /**
+     * enum for parameter searchType
+     */
+    public enum SearchType_getSearchConsoleRows: String, Sendable, CaseIterable {
+        case web = "web"
+        case image = "image"
+        case video = "video"
+        case news = "news"
+        case discover = "discover"
+        case googlenews = "googleNews"
+    }
+
+    /**
+     * enum for parameter dataState
+     */
+    public enum DataState_getSearchConsoleRows: String, Sendable, CaseIterable {
+        case _final = "final"
+        case all = "all"
+    }
+
+    /**
+     * enum for parameter aggregationType
+     */
+    public enum AggregationType_getSearchConsoleRows: String, Sendable, CaseIterable {
+        case auto = "auto"
+        case bypage = "byPage"
+        case byproperty = "byProperty"
+    }
+
+    /**
+     Search Console rows by several dimensions (Growth+)
+     
+     - parameter projectId: (query) Project ID 
+     - parameter dimensions: (query) Comma-separated dimensions to group by, 1 to 3 of date, country, device, page, query, searchAppearance. Each becomes a field of every row; country and device values are lowercase. 
+     - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
+     - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
+     - parameter sort: (query)  (optional, default to .impressions)
+     - parameter page: (query)  (optional, default to 1)
+     - parameter perPage: (query)  (optional, default to 20)
+     - parameter startRow: (query) Google ranks rows by clicks and returns at most 25,000 per request. start_row moves that window down the ranking (e.g. 25000 for the next block); sort and pagination apply within the window. (optional, default to 0)
+     - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter searchType: (query) Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to .web)
+     - parameter filters: (query) Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
+     - parameter dataState: (query) final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to ._final)
+     - parameter aggregationType: (query) How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to .auto)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: SearchConsoleRowsResponse
+     */
+    open class func getSearchConsoleRows(projectId: Int, dimensions: String, range: Int? = nil, from: Date? = nil, to: Date? = nil, sort: Sort_getSearchConsoleRows? = nil, page: Int? = nil, perPage: Int? = nil, startRow: Int? = nil, output: Output_getSearchConsoleRows? = nil, searchType: SearchType_getSearchConsoleRows? = nil, filters: String? = nil, dataState: DataState_getSearchConsoleRows? = nil, aggregationType: AggregationType_getSearchConsoleRows? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SearchConsoleRowsResponse {
+        return try await getSearchConsoleRowsWithRequestBuilder(projectId: projectId, dimensions: dimensions, range: range, from: from, to: to, sort: sort, page: page, perPage: perPage, startRow: startRow, output: output, searchType: searchType, filters: filters, dataState: dataState, aggregationType: aggregationType, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Search Console rows by several dimensions (Growth+)
+     - GET /search_console/rows
+     - Google Search Console rows grouped by 1 to 3 dimensions (date, country, device, page, query, searchAppearance) over a date range, each row carrying its dimension values as fields plus impressions, clicks, ctr (0..1) and position, ranked by impressions, clicks, ctr or position, paginated. Google ranks rows by clicks and returns at most 25,000 per request (truncated: true when reached); start_row moves that window. Query rows exclude anonymized queries, so rows add up to less than the summary totals. Requires a connected Search Console property (Growth+) and live reads: stored reads return ERR_INVALID_PARAM. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access and ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying. A combination Google refuses comes back as ERR_INVALID_PARAM with its reason.
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter projectId: (query) Project ID 
+     - parameter dimensions: (query) Comma-separated dimensions to group by, 1 to 3 of date, country, device, page, query, searchAppearance. Each becomes a field of every row; country and device values are lowercase. 
+     - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
+     - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
+     - parameter sort: (query)  (optional, default to .impressions)
+     - parameter page: (query)  (optional, default to 1)
+     - parameter perPage: (query)  (optional, default to 20)
+     - parameter startRow: (query) Google ranks rows by clicks and returns at most 25,000 per request. start_row moves that window down the ranking (e.g. 25000 for the next block); sort and pagination apply within the window. (optional, default to 0)
+     - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter searchType: (query) Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to .web)
+     - parameter filters: (query) Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
+     - parameter dataState: (query) final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to ._final)
+     - parameter aggregationType: (query) How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to .auto)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<SearchConsoleRowsResponse> 
+     */
+    open class func getSearchConsoleRowsWithRequestBuilder(projectId: Int, dimensions: String, range: Int? = nil, from: Date? = nil, to: Date? = nil, sort: Sort_getSearchConsoleRows? = nil, page: Int? = nil, perPage: Int? = nil, startRow: Int? = nil, output: Output_getSearchConsoleRows? = nil, searchType: SearchType_getSearchConsoleRows? = nil, filters: String? = nil, dataState: DataState_getSearchConsoleRows? = nil, aggregationType: AggregationType_getSearchConsoleRows? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SearchConsoleRowsResponse> {
+        let localVariablePath = "/search_console/rows"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        let localVariableQueryItems: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
+            "project_id": (wrappedValue: projectId.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "dimensions": (wrappedValue: dimensions.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "range": (wrappedValue: range?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "from": (wrappedValue: from?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "to": (wrappedValue: to?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "sort": (wrappedValue: sort?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "page": (wrappedValue: page?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "per_page": (wrappedValue: perPage?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "start_row": (wrappedValue: startRow?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "output": (wrappedValue: output?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "search_type": (wrappedValue: searchType?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "filters": (wrappedValue: filters?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "data_state": (wrappedValue: dataState?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "aggregation_type": (wrappedValue: aggregationType?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<SearchConsoleRowsResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -265,22 +425,32 @@ open class SearchConsoleAPI {
     }
 
     /**
+     * enum for parameter aggregationType
+     */
+    public enum AggregationType_getSearchConsoleSummary: String, Sendable, CaseIterable {
+        case auto = "auto"
+        case bypage = "byPage"
+        case byproperty = "byProperty"
+    }
+
+    /**
      Search Console summary (Growth+)
      
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
-     - parameter from: (query)  (optional)
-     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
+     - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
      - parameter dimension: (query) Optional breakdown aggregated over the range. country and device are lowercased; page and query keep the casing Google returns, because a page URL is case sensitive. (optional)
      - parameter limit: (query) Maximum breakdown rows, sorted by impressions descending. Default and maximum 1000. Use /search_console/queries or /search_console/pages to page through up to 25,000 rows. (optional)
      - parameter searchType: (query) Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to .web)
      - parameter filters: (query) Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      - parameter dataState: (query) final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to ._final)
+     - parameter aggregationType: (query) How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to .auto)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: SearchConsoleSummaryResponse
      */
-    open class func getSearchConsoleSummary(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, dimension: Dimension_getSearchConsoleSummary? = nil, limit: Int? = nil, searchType: SearchType_getSearchConsoleSummary? = nil, filters: String? = nil, dataState: DataState_getSearchConsoleSummary? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await getSearchConsoleSummaryWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, dimension: dimension, limit: limit, searchType: searchType, filters: filters, dataState: dataState, apiConfiguration: apiConfiguration).execute().body
+    open class func getSearchConsoleSummary(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, dimension: Dimension_getSearchConsoleSummary? = nil, limit: Int? = nil, searchType: SearchType_getSearchConsoleSummary? = nil, filters: String? = nil, dataState: DataState_getSearchConsoleSummary? = nil, aggregationType: AggregationType_getSearchConsoleSummary? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SearchConsoleSummaryResponse {
+        return try await getSearchConsoleSummaryWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, dimension: dimension, limit: limit, searchType: searchType, filters: filters, dataState: dataState, aggregationType: aggregationType, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -291,18 +461,19 @@ open class SearchConsoleAPI {
        - type: http
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
-     - parameter from: (query)  (optional)
-     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
+     - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
      - parameter dimension: (query) Optional breakdown aggregated over the range. country and device are lowercased; page and query keep the casing Google returns, because a page URL is case sensitive. (optional)
      - parameter limit: (query) Maximum breakdown rows, sorted by impressions descending. Default and maximum 1000. Use /search_console/queries or /search_console/pages to page through up to 25,000 rows. (optional)
      - parameter searchType: (query) Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to .web)
      - parameter filters: (query) Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      - parameter dataState: (query) final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to ._final)
+     - parameter aggregationType: (query) How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to .auto)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<SearchConsoleSummaryResponse> 
      */
-    open class func getSearchConsoleSummaryWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, dimension: Dimension_getSearchConsoleSummary? = nil, limit: Int? = nil, searchType: SearchType_getSearchConsoleSummary? = nil, filters: String? = nil, dataState: DataState_getSearchConsoleSummary? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getSearchConsoleSummaryWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, dimension: Dimension_getSearchConsoleSummary? = nil, limit: Int? = nil, searchType: SearchType_getSearchConsoleSummary? = nil, filters: String? = nil, dataState: DataState_getSearchConsoleSummary? = nil, aggregationType: AggregationType_getSearchConsoleSummary? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SearchConsoleSummaryResponse> {
         let localVariablePath = "/search_console/summary"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -318,6 +489,7 @@ open class SearchConsoleAPI {
             "search_type": (wrappedValue: searchType?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "filters": (wrappedValue: filters?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "data_state": (wrappedValue: dataState?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "aggregation_type": (wrappedValue: aggregationType?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ]
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
 
@@ -327,7 +499,7 @@ open class SearchConsoleAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<SearchConsoleSummaryResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -370,22 +542,32 @@ open class SearchConsoleAPI {
     }
 
     /**
+     * enum for parameter aggregationType
+     */
+    public enum AggregationType_getSearchConsoleTimeseries: String, Sendable, CaseIterable {
+        case auto = "auto"
+        case bypage = "byPage"
+        case byproperty = "byProperty"
+    }
+
+    /**
      Search Console time series (Growth+)
      
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
-     - parameter from: (query)  (optional)
-     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
+     - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
      - parameter granularity: (query)  (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter searchType: (query) Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to .web)
      - parameter filters: (query) Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      - parameter dataState: (query) final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to ._final)
+     - parameter aggregationType: (query) How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to .auto)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: SearchConsoleTimeseriesResponse
      */
-    open class func getSearchConsoleTimeseries(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getSearchConsoleTimeseries? = nil, output: Output_getSearchConsoleTimeseries? = nil, searchType: SearchType_getSearchConsoleTimeseries? = nil, filters: String? = nil, dataState: DataState_getSearchConsoleTimeseries? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await getSearchConsoleTimeseriesWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, granularity: granularity, output: output, searchType: searchType, filters: filters, dataState: dataState, apiConfiguration: apiConfiguration).execute().body
+    open class func getSearchConsoleTimeseries(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getSearchConsoleTimeseries? = nil, output: Output_getSearchConsoleTimeseries? = nil, searchType: SearchType_getSearchConsoleTimeseries? = nil, filters: String? = nil, dataState: DataState_getSearchConsoleTimeseries? = nil, aggregationType: AggregationType_getSearchConsoleTimeseries? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SearchConsoleTimeseriesResponse {
+        return try await getSearchConsoleTimeseriesWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, granularity: granularity, output: output, searchType: searchType, filters: filters, dataState: dataState, aggregationType: aggregationType, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -396,18 +578,19 @@ open class SearchConsoleAPI {
        - type: http
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
-     - parameter from: (query)  (optional)
-     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
+     - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
      - parameter granularity: (query)  (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter searchType: (query) Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to .web)
      - parameter filters: (query) Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      - parameter dataState: (query) final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to ._final)
+     - parameter aggregationType: (query) How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to .auto)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<SearchConsoleTimeseriesResponse> 
      */
-    open class func getSearchConsoleTimeseriesWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getSearchConsoleTimeseries? = nil, output: Output_getSearchConsoleTimeseries? = nil, searchType: SearchType_getSearchConsoleTimeseries? = nil, filters: String? = nil, dataState: DataState_getSearchConsoleTimeseries? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getSearchConsoleTimeseriesWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getSearchConsoleTimeseries? = nil, output: Output_getSearchConsoleTimeseries? = nil, searchType: SearchType_getSearchConsoleTimeseries? = nil, filters: String? = nil, dataState: DataState_getSearchConsoleTimeseries? = nil, aggregationType: AggregationType_getSearchConsoleTimeseries? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SearchConsoleTimeseriesResponse> {
         let localVariablePath = "/search_console/timeseries"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -423,6 +606,7 @@ open class SearchConsoleAPI {
             "search_type": (wrappedValue: searchType?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "filters": (wrappedValue: filters?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "data_state": (wrappedValue: dataState?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "aggregation_type": (wrappedValue: aggregationType?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ]
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
 
@@ -432,7 +616,7 @@ open class SearchConsoleAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<SearchConsoleTimeseriesResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

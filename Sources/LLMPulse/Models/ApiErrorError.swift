@@ -37,6 +37,7 @@ public struct ApiErrorError: Sendable, Codable, Hashable {
         case errInvalidRange = "ERR_INVALID_RANGE"
         case errLimitReached = "ERR_LIMIT_REACHED"
         case errQuotaExceeded = "ERR_QUOTA_EXCEEDED"
+        case errStaleContent = "ERR_STALE_CONTENT"
         case errRateLimited = "ERR_RATE_LIMITED"
     }
     public var code: Code?

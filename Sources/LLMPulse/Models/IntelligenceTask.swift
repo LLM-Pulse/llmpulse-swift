@@ -32,9 +32,11 @@ public struct IntelligenceTask: Sendable, Codable, Hashable {
     public var manuallyEditedAt: Date?
     /** User behind the last manual edit; null for an unedited task or an edit made from an embedded portal */
     public var editedByUserId: Int?
+    /** Concurrency token for content edits: send it back as result_version on PATCH /intelligence_tasks/{id} so an edit composed before a regeneration is refused with ERR_STALE_CONTENT (409). It is \"0\" until the task first completes, then changes each time a generation or regeneration replaces result_data, never on a manual edit or a revert. Treat it as opaque text */
+    public var resultVersion: String?
     public var requestId: String?
 
-    public init(id: Int? = nil, publicId: String? = nil, projectId: Int? = nil, taskType: String? = nil, title: String? = nil, status: String? = nil, promptId: Int? = nil, promptText: String? = nil, agenticMode: Bool? = nil, customTopic: String? = nil, userInstructions: String? = nil, outputLanguageCode: String? = nil, wordCount: Int? = nil, resultData: JSONValue? = nil, errorMessage: String? = nil, estimatedTime: String? = nil, createdAt: Date? = nil, processedAt: Date? = nil, manuallyEditedAt: Date? = nil, editedByUserId: Int? = nil, requestId: String? = nil) {
+    public init(id: Int? = nil, publicId: String? = nil, projectId: Int? = nil, taskType: String? = nil, title: String? = nil, status: String? = nil, promptId: Int? = nil, promptText: String? = nil, agenticMode: Bool? = nil, customTopic: String? = nil, userInstructions: String? = nil, outputLanguageCode: String? = nil, wordCount: Int? = nil, resultData: JSONValue? = nil, errorMessage: String? = nil, estimatedTime: String? = nil, createdAt: Date? = nil, processedAt: Date? = nil, manuallyEditedAt: Date? = nil, editedByUserId: Int? = nil, resultVersion: String? = nil, requestId: String? = nil) {
         self.id = id
         self.publicId = publicId
         self.projectId = projectId
@@ -55,6 +57,7 @@ public struct IntelligenceTask: Sendable, Codable, Hashable {
         self.processedAt = processedAt
         self.manuallyEditedAt = manuallyEditedAt
         self.editedByUserId = editedByUserId
+        self.resultVersion = resultVersion
         self.requestId = requestId
     }
 
@@ -79,6 +82,7 @@ public struct IntelligenceTask: Sendable, Codable, Hashable {
         case processedAt = "processed_at"
         case manuallyEditedAt = "manually_edited_at"
         case editedByUserId = "edited_by_user_id"
+        case resultVersion = "result_version"
         case requestId = "request_id"
     }
 
@@ -106,6 +110,7 @@ public struct IntelligenceTask: Sendable, Codable, Hashable {
         try container.encodeIfPresent(processedAt, forKey: .processedAt)
         try container.encodeIfPresent(manuallyEditedAt, forKey: .manuallyEditedAt)
         try container.encodeIfPresent(editedByUserId, forKey: .editedByUserId)
+        try container.encodeIfPresent(resultVersion, forKey: .resultVersion)
         try container.encodeIfPresent(requestId, forKey: .requestId)
     }
 }
