@@ -159,7 +159,7 @@ open class PromptsAPI {
      - parameter projectId: (query) Project ID 
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
-     - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     - parameter model: (query) Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
      - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -186,7 +186,7 @@ open class PromptsAPI {
      - parameter projectId: (query) Project ID 
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
-     - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     - parameter model: (query) Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
      - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -277,10 +277,11 @@ open class PromptsAPI {
      - parameter projectId: (query) Project ID 
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
-     - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     - parameter model: (query) Keep only the prompts with at least one execution on this AI model, of any outcome and date (the prompts /dimensions/prompt_executions lists for the same model). Prompts have no model of their own, so a prompt with no execution on this model yet (a newly enabled model, or a locale the model does not cover) is left out. An unknown value, or a model the API key&#39;s user has not enabled, returns 422 ERR_INVALID_PARAM. from and to still filter prompt creation. (optional)
      - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter prompt: (query) Filter by prompt ID (optional)
      - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter from: (query)  (optional)
@@ -289,8 +290,8 @@ open class PromptsAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: PromptsResponse
      */
-    open class func listPrompts(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listPrompts? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listPrompts? = nil, from: Date? = nil, to: Date? = nil, output: Output_listPrompts? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> PromptsResponse {
-        return try await listPromptsWithRequestBuilder(projectId: projectId, page: page, perPage: perPage, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, promptType: promptType, brandKind: brandKind, from: from, to: to, output: output, apiConfiguration: apiConfiguration).execute().body
+    open class func listPrompts(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listPrompts? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listPrompts? = nil, from: Date? = nil, to: Date? = nil, output: Output_listPrompts? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> PromptsResponse {
+        return try await listPromptsWithRequestBuilder(projectId: projectId, page: page, perPage: perPage, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, promptType: promptType, brandKind: brandKind, from: from, to: to, output: output, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -302,10 +303,11 @@ open class PromptsAPI {
      - parameter projectId: (query) Project ID 
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
-     - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     - parameter model: (query) Keep only the prompts with at least one execution on this AI model, of any outcome and date (the prompts /dimensions/prompt_executions lists for the same model). Prompts have no model of their own, so a prompt with no execution on this model yet (a newly enabled model, or a locale the model does not cover) is left out. An unknown value, or a model the API key&#39;s user has not enabled, returns 422 ERR_INVALID_PARAM. from and to still filter prompt creation. (optional)
      - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter prompt: (query) Filter by prompt ID (optional)
      - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter from: (query)  (optional)
@@ -314,7 +316,7 @@ open class PromptsAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<PromptsResponse> 
      */
-    open class func listPromptsWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listPrompts? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listPrompts? = nil, from: Date? = nil, to: Date? = nil, output: Output_listPrompts? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<PromptsResponse> {
+    open class func listPromptsWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listPrompts? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listPrompts? = nil, from: Date? = nil, to: Date? = nil, output: Output_listPrompts? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<PromptsResponse> {
         let localVariablePath = "/dimensions/prompts"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -328,6 +330,7 @@ open class PromptsAPI {
             "collection_id": (wrappedValue: collectionId?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "country_code": (wrappedValue: countryCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "language_code": (wrappedValue: languageCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "prompt": (wrappedValue: prompt?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "prompt_type": (wrappedValue: promptType?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "brand_kind": (wrappedValue: brandKind?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "from": (wrappedValue: from?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
@@ -421,7 +424,7 @@ open class PromptsAPI {
      - parameter order: (query) Sort field; the allowed set depends on view (optional)
      - parameter direction: (query)  (optional, default to .desc)
      - parameter query: (query) Case-insensitive substring filter on the sub-query text (optional)
-     - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     - parameter model: (query) Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
      - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -453,7 +456,7 @@ open class PromptsAPI {
      - parameter order: (query) Sort field; the allowed set depends on view (optional)
      - parameter direction: (query)  (optional, default to .desc)
      - parameter query: (query) Case-insensitive substring filter on the sub-query text (optional)
-     - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     - parameter model: (query) Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
      - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)

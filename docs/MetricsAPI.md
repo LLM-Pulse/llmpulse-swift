@@ -30,7 +30,7 @@ let range = 987 // Int | Number of days to look back (alternative to from/to) (o
 let from = Date() // Date |  (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
 let breakdown = "breakdown_example" // String | Add per-(prompt, model) rows to the output (optional)
-let model = "model_example" // String | Filter by AI model. Models the API key's user has not enabled are silently dropped. (optional)
+let model = "model_example" // String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
 let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
 let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -65,7 +65,7 @@ Name | Type | Description  | Notes
  **from** | **Date** |  | [optional] 
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **breakdown** | **String** | Add per-(prompt, model) rows to the output | [optional] 
- **model** | **String** | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **model** | **String** | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. | [optional] 
  **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
@@ -113,7 +113,7 @@ let from = Date() // Date |  (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
 let granularity = "granularity_example" // String |  (optional)
 let competitors = "competitors_example" // String | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
-let model = "model_example" // String | Filter by AI model. Models the API key's user has not enabled are silently dropped. (optional)
+let model = "model_example" // String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
 let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let prompt = 987 // Int | Filter by prompt ID (optional)
 let promptType = "promptType_example" // String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
@@ -144,7 +144,7 @@ Name | Type | Description  | Notes
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **granularity** | **String** |  | [optional] 
  **competitors** | **String** | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
- **model** | **String** | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **model** | **String** | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. | [optional] 
  **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **prompt** | **Int** | Filter by prompt ID | [optional] 
  **promptType** | **String** | One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
@@ -188,7 +188,7 @@ let range = 987 // Int | Number of days to look back (alternative to from/to) (o
 let from = Date() // Date |  (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
 let competitors = "competitors_example" // String | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
-let model = "model_example" // String | Filter by AI model. Models the API key's user has not enabled are silently dropped. (optional)
+let model = "model_example" // String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
 let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let prompt = 987 // Int | Filter by prompt ID (optional)
 let promptType = "promptType_example" // String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
@@ -219,7 +219,7 @@ Name | Type | Description  | Notes
  **from** | **Date** |  | [optional] 
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **competitors** | **String** | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
- **model** | **String** | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **model** | **String** | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. | [optional] 
  **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **prompt** | **Int** | Filter by prompt ID | [optional] 
  **promptType** | **String** | One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
@@ -262,7 +262,7 @@ let range = 987 // Int | Number of days to look back (alternative to from/to) (o
 let from = Date() // Date |  (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
 let competitors = "competitors_example" // String | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
-let model = "model_example" // String | Filter by AI model. Models the API key's user has not enabled are silently dropped. (optional)
+let model = "model_example" // String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
 let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
 let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -296,7 +296,7 @@ Name | Type | Description  | Notes
  **from** | **Date** |  | [optional] 
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **competitors** | **String** | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
- **model** | **String** | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **model** | **String** | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. | [optional] 
  **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
@@ -339,7 +339,7 @@ let projectId = 987 // Int | Project ID
 let range = 987 // Int | Number of days to look back (alternative to from/to) (optional)
 let from = Date() // Date |  (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
-let model = "model_example" // String | Filter by AI model. Models the API key's user has not enabled are silently dropped. (optional)
+let model = "model_example" // String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
 let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
 let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -373,7 +373,7 @@ Name | Type | Description  | Notes
  **range** | **Int** | Number of days to look back (alternative to from/to) | [optional] 
  **from** | **Date** |  | [optional] 
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
- **model** | **String** | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **model** | **String** | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. | [optional] 
  **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 

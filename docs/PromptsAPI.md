@@ -128,7 +128,7 @@ import LLMPulse
 let projectId = 987 // Int | Project ID
 let page = 987 // Int |  (optional) (default to 1)
 let perPage = 987 // Int |  (optional) (default to 20)
-let model = "model_example" // String | Filter by AI model. Models the API key's user has not enabled are silently dropped. (optional)
+let model = "model_example" // String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
 let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
 let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -160,7 +160,7 @@ Name | Type | Description  | Notes
  **projectId** | **Int** | Project ID | 
  **page** | **Int** |  | [optional] [default to 1]
  **perPage** | **Int** |  | [optional] [default to 20]
- **model** | **String** | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **model** | **String** | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. | [optional] 
  **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
@@ -189,7 +189,7 @@ Name | Type | Description  | Notes
 
 # **listPrompts**
 ```swift
-    open class func listPrompts(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listPrompts? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listPrompts? = nil, from: Date? = nil, to: Date? = nil, output: Output_listPrompts? = nil, completion: @escaping (_ data: PromptsResponse?, _ error: Error?) -> Void)
+    open class func listPrompts(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listPrompts? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listPrompts? = nil, from: Date? = nil, to: Date? = nil, output: Output_listPrompts? = nil, completion: @escaping (_ data: PromptsResponse?, _ error: Error?) -> Void)
 ```
 
 List prompts
@@ -202,10 +202,11 @@ import LLMPulse
 let projectId = 987 // Int | Project ID
 let page = 987 // Int |  (optional) (default to 1)
 let perPage = 987 // Int |  (optional) (default to 20)
-let model = "model_example" // String | Filter by AI model. Models the API key's user has not enabled are silently dropped. (optional)
+let model = "model_example" // String | Keep only the prompts with at least one execution on this AI model, of any outcome and date (the prompts /dimensions/prompt_executions lists for the same model). Prompts have no model of their own, so a prompt with no execution on this model yet (a newly enabled model, or a locale the model does not cover) is left out. An unknown value, or a model the API key's user has not enabled, returns 422 ERR_INVALID_PARAM. from and to still filter prompt creation. (optional)
 let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
 let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+let prompt = 987 // Int | Filter by prompt ID (optional)
 let promptType = "promptType_example" // String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
 let brandKind = "brandKind_example" // String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
 let from = Date() // Date |  (optional)
@@ -213,7 +214,7 @@ let to = Date() // Date | End of the window. A date-only value such as 2026-09-0
 let output = "output_example" // String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (optional)
 
 // List prompts
-PromptsAPI.listPrompts(projectId: projectId, page: page, perPage: perPage, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, promptType: promptType, brandKind: brandKind, from: from, to: to, output: output) { (response, error) in
+PromptsAPI.listPrompts(projectId: projectId, page: page, perPage: perPage, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, promptType: promptType, brandKind: brandKind, from: from, to: to, output: output) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -232,10 +233,11 @@ Name | Type | Description  | Notes
  **projectId** | **Int** | Project ID | 
  **page** | **Int** |  | [optional] [default to 1]
  **perPage** | **Int** |  | [optional] [default to 20]
- **model** | **String** | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **model** | **String** | Keep only the prompts with at least one execution on this AI model, of any outcome and date (the prompts /dimensions/prompt_executions lists for the same model). Prompts have no model of their own, so a prompt with no execution on this model yet (a newly enabled model, or a locale the model does not cover) is left out. An unknown value, or a model the API key&#39;s user has not enabled, returns 422 ERR_INVALID_PARAM. from and to still filter prompt creation. | [optional] 
  **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
+ **prompt** | **Int** | Filter by prompt ID | [optional] 
  **promptType** | **String** | One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
  **brandKind** | **String** | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
  **from** | **Date** |  | [optional] 
@@ -278,7 +280,7 @@ let view = "view_example" // String | Row shape: one per distinct sub-query, or 
 let order = "order_example" // String | Sort field; the allowed set depends on view (optional)
 let direction = "direction_example" // String |  (optional) (default to .desc)
 let query = "query_example" // String | Case-insensitive substring filter on the sub-query text (optional)
-let model = "model_example" // String | Filter by AI model. Models the API key's user has not enabled are silently dropped. (optional)
+let model = "model_example" // String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
 let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
 let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -314,7 +316,7 @@ Name | Type | Description  | Notes
  **order** | **String** | Sort field; the allowed set depends on view | [optional] 
  **direction** | **String** |  | [optional] [default to .desc]
  **query** | **String** | Case-insensitive substring filter on the sub-query text | [optional] 
- **model** | **String** | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **model** | **String** | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. | [optional] 
  **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 

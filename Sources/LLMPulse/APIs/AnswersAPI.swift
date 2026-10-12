@@ -112,7 +112,7 @@ open class AnswersAPI {
      List AI responses
      
      - parameter projectId: (query) Project ID 
-     - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     - parameter model: (query) Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
      - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -141,7 +141,7 @@ open class AnswersAPI {
        - type: http
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
-     - parameter model: (query) Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. (optional)
+     - parameter model: (query) Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
      - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)

@@ -199,7 +199,7 @@ Static catalog of AI bots that Agent Analytics can identify. Useful for renderin
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import LLMPulse
 
-let projectId = 987 // Int | Project ID
+let projectId = 987 // Int | Accepted for compatibility and ignored. The catalog is the same for every project, so any value returns the same list and the project is not checked.
 let output = "output_example" // String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (optional)
 
 // AI bot catalog (Scale plan or above)
@@ -219,7 +219,7 @@ AIAgentTrafficAPI.listAgentBots(projectId: projectId, output: output) { (respons
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **projectId** | **Int** | Project ID | 
+ **projectId** | **Int** | Accepted for compatibility and ignored. The catalog is the same for every project, so any value returns the same list and the project is not checked. | 
  **output** | **String** | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
 
 ### Return type

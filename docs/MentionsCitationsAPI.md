@@ -30,7 +30,7 @@ let projectId = 987 // Int | Project ID
 let competitors = "competitors_example" // String | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
 let page = 987 // Int |  (optional) (default to 1)
 let perPage = 987 // Int |  (optional) (default to 20)
-let model = "model_example" // String | Filter by AI model. Models the API key's user has not enabled are silently dropped. (optional)
+let model = "model_example" // String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
 let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let prompt = 987 // Int | Filter by prompt ID (optional)
 let from = Date() // Date |  (optional)
@@ -58,7 +58,7 @@ Name | Type | Description  | Notes
  **competitors** | **String** | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
  **page** | **Int** |  | [optional] [default to 1]
  **perPage** | **Int** |  | [optional] [default to 20]
- **model** | **String** | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **model** | **String** | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. | [optional] 
  **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **prompt** | **Int** | Filter by prompt ID | [optional] 
  **from** | **Date** |  | [optional] 
@@ -98,7 +98,7 @@ let projectId = 987 // Int | Project ID
 let competitors = "competitors_example" // String | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
 let page = 987 // Int |  (optional) (default to 1)
 let perPage = 987 // Int |  (optional) (default to 20)
-let model = "model_example" // String | Filter by AI model. Models the API key's user has not enabled are silently dropped. (optional)
+let model = "model_example" // String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
 let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let prompt = 987 // Int | Filter by prompt ID (optional)
 let from = Date() // Date |  (optional)
@@ -126,7 +126,7 @@ Name | Type | Description  | Notes
  **competitors** | **String** | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
  **page** | **Int** |  | [optional] [default to 1]
  **perPage** | **Int** |  | [optional] [default to 20]
- **model** | **String** | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **model** | **String** | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. | [optional] 
  **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **prompt** | **Int** | Filter by prompt ID | [optional] 
  **from** | **Date** |  | [optional] 
@@ -165,7 +165,7 @@ import LLMPulse
 let projectId = 987 // Int | Project ID
 let page = 987 // Int |  (optional) (default to 1)
 let perPage = 987 // Int |  (optional) (default to 20)
-let model = "model_example" // String | Filter by AI model. Models the API key's user has not enabled are silently dropped. (optional)
+let model = "model_example" // String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
 let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
 let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -194,7 +194,7 @@ Name | Type | Description  | Notes
  **projectId** | **Int** | Project ID | 
  **page** | **Int** |  | [optional] [default to 1]
  **perPage** | **Int** |  | [optional] [default to 20]
- **model** | **String** | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **model** | **String** | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. | [optional] 
  **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
@@ -236,7 +236,7 @@ let projectId = 987 // Int | Project ID
 let competitors = "competitors_example" // String | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
 let page = 987 // Int |  (optional) (default to 1)
 let perPage = 987 // Int |  (optional) (default to 20)
-let model = "model_example" // String | Filter by AI model. Models the API key's user has not enabled are silently dropped. (optional)
+let model = "model_example" // String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
 let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let prompt = 987 // Int | Filter by prompt ID (optional)
 let from = Date() // Date |  (optional)
@@ -264,7 +264,7 @@ Name | Type | Description  | Notes
  **competitors** | **String** | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
  **page** | **Int** |  | [optional] [default to 1]
  **perPage** | **Int** |  | [optional] [default to 20]
- **model** | **String** | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **model** | **String** | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. | [optional] 
  **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **prompt** | **Int** | Filter by prompt ID | [optional] 
  **from** | **Date** |  | [optional] 
@@ -302,7 +302,7 @@ let projectId = 987 // Int | Project ID
 let competitors = "competitors_example" // String | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
 let page = 987 // Int |  (optional) (default to 1)
 let perPage = 987 // Int |  (optional) (default to 20)
-let model = "model_example" // String | Filter by AI model. Models the API key's user has not enabled are silently dropped. (optional)
+let model = "model_example" // String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
 let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let prompt = 987 // Int | Filter by prompt ID (optional)
 let from = Date() // Date |  (optional)
@@ -330,7 +330,7 @@ Name | Type | Description  | Notes
  **competitors** | **String** | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
  **page** | **Int** |  | [optional] [default to 1]
  **perPage** | **Int** |  | [optional] [default to 20]
- **model** | **String** | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **model** | **String** | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. | [optional] 
  **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **prompt** | **Int** | Filter by prompt ID | [optional] 
  **from** | **Date** |  | [optional] 
@@ -367,7 +367,7 @@ import LLMPulse
 let projectId = 987 // Int | Project ID
 let page = 987 // Int |  (optional) (default to 1)
 let perPage = 987 // Int |  (optional) (default to 20)
-let model = "model_example" // String | Filter by AI model. Models the API key's user has not enabled are silently dropped. (optional)
+let model = "model_example" // String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
 let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
 let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -396,7 +396,7 @@ Name | Type | Description  | Notes
  **projectId** | **Int** | Project ID | 
  **page** | **Int** |  | [optional] [default to 1]
  **perPage** | **Int** |  | [optional] [default to 20]
- **model** | **String** | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **model** | **String** | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. | [optional] 
  **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 

@@ -168,6 +168,8 @@ Sources/LLMPulse/Models/ProjectDetailsAllOfDataCoverage.swift
 Sources/LLMPulse/Models/ProjectDetailsAllOfSearchConsole.swift
 Sources/LLMPulse/Models/ProjectDetailsAllOfStats.swift
 Sources/LLMPulse/Models/ProjectDetailsAllOfStatsPromptsByBrandKind.swift
+Sources/LLMPulse/Models/ProjectProfile.swift
+Sources/LLMPulse/Models/ProjectUpdateResponse.swift
 Sources/LLMPulse/Models/PromptExecutionRecord.swift
 Sources/LLMPulse/Models/PromptExecutionsResponse.swift
 Sources/LLMPulse/Models/PromptRecord.swift
@@ -372,6 +374,8 @@ docs/ProjectDetailsAllOfDataCoverage.md
 docs/ProjectDetailsAllOfSearchConsole.md
 docs/ProjectDetailsAllOfStats.md
 docs/ProjectDetailsAllOfStatsPromptsByBrandKind.md
+docs/ProjectProfile.md
+docs/ProjectUpdateResponse.md
 docs/ProjectsAPI.md
 docs/PromptExecutionRecord.md
 docs/PromptExecutionsResponse.md

@@ -17,6 +17,8 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
     public var url: String?
     public var description: String?
     public var matchingNames: [String]?
+    /** Other domains the brand owns (at most 10, each a website's own domain covering its subdomains), whose citations count as owned like the project website. Empty when none */
+    public var additionalOwnedDomains: [String]?
     /** Industry as stored: one key as a string (e.g. SAAS), or an array of key strings when the project was created with a list or the in-app multi-select. Deliberately untyped so generated clients decode either shape */
     public var industry: JSONValue?
     public var businessModel: String?
@@ -37,13 +39,14 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
     public var searchConsole: ProjectDetailsAllOfSearchConsole?
     public var requestId: String?
 
-    public init(id: Int? = nil, name: String? = nil, brandName: String? = nil, url: String? = nil, description: String? = nil, matchingNames: [String]? = nil, industry: JSONValue? = nil, businessModel: String? = nil, businessModelOther: String? = nil, primaryProducts: [String]? = nil, targetAudience: String? = nil, brandVoice: String? = nil, goals: String? = nil, countryCode: String? = nil, languageCode: String? = nil, paused: Bool? = nil, googlePlayId: String? = nil, appStoreId: String? = nil, createdAt: Date? = nil, stats: ProjectDetailsAllOfStats? = nil, dataCoverage: ProjectDetailsAllOfDataCoverage? = nil, searchConsole: ProjectDetailsAllOfSearchConsole? = nil, requestId: String? = nil) {
+    public init(id: Int? = nil, name: String? = nil, brandName: String? = nil, url: String? = nil, description: String? = nil, matchingNames: [String]? = nil, additionalOwnedDomains: [String]? = nil, industry: JSONValue? = nil, businessModel: String? = nil, businessModelOther: String? = nil, primaryProducts: [String]? = nil, targetAudience: String? = nil, brandVoice: String? = nil, goals: String? = nil, countryCode: String? = nil, languageCode: String? = nil, paused: Bool? = nil, googlePlayId: String? = nil, appStoreId: String? = nil, createdAt: Date? = nil, stats: ProjectDetailsAllOfStats? = nil, dataCoverage: ProjectDetailsAllOfDataCoverage? = nil, searchConsole: ProjectDetailsAllOfSearchConsole? = nil, requestId: String? = nil) {
         self.id = id
         self.name = name
         self.brandName = brandName
         self.url = url
         self.description = description
         self.matchingNames = matchingNames
+        self.additionalOwnedDomains = additionalOwnedDomains
         self.industry = industry
         self.businessModel = businessModel
         self.businessModelOther = businessModelOther
@@ -70,6 +73,7 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
         case url
         case description
         case matchingNames = "matching_names"
+        case additionalOwnedDomains = "additional_owned_domains"
         case industry
         case businessModel = "business_model"
         case businessModelOther = "business_model_other"
@@ -99,6 +103,7 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
         try container.encodeIfPresent(url, forKey: .url)
         try container.encodeIfPresent(description, forKey: .description)
         try container.encodeIfPresent(matchingNames, forKey: .matchingNames)
+        try container.encodeIfPresent(additionalOwnedDomains, forKey: .additionalOwnedDomains)
         try container.encodeIfPresent(industry, forKey: .industry)
         try container.encodeIfPresent(businessModel, forKey: .businessModel)
         try container.encodeIfPresent(businessModelOther, forKey: .businessModelOther)

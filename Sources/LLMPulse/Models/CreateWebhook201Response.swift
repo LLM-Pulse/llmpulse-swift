@@ -25,6 +25,7 @@ public struct CreateWebhook201Response: Sendable, Codable, Hashable {
     public var projectId: Int?
     public var eventType: EventType?
     public var targetUrl: String?
+    /** True when the subscription receives no more events, including when the API key or OAuth connection that created it was revoked. Creating it again with the same project, event and URL replaces it with a new subscription and secret. */
     public var disabled: Bool?
     public var failureCount: Int?
     public var lastDeliveredAt: Date?

@@ -175,7 +175,7 @@ Void (empty response body)
 
 Project details
 
-Detailed info for one project: matching_names, industry, business model, primary products, target audience, brand voice, locale, app store IDs, stats (incl. prompts_by_brand_kind counts) and data_coverage (models, countries and languages with data).
+Detailed info for one project: matching_names, additional_owned_domains, industry, business model, primary products, target audience, brand voice, locale, app store IDs, stats (incl. prompts_by_brand_kind counts) and data_coverage (models, countries and languages with data).
 
 ### Example
 ```swift
@@ -416,12 +416,12 @@ Name | Type | Description  | Notes
 
 # **updateProject**
 ```swift
-    open class func updateProject(id: Int, updateProjectRequest: UpdateProjectRequest, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func updateProject(id: Int, updateProjectRequest: UpdateProjectRequest, completion: @escaping (_ data: ProjectUpdateResponse?, _ error: Error?) -> Void)
 ```
 
 Update a project profile (Brand Book)
 
-Updates the project name and profile, the same fields as Project Settings: name, brand_name, description, industry, business_model (plus business_model_other when it is OTHER), target_audience, brand_voice, goals, primary_products, matching_names. Send only the fields to change; unknown fields are rejected. All seven Brand Book fields feed every GEO Writer task and prompt suggestions; only industry, description, and target_audience help Recommendations. A matching_names change re-runs mention/citation matching over the project history in the background (rematching=true); further edits are rejected while that runs. Requires a `read_write` scope API key.
+Updates the project name and profile, the same fields as Project Settings: name, brand_name, description, industry, business_model (plus business_model_other when it is OTHER), target_audience, brand_voice, goals, primary_products, matching_names, and the additional owned domains (additional_owned_domains). Send only the fields to change; unknown fields are rejected, and a request is applied whole or not at all. All seven Brand Book fields feed every GEO Writer task and prompt suggestions; only industry, description, and target_audience help Recommendations. A matching_names change re-runs mention/citation matching over the project history in the background, and an additional_owned_domains change reprocesses the past answers that cite an added or removed domain (rematching=true); further edits are rejected while that runs. Only the account owner can send additional_owned_domains: a team member key gets ERR_INSUFFICIENT_PERMISSION and nothing is applied. Requires a `read_write` scope API key.
 
 ### Example
 ```swift
@@ -429,7 +429,7 @@ Updates the project name and profile, the same fields as Project Settings: name,
 import LLMPulse
 
 let id = 987 // Int | 
-let updateProjectRequest = updateProject_request(name: "name_example", brandName: "brandName_example", description: "description_example", industry: "industry_example", businessModel: "businessModel_example", businessModelOther: "businessModelOther_example", targetAudience: "targetAudience_example", brandVoice: "brandVoice_example", goals: "goals_example", primaryProducts: ["primaryProducts_example"], matchingNames: ["matchingNames_example"]) // UpdateProjectRequest | 
+let updateProjectRequest = updateProject_request(name: "name_example", brandName: "brandName_example", description: "description_example", industry: "industry_example", businessModel: "businessModel_example", businessModelOther: "businessModelOther_example", targetAudience: "targetAudience_example", brandVoice: "brandVoice_example", goals: "goals_example", primaryProducts: ["primaryProducts_example"], matchingNames: ["matchingNames_example"], additionalOwnedDomains: ["additionalOwnedDomains_example"]) // UpdateProjectRequest | 
 
 // Update a project profile (Brand Book)
 ProjectsAPI.updateProject(id: id, updateProjectRequest: updateProjectRequest) { (response, error) in
@@ -453,7 +453,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**ProjectUpdateResponse**](ProjectUpdateResponse.md)
 
 ### Authorization
 

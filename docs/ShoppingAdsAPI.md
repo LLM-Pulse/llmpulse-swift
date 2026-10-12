@@ -31,7 +31,7 @@ let owned = true // Bool | Return only placements identified as the tracked bran
 let order = "order_example" // String | Sort field; the allowed set depends on view (optional)
 let direction = "direction_example" // String | Sort direction for view=advertisers. Defaults to desc, except avg_position and domain which default to asc. (optional)
 let query = "query_example" // String | Case-insensitive substring filter on the ad title, domain or snippet (optional)
-let model = "model_example" // String | Filter by AI model. Models the API key's user has not enabled are silently dropped. (optional)
+let model = "model_example" // String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
 let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
 let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -68,7 +68,7 @@ Name | Type | Description  | Notes
  **order** | **String** | Sort field; the allowed set depends on view | [optional] 
  **direction** | **String** | Sort direction for view&#x3D;advertisers. Defaults to desc, except avg_position and domain which default to asc. | [optional] 
  **query** | **String** | Case-insensitive substring filter on the ad title, domain or snippet | [optional] 
- **model** | **String** | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **model** | **String** | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. | [optional] 
  **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
@@ -116,7 +116,7 @@ let owned = true // Bool | Return only listings identified as the tracked brand'
 let order = "order_example" // String | Sort field (optional) (default to .appearances)
 let direction = "direction_example" // String |  (optional) (default to .desc)
 let query = "query_example" // String | Case-insensitive substring filter on the business name or address (optional)
-let model = "model_example" // String | Filter by AI model. Models the API key's user has not enabled are silently dropped. (optional)
+let model = "model_example" // String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
 let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
 let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -152,7 +152,7 @@ Name | Type | Description  | Notes
  **order** | **String** | Sort field | [optional] [default to .appearances]
  **direction** | **String** |  | [optional] [default to .desc]
  **query** | **String** | Case-insensitive substring filter on the business name or address | [optional] 
- **model** | **String** | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **model** | **String** | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. | [optional] 
  **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
@@ -201,7 +201,7 @@ let owned = true // Bool | Return only products identified as the tracked brand'
 let order = "order_example" // String | Sort field; the allowed set depends on view (optional)
 let direction = "direction_example" // String |  (optional) (default to .desc)
 let query = "query_example" // String | Case-insensitive substring filter on the product title (optional)
-let model = "model_example" // String | Filter by AI model. Models the API key's user has not enabled are silently dropped. (optional)
+let model = "model_example" // String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
 let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
 let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
@@ -238,7 +238,7 @@ Name | Type | Description  | Notes
  **order** | **String** | Sort field; the allowed set depends on view | [optional] 
  **direction** | **String** |  | [optional] [default to .desc]
  **query** | **String** | Case-insensitive substring filter on the product title | [optional] 
- **model** | **String** | Filter by AI model. Models the API key&#39;s user has not enabled are silently dropped. | [optional] 
+ **model** | **String** | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. | [optional] 
  **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 

@@ -214,7 +214,7 @@ open class AIAgentTrafficAPI {
     /**
      AI bot catalog (Scale plan or above)
      
-     - parameter projectId: (query) Project ID 
+     - parameter projectId: (query) Accepted for compatibility and ignored. The catalog is the same for every project, so any value returns the same list and the project is not checked. 
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AgentBotsResponse
@@ -230,7 +230,7 @@ open class AIAgentTrafficAPI {
      - Bearer Token:
        - type: http
        - name: BearerAuth
-     - parameter projectId: (query) Project ID 
+     - parameter projectId: (query) Accepted for compatibility and ignored. The catalog is the same for every project, so any value returns the same list and the project is not checked. 
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<AgentBotsResponse> 
