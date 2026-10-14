@@ -30,7 +30,7 @@ public struct CreateWebhook201Response: Sendable, Codable, Hashable {
     public var failureCount: Int?
     public var lastDeliveredAt: Date?
     public var createdAt: Date?
-    /** HMAC signing secret (whsec_...). Only returned on create. */
+    /** HMAC signing secret (whsec_...). Returned when the subscription is created, and on a re-post only to the API key or OAuth connection that created it; absent for any other credential. */
     public var secret: String?
     public var requestId: String?
 
