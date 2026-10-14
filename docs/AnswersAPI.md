@@ -90,7 +90,7 @@ let to = Date() // Date | End of the window. A date-only value such as 2026-09-0
 let page = 987 // Int |  (optional) (default to 1)
 let perPage = 987 // Int |  (optional) (default to 20)
 let query = "query_example" // String | Case-insensitive full-text search inside AI response texts. Switches items to snippet + match_count mode. (optional)
-let noResult = true // Bool | Filter sentinel non-answers (provider returned nothing after retries; excluded from platform metrics). false = only real answers, true = only sentinels, omit = both. Every item carries its own no_result flag. (optional)
+let noResult = true // Bool | Filter sentinel non-answers (the provider returned nothing after all retries, or the model declined to answer, today only Gemini; excluded from platform metrics). false = only real answers, true = only sentinels, omit = both. Every item carries its own no_result flag. (optional)
 
 // List AI responses
 AnswersAPI.listAnswers(projectId: projectId, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, mentionFilter: mentionFilter, citationFilter: citationFilter, competitors: competitors, from: from, to: to, page: page, perPage: perPage, query: query, noResult: noResult) { (response, error) in
@@ -123,7 +123,7 @@ Name | Type | Description  | Notes
  **page** | **Int** |  | [optional] [default to 1]
  **perPage** | **Int** |  | [optional] [default to 20]
  **query** | **String** | Case-insensitive full-text search inside AI response texts. Switches items to snippet + match_count mode. | [optional] 
- **noResult** | **Bool** | Filter sentinel non-answers (provider returned nothing after retries; excluded from platform metrics). false &#x3D; only real answers, true &#x3D; only sentinels, omit &#x3D; both. Every item carries its own no_result flag. | [optional] 
+ **noResult** | **Bool** | Filter sentinel non-answers (the provider returned nothing after all retries, or the model declined to answer, today only Gemini; excluded from platform metrics). false &#x3D; only real answers, true &#x3D; only sentinels, omit &#x3D; both. Every item carries its own no_result flag. | [optional] 
 
 ### Return type
 

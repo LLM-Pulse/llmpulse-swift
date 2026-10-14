@@ -20,7 +20,7 @@ public struct AnswerDetails: Sendable, Codable, Hashable {
     public var durationMs: Double?
     /** Null while the answer is still pending */
     public var success: Bool?
-    /** True for a sentinel non-answer (the provider returned nothing after retries); excluded from platform metrics */
+    /** True for a sentinel non-answer (the provider returned nothing after all retries, or the model declined to answer, today only Gemini); excluded from platform metrics */
     public var noResult: Bool?
     public var fanOutQueries: [String]?
     public var mentions: [JSONValue]?

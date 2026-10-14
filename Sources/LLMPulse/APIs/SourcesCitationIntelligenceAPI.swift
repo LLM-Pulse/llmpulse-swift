@@ -59,30 +59,110 @@ open class SourcesCitationIntelligenceAPI {
     }
 
     /**
+     * enum for parameter model
+     */
+    public enum Model_getCitedUrlDetail: String, Sendable, CaseIterable {
+        case chatgpt = "chatgpt"
+        case perplexity = "perplexity"
+        case aiMode = "ai_mode"
+        case aiOverview = "ai_overview"
+        case gemini = "gemini"
+        case copilot = "copilot"
+        case amazonRufus = "amazon_rufus"
+        case claude = "claude"
+        case grok = "grok"
+        case deepseek = "deepseek"
+        case naverAi = "naver_ai"
+        case baiduAi = "baidu_ai"
+        case metaAi = "meta_ai"
+    }
+
+    /**
+     * enum for parameter brandKind
+     */
+    public enum BrandKind_getCitedUrlDetail: String, Sendable, CaseIterable {
+        case brand = "brand"
+        case brandOther = "brand_other"
+        case nonBrand = "non_brand"
+    }
+
+    /**
+     * enum for parameter sourceType
+     */
+    public enum SourceType_getCitedUrlDetail: String, Sendable, CaseIterable {
+        case owned = "owned"
+        case competitor = "competitor"
+        case thirdParty = "third_party"
+        case socialMedia = "social_media"
+        case ownDomain = "own_domain"
+        case ugc = "ugc"
+        case background = "background"
+    }
+
+    /**
+     * enum for parameter sentiment
+     */
+    public enum Sentiment_getCitedUrlDetail: String, Sendable, CaseIterable {
+        case negative = "negative"
+    }
+
+    /**
+     * enum for parameter contentGap
+     */
+    public enum ContentGap_getCitedUrlDetail: String, Sendable, CaseIterable {
+        case mentioned = "mentioned"
+        case gap = "gap"
+    }
+
+    /**
      Cited URL detail
      
      - parameter projectId: (query) Project ID 
      - parameter urlSha256: (path) 64-character hex SHA-256 of the cited URL 
+     - parameter model: (query) Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai and baidu_ai are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those seven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter prompt: (query) Filter by prompt ID (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     - parameter from: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter sourceType: (query)  (optional)
+     - parameter sentiment: (query)  (optional)
+     - parameter contentGap: (query) mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. (optional)
+     - parameter includeSeries: (query) Adds citation_series. Without it the response is unchanged. (optional, default to false)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    open class func getCitedUrlDetail(projectId: Int, urlSha256: String, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await getCitedUrlDetailWithRequestBuilder(projectId: projectId, urlSha256: urlSha256, apiConfiguration: apiConfiguration).execute().body
+    open class func getCitedUrlDetail(projectId: Int, urlSha256: String, model: Model_getCitedUrlDetail? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, brandKind: BrandKind_getCitedUrlDetail? = nil, from: Date? = nil, to: Date? = nil, sourceType: SourceType_getCitedUrlDetail? = nil, sentiment: Sentiment_getCitedUrlDetail? = nil, contentGap: ContentGap_getCitedUrlDetail? = nil, includeSeries: Bool? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getCitedUrlDetailWithRequestBuilder(projectId: projectId, urlSha256: urlSha256, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, brandKind: brandKind, from: from, to: to, sourceType: sourceType, sentiment: sentiment, contentGap: contentGap, includeSeries: includeSeries, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Cited URL detail
      - GET /citation_intelligence/urls/{url_sha256}
-     - Unavailable page content keeps the cited URL and citation metrics. Page metadata/content and unknown brand_mentioned/competitor_mentioned return null. content_gap_status is content_unavailable (or missing_page_cache) without usable content, and mentions_not_processed when the page has usable content but its mention analysis has not completed for this project. Mention fields (brand_mentioned, competitor_mentioned, brand_position, brands, mentions, content_gap_status) describe the analysis for the requesting project: a page not yet analyzed for it returns null (never false) brand_mentioned, competitor_mentioned and brand_position, empty brands and mentions arrays and page_cache.mentions_processed false. page_cache.mentions_processed is true exactly when brand_mentioned is not null. An analyzed page keeps its last result until a newer analysis replaces it. status_code shows a saved successful response or observed 404/410; other crawl failures and error_message are hidden. last_crawled_at dates the saved copy. Domain/host crawled_urls_count counts usable copies; brand_mentioned_urls_count and competitor_mentioned_urls_count count only URLs analyzed for the project and are null when none is.
+     - Unavailable page content keeps the cited URL and citation metrics. Page metadata/content and unknown brand_mentioned/competitor_mentioned return null. content_gap_status is content_unavailable (or missing_page_cache) without usable content, and mentions_not_processed when the page has usable content but its mention analysis has not completed for this project. Mention fields (brand_mentioned, competitor_mentioned, brand_position, brands, mentions, content_gap_status) describe the analysis for the requesting project: a page not yet analyzed for it returns null (never false) brand_mentioned, competitor_mentioned and brand_position, empty brands and mentions arrays and page_cache.mentions_processed false. page_cache.mentions_processed is true exactly when brand_mentioned is not null. An analyzed page keeps its last result until a newer analysis replaces it. status_code shows a saved successful response or observed 404/410; other crawl failures and error_message are hidden. last_crawled_at dates the saved copy. Domain/host crawled_urls_count counts usable copies; brand_mentioned_urls_count and competitor_mentioned_urls_count count only URLs analyzed for the project and are null when none is. The filters narrow stats and citation_series alike. citation_series (with include_series=true) holds the answers citing the URL under the same filters: granularity (day, week or month, from the account tracking cadence, with weeks when a daily account spans more than 60 days, starting on Monday), total (equal to total_responses), by_model (answers per AI model, largest first, which can include enabled models outside the seven the model filter accepts) and data, one { date, value } point per period that holds a filtered answer, so a zero means answers ran and none cited it. Periods date each answer by its executed_at in Europe/Madrid time, the column from and to filter.
      - Bearer Token:
        - type: http
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
      - parameter urlSha256: (path) 64-character hex SHA-256 of the cited URL 
+     - parameter model: (query) Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai and baidu_ai are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those seven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter prompt: (query) Filter by prompt ID (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     - parameter from: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter sourceType: (query)  (optional)
+     - parameter sentiment: (query)  (optional)
+     - parameter contentGap: (query) mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. (optional)
+     - parameter includeSeries: (query) Adds citation_series. Without it the response is unchanged. (optional, default to false)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func getCitedUrlDetailWithRequestBuilder(projectId: Int, urlSha256: String, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getCitedUrlDetailWithRequestBuilder(projectId: Int, urlSha256: String, model: Model_getCitedUrlDetail? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, brandKind: BrandKind_getCitedUrlDetail? = nil, from: Date? = nil, to: Date? = nil, sourceType: SourceType_getCitedUrlDetail? = nil, sentiment: Sentiment_getCitedUrlDetail? = nil, contentGap: ContentGap_getCitedUrlDetail? = nil, includeSeries: Bool? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/citation_intelligence/urls/{url_sha256}"
         let urlSha256PreEscape = "\(APIHelper.mapValueToPathItem(urlSha256))"
         let urlSha256PostEscape = urlSha256PreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -93,6 +173,18 @@ open class SourcesCitationIntelligenceAPI {
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         let localVariableQueryItems: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
             "project_id": (wrappedValue: projectId.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "model": (wrappedValue: model?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "collection_id": (wrappedValue: collectionId?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "country_code": (wrappedValue: countryCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "language_code": (wrappedValue: languageCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "prompt": (wrappedValue: prompt?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "brand_kind": (wrappedValue: brandKind?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "from": (wrappedValue: from?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "to": (wrappedValue: to?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "source_type": (wrappedValue: sourceType?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "sentiment": (wrappedValue: sentiment?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "content_gap": (wrappedValue: contentGap?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "include_series": (wrappedValue: includeSeries?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ]
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
 
@@ -256,6 +348,15 @@ open class SourcesCitationIntelligenceAPI {
     }
 
     /**
+     * enum for parameter brandKind
+     */
+    public enum BrandKind_listCitationGroups: String, Sendable, CaseIterable {
+        case brand = "brand"
+        case brandOther = "brand_other"
+        case nonBrand = "non_brand"
+    }
+
+    /**
      * enum for parameter sourceType
      */
     public enum SourceType_listCitationGroups: String, Sendable, CaseIterable {
@@ -297,8 +398,11 @@ open class SourcesCitationIntelligenceAPI {
      - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      - parameter prompt: (query) Filter by prompt ID (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter key: (query) Return only this group of the chosen view: a domain (view&#x3D;domain), a host (view&#x3D;host) or a cited URL exactly as listed (view&#x3D;url). Domains and hosts match case-insensitively, without www. A view&#x3D;url key is one raw URL, so its variants (a tracking parameter, a trailing slash) stay separate rows; GET /citation_intelligence/urls/{url_sha256} merges them, as the app does. No match returns an empty list (total 0), not an error. (optional)
+     - parameter includeSeries: (query) Requires key, else 422 ERR_INVALID_PARAM. Adds citation_series to the group&#39;s row. (optional, default to false)
      - parameter query: (query)  (optional)
      - parameter sourceType: (query)  (optional)
      - parameter sentiment: (query)  (optional)
@@ -306,14 +410,14 @@ open class SourcesCitationIntelligenceAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    open class func listCitationGroups(projectId: Int, view: View_listCitationGroups? = nil, page: Int? = nil, perPage: Int? = nil, order: Order_listCitationGroups? = nil, direction: Direction_listCitationGroups? = nil, model: Model_listCitationGroups? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, query: String? = nil, sourceType: SourceType_listCitationGroups? = nil, sentiment: Sentiment_listCitationGroups? = nil, contentGap: ContentGap_listCitationGroups? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await listCitationGroupsWithRequestBuilder(projectId: projectId, view: view, page: page, perPage: perPage, order: order, direction: direction, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, from: from, to: to, query: query, sourceType: sourceType, sentiment: sentiment, contentGap: contentGap, apiConfiguration: apiConfiguration).execute().body
+    open class func listCitationGroups(projectId: Int, view: View_listCitationGroups? = nil, page: Int? = nil, perPage: Int? = nil, order: Order_listCitationGroups? = nil, direction: Direction_listCitationGroups? = nil, model: Model_listCitationGroups? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, brandKind: BrandKind_listCitationGroups? = nil, from: Date? = nil, to: Date? = nil, key: String? = nil, includeSeries: Bool? = nil, query: String? = nil, sourceType: SourceType_listCitationGroups? = nil, sentiment: Sentiment_listCitationGroups? = nil, contentGap: ContentGap_listCitationGroups? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await listCitationGroupsWithRequestBuilder(projectId: projectId, view: view, page: page, perPage: perPage, order: order, direction: direction, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, brandKind: brandKind, from: from, to: to, key: key, includeSeries: includeSeries, query: query, sourceType: sourceType, sentiment: sentiment, contentGap: contentGap, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Grouped citation intelligence
      - GET /citation_intelligence/groups
-     - Grouped citation intelligence by url / domain / host with per-model breakdown, citation rate, and avg citation position. Counts and citation rate include visible citations and background source references. Average position ignores rows with position=0. Owned and competitor source matching honor the project's exact-subdomain setting. Filter vocabulary aligns with `source_type` returned by the API. Unavailable page content keeps the cited URL and citation metrics. Page metadata/content and unknown brand_mentioned/competitor_mentioned return null. content_gap_status is content_unavailable (or missing_page_cache) without usable content, and mentions_not_processed when the page has usable content but its mention analysis has not completed for this project. Mention fields (brand_mentioned, competitor_mentioned, brand_position, brands, mentions, content_gap_status) describe the analysis for the requesting project: a page not yet analyzed for it returns null (never false) brand_mentioned, competitor_mentioned and brand_position, empty brands and mentions arrays and page_cache.mentions_processed false. page_cache.mentions_processed is true exactly when brand_mentioned is not null. An analyzed page keeps its last result until a newer analysis replaces it. status_code shows a saved successful response or observed 404/410; other crawl failures and error_message are hidden. last_crawled_at dates the saved copy. Domain/host crawled_urls_count counts usable copies; brand_mentioned_urls_count and competitor_mentioned_urls_count count only URLs analyzed for the project and are null when none is.
+     - Grouped citation intelligence by url / domain / host with per-model breakdown, citation rate, and avg citation position. Counts and citation rate include visible citations and background source references. Average position ignores rows with position=0. Owned and competitor source matching honor the project's exact-subdomain setting. Filter vocabulary aligns with `source_type` returned by the API. Unavailable page content keeps the cited URL and citation metrics. Page metadata/content and unknown brand_mentioned/competitor_mentioned return null. content_gap_status is content_unavailable (or missing_page_cache) without usable content, and mentions_not_processed when the page has usable content but its mention analysis has not completed for this project. Mention fields (brand_mentioned, competitor_mentioned, brand_position, brands, mentions, content_gap_status) describe the analysis for the requesting project: a page not yet analyzed for it returns null (never false) brand_mentioned, competitor_mentioned and brand_position, empty brands and mentions arrays and page_cache.mentions_processed false. page_cache.mentions_processed is true exactly when brand_mentioned is not null. An analyzed page keeps its last result until a newer analysis replaces it. status_code shows a saved successful response or observed 404/410; other crawl failures and error_message are hidden. last_crawled_at dates the saved copy. Domain/host crawled_urls_count counts usable copies; brand_mentioned_urls_count and competitor_mentioned_urls_count count only URLs analyzed for the project and are null when none is. Pass key to read one group; brand_kind filters by the brand focus of the prompts, like the source page. citation_series (with include_series=true) holds the answers citing the URL, domain or host under the same filters: granularity (day, week or month, from the account tracking cadence, with weeks when a daily account spans more than 60 days, starting on Monday), total (equal to total_responses), by_model (answers per AI model, largest first, which can include enabled models outside the seven the model filter accepts) and data, one { date, value } point per period that holds a filtered answer, so a zero means answers ran and none cited it. Periods date each answer by its executed_at in Europe/Madrid time, the column from and to filter.
      - Bearer Token:
        - type: http
        - name: BearerAuth
@@ -328,8 +432,11 @@ open class SourcesCitationIntelligenceAPI {
      - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      - parameter prompt: (query) Filter by prompt ID (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter key: (query) Return only this group of the chosen view: a domain (view&#x3D;domain), a host (view&#x3D;host) or a cited URL exactly as listed (view&#x3D;url). Domains and hosts match case-insensitively, without www. A view&#x3D;url key is one raw URL, so its variants (a tracking parameter, a trailing slash) stay separate rows; GET /citation_intelligence/urls/{url_sha256} merges them, as the app does. No match returns an empty list (total 0), not an error. (optional)
+     - parameter includeSeries: (query) Requires key, else 422 ERR_INVALID_PARAM. Adds citation_series to the group&#39;s row. (optional, default to false)
      - parameter query: (query)  (optional)
      - parameter sourceType: (query)  (optional)
      - parameter sentiment: (query)  (optional)
@@ -337,7 +444,7 @@ open class SourcesCitationIntelligenceAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func listCitationGroupsWithRequestBuilder(projectId: Int, view: View_listCitationGroups? = nil, page: Int? = nil, perPage: Int? = nil, order: Order_listCitationGroups? = nil, direction: Direction_listCitationGroups? = nil, model: Model_listCitationGroups? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, query: String? = nil, sourceType: SourceType_listCitationGroups? = nil, sentiment: Sentiment_listCitationGroups? = nil, contentGap: ContentGap_listCitationGroups? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listCitationGroupsWithRequestBuilder(projectId: Int, view: View_listCitationGroups? = nil, page: Int? = nil, perPage: Int? = nil, order: Order_listCitationGroups? = nil, direction: Direction_listCitationGroups? = nil, model: Model_listCitationGroups? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, brandKind: BrandKind_listCitationGroups? = nil, from: Date? = nil, to: Date? = nil, key: String? = nil, includeSeries: Bool? = nil, query: String? = nil, sourceType: SourceType_listCitationGroups? = nil, sentiment: Sentiment_listCitationGroups? = nil, contentGap: ContentGap_listCitationGroups? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/citation_intelligence/groups"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -355,8 +462,11 @@ open class SourcesCitationIntelligenceAPI {
             "country_code": (wrappedValue: countryCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "language_code": (wrappedValue: languageCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "prompt": (wrappedValue: prompt?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "brand_kind": (wrappedValue: brandKind?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "from": (wrappedValue: from?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "to": (wrappedValue: to?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "key": (wrappedValue: key?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "include_series": (wrappedValue: includeSeries?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "query": (wrappedValue: query?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "source_type": (wrappedValue: sourceType?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "sentiment": (wrappedValue: sentiment?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),

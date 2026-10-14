@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **executedAt** | **Date** |  | [optional] 
 **durationMs** | **Double** | Milliseconds, rounded to one decimal place | [optional] 
 **success** | **Bool** | Null while the answer is still pending | [optional] 
-**noResult** | **Bool** | True for a sentinel non-answer (the provider returned nothing after retries); excluded from platform metrics | [optional] 
+**noResult** | **Bool** | True for a sentinel non-answer (the provider returned nothing after all retries, or the model declined to answer, today only Gemini); excluded from platform metrics | [optional] 
 **fanOutQueries** | **[String]** |  | [optional] 
 **mentions** | **[JSONValue]** |  | [optional] 
 **citations** | **[JSONValue]** |  | [optional] 
