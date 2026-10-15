@@ -10,6 +10,161 @@ import Foundation
 open class OwnedMediaCommunitiesAPI {
 
     /**
+     Get a project's owned-media profiles
+     
+     - parameter id: (path) Project ID 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: OwnedMediaProfilesResponse
+     */
+    open class func getOwnedMediaProfiles(id: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> OwnedMediaProfilesResponse {
+        return try await getOwnedMediaProfilesWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Get a project's owned-media profiles
+     - GET /projects/{id}/owned_media
+     - The profiles whose citations count as yours in the Owned Media and YouTube Intelligence reports, as Project Settings > Owned Media shows them. platforms holds one entry per platform with whether it is connected, how many extra profiles it accepts and its profiles: the main one, the extra ones, and on Reddit the claimed subreddits and usernames, each with its URL, handle, store (for apps), name, avatar and the state of the scrape that reads them. settings holds the current value of every field PATCH accepts, ready to edit and send back. Requires the Growth plan or above.
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter id: (path) Project ID 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<OwnedMediaProfilesResponse> 
+     */
+    open class func getOwnedMediaProfilesWithRequestBuilder(id: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<OwnedMediaProfilesResponse> {
+        var localVariablePath = "/projects/{id}/owned_media"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<OwnedMediaProfilesResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     * enum for parameter provider
+     */
+    public enum Provider_getOwnedMediaSummary: String, Sendable, CaseIterable {
+        case youtube = "youtube"
+        case instagram = "instagram"
+        case facebook = "facebook"
+        case tiktok = "tiktok"
+        case linkedin = "linkedin"
+        case mobileApps = "mobile_apps"
+        case overview = "overview"
+    }
+
+    /**
+     * enum for parameter model
+     */
+    public enum Model_getOwnedMediaSummary: String, Sendable, CaseIterable {
+        case chatgpt = "chatgpt"
+        case perplexity = "perplexity"
+        case aiMode = "ai_mode"
+        case aiOverview = "ai_overview"
+        case gemini = "gemini"
+        case copilot = "copilot"
+        case amazonRufus = "amazon_rufus"
+        case claude = "claude"
+        case grok = "grok"
+        case deepseek = "deepseek"
+        case naverAi = "naver_ai"
+        case baiduAi = "baidu_ai"
+        case metaAi = "meta_ai"
+    }
+
+    /**
+     * enum for parameter brandKind
+     */
+    public enum BrandKind_getOwnedMediaSummary: String, Sendable, CaseIterable {
+        case brand = "brand"
+        case brandOther = "brand_other"
+        case nonBrand = "non_brand"
+    }
+
+    /**
+     Get an owned-media summary
+     
+     - parameter projectId: (query) Project ID 
+     - parameter provider: (query) The platform to summarize, or overview for every platform at once 
+     - parameter model: (query) Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
+     - parameter from: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: OwnedMediaSummaryResponse
+     */
+    open class func getOwnedMediaSummary(projectId: Int, provider: Provider_getOwnedMediaSummary, model: Model_getOwnedMediaSummary? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, brandKind: BrandKind_getOwnedMediaSummary? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> OwnedMediaSummaryResponse {
+        return try await getOwnedMediaSummaryWithRequestBuilder(projectId: projectId, provider: provider, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, brandKind: brandKind, range: range, from: from, to: to, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Get an owned-media summary
+     - GET /dimensions/owned_media/summary
+     - The numbers behind one Owned Media tab. kpis gives the platform citations (total), yours (your profiles and their content), your_profile and your_content apart, and share_pct; previous gives the same KPIs for the period of the same length that ends just before from, and changes the difference (percent for counts, percentage points for share_pct, null when there is nothing to compare). weekly is the citations per week, yours against everyone else. by_model and by_country split every citation of the platform; content_types (reel, post, tv, pulse, or regular, shorts and live on YouTube) and age_buckets cover posts and videos. provider=mobile_apps adds stores, the per-store totals, and has no content type or age; provider=overview returns platforms, one rollup per platform the caller can read, and no breakdowns. A team member also needs the YouTube Intelligence permission for provider=youtube. Defaults to the last 30 days. Requires the Growth plan or above.
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter projectId: (query) Project ID 
+     - parameter provider: (query) The platform to summarize, or overview for every platform at once 
+     - parameter model: (query) Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
+     - parameter from: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<OwnedMediaSummaryResponse> 
+     */
+    open class func getOwnedMediaSummaryWithRequestBuilder(projectId: Int, provider: Provider_getOwnedMediaSummary, model: Model_getOwnedMediaSummary? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, brandKind: BrandKind_getOwnedMediaSummary? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<OwnedMediaSummaryResponse> {
+        let localVariablePath = "/dimensions/owned_media/summary"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        let localVariableQueryItems: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
+            "project_id": (wrappedValue: projectId.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "provider": (wrappedValue: provider.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "model": (wrappedValue: model?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "collection_id": (wrappedValue: collectionId?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "country_code": (wrappedValue: countryCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "language_code": (wrappedValue: languageCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "brand_kind": (wrappedValue: brandKind?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "range": (wrappedValue: range?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "from": (wrappedValue: from?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "to": (wrappedValue: to?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<OwnedMediaSummaryResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      * enum for parameter provider
      */
     public enum Provider_listOwnedMedia: String, Sendable, CaseIterable {
@@ -97,16 +252,16 @@ open class OwnedMediaCommunitiesAPI {
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: OwnedMediaListResponse
      */
-    open class func listOwnedMedia(projectId: Int, provider: Provider_listOwnedMedia, page: Int? = nil, perPage: Int? = nil, view: View_listOwnedMedia? = nil, store: Store_listOwnedMedia? = nil, owned: Bool? = nil, model: Model_listOwnedMedia? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, brandKind: BrandKind_listOwnedMedia? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listOwnedMedia? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listOwnedMedia(projectId: Int, provider: Provider_listOwnedMedia, page: Int? = nil, perPage: Int? = nil, view: View_listOwnedMedia? = nil, store: Store_listOwnedMedia? = nil, owned: Bool? = nil, model: Model_listOwnedMedia? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, brandKind: BrandKind_listOwnedMedia? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listOwnedMedia? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> OwnedMediaListResponse {
         return try await listOwnedMediaWithRequestBuilder(projectId: projectId, provider: provider, page: page, perPage: perPage, view: view, store: store, owned: owned, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, brandKind: brandKind, range: range, from: from, to: to, output: output, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      List owned-media citations
      - GET /dimensions/owned_media
-     - Which owned-media content AI answers cite, by platform. `provider` is required. Each row carries a `yours` flag so you can compare your own presence against everyone else cited on the same platform. view=own_citations returns the raw citations of the connected profile only and stays empty until a profile is connected. For Reddit use /dimensions/reddit. Requires the Growth plan or above.
+     - Which owned-media content AI answers cite, by platform. `provider` is required. Each row carries a `yours` flag so you can compare your own presence against everyone else cited on the same platform. Video, post, channel and profile rows also carry their image (thumbnail_url or avatar_url, our cached copy where one exists), their average position in the answers and, on YouTube, the video id, the channel handle and URL, and the channel key that /dimensions/owned_media/citing_prompts accepts. view=own_citations returns the raw citations of the connected profile only and stays empty until a profile is connected. For Reddit use /dimensions/reddit. Requires the Growth plan or above.
      - Bearer Token:
        - type: http
        - name: BearerAuth
@@ -127,9 +282,9 @@ open class OwnedMediaCommunitiesAPI {
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<OwnedMediaListResponse> 
      */
-    open class func listOwnedMediaWithRequestBuilder(projectId: Int, provider: Provider_listOwnedMedia, page: Int? = nil, perPage: Int? = nil, view: View_listOwnedMedia? = nil, store: Store_listOwnedMedia? = nil, owned: Bool? = nil, model: Model_listOwnedMedia? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, brandKind: BrandKind_listOwnedMedia? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listOwnedMedia? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listOwnedMediaWithRequestBuilder(projectId: Int, provider: Provider_listOwnedMedia, page: Int? = nil, perPage: Int? = nil, view: View_listOwnedMedia? = nil, store: Store_listOwnedMedia? = nil, owned: Bool? = nil, model: Model_listOwnedMedia? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, brandKind: BrandKind_listOwnedMedia? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listOwnedMedia? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<OwnedMediaListResponse> {
         let localVariablePath = "/dimensions/owned_media"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -161,7 +316,140 @@ open class OwnedMediaCommunitiesAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<OwnedMediaListResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     * enum for parameter provider
+     */
+    public enum Provider_listOwnedMediaCitingPrompts: String, Sendable, CaseIterable {
+        case youtube = "youtube"
+        case instagram = "instagram"
+        case facebook = "facebook"
+        case tiktok = "tiktok"
+        case linkedin = "linkedin"
+    }
+
+    /**
+     * enum for parameter model
+     */
+    public enum Model_listOwnedMediaCitingPrompts: String, Sendable, CaseIterable {
+        case chatgpt = "chatgpt"
+        case perplexity = "perplexity"
+        case aiMode = "ai_mode"
+        case aiOverview = "ai_overview"
+        case gemini = "gemini"
+        case copilot = "copilot"
+        case amazonRufus = "amazon_rufus"
+        case claude = "claude"
+        case grok = "grok"
+        case deepseek = "deepseek"
+        case naverAi = "naver_ai"
+        case baiduAi = "baidu_ai"
+        case metaAi = "meta_ai"
+    }
+
+    /**
+     * enum for parameter brandKind
+     */
+    public enum BrandKind_listOwnedMediaCitingPrompts: String, Sendable, CaseIterable {
+        case brand = "brand"
+        case brandOther = "brand_other"
+        case nonBrand = "non_brand"
+    }
+
+    /**
+     * enum for parameter output
+     */
+    public enum Output_listOwnedMediaCitingPrompts: String, Sendable, CaseIterable {
+        case flat = "flat"
+        case csv = "csv"
+    }
+
+    /**
+     List the answers citing an owned-media item
+     
+     - parameter projectId: (query) Project ID 
+     - parameter provider: (query) The platform the item belongs to 
+     - parameter page: (query)  (optional, default to 1)
+     - parameter perPage: (query)  (optional, default to 20)
+     - parameter url: (query) A post or video URL, or a profile or channel URL. Exclusive with profile (optional)
+     - parameter profile: (query) A handle (with or without @), a profile or channel URL, or a YouTube channel key (handle:..., channel:... or name:...). Exclusive with url (optional)
+     - parameter model: (query) Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
+     - parameter from: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: OwnedMediaCitingPromptsResponse
+     */
+    open class func listOwnedMediaCitingPrompts(projectId: Int, provider: Provider_listOwnedMediaCitingPrompts, page: Int? = nil, perPage: Int? = nil, url: String? = nil, profile: String? = nil, model: Model_listOwnedMediaCitingPrompts? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, brandKind: BrandKind_listOwnedMediaCitingPrompts? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listOwnedMediaCitingPrompts? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> OwnedMediaCitingPromptsResponse {
+        return try await listOwnedMediaCitingPromptsWithRequestBuilder(projectId: projectId, provider: provider, page: page, perPage: perPage, url: url, profile: profile, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, brandKind: brandKind, range: range, from: from, to: to, output: output, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     List the answers citing an owned-media item
+     - GET /dimensions/owned_media/citing_prompts
+     - The drill-down behind one row of an Owned Media or YouTube Intelligence table. Pass exactly one of url (a post or video URL, any variant of it) or profile (a handle with or without @, a profile or channel URL, or the channel key the YouTube channels rows return). item describes it (title, image, owner, whether it is yours and its stats), citation_count and prompt_count count its citations in the window, and data lists the citing answers newest first, each with its prompt, answer id, model, country, language, execution date, a plain-text excerpt and its link in the app. It shows prompt and answer text, so a team member also needs the Prompts permission, and YouTube Intelligence for provider=youtube. Defaults to the last 30 days. Requires the Growth plan or above.
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter projectId: (query) Project ID 
+     - parameter provider: (query) The platform the item belongs to 
+     - parameter page: (query)  (optional, default to 1)
+     - parameter perPage: (query)  (optional, default to 20)
+     - parameter url: (query) A post or video URL, or a profile or channel URL. Exclusive with profile (optional)
+     - parameter profile: (query) A handle (with or without @), a profile or channel URL, or a YouTube channel key (handle:..., channel:... or name:...). Exclusive with url (optional)
+     - parameter model: (query) Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
+     - parameter from: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<OwnedMediaCitingPromptsResponse> 
+     */
+    open class func listOwnedMediaCitingPromptsWithRequestBuilder(projectId: Int, provider: Provider_listOwnedMediaCitingPrompts, page: Int? = nil, perPage: Int? = nil, url: String? = nil, profile: String? = nil, model: Model_listOwnedMediaCitingPrompts? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, brandKind: BrandKind_listOwnedMediaCitingPrompts? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listOwnedMediaCitingPrompts? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<OwnedMediaCitingPromptsResponse> {
+        let localVariablePath = "/dimensions/owned_media/citing_prompts"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        let localVariableQueryItems: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
+            "project_id": (wrappedValue: projectId.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "page": (wrappedValue: page?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "per_page": (wrappedValue: perPage?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "provider": (wrappedValue: provider.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "url": (wrappedValue: url?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "profile": (wrappedValue: profile?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "model": (wrappedValue: model?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "collection_id": (wrappedValue: collectionId?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "country_code": (wrappedValue: countryCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "language_code": (wrappedValue: languageCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "brand_kind": (wrappedValue: brandKind?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "range": (wrappedValue: range?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "from": (wrappedValue: from?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "to": (wrappedValue: to?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "output": (wrappedValue: output?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<OwnedMediaCitingPromptsResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -342,5 +630,50 @@ open class OwnedMediaCommunitiesAPI {
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Update a project's owned-media profiles
+     
+     - parameter id: (path) Project ID 
+     - parameter updateOwnedMediaProfilesRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: OwnedMediaProfilesUpdateResponse
+     */
+    open class func updateOwnedMediaProfiles(id: Int, updateOwnedMediaProfilesRequest: UpdateOwnedMediaProfilesRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> OwnedMediaProfilesUpdateResponse {
+        return try await updateOwnedMediaProfilesWithRequestBuilder(id: id, updateOwnedMediaProfilesRequest: updateOwnedMediaProfilesRequest, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Update a project's owned-media profiles
+     - PATCH /projects/{id}/owned_media
+     - Sets the profiles whose citations count as yours, like Project Settings > Owned Media. Send only the fields to change: a URL field takes a URL, or an empty string or null to clear it, and every list REPLACES the stored one ([] clears it). URLs are normalized like the app (a profile URL is stored in its canonical form, a Google Play package name becomes its listing URL), and anything the app would refuse (a URL from another platform, an extra profile equal to the main one, more than 10 extra profiles, a malformed subreddit) is rejected with ERR_INVALID_PARAM and nothing is applied. A new main or extra profile is scraped in the background for its name and avatar, listed in profile_scrapes_queued. The response is the GET payload after the change. A team member needs the Owned Media create permission, and YouTube Intelligence create to change the YouTube channel. Requires the Growth plan or above and a `read_write` scope API key.
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter id: (path) Project ID 
+     - parameter updateOwnedMediaProfilesRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<OwnedMediaProfilesUpdateResponse> 
+     */
+    open class func updateOwnedMediaProfilesWithRequestBuilder(id: Int, updateOwnedMediaProfilesRequest: UpdateOwnedMediaProfilesRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<OwnedMediaProfilesUpdateResponse> {
+        var localVariablePath = "/projects/{id}/owned_media"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: updateOwnedMediaProfilesRequest, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<OwnedMediaProfilesUpdateResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

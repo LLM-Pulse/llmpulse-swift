@@ -247,6 +247,46 @@ open class CollectionsTagsAPI {
     }
 
     /**
+     Bulk-detach tags from prompts
+     
+     - parameter removePromptTagsRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: PromptTagsRemoveResponse
+     */
+    open class func removePromptTags(removePromptTagsRequest: RemovePromptTagsRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> PromptTagsRemoveResponse {
+        return try await removePromptTagsWithRequestBuilder(removePromptTagsRequest: removePromptTagsRequest, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Bulk-detach tags from prompts
+     - POST /prompts/remove_tags
+     - Idempotent bulk removal of tags (Collections) from existing prompts: up to 500 prompt_ids and 50 tags, resolved by id or by name (case-insensitive). Only the prompt-tag links are removed; tags and prompts stay. Links that did not exist are counted in skipped_not_linked. Requires a `read_write` scope API key and, for team members, update access to Prompts.
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter removePromptTagsRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<PromptTagsRemoveResponse> 
+     */
+    open class func removePromptTagsWithRequestBuilder(removePromptTagsRequest: RemovePromptTagsRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<PromptTagsRemoveResponse> {
+        let localVariablePath = "/prompts/remove_tags"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: removePromptTagsRequest, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<PromptTagsRemoveResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      Update a tag
      
      - parameter id: (path)  

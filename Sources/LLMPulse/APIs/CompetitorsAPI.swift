@@ -147,6 +147,81 @@ open class CompetitorsAPI {
     }
 
     /**
+     * enum for parameter basis
+     */
+    public enum Basis_listCompetitorSuggestions: String, Sendable, CaseIterable {
+        case brands = "brands"
+        case citations = "citations"
+    }
+
+    /**
+     * enum for parameter output
+     */
+    public enum Output_listCompetitorSuggestions: String, Sendable, CaseIterable {
+        case flat = "flat"
+        case csv = "csv"
+    }
+
+    /**
+     List competitor suggestions
+     
+     - parameter projectId: (query) Project ID 
+     - parameter basis: (query)  (optional, default to .brands)
+     - parameter query: (query) Only suggestions whose brand name or domain contains this text (optional)
+     - parameter page: (query)  (optional, default to 1)
+     - parameter perPage: (query)  (optional, default to 20)
+     - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: CompetitorSuggestionsResponse
+     */
+    open class func listCompetitorSuggestions(projectId: Int, basis: Basis_listCompetitorSuggestions? = nil, query: String? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_listCompetitorSuggestions? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> CompetitorSuggestionsResponse {
+        return try await listCompetitorSuggestionsWithRequestBuilder(projectId: projectId, basis: basis, query: query, page: page, perPage: perPage, output: output, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     List competitor suggestions
+     - GET /competitors/suggestions
+     - The two lists of the Suggested tab of the Competitors page. `basis=brands` (default) returns the competing brands the AI discovery proposed that are not tracked or rejected yet, with the names it would match and, when counted, how many answers name it (`mentions`). `basis=citations` returns the domains AI answers cite most that are not your own or tracked yet, with how many answers cite each (`citations`). `discovery` tells whether a discovery run is still loading. Read-only: it never starts a discovery run, which the page starts from its Discover button. Add a suggestion with POST /competitors.
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter projectId: (query) Project ID 
+     - parameter basis: (query)  (optional, default to .brands)
+     - parameter query: (query) Only suggestions whose brand name or domain contains this text (optional)
+     - parameter page: (query)  (optional, default to 1)
+     - parameter perPage: (query)  (optional, default to 20)
+     - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<CompetitorSuggestionsResponse> 
+     */
+    open class func listCompetitorSuggestionsWithRequestBuilder(projectId: Int, basis: Basis_listCompetitorSuggestions? = nil, query: String? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_listCompetitorSuggestions? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<CompetitorSuggestionsResponse> {
+        let localVariablePath = "/competitors/suggestions"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        let localVariableQueryItems: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
+            "project_id": (wrappedValue: projectId.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "basis": (wrappedValue: basis?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "query": (wrappedValue: query?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "page": (wrappedValue: page?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "per_page": (wrappedValue: perPage?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "output": (wrappedValue: output?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<CompetitorSuggestionsResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      * enum for parameter output
      */
     public enum Output_listCompetitors: String, Sendable, CaseIterable {

@@ -10,6 +10,308 @@ import Foundation
 open class SentimentsAPI {
 
     /**
+     * enum for parameter model
+     */
+    public enum Model_getSentimentTags: String, Sendable, CaseIterable {
+        case chatgpt = "chatgpt"
+        case perplexity = "perplexity"
+        case aiMode = "ai_mode"
+        case aiOverview = "ai_overview"
+        case gemini = "gemini"
+        case copilot = "copilot"
+        case amazonRufus = "amazon_rufus"
+        case claude = "claude"
+        case grok = "grok"
+        case deepseek = "deepseek"
+        case naverAi = "naver_ai"
+        case baiduAi = "baidu_ai"
+        case metaAi = "meta_ai"
+    }
+
+    /**
+     * enum for parameter brandKind
+     */
+    public enum BrandKind_getSentimentTags: String, Sendable, CaseIterable {
+        case brand = "brand"
+        case brandOther = "brand_other"
+        case nonBrand = "non_brand"
+    }
+
+    /**
+     * enum for parameter sort
+     */
+    public enum Sort_getSentimentTags: String, Sendable, CaseIterable {
+        case mentions = "mentions"
+        case name = "name"
+        case positive = "positive"
+        case negative = "negative"
+        case neutral = "neutral"
+        case netScore = "net_score"
+    }
+
+    /**
+     * enum for parameter sortDir
+     */
+    public enum SortDir_getSentimentTags: String, Sendable, CaseIterable {
+        case desc = "desc"
+        case asc = "asc"
+    }
+
+    /**
+     * enum for parameter output
+     */
+    public enum Output_getSentimentTags: String, Sendable, CaseIterable {
+        case flat = "flat"
+        case csv = "csv"
+    }
+
+    /**
+     Sentiment by tag (Growth plan or above)
+     
+     - parameter projectId: (query) Project ID 
+     - parameter range: (query) Number of days to look back, today included (default 28, like the Sentiment page). Ignored when from or to is given. (optional)
+     - parameter from: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter model: (query) Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     - parameter analysis: (query) One sentiment level or a comma-separated list: very_positive, positive, neutral, negative, very_negative (optional)
+     - parameter topic: (query) Only sentiments tagged with this topic (case-insensitive) (optional)
+     - parameter query: (query) Only sentiments whose answer or prompt text contains this text (optional)
+     - parameter brand: (query) Whose sentiment to count. Empty or omitted for your own brand, all for every brand, or a competitor id (an unknown id returns ERR_INVALID_PARAM). (optional)
+     - parameter sort: (query) Sort column: mentions, name (the topic or tag), positive, negative or neutral (their shares) or net_score. Ties sort by name. (optional, default to .mentions)
+     - parameter sortDir: (query)  (optional, default to .desc)
+     - parameter page: (query)  (optional, default to 1)
+     - parameter perPage: (query)  (optional, default to 20)
+     - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: SentimentTagsResponse
+     */
+    open class func getSentimentTags(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, model: Model_getSentimentTags? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, brandKind: BrandKind_getSentimentTags? = nil, analysis: String? = nil, topic: String? = nil, query: String? = nil, brand: String? = nil, sort: Sort_getSentimentTags? = nil, sortDir: SortDir_getSentimentTags? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_getSentimentTags? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SentimentTagsResponse {
+        return try await getSentimentTagsWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, brandKind: brandKind, analysis: analysis, topic: topic, query: query, brand: brand, sort: sort, sortDir: sortDir, page: page, perPage: perPage, output: output, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Sentiment by tag (Growth plan or above)
+     - GET /reports/sentiment/tags
+     - One row per tag of the project with at least one analyzed mention, with the positive (very positive included), neutral and negative counts, their shares on a 0-100 scale and the net sentiment score. A mention counts once for every tag its prompt carries, as on the Sentiment page. Same filters as GET /reports/sentiment/topics. Requires the Growth plan; lower tiers receive ERR_PLAN_REQUIRED.
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter projectId: (query) Project ID 
+     - parameter range: (query) Number of days to look back, today included (default 28, like the Sentiment page). Ignored when from or to is given. (optional)
+     - parameter from: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter model: (query) Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     - parameter analysis: (query) One sentiment level or a comma-separated list: very_positive, positive, neutral, negative, very_negative (optional)
+     - parameter topic: (query) Only sentiments tagged with this topic (case-insensitive) (optional)
+     - parameter query: (query) Only sentiments whose answer or prompt text contains this text (optional)
+     - parameter brand: (query) Whose sentiment to count. Empty or omitted for your own brand, all for every brand, or a competitor id (an unknown id returns ERR_INVALID_PARAM). (optional)
+     - parameter sort: (query) Sort column: mentions, name (the topic or tag), positive, negative or neutral (their shares) or net_score. Ties sort by name. (optional, default to .mentions)
+     - parameter sortDir: (query)  (optional, default to .desc)
+     - parameter page: (query)  (optional, default to 1)
+     - parameter perPage: (query)  (optional, default to 20)
+     - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<SentimentTagsResponse> 
+     */
+    open class func getSentimentTagsWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, model: Model_getSentimentTags? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, brandKind: BrandKind_getSentimentTags? = nil, analysis: String? = nil, topic: String? = nil, query: String? = nil, brand: String? = nil, sort: Sort_getSentimentTags? = nil, sortDir: SortDir_getSentimentTags? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_getSentimentTags? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SentimentTagsResponse> {
+        let localVariablePath = "/reports/sentiment/tags"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        let localVariableQueryItems: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
+            "project_id": (wrappedValue: projectId.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "range": (wrappedValue: range?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "from": (wrappedValue: from?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "to": (wrappedValue: to?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "model": (wrappedValue: model?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "collection_id": (wrappedValue: collectionId?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "country_code": (wrappedValue: countryCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "language_code": (wrappedValue: languageCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "brand_kind": (wrappedValue: brandKind?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "analysis": (wrappedValue: analysis?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "topic": (wrappedValue: topic?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "query": (wrappedValue: query?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "brand": (wrappedValue: brand?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "sort": (wrappedValue: sort?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "sort_dir": (wrappedValue: sortDir?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "page": (wrappedValue: page?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "per_page": (wrappedValue: perPage?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "output": (wrappedValue: output?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<SentimentTagsResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     * enum for parameter model
+     */
+    public enum Model_getSentimentTopics: String, Sendable, CaseIterable {
+        case chatgpt = "chatgpt"
+        case perplexity = "perplexity"
+        case aiMode = "ai_mode"
+        case aiOverview = "ai_overview"
+        case gemini = "gemini"
+        case copilot = "copilot"
+        case amazonRufus = "amazon_rufus"
+        case claude = "claude"
+        case grok = "grok"
+        case deepseek = "deepseek"
+        case naverAi = "naver_ai"
+        case baiduAi = "baidu_ai"
+        case metaAi = "meta_ai"
+    }
+
+    /**
+     * enum for parameter brandKind
+     */
+    public enum BrandKind_getSentimentTopics: String, Sendable, CaseIterable {
+        case brand = "brand"
+        case brandOther = "brand_other"
+        case nonBrand = "non_brand"
+    }
+
+    /**
+     * enum for parameter sort
+     */
+    public enum Sort_getSentimentTopics: String, Sendable, CaseIterable {
+        case mentions = "mentions"
+        case name = "name"
+        case positive = "positive"
+        case negative = "negative"
+        case neutral = "neutral"
+        case netScore = "net_score"
+    }
+
+    /**
+     * enum for parameter sortDir
+     */
+    public enum SortDir_getSentimentTopics: String, Sendable, CaseIterable {
+        case desc = "desc"
+        case asc = "asc"
+    }
+
+    /**
+     * enum for parameter output
+     */
+    public enum Output_getSentimentTopics: String, Sendable, CaseIterable {
+        case flat = "flat"
+        case csv = "csv"
+    }
+
+    /**
+     Sentiment by topic (Growth plan or above)
+     
+     - parameter projectId: (query) Project ID 
+     - parameter range: (query) Number of days to look back, today included (default 28, like the Sentiment page). Ignored when from or to is given. (optional)
+     - parameter from: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter model: (query) Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     - parameter analysis: (query) One sentiment level or a comma-separated list: very_positive, positive, neutral, negative, very_negative (optional)
+     - parameter topic: (query) Only sentiments tagged with this topic (case-insensitive) (optional)
+     - parameter query: (query) Only sentiments whose answer or prompt text contains this text (optional)
+     - parameter brand: (query) Whose sentiment to count. Empty or omitted for your own brand, all for every brand, or a competitor id (an unknown id returns ERR_INVALID_PARAM). (optional)
+     - parameter sort: (query) Sort column: mentions, name (the topic or tag), positive, negative or neutral (their shares) or net_score. Ties sort by name. (optional, default to .mentions)
+     - parameter sortDir: (query)  (optional, default to .desc)
+     - parameter page: (query)  (optional, default to 1)
+     - parameter perPage: (query)  (optional, default to 20)
+     - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: SentimentTopicsResponse
+     */
+    open class func getSentimentTopics(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, model: Model_getSentimentTopics? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, brandKind: BrandKind_getSentimentTopics? = nil, analysis: String? = nil, topic: String? = nil, query: String? = nil, brand: String? = nil, sort: Sort_getSentimentTopics? = nil, sortDir: SortDir_getSentimentTopics? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_getSentimentTopics? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SentimentTopicsResponse {
+        return try await getSentimentTopicsWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, brandKind: brandKind, analysis: analysis, topic: topic, query: query, brand: brand, sort: sort, sortDir: sortDir, page: page, perPage: perPage, output: output, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Sentiment by topic (Growth plan or above)
+     - GET /reports/sentiment/topics
+     - One row per topic AI answers associate with the brand (topics are matched case-insensitively), with its analyzed mentions, the positive (very positive included), neutral and negative counts, their shares on a 0-100 scale and the net sentiment score ((positive - negative) / mentions x 100). The same rows and filters as the Topics tab of the Sentiment page: the window defaults to the last 28 days, `brand` empty counts your own brand, `all` every brand and a competitor id that competitor. Requires the Growth plan; lower tiers receive ERR_PLAN_REQUIRED.
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter projectId: (query) Project ID 
+     - parameter range: (query) Number of days to look back, today included (default 28, like the Sentiment page). Ignored when from or to is given. (optional)
+     - parameter from: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter model: (query) Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     - parameter analysis: (query) One sentiment level or a comma-separated list: very_positive, positive, neutral, negative, very_negative (optional)
+     - parameter topic: (query) Only sentiments tagged with this topic (case-insensitive) (optional)
+     - parameter query: (query) Only sentiments whose answer or prompt text contains this text (optional)
+     - parameter brand: (query) Whose sentiment to count. Empty or omitted for your own brand, all for every brand, or a competitor id (an unknown id returns ERR_INVALID_PARAM). (optional)
+     - parameter sort: (query) Sort column: mentions, name (the topic or tag), positive, negative or neutral (their shares) or net_score. Ties sort by name. (optional, default to .mentions)
+     - parameter sortDir: (query)  (optional, default to .desc)
+     - parameter page: (query)  (optional, default to 1)
+     - parameter perPage: (query)  (optional, default to 20)
+     - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<SentimentTopicsResponse> 
+     */
+    open class func getSentimentTopicsWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, model: Model_getSentimentTopics? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, brandKind: BrandKind_getSentimentTopics? = nil, analysis: String? = nil, topic: String? = nil, query: String? = nil, brand: String? = nil, sort: Sort_getSentimentTopics? = nil, sortDir: SortDir_getSentimentTopics? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_getSentimentTopics? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SentimentTopicsResponse> {
+        let localVariablePath = "/reports/sentiment/topics"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        let localVariableQueryItems: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
+            "project_id": (wrappedValue: projectId.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "range": (wrappedValue: range?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "from": (wrappedValue: from?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "to": (wrappedValue: to?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "model": (wrappedValue: model?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "collection_id": (wrappedValue: collectionId?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "country_code": (wrappedValue: countryCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "language_code": (wrappedValue: languageCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "brand_kind": (wrappedValue: brandKind?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "analysis": (wrappedValue: analysis?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "topic": (wrappedValue: topic?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "query": (wrappedValue: query?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "brand": (wrappedValue: brand?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "sort": (wrappedValue: sort?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "sort_dir": (wrappedValue: sortDir?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "page": (wrappedValue: page?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "per_page": (wrappedValue: perPage?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "output": (wrappedValue: output?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<SentimentTopicsResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      * enum for parameter output
      */
     public enum Output_listSentimentCategories: String, Sendable, CaseIterable {

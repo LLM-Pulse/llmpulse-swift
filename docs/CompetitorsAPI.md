@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**createCompetitor**](CompetitorsAPI.md#createcompetitor) | **POST** /competitors | Add a competitor
 [**deleteCompetitor**](CompetitorsAPI.md#deletecompetitor) | **DELETE** /competitors/{id} | Delete a competitor
 [**getCompetitorDetails**](CompetitorsAPI.md#getcompetitordetails) | **GET** /dimensions/competitors/{id} | Competitor details
+[**listCompetitorSuggestions**](CompetitorsAPI.md#listcompetitorsuggestions) | **GET** /competitors/suggestions | List competitor suggestions
 [**listCompetitors**](CompetitorsAPI.md#listcompetitors) | **GET** /dimensions/competitors | List competitors
 [**updateCompetitor**](CompetitorsAPI.md#updatecompetitor) | **PATCH** /competitors/{id} | Update a competitor
 
@@ -151,6 +152,66 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**CompetitorDetails**](CompetitorDetails.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **listCompetitorSuggestions**
+```swift
+    open class func listCompetitorSuggestions(projectId: Int, basis: Basis_listCompetitorSuggestions? = nil, query: String? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_listCompetitorSuggestions? = nil, completion: @escaping (_ data: CompetitorSuggestionsResponse?, _ error: Error?) -> Void)
+```
+
+List competitor suggestions
+
+The two lists of the Suggested tab of the Competitors page. `basis=brands` (default) returns the competing brands the AI discovery proposed that are not tracked or rejected yet, with the names it would match and, when counted, how many answers name it (`mentions`). `basis=citations` returns the domains AI answers cite most that are not your own or tracked yet, with how many answers cite each (`citations`). `discovery` tells whether a discovery run is still loading. Read-only: it never starts a discovery run, which the page starts from its Discover button. Add a suggestion with POST /competitors.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import LLMPulse
+
+let projectId = 987 // Int | Project ID
+let basis = "basis_example" // String |  (optional) (default to .brands)
+let query = "query_example" // String | Only suggestions whose brand name or domain contains this text (optional)
+let page = 987 // Int |  (optional) (default to 1)
+let perPage = 987 // Int |  (optional) (default to 20)
+let output = "output_example" // String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (optional)
+
+// List competitor suggestions
+CompetitorsAPI.listCompetitorSuggestions(projectId: projectId, basis: basis, query: query, page: page, perPage: perPage, output: output) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **projectId** | **Int** | Project ID | 
+ **basis** | **String** |  | [optional] [default to .brands]
+ **query** | **String** | Only suggestions whose brand name or domain contains this text | [optional] 
+ **page** | **Int** |  | [optional] [default to 1]
+ **perPage** | **Int** |  | [optional] [default to 20]
+ **output** | **String** | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
+
+### Return type
+
+[**CompetitorSuggestionsResponse**](CompetitorSuggestionsResponse.md)
 
 ### Authorization
 

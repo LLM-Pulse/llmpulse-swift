@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**getRecommendation**](RecommendationsAPI.md#getrecommendation) | **GET** /recommendations/{id} | Get recommendation run with items
 [**launchRecommendations**](RecommendationsAPI.md#launchrecommendations) | **POST** /recommendations | Launch a recommendations generation
 [**listRecommendations**](RecommendationsAPI.md#listrecommendations) | **GET** /recommendations | List recommendation runs
+[**updateRecommendationItem**](RecommendationsAPI.md#updaterecommendationitem) | **PATCH** /recommendations/{id}/items/{item_id} | Complete, archive or restore a recommendation item
 
 
 # **getRecommendation**
@@ -165,6 +166,60 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **updateRecommendationItem**
+```swift
+    open class func updateRecommendationItem(id: Int, itemId: Int, updateRecommendationItemRequest: UpdateRecommendationItemRequest, completion: @escaping (_ data: RecommendationItemUpdateResponse?, _ error: Error?) -> Void)
+```
+
+Complete, archive or restore a recommendation item
+
+Moves one item of a recommendation run between `active`, `completed` and `archived`, exactly like the complete, archive and restore buttons on the Recommendations page, and stamps `status_changed_at`. Returns the item in the shape `GET /recommendations/{id}` lists items. Requires a `read_write` scope API key and, for team members, create permission on Recommendations (the permission the page uses for these buttons).
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import LLMPulse
+
+let id = 987 // Int | Recommendation run id
+let itemId = 987 // Int | Item id, from the items of GET /recommendations/{id}
+let updateRecommendationItemRequest = updateRecommendationItem_request(projectId: 123, status: "status_example") // UpdateRecommendationItemRequest | 
+
+// Complete, archive or restore a recommendation item
+RecommendationsAPI.updateRecommendationItem(id: id, itemId: itemId, updateRecommendationItemRequest: updateRecommendationItemRequest) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **Int** | Recommendation run id | 
+ **itemId** | **Int** | Item id, from the items of GET /recommendations/{id} | 
+ **updateRecommendationItemRequest** | [**UpdateRecommendationItemRequest**](UpdateRecommendationItemRequest.md) |  | 
+
+### Return type
+
+[**RecommendationItemUpdateResponse**](RecommendationItemUpdateResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

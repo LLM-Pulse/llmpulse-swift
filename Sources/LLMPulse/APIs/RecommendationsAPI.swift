@@ -186,4 +186,54 @@ open class RecommendationsAPI {
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
+
+    /**
+     Complete, archive or restore a recommendation item
+     
+     - parameter id: (path) Recommendation run id 
+     - parameter itemId: (path) Item id, from the items of GET /recommendations/{id} 
+     - parameter updateRecommendationItemRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RecommendationItemUpdateResponse
+     */
+    open class func updateRecommendationItem(id: Int, itemId: Int, updateRecommendationItemRequest: UpdateRecommendationItemRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> RecommendationItemUpdateResponse {
+        return try await updateRecommendationItemWithRequestBuilder(id: id, itemId: itemId, updateRecommendationItemRequest: updateRecommendationItemRequest, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Complete, archive or restore a recommendation item
+     - PATCH /recommendations/{id}/items/{item_id}
+     - Moves one item of a recommendation run between `active`, `completed` and `archived`, exactly like the complete, archive and restore buttons on the Recommendations page, and stamps `status_changed_at`. Returns the item in the shape `GET /recommendations/{id}` lists items. Requires a `read_write` scope API key and, for team members, create permission on Recommendations (the permission the page uses for these buttons).
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter id: (path) Recommendation run id 
+     - parameter itemId: (path) Item id, from the items of GET /recommendations/{id} 
+     - parameter updateRecommendationItemRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<RecommendationItemUpdateResponse> 
+     */
+    open class func updateRecommendationItemWithRequestBuilder(id: Int, itemId: Int, updateRecommendationItemRequest: UpdateRecommendationItemRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<RecommendationItemUpdateResponse> {
+        var localVariablePath = "/recommendations/{id}/items/{item_id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let itemIdPreEscape = "\(APIHelper.mapValueToPathItem(itemId))"
+        let itemIdPostEscape = itemIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{item_id}", with: itemIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: updateRecommendationItemRequest, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<RecommendationItemUpdateResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
 }

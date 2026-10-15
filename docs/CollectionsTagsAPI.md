@@ -9,6 +9,7 @@ Method | HTTP request | Description
 [**deleteCollection**](CollectionsTagsAPI.md#deletecollection) | **DELETE** /collections/{id} | Delete a tag
 [**listCollections**](CollectionsTagsAPI.md#listcollections) | **GET** /dimensions/collections | List tags/collections
 [**listTags**](CollectionsTagsAPI.md#listtags) | **GET** /dimensions/tags | List tags (alias for /collections)
+[**removePromptTags**](CollectionsTagsAPI.md#removeprompttags) | **POST** /prompts/remove_tags | Bulk-detach tags from prompts
 [**updateCollection**](CollectionsTagsAPI.md#updatecollection) | **PATCH** /collections/{id} | Update a tag
 
 
@@ -260,6 +261,56 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **removePromptTags**
+```swift
+    open class func removePromptTags(removePromptTagsRequest: RemovePromptTagsRequest, completion: @escaping (_ data: PromptTagsRemoveResponse?, _ error: Error?) -> Void)
+```
+
+Bulk-detach tags from prompts
+
+Idempotent bulk removal of tags (Collections) from existing prompts: up to 500 prompt_ids and 50 tags, resolved by id or by name (case-insensitive). Only the prompt-tag links are removed; tags and prompts stay. Links that did not exist are counted in skipped_not_linked. Requires a `read_write` scope API key and, for team members, update access to Prompts.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import LLMPulse
+
+let removePromptTagsRequest = removePromptTags_request(projectId: 123, promptIds: [123], tagIds: [123], tagNames: ["tagNames_example"]) // RemovePromptTagsRequest | 
+
+// Bulk-detach tags from prompts
+CollectionsTagsAPI.removePromptTags(removePromptTagsRequest: removePromptTagsRequest) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **removePromptTagsRequest** | [**RemovePromptTagsRequest**](RemovePromptTagsRequest.md) |  | 
+
+### Return type
+
+[**PromptTagsRemoveResponse**](PromptTagsRemoveResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

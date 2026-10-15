@@ -10,6 +10,86 @@ import Foundation
 open class PromptsAPI {
 
     /**
+     Accept suggested prompts
+     
+     - parameter suggestedPromptsAcceptRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: SuggestedPromptsAcceptResponse
+     */
+    open class func acceptSuggestedPrompts(suggestedPromptsAcceptRequest: SuggestedPromptsAcceptRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SuggestedPromptsAcceptResponse {
+        return try await acceptSuggestedPromptsWithRequestBuilder(suggestedPromptsAcceptRequest: suggestedPromptsAcceptRequest, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Accept suggested prompts
+     - POST /suggested_prompts/accept
+     - Starts tracking up to 100 pending suggestions: each becomes a prompt in its own country and language, optionally put in one tag (tag_ids or tag_names; create_missing creates a missing name when the team member may create tags). Suggestions that are no longer pending come back in skipped. When the new prompts would exceed the plan the call returns ERR_LIMIT_REACHED and accepts nothing. Requires a `read_write` scope API key and, for team members, create access to Prompts.
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter suggestedPromptsAcceptRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<SuggestedPromptsAcceptResponse> 
+     */
+    open class func acceptSuggestedPromptsWithRequestBuilder(suggestedPromptsAcceptRequest: SuggestedPromptsAcceptRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SuggestedPromptsAcceptResponse> {
+        let localVariablePath = "/suggested_prompts/accept"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: suggestedPromptsAcceptRequest, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<SuggestedPromptsAcceptResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Generate prompt suggestions
+     
+     - parameter promptGenerationRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: PromptGenerationResponse
+     */
+    open class func createPromptGeneration(promptGenerationRequest: PromptGenerationRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> PromptGenerationResponse {
+        return try await createPromptGenerationWithRequestBuilder(promptGenerationRequest: promptGenerationRequest, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Generate prompt suggestions
+     - POST /prompt_generations
+     - Starts a suggestion run with one of the generators behind the app's Add prompts wizards and answers 202 with the run. website writes suggestions from the scraped website (80% non-brand, 20% brand), keyword from a keyword or the project profile (optionally around a competitor), topic from a topic, reddit from Reddit discussions of a topic or brand, paa from Google People Also Ask (up to 5 keywords, counted against the account's 24-hour lookup allowance), reputational from brand reputation questions, translate from the project's prompts of another locale, search_console from the connected property's top queries of the last 28 days (Growth plan or above, ERR_PLAN_REQUIRED). The suggestions land in the Suggested prompts queue; poll GET /prompt_generations/{id}, then accept the ones you want with POST /suggested_prompts/accept. Nothing is tracked until accepted. The request is validated before the run starts, and refused with ERR_LIMIT_REACHED when the plan has no prompt slot left. Requires a `read_write` scope API key and, for team members, create access to Prompts.
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter promptGenerationRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<PromptGenerationResponse> 
+     */
+    open class func createPromptGenerationWithRequestBuilder(promptGenerationRequest: PromptGenerationRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<PromptGenerationResponse> {
+        let localVariablePath = "/prompt_generations"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: promptGenerationRequest, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<PromptGenerationResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      Bulk-create prompts
      
      - parameter promptsCreateRequest: (body)  
@@ -96,6 +176,95 @@ open class PromptsAPI {
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Get a prompt generation run
+     
+     - parameter projectId: (query) Project ID 
+     - parameter id: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: PromptGenerationResponse
+     */
+    open class func getPromptGeneration(projectId: Int, id: UUID, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> PromptGenerationResponse {
+        return try await getPromptGenerationWithRequestBuilder(projectId: projectId, id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Get a prompt generation run
+     - GET /prompt_generations/{id}
+     - Returns a run started with POST /prompt_generations: processing while the generator works, then completed with the suggestions it saved to the Suggested prompts queue, or failed with an error code and message. Poll every few seconds; most runs finish within a minute. Runs are kept for 24 hours, their suggestions stay in the queue.
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter projectId: (query) Project ID 
+     - parameter id: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<PromptGenerationResponse> 
+     */
+    open class func getPromptGenerationWithRequestBuilder(projectId: Int, id: UUID, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<PromptGenerationResponse> {
+        var localVariablePath = "/prompt_generations/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        let localVariableQueryItems: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
+            "project_id": (wrappedValue: projectId.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<PromptGenerationResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Import prompts
+     
+     - parameter promptsImportRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: PromptsImportResponse
+     */
+    open class func importPrompts(promptsImportRequest: PromptsImportRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> PromptsImportResponse {
+        return try await importPromptsWithRequestBuilder(promptsImportRequest: promptsImportRequest, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Import prompts
+     - POST /prompts/import
+     - The app's CSV import as JSON: up to 500 rows, each with its own prompt, country_code, language_code (codes or names; both default to the project's) and tags, created when missing. Duplicates are skipped and existing prompts still get the row's tags. The prompt limits are checked before anything is written: when the new prompts would exceed the plan the call returns ERR_LIMIT_REACHED and imports nothing. Rows with an unknown country or language come back in row_errors. Responds 201 when it created prompts, 200 otherwise. Requires a `read_write` scope API key and, for team members, create access to Prompts.
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter promptsImportRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<PromptsImportResponse> 
+     */
+    open class func importPromptsWithRequestBuilder(promptsImportRequest: PromptsImportRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<PromptsImportResponse> {
+        let localVariablePath = "/prompts/import"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: promptsImportRequest, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<PromptsImportResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -507,5 +676,171 @@ open class PromptsAPI {
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     * enum for parameter source
+     */
+    public enum Source_listSuggestedPrompts: String, Sendable, CaseIterable {
+        case website = "website"
+        case magic = "magic"
+        case paa = "paa"
+        case topic = "topic"
+        case reddit = "reddit"
+        case reputational = "reputational"
+        case gsc = "gsc"
+        case translate = "translate"
+        case catalog = "catalog"
+    }
+
+    /**
+     * enum for parameter status
+     */
+    public enum Status_listSuggestedPrompts: String, Sendable, CaseIterable {
+        case pending = "pending"
+        case accepted = "accepted"
+        case rejected = "rejected"
+        case all = "all"
+    }
+
+    /**
+     List suggested prompts
+     
+     - parameter projectId: (query) Project ID 
+     - parameter source: (query) Only suggestions from this generator (optional)
+     - parameter status: (query) Only suggestions in this status (optional, default to .pending)
+     - parameter page: (query)  (optional, default to 1)
+     - parameter perPage: (query)  (optional, default to 50)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: SuggestedPromptsResponse
+     */
+    open class func listSuggestedPrompts(projectId: Int, source: Source_listSuggestedPrompts? = nil, status: Status_listSuggestedPrompts? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SuggestedPromptsResponse {
+        return try await listSuggestedPromptsWithRequestBuilder(projectId: projectId, source: source, status: status, page: page, perPage: perPage, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     List suggested prompts
+     - GET /suggested_prompts
+     - Lists the project's Suggested prompts queue, the same list the app's Suggested Prompts tab shows, oldest first. It holds the suggestions of every generator (website, magic for keyword runs, topic, reddit, paa, reputational, translate, gsc for Search Console, catalog). Pending suggestions by default; status=all also returns accepted (with the prompt they became) and rejected ones. Team members need create access to Prompts, like the app's tab.
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter projectId: (query) Project ID 
+     - parameter source: (query) Only suggestions from this generator (optional)
+     - parameter status: (query) Only suggestions in this status (optional, default to .pending)
+     - parameter page: (query)  (optional, default to 1)
+     - parameter perPage: (query)  (optional, default to 50)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<SuggestedPromptsResponse> 
+     */
+    open class func listSuggestedPromptsWithRequestBuilder(projectId: Int, source: Source_listSuggestedPrompts? = nil, status: Status_listSuggestedPrompts? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SuggestedPromptsResponse> {
+        let localVariablePath = "/suggested_prompts"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        let localVariableQueryItems: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
+            "project_id": (wrappedValue: projectId.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "source": (wrappedValue: source?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "status": (wrappedValue: status?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "page": (wrappedValue: page?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "per_page": (wrappedValue: perPage?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<SuggestedPromptsResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Reject suggested prompts
+     
+     - parameter suggestedPromptIdsRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: SuggestedPromptsRejectResponse
+     */
+    open class func rejectSuggestedPrompts(suggestedPromptIdsRequest: SuggestedPromptIdsRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SuggestedPromptsRejectResponse {
+        return try await rejectSuggestedPromptsWithRequestBuilder(suggestedPromptIdsRequest: suggestedPromptIdsRequest, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Reject suggested prompts
+     - POST /suggested_prompts/reject
+     - Marks up to 100 pending suggestions as rejected, so they leave the pending list; suggestions that are no longer pending stay as they are. Tracks and deletes nothing. Requires a `read_write` scope API key and, for team members, create access to Prompts.
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter suggestedPromptIdsRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<SuggestedPromptsRejectResponse> 
+     */
+    open class func rejectSuggestedPromptsWithRequestBuilder(suggestedPromptIdsRequest: SuggestedPromptIdsRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SuggestedPromptsRejectResponse> {
+        let localVariablePath = "/suggested_prompts/reject"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: suggestedPromptIdsRequest, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<SuggestedPromptsRejectResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Edit a prompt's categorization
+     
+     - parameter id: (path)  
+     - parameter updatePromptRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: PromptCategorizationResponse
+     */
+    open class func updatePrompt(id: Int, updatePromptRequest: UpdatePromptRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> PromptCategorizationResponse {
+        return try await updatePromptWithRequestBuilder(id: id, updatePromptRequest: updatePromptRequest, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Edit a prompt's categorization
+     - PATCH /prompts/{id}
+     - Manual categorization, exactly like editing the intent and brand badges on the prompt page: send `prompt_type`, `brand_kind` or both. The prompt is marked as manually categorized (`categorization_source` becomes `manual`), so automatic categorization no longer changes it; the prompt page can revert it to automatic. Any other field returns ERR_INVALID_PARAM. Not available from a white-label portal (ERR_INTEGRATION_UNAVAILABLE), where the page hides the editor. Requires a `read_write` scope API key and, for team members, update permission on Prompts.
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter id: (path)  
+     - parameter updatePromptRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<PromptCategorizationResponse> 
+     */
+    open class func updatePromptWithRequestBuilder(id: Int, updatePromptRequest: UpdatePromptRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<PromptCategorizationResponse> {
+        var localVariablePath = "/prompts/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: updatePromptRequest, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<PromptCategorizationResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

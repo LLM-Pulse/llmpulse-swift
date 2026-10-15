@@ -4,12 +4,119 @@ All URIs are relative to *https://api.llmpulse.ai/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**acceptSuggestedPrompts**](PromptsAPI.md#acceptsuggestedprompts) | **POST** /suggested_prompts/accept | Accept suggested prompts
+[**createPromptGeneration**](PromptsAPI.md#createpromptgeneration) | **POST** /prompt_generations | Generate prompt suggestions
 [**createPrompts**](PromptsAPI.md#createprompts) | **POST** /prompts | Bulk-create prompts
 [**deletePrompt**](PromptsAPI.md#deleteprompt) | **DELETE** /prompts/{id} | Delete a prompt
+[**getPromptGeneration**](PromptsAPI.md#getpromptgeneration) | **GET** /prompt_generations/{id} | Get a prompt generation run
+[**importPrompts**](PromptsAPI.md#importprompts) | **POST** /prompts/import | Import prompts
 [**listPromptExecutions**](PromptsAPI.md#listpromptexecutions) | **GET** /dimensions/prompt_executions | List prompt executions
 [**listPrompts**](PromptsAPI.md#listprompts) | **GET** /dimensions/prompts | List prompts
 [**listQueryFanOuts**](PromptsAPI.md#listqueryfanouts) | **GET** /dimensions/query_fan_outs | List query fan-out
+[**listSuggestedPrompts**](PromptsAPI.md#listsuggestedprompts) | **GET** /suggested_prompts | List suggested prompts
+[**rejectSuggestedPrompts**](PromptsAPI.md#rejectsuggestedprompts) | **POST** /suggested_prompts/reject | Reject suggested prompts
+[**updatePrompt**](PromptsAPI.md#updateprompt) | **PATCH** /prompts/{id} | Edit a prompt&#39;s categorization
 
+
+# **acceptSuggestedPrompts**
+```swift
+    open class func acceptSuggestedPrompts(suggestedPromptsAcceptRequest: SuggestedPromptsAcceptRequest, completion: @escaping (_ data: SuggestedPromptsAcceptResponse?, _ error: Error?) -> Void)
+```
+
+Accept suggested prompts
+
+Starts tracking up to 100 pending suggestions: each becomes a prompt in its own country and language, optionally put in one tag (tag_ids or tag_names; create_missing creates a missing name when the team member may create tags). Suggestions that are no longer pending come back in skipped. When the new prompts would exceed the plan the call returns ERR_LIMIT_REACHED and accepts nothing. Requires a `read_write` scope API key and, for team members, create access to Prompts.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import LLMPulse
+
+let suggestedPromptsAcceptRequest = SuggestedPromptsAcceptRequest(projectId: 123, ids: [123], tagIds: [123], tagNames: ["tagNames_example"], createMissing: false) // SuggestedPromptsAcceptRequest | 
+
+// Accept suggested prompts
+PromptsAPI.acceptSuggestedPrompts(suggestedPromptsAcceptRequest: suggestedPromptsAcceptRequest) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **suggestedPromptsAcceptRequest** | [**SuggestedPromptsAcceptRequest**](SuggestedPromptsAcceptRequest.md) |  | 
+
+### Return type
+
+[**SuggestedPromptsAcceptResponse**](SuggestedPromptsAcceptResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **createPromptGeneration**
+```swift
+    open class func createPromptGeneration(promptGenerationRequest: PromptGenerationRequest, completion: @escaping (_ data: PromptGenerationResponse?, _ error: Error?) -> Void)
+```
+
+Generate prompt suggestions
+
+Starts a suggestion run with one of the generators behind the app's Add prompts wizards and answers 202 with the run. website writes suggestions from the scraped website (80% non-brand, 20% brand), keyword from a keyword or the project profile (optionally around a competitor), topic from a topic, reddit from Reddit discussions of a topic or brand, paa from Google People Also Ask (up to 5 keywords, counted against the account's 24-hour lookup allowance), reputational from brand reputation questions, translate from the project's prompts of another locale, search_console from the connected property's top queries of the last 28 days (Growth plan or above, ERR_PLAN_REQUIRED). The suggestions land in the Suggested prompts queue; poll GET /prompt_generations/{id}, then accept the ones you want with POST /suggested_prompts/accept. Nothing is tracked until accepted. The request is validated before the run starts, and refused with ERR_LIMIT_REACHED when the plan has no prompt slot left. Requires a `read_write` scope API key and, for team members, create access to Prompts.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import LLMPulse
+
+let promptGenerationRequest = PromptGenerationRequest(projectId: 123, source: "source_example", query: "query_example", count: 123, countryCode: "countryCode_example", languageCode: "languageCode_example", competitorId: 123, searchType: "searchType_example", keywords: ["keywords_example"], sourceCountryCode: "sourceCountryCode_example", sourceLanguageCode: "sourceLanguageCode_example", minWords: 123, allCountries: false) // PromptGenerationRequest | 
+
+// Generate prompt suggestions
+PromptsAPI.createPromptGeneration(promptGenerationRequest: promptGenerationRequest) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **promptGenerationRequest** | [**PromptGenerationRequest**](PromptGenerationRequest.md) |  | 
+
+### Return type
+
+[**PromptGenerationResponse**](PromptGenerationResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **createPrompts**
 ```swift
@@ -109,6 +216,108 @@ Void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getPromptGeneration**
+```swift
+    open class func getPromptGeneration(projectId: Int, id: UUID, completion: @escaping (_ data: PromptGenerationResponse?, _ error: Error?) -> Void)
+```
+
+Get a prompt generation run
+
+Returns a run started with POST /prompt_generations: processing while the generator works, then completed with the suggestions it saved to the Suggested prompts queue, or failed with an error code and message. Poll every few seconds; most runs finish within a minute. Runs are kept for 24 hours, their suggestions stay in the queue.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import LLMPulse
+
+let projectId = 987 // Int | Project ID
+let id = 987 // UUID | 
+
+// Get a prompt generation run
+PromptsAPI.getPromptGeneration(projectId: projectId, id: id) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **projectId** | **Int** | Project ID | 
+ **id** | **UUID** |  | 
+
+### Return type
+
+[**PromptGenerationResponse**](PromptGenerationResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **importPrompts**
+```swift
+    open class func importPrompts(promptsImportRequest: PromptsImportRequest, completion: @escaping (_ data: PromptsImportResponse?, _ error: Error?) -> Void)
+```
+
+Import prompts
+
+The app's CSV import as JSON: up to 500 rows, each with its own prompt, country_code, language_code (codes or names; both default to the project's) and tags, created when missing. Duplicates are skipped and existing prompts still get the row's tags. The prompt limits are checked before anything is written: when the new prompts would exceed the plan the call returns ERR_LIMIT_REACHED and imports nothing. Rows with an unknown country or language come back in row_errors. Responds 201 when it created prompts, 200 otherwise. Requires a `read_write` scope API key and, for team members, create access to Prompts.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import LLMPulse
+
+let promptsImportRequest = PromptsImportRequest(projectId: 123, rows: [PromptsImportRequest_rows_inner(prompt: "prompt_example", countryCode: "countryCode_example", languageCode: "languageCode_example", tags: ["tags_example"])]) // PromptsImportRequest | 
+
+// Import prompts
+PromptsAPI.importPrompts(promptsImportRequest: promptsImportRequest) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **promptsImportRequest** | [**PromptsImportRequest**](PromptsImportRequest.md) |  | 
+
+### Return type
+
+[**PromptsImportResponse**](PromptsImportResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -339,6 +548,166 @@ Void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **listSuggestedPrompts**
+```swift
+    open class func listSuggestedPrompts(projectId: Int, source: Source_listSuggestedPrompts? = nil, status: Status_listSuggestedPrompts? = nil, page: Int? = nil, perPage: Int? = nil, completion: @escaping (_ data: SuggestedPromptsResponse?, _ error: Error?) -> Void)
+```
+
+List suggested prompts
+
+Lists the project's Suggested prompts queue, the same list the app's Suggested Prompts tab shows, oldest first. It holds the suggestions of every generator (website, magic for keyword runs, topic, reddit, paa, reputational, translate, gsc for Search Console, catalog). Pending suggestions by default; status=all also returns accepted (with the prompt they became) and rejected ones. Team members need create access to Prompts, like the app's tab.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import LLMPulse
+
+let projectId = 987 // Int | Project ID
+let source = "source_example" // String | Only suggestions from this generator (optional)
+let status = "status_example" // String | Only suggestions in this status (optional) (default to .pending)
+let page = 987 // Int |  (optional) (default to 1)
+let perPage = 987 // Int |  (optional) (default to 50)
+
+// List suggested prompts
+PromptsAPI.listSuggestedPrompts(projectId: projectId, source: source, status: status, page: page, perPage: perPage) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **projectId** | **Int** | Project ID | 
+ **source** | **String** | Only suggestions from this generator | [optional] 
+ **status** | **String** | Only suggestions in this status | [optional] [default to .pending]
+ **page** | **Int** |  | [optional] [default to 1]
+ **perPage** | **Int** |  | [optional] [default to 50]
+
+### Return type
+
+[**SuggestedPromptsResponse**](SuggestedPromptsResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **rejectSuggestedPrompts**
+```swift
+    open class func rejectSuggestedPrompts(suggestedPromptIdsRequest: SuggestedPromptIdsRequest, completion: @escaping (_ data: SuggestedPromptsRejectResponse?, _ error: Error?) -> Void)
+```
+
+Reject suggested prompts
+
+Marks up to 100 pending suggestions as rejected, so they leave the pending list; suggestions that are no longer pending stay as they are. Tracks and deletes nothing. Requires a `read_write` scope API key and, for team members, create access to Prompts.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import LLMPulse
+
+let suggestedPromptIdsRequest = SuggestedPromptIdsRequest(projectId: 123, ids: [123]) // SuggestedPromptIdsRequest | 
+
+// Reject suggested prompts
+PromptsAPI.rejectSuggestedPrompts(suggestedPromptIdsRequest: suggestedPromptIdsRequest) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **suggestedPromptIdsRequest** | [**SuggestedPromptIdsRequest**](SuggestedPromptIdsRequest.md) |  | 
+
+### Return type
+
+[**SuggestedPromptsRejectResponse**](SuggestedPromptsRejectResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **updatePrompt**
+```swift
+    open class func updatePrompt(id: Int, updatePromptRequest: UpdatePromptRequest, completion: @escaping (_ data: PromptCategorizationResponse?, _ error: Error?) -> Void)
+```
+
+Edit a prompt's categorization
+
+Manual categorization, exactly like editing the intent and brand badges on the prompt page: send `prompt_type`, `brand_kind` or both. The prompt is marked as manually categorized (`categorization_source` becomes `manual`), so automatic categorization no longer changes it; the prompt page can revert it to automatic. Any other field returns ERR_INVALID_PARAM. Not available from a white-label portal (ERR_INTEGRATION_UNAVAILABLE), where the page hides the editor. Requires a `read_write` scope API key and, for team members, update permission on Prompts.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import LLMPulse
+
+let id = 987 // Int | 
+let updatePromptRequest = updatePrompt_request(projectId: 123, promptType: "promptType_example", brandKind: "brandKind_example") // UpdatePromptRequest | 
+
+// Edit a prompt's categorization
+PromptsAPI.updatePrompt(id: id, updatePromptRequest: updatePromptRequest) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **Int** |  | 
+ **updatePromptRequest** | [**UpdatePromptRequest**](UpdatePromptRequest.md) |  | 
+
+### Return type
+
+[**PromptCategorizationResponse**](PromptCategorizationResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
