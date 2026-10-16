@@ -9,6 +9,7 @@ import Foundation
 
 public struct UpdateProjectRequest: Sendable, Codable, Hashable {
 
+    public static let promptLimitRule = NumericRule<Int>(minimum: 1, exclusiveMinimum: false, maximum: 2147483647, exclusiveMaximum: false, multipleOf: nil)
     /** Project name shown in the app. A label: it does not change mention detection unless brand_name is empty. Cannot be blank */
     public var name: String?
     /** Brand name used to detect mentions. Applies to future runs; it does not rewrite history */
@@ -33,8 +34,10 @@ public struct UpdateProjectRequest: Sendable, Codable, Hashable {
     public var matchingNames: [String]?
     /** FULL replacement list (at most 10) of other domains the brand owns, such as a blog or a country site; [] clears it. Citations from them count as owned, like the project website. Each entry is a website's own domain and covers its subdomains; a pasted URL is stored as its domain (https://www.acme.co.uk/x becomes acme.co.uk). A list the domain editor would refuse (a subdomain such as blog.acme.com, a platform many companies share such as youtube.com, amazon.com or wordpress.com, the project website, a tracked competitor domain, a duplicate or an entry that is not a domain) is rejected with ERR_INVALID_PARAM and the reason. Order does not matter, and an unchanged list starts nothing. Account owner only, on every plan */
     public var additionalOwnedDomains: [String]?
+    /** The most prompts this project can hold, a JSON integer from 1 to 2147483647; null removes the project's limit. A string, a decimal, 0 or a negative number is rejected with ERR_INVALID_PARAM. The account's plan allowance still applies, so the lower of the two wins (GET /dimensions/projects/{id} returns prompt_limit and stats.prompts_available). A limit below the current count keeps every prompt and refuses new ones until the project is under it; note says what the project can now hold. Account owner or a co-owner with Projects update permission only; a key limited to some projects answers ERR_KEY_PROJECT_SCOPED. The Swift, Kotlin, Dart and R clients leave a null field out of the request body, so they can set a limit but not remove one: remove it with a plain HTTP request that sends prompt_limit as null */
+    public var promptLimit: Int?
 
-    public init(name: String? = nil, brandName: String? = nil, description: String? = nil, industry: String? = nil, businessModel: String? = nil, businessModelOther: String? = nil, targetAudience: String? = nil, brandVoice: String? = nil, goals: String? = nil, primaryProducts: [String]? = nil, matchingNames: [String]? = nil, additionalOwnedDomains: [String]? = nil) {
+    public init(name: String? = nil, brandName: String? = nil, description: String? = nil, industry: String? = nil, businessModel: String? = nil, businessModelOther: String? = nil, targetAudience: String? = nil, brandVoice: String? = nil, goals: String? = nil, primaryProducts: [String]? = nil, matchingNames: [String]? = nil, additionalOwnedDomains: [String]? = nil, promptLimit: Int? = nil) {
         self.name = name
         self.brandName = brandName
         self.description = description
@@ -47,6 +50,7 @@ public struct UpdateProjectRequest: Sendable, Codable, Hashable {
         self.primaryProducts = primaryProducts
         self.matchingNames = matchingNames
         self.additionalOwnedDomains = additionalOwnedDomains
+        self.promptLimit = promptLimit
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -62,6 +66,7 @@ public struct UpdateProjectRequest: Sendable, Codable, Hashable {
         case primaryProducts = "primary_products"
         case matchingNames = "matching_names"
         case additionalOwnedDomains = "additional_owned_domains"
+        case promptLimit = "prompt_limit"
     }
 
     // Encodable protocol methods
@@ -80,6 +85,7 @@ public struct UpdateProjectRequest: Sendable, Codable, Hashable {
         try container.encodeIfPresent(primaryProducts, forKey: .primaryProducts)
         try container.encodeIfPresent(matchingNames, forKey: .matchingNames)
         try container.encodeIfPresent(additionalOwnedDomains, forKey: .additionalOwnedDomains)
+        try container.encodeIfPresent(promptLimit, forKey: .promptLimit)
     }
 }
 

@@ -13,12 +13,15 @@ public struct ProjectDetailsAllOfStats: Sendable, Codable, Hashable {
     public var promptsByBrandKind: ProjectDetailsAllOfStatsPromptsByBrandKind?
     public var competitorsCount: Int?
     public var collectionsCount: Int?
+    /** How many prompts can still be added to this project now, the same number the Prompts page offers. The lower of the project's free slots under prompt_limit and the account's remaining prompts; 0 when either is full (a project over its limit keeps its prompts). Null when neither caps it */
+    public var promptsAvailable: Int?
 
-    public init(promptsCount: Int? = nil, promptsByBrandKind: ProjectDetailsAllOfStatsPromptsByBrandKind? = nil, competitorsCount: Int? = nil, collectionsCount: Int? = nil) {
+    public init(promptsCount: Int? = nil, promptsByBrandKind: ProjectDetailsAllOfStatsPromptsByBrandKind? = nil, competitorsCount: Int? = nil, collectionsCount: Int? = nil, promptsAvailable: Int? = nil) {
         self.promptsCount = promptsCount
         self.promptsByBrandKind = promptsByBrandKind
         self.competitorsCount = competitorsCount
         self.collectionsCount = collectionsCount
+        self.promptsAvailable = promptsAvailable
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -26,6 +29,7 @@ public struct ProjectDetailsAllOfStats: Sendable, Codable, Hashable {
         case promptsByBrandKind = "prompts_by_brand_kind"
         case competitorsCount = "competitors_count"
         case collectionsCount = "collections_count"
+        case promptsAvailable = "prompts_available"
     }
 
     // Encodable protocol methods
@@ -36,6 +40,7 @@ public struct ProjectDetailsAllOfStats: Sendable, Codable, Hashable {
         try container.encodeIfPresent(promptsByBrandKind, forKey: .promptsByBrandKind)
         try container.encodeIfPresent(competitorsCount, forKey: .competitorsCount)
         try container.encodeIfPresent(collectionsCount, forKey: .collectionsCount)
+        try container.encodeIfPresent(promptsAvailable, forKey: .promptsAvailable)
     }
 }
 

@@ -21,7 +21,7 @@ public struct UpdateOwnedMediaProfilesRequest: Sendable, Codable, Hashable {
     public var facebookPageUrl: String?
     /** The main TikTok profile URL. An empty string or null clears it */
     public var tiktokProfileUrl: String?
-    /** The main LinkedIn Company Page URL (/company/...). An empty string or null clears it */
+    /** The main LinkedIn page URL: a company (/company/...), school (/school/...) or showcase (/showcase/...) page. An empty string or null clears it */
     public var linkedinCompanyUrl: String?
     /** FULL replacement list of extra YouTube channel URLs (at most 10); [] clears it */
     public var youtubeExtraProfileUrls: [String]?
@@ -33,7 +33,7 @@ public struct UpdateOwnedMediaProfilesRequest: Sendable, Codable, Hashable {
     public var facebookExtraProfileUrls: [String]?
     /** FULL replacement list of extra TikTok profile URLs (at most 10); [] clears it */
     public var tiktokExtraProfileUrls: [String]?
-    /** FULL replacement list of extra LinkedIn Company Page URLs (at most 10); [] clears it */
+    /** FULL replacement list of extra LinkedIn company, school or showcase page URLs (at most 10); [] clears it */
     public var linkedinExtraProfileUrls: [String]?
     /** FULL replacement list (at most 10) of subreddit names the brand owns, without r/; [] clears it */
     public var redditSubreddits: [String]?

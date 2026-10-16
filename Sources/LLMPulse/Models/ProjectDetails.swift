@@ -34,12 +34,14 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
     public var googlePlayId: String?
     public var appStoreId: String?
     public var createdAt: Date?
+    /** The most prompts this project can hold, set by the account owner or a co-owner (Account Settings > Prompt Limits). Null when the project has no limit of its own; the account's plan allowance applies either way */
+    public var promptLimit: Int?
     public var stats: ProjectDetailsAllOfStats?
     public var dataCoverage: ProjectDetailsAllOfDataCoverage?
     public var searchConsole: ProjectDetailsAllOfSearchConsole?
     public var requestId: String?
 
-    public init(id: Int? = nil, name: String? = nil, brandName: String? = nil, url: String? = nil, description: String? = nil, matchingNames: [String]? = nil, additionalOwnedDomains: [String]? = nil, industry: JSONValue? = nil, businessModel: String? = nil, businessModelOther: String? = nil, primaryProducts: [String]? = nil, targetAudience: String? = nil, brandVoice: String? = nil, goals: String? = nil, countryCode: String? = nil, languageCode: String? = nil, paused: Bool? = nil, googlePlayId: String? = nil, appStoreId: String? = nil, createdAt: Date? = nil, stats: ProjectDetailsAllOfStats? = nil, dataCoverage: ProjectDetailsAllOfDataCoverage? = nil, searchConsole: ProjectDetailsAllOfSearchConsole? = nil, requestId: String? = nil) {
+    public init(id: Int? = nil, name: String? = nil, brandName: String? = nil, url: String? = nil, description: String? = nil, matchingNames: [String]? = nil, additionalOwnedDomains: [String]? = nil, industry: JSONValue? = nil, businessModel: String? = nil, businessModelOther: String? = nil, primaryProducts: [String]? = nil, targetAudience: String? = nil, brandVoice: String? = nil, goals: String? = nil, countryCode: String? = nil, languageCode: String? = nil, paused: Bool? = nil, googlePlayId: String? = nil, appStoreId: String? = nil, createdAt: Date? = nil, promptLimit: Int? = nil, stats: ProjectDetailsAllOfStats? = nil, dataCoverage: ProjectDetailsAllOfDataCoverage? = nil, searchConsole: ProjectDetailsAllOfSearchConsole? = nil, requestId: String? = nil) {
         self.id = id
         self.name = name
         self.brandName = brandName
@@ -60,6 +62,7 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
         self.googlePlayId = googlePlayId
         self.appStoreId = appStoreId
         self.createdAt = createdAt
+        self.promptLimit = promptLimit
         self.stats = stats
         self.dataCoverage = dataCoverage
         self.searchConsole = searchConsole
@@ -87,6 +90,7 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
         case googlePlayId = "google_play_id"
         case appStoreId = "app_store_id"
         case createdAt = "created_at"
+        case promptLimit = "prompt_limit"
         case stats
         case dataCoverage = "data_coverage"
         case searchConsole = "search_console"
@@ -117,6 +121,7 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
         try container.encodeIfPresent(googlePlayId, forKey: .googlePlayId)
         try container.encodeIfPresent(appStoreId, forKey: .appStoreId)
         try container.encodeIfPresent(createdAt, forKey: .createdAt)
+        try container.encodeIfPresent(promptLimit, forKey: .promptLimit)
         try container.encodeIfPresent(stats, forKey: .stats)
         try container.encodeIfPresent(dataCoverage, forKey: .dataCoverage)
         try container.encodeIfPresent(searchConsole, forKey: .searchConsole)
