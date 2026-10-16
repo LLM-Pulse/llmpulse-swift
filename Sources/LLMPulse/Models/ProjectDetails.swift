@@ -34,7 +34,7 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
     public var googlePlayId: String?
     public var appStoreId: String?
     public var createdAt: Date?
-    /** Maximum number of active prompts this project may hold, set by the account owner or a co-owner in Account Settings > Prompt Limits; null when the project has no limit of its own and only the account quota applies */
+    /** The most prompts this project can hold, set by the account owner or a co-owner (Account Settings > Prompt Limits). Null when the project has no limit of its own; the account's plan allowance applies either way */
     public var promptLimit: Int?
     public var stats: ProjectDetailsAllOfStats?
     public var dataCoverage: ProjectDetailsAllOfDataCoverage?
