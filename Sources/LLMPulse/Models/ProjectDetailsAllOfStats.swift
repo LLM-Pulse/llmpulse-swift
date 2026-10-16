@@ -9,13 +9,17 @@ import Foundation
 
 public struct ProjectDetailsAllOfStats: Sendable, Codable, Hashable {
 
+    /** Active prompts in the project */
     public var promptsCount: Int?
+    /** Prompts that can still be added to this project, the lower of its free slots under prompt_limit and the prompts left in the account quota; null when neither caps it */
+    public var promptsAvailable: Int?
     public var promptsByBrandKind: ProjectDetailsAllOfStatsPromptsByBrandKind?
     public var competitorsCount: Int?
     public var collectionsCount: Int?
 
-    public init(promptsCount: Int? = nil, promptsByBrandKind: ProjectDetailsAllOfStatsPromptsByBrandKind? = nil, competitorsCount: Int? = nil, collectionsCount: Int? = nil) {
+    public init(promptsCount: Int? = nil, promptsAvailable: Int? = nil, promptsByBrandKind: ProjectDetailsAllOfStatsPromptsByBrandKind? = nil, competitorsCount: Int? = nil, collectionsCount: Int? = nil) {
         self.promptsCount = promptsCount
+        self.promptsAvailable = promptsAvailable
         self.promptsByBrandKind = promptsByBrandKind
         self.competitorsCount = competitorsCount
         self.collectionsCount = collectionsCount
@@ -23,6 +27,7 @@ public struct ProjectDetailsAllOfStats: Sendable, Codable, Hashable {
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case promptsCount = "prompts_count"
+        case promptsAvailable = "prompts_available"
         case promptsByBrandKind = "prompts_by_brand_kind"
         case competitorsCount = "competitors_count"
         case collectionsCount = "collections_count"
@@ -33,6 +38,7 @@ public struct ProjectDetailsAllOfStats: Sendable, Codable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(promptsCount, forKey: .promptsCount)
+        try container.encodeIfPresent(promptsAvailable, forKey: .promptsAvailable)
         try container.encodeIfPresent(promptsByBrandKind, forKey: .promptsByBrandKind)
         try container.encodeIfPresent(competitorsCount, forKey: .competitorsCount)
         try container.encodeIfPresent(collectionsCount, forKey: .collectionsCount)

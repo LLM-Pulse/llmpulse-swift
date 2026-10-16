@@ -26,8 +26,10 @@ public struct ProjectProfile: Sendable, Codable, Hashable {
     public var matchingNames: [String]
     /** Other domains the brand owns (at most 10, each a website's own domain covering its subdomains), whose citations count as owned like the project website. Empty when none */
     public var additionalOwnedDomains: [String]
+    /** Maximum number of active prompts this project may hold; null when only the account quota applies */
+    public var promptLimit: Int?
 
-    public init(id: Int, name: String, brandName: String? = nil, description: String? = nil, industry: JSONValue? = nil, businessModel: String? = nil, businessModelOther: String? = nil, targetAudience: String? = nil, primaryProducts: [String]? = nil, brandVoice: String? = nil, goals: String? = nil, matchingNames: [String], additionalOwnedDomains: [String]) {
+    public init(id: Int, name: String, brandName: String? = nil, description: String? = nil, industry: JSONValue? = nil, businessModel: String? = nil, businessModelOther: String? = nil, targetAudience: String? = nil, primaryProducts: [String]? = nil, brandVoice: String? = nil, goals: String? = nil, matchingNames: [String], additionalOwnedDomains: [String], promptLimit: Int?) {
         self.id = id
         self.name = name
         self.brandName = brandName
@@ -41,6 +43,7 @@ public struct ProjectProfile: Sendable, Codable, Hashable {
         self.goals = goals
         self.matchingNames = matchingNames
         self.additionalOwnedDomains = additionalOwnedDomains
+        self.promptLimit = promptLimit
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -57,6 +60,7 @@ public struct ProjectProfile: Sendable, Codable, Hashable {
         case goals
         case matchingNames = "matching_names"
         case additionalOwnedDomains = "additional_owned_domains"
+        case promptLimit = "prompt_limit"
     }
 
     // Encodable protocol methods
@@ -76,6 +80,7 @@ public struct ProjectProfile: Sendable, Codable, Hashable {
         try container.encodeIfPresent(goals, forKey: .goals)
         try container.encode(matchingNames, forKey: .matchingNames)
         try container.encode(additionalOwnedDomains, forKey: .additionalOwnedDomains)
+        try container.encode(promptLimit, forKey: .promptLimit)
     }
 }
 
