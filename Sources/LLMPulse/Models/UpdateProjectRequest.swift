@@ -9,6 +9,7 @@ import Foundation
 
 public struct UpdateProjectRequest: Sendable, Codable, Hashable {
 
+    public static let matchingNamesRule = ArrayRule(minItems: nil, maxItems: 50, uniqueItems: false)
     public static let promptLimitRule = NumericRule<Int>(minimum: 1, exclusiveMinimum: false, maximum: 2147483647, exclusiveMaximum: false, multipleOf: nil)
     /** Project name shown in the app. A label: it does not change mention detection unless brand_name is empty. Cannot be blank */
     public var name: String?
@@ -30,7 +31,7 @@ public struct UpdateProjectRequest: Sendable, Codable, Hashable {
     public var goals: String?
     /** Full replacement list of the main products or services */
     public var primaryProducts: [String]?
-    /** FULL replacement list of the brand-name variants used to detect mentions; send every variant to keep */
+    /** FULL replacement list of the brand-name variants used to detect mentions; send every variant to keep. At most 50 names of up to 100 characters each; a longer list or name is refused with ERR_INVALID_PARAM (422) and nothing in the request is applied */
     public var matchingNames: [String]?
     /** FULL replacement list (at most 10) of other domains the brand owns, such as a blog or a country site; [] clears it. Citations from them count as owned, like the project website. Each entry is a website's own domain and covers its subdomains; a pasted URL is stored as its domain (https://www.acme.co.uk/x becomes acme.co.uk). A list the domain editor would refuse (a subdomain such as blog.acme.com, a platform many companies share such as youtube.com, amazon.com or wordpress.com, the project website, a tracked competitor domain, a duplicate or an entry that is not a domain) is rejected with ERR_INVALID_PARAM and the reason. Order does not matter, and an unchanged list starts nothing. Account owner only, on every plan */
     public var additionalOwnedDomains: [String]?

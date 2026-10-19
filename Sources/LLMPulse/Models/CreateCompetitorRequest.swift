@@ -14,10 +14,12 @@ public struct CreateCompetitorRequest: Sendable, Codable, Hashable {
         case host = "host"
         case pathPrefix = "path_prefix"
     }
+    public static let matchingNamesRule = ArrayRule(minItems: nil, maxItems: 50, uniqueItems: false)
     public var projectId: Int
     public var brandName: String
     /** URL is accepted and normalised to host (e.g. https://www.openai.com → openai.com) */
     public var domain: String
+    /** Extra names this competitor is matched by; brand_name is added automatically. At most 50 names in all, brand_name included, of up to 100 characters each; a longer list or name is refused with ERR_INVALID_PARAM (422) */
     public var matchingNames: [String]?
     /** domain includes the registrable domain and all subdomains; host requires the exact hostname; path_prefix also requires citation_match_path */
     public var citationMatchMode: CitationMatchMode? = .domain

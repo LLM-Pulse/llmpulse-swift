@@ -14,10 +14,12 @@ public struct UpdateCompetitorRequest: Sendable, Codable, Hashable {
         case host = "host"
         case pathPrefix = "path_prefix"
     }
+    public static let matchingNamesRule = ArrayRule(minItems: nil, maxItems: 50, uniqueItems: false)
     public var projectId: Int
     public var brandName: String?
     /** Website domain or host used for citation matching. A full URL is accepted and normalised to its host. */
     public var domain: String?
+    /** FULL replacement list of the names this competitor is matched by; brand_name is added automatically. At most 50 names in all, brand_name included, of up to 100 characters each; a longer list or name is refused with ERR_INVALID_PARAM (422) and nothing in the request is applied */
     public var matchingNames: [String]?
     /** Hex color, e.g. #1a2b3c */
     public var color: String?

@@ -9,8 +9,10 @@ import Foundation
 
 public struct ProjectCreateRequestCompetitorsInner: Sendable, Codable, Hashable {
 
+    public static let matchingNamesRule = ArrayRule(minItems: nil, maxItems: 50, uniqueItems: false)
     public var domain: String
     public var brandName: String?
+    /** Names this competitor is matched by. At most 50 names of up to 100 characters each; a longer list or name is refused with ERR_INVALID_PARAM (422) and nothing is created */
     public var matchingNames: [String]?
 
     public init(domain: String, brandName: String? = nil, matchingNames: [String]? = nil) {

@@ -15,15 +15,18 @@ public struct UpdateProjectDraftRequest: Sendable, Codable, Hashable {
         case competitors = "competitors"
         case ownedMedia = "owned_media"
     }
+    public static let matchingNamesRule = ArrayRule(minItems: nil, maxItems: 50, uniqueItems: false)
     public static let promptsRule = ArrayRule(minItems: nil, maxItems: 100, uniqueItems: false)
     public var step: Step
     public var name: String?
     public var brandName: String?
     public var description: String?
     public var industry: [String]?
+    /** Brand-name variants used to detect mentions (details step). At most 50 names of up to 100 characters each; the step stores the list as sent, and finalize refuses a longer list or name with ERR_INVALID_PARAM (422) */
     public var matchingNames: [String]?
     public var externalIdentifier: String?
     public var prompts: [String]?
+    /** Competitors step: objects {domain, brand_name, matching_names}, capped by plan. Each competitor's matching_names takes at most 50 names of up to 100 characters, checked at finalize like POST /projects */
     public var competitors: [JSONValue]?
     public var youtubeChannelUrl: String?
     public var instagramProfileUrl: String?

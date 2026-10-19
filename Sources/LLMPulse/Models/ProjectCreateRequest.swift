@@ -9,6 +9,7 @@ import Foundation
 
 public struct ProjectCreateRequest: Sendable, Codable, Hashable {
 
+    public static let matchingNamesRule = ArrayRule(minItems: nil, maxItems: 50, uniqueItems: false)
     public static let promptsRule = ArrayRule(minItems: nil, maxItems: 100, uniqueItems: false)
     public static let collectionsRule = ArrayRule(minItems: nil, maxItems: 50, uniqueItems: false)
     public static let externalIdentifierRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^[a-z0-9_-]{1,64}$/")
@@ -34,6 +35,7 @@ public struct ProjectCreateRequest: Sendable, Codable, Hashable {
     public var goals: String?
     /** Main products or services */
     public var primaryProducts: [String]?
+    /** Brand-name variants used to detect mentions. At most 50 names of up to 100 characters each; a longer list or name is refused with ERR_INVALID_PARAM (422) and nothing is created */
     public var matchingNames: [String]?
     public var prompts: [String]?
     /** Collections (prompt tags) created with the project, each tagging prompts of this request by their exact text, so no separate tagging calls are needed. A text that is not in prompts returns ERR_INVALID_PARAM. A team member also needs Tags: Create permission. */
