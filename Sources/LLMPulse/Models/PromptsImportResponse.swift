@@ -13,12 +13,12 @@ public struct PromptsImportResponse: Sendable, Codable, Hashable {
     /** Distinct rows imported or matched to an existing prompt */
     public var processedRows: Int
     public var created: Int
-    /** Rows that matched an existing prompt (they still get the row's tags) */
+    /** Rows that matched an existing prompt (they still get the row's tags, unless a team member lacks update access to Prompts) */
     public var duplicates: Int
     /** New prompt-tag links */
     public var tagged: Int
     public var createdTags: Int
-    /** Rows that were skipped, by their index in rows */
+    /** Rows that were skipped or whose tags were not added, by their index in rows */
     public var rowErrors: [PromptsImportResponseRowErrorsInner]
     /** Which tracked AI models will skip new prompts that are too long for them */
     public var lengthWarning: String?

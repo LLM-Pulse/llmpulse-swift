@@ -25,7 +25,7 @@ open class AnswersAPI {
     /**
      Get one AI response
      - GET /answers/{id}
-     - Full answer with mentions, citations, sentiments, sources, shopping_products, brand_entities, fan_out_queries. Pass `include_source_page_details=true` to nest page-cache metadata under each source.
+     - Full answer with mentions, citations, sentiments, sources, shopping_products, brand_entities, fan_out_queries. `sentiments` need the Growth plan or above and `shopping_products` the Scale plan or above; below those plans each is left out and listed in `plan_required_fields`, which is always present and empty when nothing is left out. Pass `include_source_page_details=true` to nest page-cache metadata under each source.
      - Bearer Token:
        - type: http
        - name: BearerAuth

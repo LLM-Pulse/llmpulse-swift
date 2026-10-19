@@ -24,8 +24,9 @@ public struct ListWebhooks200ResponseDataInner: Sendable, Codable, Hashable {
     public var id: Int?
     public var projectId: Int?
     public var eventType: EventType?
+    /** The URL deliveries are sent to. A read-only API key receives only its scheme, host and any non-default port followed by `/…` (for example `https://hook.eu1.make.com/…`); a `read_write` scope key receives the full URL. */
     public var targetUrl: String?
-    /** True when the subscription receives no more events, including when the API key or OAuth connection that created it was revoked. Creating it again with the same project, event and URL replaces it with a new subscription and secret. */
+    /** True when the subscription receives no more events, including when the API key or OAuth connection that created it was revoked, or when that API key is limited to some projects and no longer covers the subscription's project. Creating it again with the same project, event and URL replaces it with a new subscription and secret. */
     public var disabled: Bool?
     public var failureCount: Int?
     public var lastDeliveredAt: Date?

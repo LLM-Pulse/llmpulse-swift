@@ -27,17 +27,21 @@ public struct AnswerDetails: Sendable, Codable, Hashable {
     public var citations: [JSONValue]?
     public var competitorMentions: [JSONValue]?
     public var competitorCitations: [JSONValue]?
+    /** Needs the Growth plan or above; left out below it and named in plan_required_fields */
     public var sentiments: [JSONValue]?
     public var sources: [JSONValue]?
+    /** Needs the Scale plan or above; left out below it and named in plan_required_fields */
     public var shoppingProducts: [JSONValue]?
     public var brandEntities: [JSONValue]?
     public var localBusinesses: [JSONValue]?
     public var locale: AnswerDetailsLocale?
+    /** The fields left out of this answer because the account's plan does not include them (sentiments below Growth, shopping_products below Scale). Always present, empty when nothing is left out */
+    public var planRequiredFields: [String]
     /** Opens this answer in the app. The link names its project, so it opens there for any user with access to that project */
     public var appUrl: String?
     public var requestId: String?
 
-    public init(id: Int? = nil, promptId: Int? = nil, promptText: String? = nil, model: String? = nil, response: String? = nil, responseTruncated: Bool? = nil, executedAt: Date? = nil, durationMs: Double? = nil, success: Bool? = nil, noResult: Bool? = nil, fanOutQueries: [String]? = nil, mentions: [JSONValue]? = nil, citations: [JSONValue]? = nil, competitorMentions: [JSONValue]? = nil, competitorCitations: [JSONValue]? = nil, sentiments: [JSONValue]? = nil, sources: [JSONValue]? = nil, shoppingProducts: [JSONValue]? = nil, brandEntities: [JSONValue]? = nil, localBusinesses: [JSONValue]? = nil, locale: AnswerDetailsLocale? = nil, appUrl: String? = nil, requestId: String? = nil) {
+    public init(id: Int? = nil, promptId: Int? = nil, promptText: String? = nil, model: String? = nil, response: String? = nil, responseTruncated: Bool? = nil, executedAt: Date? = nil, durationMs: Double? = nil, success: Bool? = nil, noResult: Bool? = nil, fanOutQueries: [String]? = nil, mentions: [JSONValue]? = nil, citations: [JSONValue]? = nil, competitorMentions: [JSONValue]? = nil, competitorCitations: [JSONValue]? = nil, sentiments: [JSONValue]? = nil, sources: [JSONValue]? = nil, shoppingProducts: [JSONValue]? = nil, brandEntities: [JSONValue]? = nil, localBusinesses: [JSONValue]? = nil, locale: AnswerDetailsLocale? = nil, planRequiredFields: [String], appUrl: String? = nil, requestId: String? = nil) {
         self.id = id
         self.promptId = promptId
         self.promptText = promptText
@@ -59,6 +63,7 @@ public struct AnswerDetails: Sendable, Codable, Hashable {
         self.brandEntities = brandEntities
         self.localBusinesses = localBusinesses
         self.locale = locale
+        self.planRequiredFields = planRequiredFields
         self.appUrl = appUrl
         self.requestId = requestId
     }
@@ -85,6 +90,7 @@ public struct AnswerDetails: Sendable, Codable, Hashable {
         case brandEntities = "brand_entities"
         case localBusinesses = "local_businesses"
         case locale
+        case planRequiredFields = "plan_required_fields"
         case appUrl = "app_url"
         case requestId = "request_id"
     }
@@ -114,6 +120,7 @@ public struct AnswerDetails: Sendable, Codable, Hashable {
         try container.encodeIfPresent(brandEntities, forKey: .brandEntities)
         try container.encodeIfPresent(localBusinesses, forKey: .localBusinesses)
         try container.encodeIfPresent(locale, forKey: .locale)
+        try container.encode(planRequiredFields, forKey: .planRequiredFields)
         try container.encodeIfPresent(appUrl, forKey: .appUrl)
         try container.encodeIfPresent(requestId, forKey: .requestId)
     }
