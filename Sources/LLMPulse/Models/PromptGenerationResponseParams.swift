@@ -21,8 +21,9 @@ public struct PromptGenerationResponseParams: Sendable, Codable, Hashable {
     public var sourceLanguageCode: String?
     public var minWords: Int?
     public var allCountries: Bool?
+    public var property: String?
 
-    public init(countryCode: String? = nil, languageCode: String? = nil, query: String? = nil, count: Int? = nil, competitorId: Int? = nil, searchType: String? = nil, keywords: [String]? = nil, sourceCountryCode: String? = nil, sourceLanguageCode: String? = nil, minWords: Int? = nil, allCountries: Bool? = nil) {
+    public init(countryCode: String? = nil, languageCode: String? = nil, query: String? = nil, count: Int? = nil, competitorId: Int? = nil, searchType: String? = nil, keywords: [String]? = nil, sourceCountryCode: String? = nil, sourceLanguageCode: String? = nil, minWords: Int? = nil, allCountries: Bool? = nil, property: String? = nil) {
         self.countryCode = countryCode
         self.languageCode = languageCode
         self.query = query
@@ -34,6 +35,7 @@ public struct PromptGenerationResponseParams: Sendable, Codable, Hashable {
         self.sourceLanguageCode = sourceLanguageCode
         self.minWords = minWords
         self.allCountries = allCountries
+        self.property = property
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -48,6 +50,7 @@ public struct PromptGenerationResponseParams: Sendable, Codable, Hashable {
         case sourceLanguageCode = "source_language_code"
         case minWords = "min_words"
         case allCountries = "all_countries"
+        case property
     }
 
     // Encodable protocol methods
@@ -65,6 +68,7 @@ public struct PromptGenerationResponseParams: Sendable, Codable, Hashable {
         try container.encodeIfPresent(sourceLanguageCode, forKey: .sourceLanguageCode)
         try container.encodeIfPresent(minWords, forKey: .minWords)
         try container.encodeIfPresent(allCountries, forKey: .allCountries)
+        try container.encodeIfPresent(property, forKey: .property)
     }
 }
 

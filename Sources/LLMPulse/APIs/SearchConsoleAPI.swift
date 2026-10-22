@@ -72,11 +72,12 @@ open class SearchConsoleAPI {
      - parameter filters: (query) Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      - parameter dataState: (query) final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to ._final)
      - parameter aggregationType: (query) How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to .auto)
+     - parameter property: (query) Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: SearchConsoleListResponse
      */
-    open class func getSearchConsolePages(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, sort: Sort_getSearchConsolePages? = nil, page: Int? = nil, perPage: Int? = nil, startRow: Int? = nil, output: Output_getSearchConsolePages? = nil, searchType: SearchType_getSearchConsolePages? = nil, filters: String? = nil, dataState: DataState_getSearchConsolePages? = nil, aggregationType: AggregationType_getSearchConsolePages? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SearchConsoleListResponse {
-        return try await getSearchConsolePagesWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, sort: sort, page: page, perPage: perPage, startRow: startRow, output: output, searchType: searchType, filters: filters, dataState: dataState, aggregationType: aggregationType, apiConfiguration: apiConfiguration).execute().body
+    open class func getSearchConsolePages(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, sort: Sort_getSearchConsolePages? = nil, page: Int? = nil, perPage: Int? = nil, startRow: Int? = nil, output: Output_getSearchConsolePages? = nil, searchType: SearchType_getSearchConsolePages? = nil, filters: String? = nil, dataState: DataState_getSearchConsolePages? = nil, aggregationType: AggregationType_getSearchConsolePages? = nil, property: String? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SearchConsoleListResponse {
+        return try await getSearchConsolePagesWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, sort: sort, page: page, perPage: perPage, startRow: startRow, output: output, searchType: searchType, filters: filters, dataState: dataState, aggregationType: aggregationType, property: property, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -99,10 +100,11 @@ open class SearchConsoleAPI {
      - parameter filters: (query) Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      - parameter dataState: (query) final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to ._final)
      - parameter aggregationType: (query) How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to .auto)
+     - parameter property: (query) Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<SearchConsoleListResponse> 
      */
-    open class func getSearchConsolePagesWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, sort: Sort_getSearchConsolePages? = nil, page: Int? = nil, perPage: Int? = nil, startRow: Int? = nil, output: Output_getSearchConsolePages? = nil, searchType: SearchType_getSearchConsolePages? = nil, filters: String? = nil, dataState: DataState_getSearchConsolePages? = nil, aggregationType: AggregationType_getSearchConsolePages? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SearchConsoleListResponse> {
+    open class func getSearchConsolePagesWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, sort: Sort_getSearchConsolePages? = nil, page: Int? = nil, perPage: Int? = nil, startRow: Int? = nil, output: Output_getSearchConsolePages? = nil, searchType: SearchType_getSearchConsolePages? = nil, filters: String? = nil, dataState: DataState_getSearchConsolePages? = nil, aggregationType: AggregationType_getSearchConsolePages? = nil, property: String? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SearchConsoleListResponse> {
         let localVariablePath = "/search_console/pages"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -122,6 +124,7 @@ open class SearchConsoleAPI {
             "filters": (wrappedValue: filters?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "data_state": (wrappedValue: dataState?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "aggregation_type": (wrappedValue: aggregationType?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "property": (wrappedValue: property?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ]
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
 
@@ -199,11 +202,12 @@ open class SearchConsoleAPI {
      - parameter filters: (query) Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      - parameter dataState: (query) final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to ._final)
      - parameter aggregationType: (query) How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to .auto)
+     - parameter property: (query) Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: SearchConsoleListResponse
      */
-    open class func getSearchConsoleQueries(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, sort: Sort_getSearchConsoleQueries? = nil, page: Int? = nil, perPage: Int? = nil, startRow: Int? = nil, output: Output_getSearchConsoleQueries? = nil, searchType: SearchType_getSearchConsoleQueries? = nil, filters: String? = nil, dataState: DataState_getSearchConsoleQueries? = nil, aggregationType: AggregationType_getSearchConsoleQueries? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SearchConsoleListResponse {
-        return try await getSearchConsoleQueriesWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, sort: sort, page: page, perPage: perPage, startRow: startRow, output: output, searchType: searchType, filters: filters, dataState: dataState, aggregationType: aggregationType, apiConfiguration: apiConfiguration).execute().body
+    open class func getSearchConsoleQueries(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, sort: Sort_getSearchConsoleQueries? = nil, page: Int? = nil, perPage: Int? = nil, startRow: Int? = nil, output: Output_getSearchConsoleQueries? = nil, searchType: SearchType_getSearchConsoleQueries? = nil, filters: String? = nil, dataState: DataState_getSearchConsoleQueries? = nil, aggregationType: AggregationType_getSearchConsoleQueries? = nil, property: String? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SearchConsoleListResponse {
+        return try await getSearchConsoleQueriesWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, sort: sort, page: page, perPage: perPage, startRow: startRow, output: output, searchType: searchType, filters: filters, dataState: dataState, aggregationType: aggregationType, property: property, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -226,10 +230,11 @@ open class SearchConsoleAPI {
      - parameter filters: (query) Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      - parameter dataState: (query) final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to ._final)
      - parameter aggregationType: (query) How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to .auto)
+     - parameter property: (query) Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<SearchConsoleListResponse> 
      */
-    open class func getSearchConsoleQueriesWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, sort: Sort_getSearchConsoleQueries? = nil, page: Int? = nil, perPage: Int? = nil, startRow: Int? = nil, output: Output_getSearchConsoleQueries? = nil, searchType: SearchType_getSearchConsoleQueries? = nil, filters: String? = nil, dataState: DataState_getSearchConsoleQueries? = nil, aggregationType: AggregationType_getSearchConsoleQueries? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SearchConsoleListResponse> {
+    open class func getSearchConsoleQueriesWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, sort: Sort_getSearchConsoleQueries? = nil, page: Int? = nil, perPage: Int? = nil, startRow: Int? = nil, output: Output_getSearchConsoleQueries? = nil, searchType: SearchType_getSearchConsoleQueries? = nil, filters: String? = nil, dataState: DataState_getSearchConsoleQueries? = nil, aggregationType: AggregationType_getSearchConsoleQueries? = nil, property: String? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SearchConsoleListResponse> {
         let localVariablePath = "/search_console/queries"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -249,6 +254,7 @@ open class SearchConsoleAPI {
             "filters": (wrappedValue: filters?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "data_state": (wrappedValue: dataState?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "aggregation_type": (wrappedValue: aggregationType?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "property": (wrappedValue: property?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ]
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
 
@@ -314,7 +320,7 @@ open class SearchConsoleAPI {
      Search Console rows by several dimensions (Growth+)
      
      - parameter projectId: (query) Project ID 
-     - parameter dimensions: (query) Comma-separated dimensions to group by, 1 to 3 of date, country, device, page, query, searchAppearance. Each becomes a field of every row; country and device values are lowercase. 
+     - parameter dimensions: (query) Comma-separated dimensions to group by, 1 to 3 of date, country, device, page, query, searchAppearance, property. Each becomes a field of every row; country and device values are lowercase. property is the Search Console property the row comes from (see the property parameter). 
      - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
      - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
      - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
@@ -327,22 +333,23 @@ open class SearchConsoleAPI {
      - parameter filters: (query) Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      - parameter dataState: (query) final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to ._final)
      - parameter aggregationType: (query) How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to .auto)
+     - parameter property: (query) Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: SearchConsoleRowsResponse
      */
-    open class func getSearchConsoleRows(projectId: Int, dimensions: String, range: Int? = nil, from: Date? = nil, to: Date? = nil, sort: Sort_getSearchConsoleRows? = nil, page: Int? = nil, perPage: Int? = nil, startRow: Int? = nil, output: Output_getSearchConsoleRows? = nil, searchType: SearchType_getSearchConsoleRows? = nil, filters: String? = nil, dataState: DataState_getSearchConsoleRows? = nil, aggregationType: AggregationType_getSearchConsoleRows? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SearchConsoleRowsResponse {
-        return try await getSearchConsoleRowsWithRequestBuilder(projectId: projectId, dimensions: dimensions, range: range, from: from, to: to, sort: sort, page: page, perPage: perPage, startRow: startRow, output: output, searchType: searchType, filters: filters, dataState: dataState, aggregationType: aggregationType, apiConfiguration: apiConfiguration).execute().body
+    open class func getSearchConsoleRows(projectId: Int, dimensions: String, range: Int? = nil, from: Date? = nil, to: Date? = nil, sort: Sort_getSearchConsoleRows? = nil, page: Int? = nil, perPage: Int? = nil, startRow: Int? = nil, output: Output_getSearchConsoleRows? = nil, searchType: SearchType_getSearchConsoleRows? = nil, filters: String? = nil, dataState: DataState_getSearchConsoleRows? = nil, aggregationType: AggregationType_getSearchConsoleRows? = nil, property: String? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SearchConsoleRowsResponse {
+        return try await getSearchConsoleRowsWithRequestBuilder(projectId: projectId, dimensions: dimensions, range: range, from: from, to: to, sort: sort, page: page, perPage: perPage, startRow: startRow, output: output, searchType: searchType, filters: filters, dataState: dataState, aggregationType: aggregationType, property: property, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Search Console rows by several dimensions (Growth+)
      - GET /search_console/rows
-     - Google Search Console rows grouped by 1 to 3 dimensions (date, country, device, page, query, searchAppearance) over a date range, each row carrying its dimension values as fields plus impressions, clicks, ctr (0..1) and position, ranked by impressions, clicks, ctr or position, paginated. Google ranks rows by clicks and returns at most 25,000 per request (truncated: true when reached); start_row moves that window. Query rows exclude anonymized queries, so rows add up to less than the summary totals. Requires a connected Search Console property (Growth+) and live reads: stored reads return ERR_INVALID_PARAM. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access and ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying. A combination Google refuses comes back as ERR_INVALID_PARAM with its reason.
+     - Google Search Console rows grouped by 1 to 3 dimensions (date, country, device, page, query, searchAppearance, property) over a date range, each row carrying its dimension values as fields plus impressions, clicks, ctr (0..1) and position, ranked by impressions, clicks, ctr or position, paginated. Google ranks rows by clicks and returns at most 25,000 per request (truncated: true when reached); start_row moves that window. Query rows exclude anonymized queries, so rows add up to less than the summary totals. Requires a connected Search Console property (Growth+) and live reads: stored reads return ERR_INVALID_PARAM. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access and ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying. A combination Google refuses comes back as ERR_INVALID_PARAM with its reason.
      - Bearer Token:
        - type: http
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
-     - parameter dimensions: (query) Comma-separated dimensions to group by, 1 to 3 of date, country, device, page, query, searchAppearance. Each becomes a field of every row; country and device values are lowercase. 
+     - parameter dimensions: (query) Comma-separated dimensions to group by, 1 to 3 of date, country, device, page, query, searchAppearance, property. Each becomes a field of every row; country and device values are lowercase. property is the Search Console property the row comes from (see the property parameter). 
      - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
      - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
      - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
@@ -355,10 +362,11 @@ open class SearchConsoleAPI {
      - parameter filters: (query) Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      - parameter dataState: (query) final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to ._final)
      - parameter aggregationType: (query) How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to .auto)
+     - parameter property: (query) Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<SearchConsoleRowsResponse> 
      */
-    open class func getSearchConsoleRowsWithRequestBuilder(projectId: Int, dimensions: String, range: Int? = nil, from: Date? = nil, to: Date? = nil, sort: Sort_getSearchConsoleRows? = nil, page: Int? = nil, perPage: Int? = nil, startRow: Int? = nil, output: Output_getSearchConsoleRows? = nil, searchType: SearchType_getSearchConsoleRows? = nil, filters: String? = nil, dataState: DataState_getSearchConsoleRows? = nil, aggregationType: AggregationType_getSearchConsoleRows? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SearchConsoleRowsResponse> {
+    open class func getSearchConsoleRowsWithRequestBuilder(projectId: Int, dimensions: String, range: Int? = nil, from: Date? = nil, to: Date? = nil, sort: Sort_getSearchConsoleRows? = nil, page: Int? = nil, perPage: Int? = nil, startRow: Int? = nil, output: Output_getSearchConsoleRows? = nil, searchType: SearchType_getSearchConsoleRows? = nil, filters: String? = nil, dataState: DataState_getSearchConsoleRows? = nil, aggregationType: AggregationType_getSearchConsoleRows? = nil, property: String? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SearchConsoleRowsResponse> {
         let localVariablePath = "/search_console/rows"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -379,6 +387,7 @@ open class SearchConsoleAPI {
             "filters": (wrappedValue: filters?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "data_state": (wrappedValue: dataState?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "aggregation_type": (wrappedValue: aggregationType?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "property": (wrappedValue: property?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ]
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
 
@@ -402,6 +411,7 @@ open class SearchConsoleAPI {
         case page = "page"
         case query = "query"
         case searchappearance = "searchAppearance"
+        case property = "property"
     }
 
     /**
@@ -440,23 +450,24 @@ open class SearchConsoleAPI {
      - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
      - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
      - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
-     - parameter dimension: (query) Optional breakdown aggregated over the range. country and device are lowercased; page and query keep the casing Google returns, because a page URL is case sensitive. (optional)
+     - parameter dimension: (query) Optional breakdown aggregated over the range. country and device are lowercased; page and query keep the casing Google returns, because a page URL is case sensitive. property gives one row per property read (see the property parameter). (optional)
      - parameter limit: (query) Maximum breakdown rows, sorted by impressions descending. Default and maximum 1000. Use /search_console/queries or /search_console/pages to page through up to 25,000 rows. (optional)
      - parameter searchType: (query) Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to .web)
      - parameter filters: (query) Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      - parameter dataState: (query) final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to ._final)
      - parameter aggregationType: (query) How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to .auto)
+     - parameter property: (query) Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: SearchConsoleSummaryResponse
      */
-    open class func getSearchConsoleSummary(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, dimension: Dimension_getSearchConsoleSummary? = nil, limit: Int? = nil, searchType: SearchType_getSearchConsoleSummary? = nil, filters: String? = nil, dataState: DataState_getSearchConsoleSummary? = nil, aggregationType: AggregationType_getSearchConsoleSummary? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SearchConsoleSummaryResponse {
-        return try await getSearchConsoleSummaryWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, dimension: dimension, limit: limit, searchType: searchType, filters: filters, dataState: dataState, aggregationType: aggregationType, apiConfiguration: apiConfiguration).execute().body
+    open class func getSearchConsoleSummary(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, dimension: Dimension_getSearchConsoleSummary? = nil, limit: Int? = nil, searchType: SearchType_getSearchConsoleSummary? = nil, filters: String? = nil, dataState: DataState_getSearchConsoleSummary? = nil, aggregationType: AggregationType_getSearchConsoleSummary? = nil, property: String? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SearchConsoleSummaryResponse {
+        return try await getSearchConsoleSummaryWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, dimension: dimension, limit: limit, searchType: searchType, filters: filters, dataState: dataState, aggregationType: aggregationType, property: property, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Search Console summary (Growth+)
      - GET /search_console/summary
-     - Google Search Console headline totals (impressions, clicks, ctr as a 0..1 fraction, average position) for the project over a date range. Pass dimension=country, device, page, query or searchAppearance to also receive the breakdown aggregated over the range, capped by limit. With filters and no dimension, totals are the complete figure Google reports for that filter. Breakdown rows are capped by limit and by Google's 25,000-row maximum; breakdown_truncated: true means rows were left out. Query rows exclude anonymized queries, and page and searchAppearance rows are counted per page rather than per property, so breakdown rows can differ from the totals. Requires the project to have a connected Search Console property and the Growth plan or above; otherwise returns ERR_SEARCH_CONSOLE_NOT_CONNECTED or ERR_PLAN_REQUIRED. X-Search-Console-Backend identifies stored or live reads. Stored reads use synced data without contacting Google. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access; reconnect the property in Preferences > Project Settings > Data Connections. They return ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying.
+     - Google Search Console headline totals (impressions, clicks, ctr as a 0..1 fraction, average position) for the project over a date range. Pass dimension=country, device, page, query or searchAppearance to also receive the breakdown aggregated over the range, capped by limit, or dimension=property for one row per property read (with a property list or property=all). With filters and no dimension, totals are the complete figure Google reports for that filter. Breakdown rows are capped by limit and by Google's 25,000-row maximum; breakdown_truncated: true means rows were left out. Query rows exclude anonymized queries, and page and searchAppearance rows are counted per page rather than per property, so breakdown rows can differ from the totals. Requires the project to have a connected Search Console property and the Growth plan or above; otherwise returns ERR_SEARCH_CONSOLE_NOT_CONNECTED or ERR_PLAN_REQUIRED. X-Search-Console-Backend identifies stored or live reads. Stored reads use synced data without contacting Google. Live reads return ERR_SEARCH_CONSOLE_ACCESS_REVOKED (403) for revoked Google access; reconnect the property in Preferences > Project Settings > Data Connections. They return ERR_SEARCH_CONSOLE_UPSTREAM (503) when Google Search Console is unavailable or over quota; wait for the number of seconds in Retry-After before retrying.
      - Bearer Token:
        - type: http
        - name: BearerAuth
@@ -464,16 +475,17 @@ open class SearchConsoleAPI {
      - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
      - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
      - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
-     - parameter dimension: (query) Optional breakdown aggregated over the range. country and device are lowercased; page and query keep the casing Google returns, because a page URL is case sensitive. (optional)
+     - parameter dimension: (query) Optional breakdown aggregated over the range. country and device are lowercased; page and query keep the casing Google returns, because a page URL is case sensitive. property gives one row per property read (see the property parameter). (optional)
      - parameter limit: (query) Maximum breakdown rows, sorted by impressions descending. Default and maximum 1000. Use /search_console/queries or /search_console/pages to page through up to 25,000 rows. (optional)
      - parameter searchType: (query) Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to .web)
      - parameter filters: (query) Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      - parameter dataState: (query) final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to ._final)
      - parameter aggregationType: (query) How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to .auto)
+     - parameter property: (query) Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<SearchConsoleSummaryResponse> 
      */
-    open class func getSearchConsoleSummaryWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, dimension: Dimension_getSearchConsoleSummary? = nil, limit: Int? = nil, searchType: SearchType_getSearchConsoleSummary? = nil, filters: String? = nil, dataState: DataState_getSearchConsoleSummary? = nil, aggregationType: AggregationType_getSearchConsoleSummary? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SearchConsoleSummaryResponse> {
+    open class func getSearchConsoleSummaryWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, dimension: Dimension_getSearchConsoleSummary? = nil, limit: Int? = nil, searchType: SearchType_getSearchConsoleSummary? = nil, filters: String? = nil, dataState: DataState_getSearchConsoleSummary? = nil, aggregationType: AggregationType_getSearchConsoleSummary? = nil, property: String? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SearchConsoleSummaryResponse> {
         let localVariablePath = "/search_console/summary"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -490,6 +502,7 @@ open class SearchConsoleAPI {
             "filters": (wrappedValue: filters?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "data_state": (wrappedValue: dataState?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "aggregation_type": (wrappedValue: aggregationType?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "property": (wrappedValue: property?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ]
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
 
@@ -563,11 +576,12 @@ open class SearchConsoleAPI {
      - parameter filters: (query) Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      - parameter dataState: (query) final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to ._final)
      - parameter aggregationType: (query) How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to .auto)
+     - parameter property: (query) Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: SearchConsoleTimeseriesResponse
      */
-    open class func getSearchConsoleTimeseries(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getSearchConsoleTimeseries? = nil, output: Output_getSearchConsoleTimeseries? = nil, searchType: SearchType_getSearchConsoleTimeseries? = nil, filters: String? = nil, dataState: DataState_getSearchConsoleTimeseries? = nil, aggregationType: AggregationType_getSearchConsoleTimeseries? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SearchConsoleTimeseriesResponse {
-        return try await getSearchConsoleTimeseriesWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, granularity: granularity, output: output, searchType: searchType, filters: filters, dataState: dataState, aggregationType: aggregationType, apiConfiguration: apiConfiguration).execute().body
+    open class func getSearchConsoleTimeseries(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getSearchConsoleTimeseries? = nil, output: Output_getSearchConsoleTimeseries? = nil, searchType: SearchType_getSearchConsoleTimeseries? = nil, filters: String? = nil, dataState: DataState_getSearchConsoleTimeseries? = nil, aggregationType: AggregationType_getSearchConsoleTimeseries? = nil, property: String? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SearchConsoleTimeseriesResponse {
+        return try await getSearchConsoleTimeseriesWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, granularity: granularity, output: output, searchType: searchType, filters: filters, dataState: dataState, aggregationType: aggregationType, property: property, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -587,10 +601,11 @@ open class SearchConsoleAPI {
      - parameter filters: (query) Narrow the query; every entry must match (AND). Send the whole list as one JSON value: filters&#x3D;[{\&quot;dimension\&quot;:\&quot;page\&quot;,\&quot;operator\&quot;:\&quot;contains\&quot;,\&quot;expression\&quot;:\&quot;/blog/\&quot;}] (URL-encoded). An array of objects has no query-parameter form a generated client can produce, so the string is what the official SDKs send; see the SearchConsoleFilters schema for the shape it encodes. includingRegex and excludingRegex take RE2 syntax. At most 10 entries, expression at most 500 characters. The bracket form filters[][dimension]&#x3D;page&amp;filters[][operator]&#x3D;contains&amp;filters[][expression]&#x3D;/blog/ is also accepted. (optional)
      - parameter dataState: (query) final (default) counts only rows Google has finalized. all also counts the most recent days, which are still being filled in and will change. (optional, default to ._final)
      - parameter aggregationType: (query) How Google counts impressions. auto (default) is what Search Console shows (by page when page is grouped or filtered, else by property). Google rejects byProperty with a page dimension or filter. (optional, default to .auto)
+     - parameter property: (query) Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<SearchConsoleTimeseriesResponse> 
      */
-    open class func getSearchConsoleTimeseriesWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getSearchConsoleTimeseries? = nil, output: Output_getSearchConsoleTimeseries? = nil, searchType: SearchType_getSearchConsoleTimeseries? = nil, filters: String? = nil, dataState: DataState_getSearchConsoleTimeseries? = nil, aggregationType: AggregationType_getSearchConsoleTimeseries? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SearchConsoleTimeseriesResponse> {
+    open class func getSearchConsoleTimeseriesWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getSearchConsoleTimeseries? = nil, output: Output_getSearchConsoleTimeseries? = nil, searchType: SearchType_getSearchConsoleTimeseries? = nil, filters: String? = nil, dataState: DataState_getSearchConsoleTimeseries? = nil, aggregationType: AggregationType_getSearchConsoleTimeseries? = nil, property: String? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SearchConsoleTimeseriesResponse> {
         let localVariablePath = "/search_console/timeseries"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -607,6 +622,7 @@ open class SearchConsoleAPI {
             "filters": (wrappedValue: filters?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "data_state": (wrappedValue: dataState?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "aggregation_type": (wrappedValue: aggregationType?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "property": (wrappedValue: property?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ]
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
 
@@ -617,6 +633,61 @@ open class SearchConsoleAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<SearchConsoleTimeseriesResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     * enum for parameter output
+     */
+    public enum Output_listSearchConsoleProperties: String, Sendable, CaseIterable {
+        case flat = "flat"
+        case csv = "csv"
+    }
+
+    /**
+     List Search Console properties (Growth+)
+     
+     - parameter projectId: (query) Project ID 
+     - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: SearchConsolePropertiesResponse
+     */
+    open class func listSearchConsoleProperties(projectId: Int, output: Output_listSearchConsoleProperties? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SearchConsolePropertiesResponse {
+        return try await listSearchConsolePropertiesWithRequestBuilder(projectId: projectId, output: output, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     List Search Console properties (Growth+)
+     - GET /search_console/properties
+     - The Google Search Console properties connected to the project, up to max_properties, from one or more Google accounts, primary first. Each id is a value the property parameter of the other /search_console endpoints accepts: omit it for the primary property, pass one id, or a comma-separated list or all to combine several. type is domain (sc-domain:example.com, which counts every subdomain and protocol) or url_prefix. status reconnect_required means Google refused the stored access; reconnect the property in Preferences > Project Settings > Data Connections. An empty data list means the project has no Search Console connection. Requires the Growth plan or above.
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter projectId: (query) Project ID 
+     - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<SearchConsolePropertiesResponse> 
+     */
+    open class func listSearchConsolePropertiesWithRequestBuilder(projectId: Int, output: Output_listSearchConsoleProperties? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SearchConsolePropertiesResponse> {
+        let localVariablePath = "/search_console/properties"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        let localVariableQueryItems: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
+            "project_id": (wrappedValue: projectId.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "output": (wrappedValue: output?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<SearchConsolePropertiesResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

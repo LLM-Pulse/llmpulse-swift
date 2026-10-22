@@ -21,8 +21,10 @@ public struct SearchConsoleRowsResponseDataInner: Sendable, Codable, Hashable {
     public var ctr: Double?
     /** Impression-weighted average position */
     public var position: Double?
+    /** Present when grouped by property */
+    public var property: String?
 
-    public init(date: Date? = nil, country: String? = nil, device: String? = nil, page: String? = nil, query: String? = nil, searchAppearance: String? = nil, impressions: Int? = nil, clicks: Int? = nil, ctr: Double? = nil, position: Double? = nil) {
+    public init(date: Date? = nil, country: String? = nil, device: String? = nil, page: String? = nil, query: String? = nil, searchAppearance: String? = nil, impressions: Int? = nil, clicks: Int? = nil, ctr: Double? = nil, position: Double? = nil, property: String? = nil) {
         self.date = date
         self.country = country
         self.device = device
@@ -33,6 +35,7 @@ public struct SearchConsoleRowsResponseDataInner: Sendable, Codable, Hashable {
         self.clicks = clicks
         self.ctr = ctr
         self.position = position
+        self.property = property
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -46,6 +49,7 @@ public struct SearchConsoleRowsResponseDataInner: Sendable, Codable, Hashable {
         case clicks
         case ctr
         case position
+        case property
     }
 
     // Encodable protocol methods
@@ -62,6 +66,7 @@ public struct SearchConsoleRowsResponseDataInner: Sendable, Codable, Hashable {
         try container.encodeIfPresent(clicks, forKey: .clicks)
         try container.encodeIfPresent(ctr, forKey: .ctr)
         try container.encodeIfPresent(position, forKey: .position)
+        try container.encodeIfPresent(property, forKey: .property)
     }
 }
 

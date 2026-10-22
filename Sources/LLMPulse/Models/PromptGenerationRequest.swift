@@ -52,8 +52,10 @@ public struct PromptGenerationRequest: Sendable, Codable, Hashable {
     public var minWords: Int? = 0
     /** search_console: include queries from every country instead of country_code only */
     public var allCountries: Bool? = false
+    /** search_console: the property id to read queries from (GET /search_console/properties lists them); the primary property when omitted */
+    public var property: String?
 
-    public init(projectId: Int, source: Source, query: String? = nil, count: Int? = 20, countryCode: String? = nil, languageCode: String? = nil, competitorId: Int? = nil, searchType: SearchType? = .topic, keywords: [String]? = nil, sourceCountryCode: String? = nil, sourceLanguageCode: String? = nil, minWords: Int? = 0, allCountries: Bool? = false) {
+    public init(projectId: Int, source: Source, query: String? = nil, count: Int? = 20, countryCode: String? = nil, languageCode: String? = nil, competitorId: Int? = nil, searchType: SearchType? = .topic, keywords: [String]? = nil, sourceCountryCode: String? = nil, sourceLanguageCode: String? = nil, minWords: Int? = 0, allCountries: Bool? = false, property: String? = nil) {
         self.projectId = projectId
         self.source = source
         self.query = query
@@ -67,6 +69,7 @@ public struct PromptGenerationRequest: Sendable, Codable, Hashable {
         self.sourceLanguageCode = sourceLanguageCode
         self.minWords = minWords
         self.allCountries = allCountries
+        self.property = property
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -83,6 +86,7 @@ public struct PromptGenerationRequest: Sendable, Codable, Hashable {
         case sourceLanguageCode = "source_language_code"
         case minWords = "min_words"
         case allCountries = "all_countries"
+        case property
     }
 
     // Encodable protocol methods
@@ -102,6 +106,7 @@ public struct PromptGenerationRequest: Sendable, Codable, Hashable {
         try container.encodeIfPresent(sourceLanguageCode, forKey: .sourceLanguageCode)
         try container.encodeIfPresent(minWords, forKey: .minWords)
         try container.encodeIfPresent(allCountries, forKey: .allCountries)
+        try container.encodeIfPresent(property, forKey: .property)
     }
 }
 

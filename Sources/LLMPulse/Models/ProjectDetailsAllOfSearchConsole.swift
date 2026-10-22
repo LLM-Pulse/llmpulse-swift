@@ -7,7 +7,7 @@
 
 import Foundation
 
-/** Google Search Console connection of the project. connected means the Search Console endpoints can answer; reconnect_required means Google refused the stored access, so the endpoints return ERR_SEARCH_CONSOLE_ACCESS_REVOKED until the property is reconnected at connect_url; not_connected means the endpoints return ERR_SEARCH_CONSOLE_NOT_CONNECTED. */
+/** Google Search Console connection of the project, judged by its primary property. connected means the Search Console endpoints can answer; reconnect_required means Google refused the primary property&#39;s stored access, so reads without property return ERR_SEARCH_CONSOLE_ACCESS_REVOKED until it is reconnected at connect_url, while a property GET /search_console/properties lists as connected, or property&#x3D;all, still answers; not_connected means the endpoints return ERR_SEARCH_CONSOLE_NOT_CONNECTED. */
 public struct ProjectDetailsAllOfSearchConsole: Sendable, Codable, Hashable {
 
     public enum Status: String, Sendable, Codable, CaseIterable {
@@ -16,21 +16,25 @@ public struct ProjectDetailsAllOfSearchConsole: Sendable, Codable, Hashable {
         case notConnected = "not_connected"
     }
     public var status: Status?
-    /** The connected property (e.g. sc-domain:example.com), null when not connected */
+    /** The primary property (e.g. sc-domain:example.com), null when not connected */
     public var property: String?
     /** The in-app page where the property is connected or reconnected (Preferences > Project Settings > Data Connections) */
     public var connectUrl: String?
+    /** Connected properties Google still accepts (reconnect_required ones excluded); GET /search_console/properties lists every property with its status */
+    public var propertiesCount: Int?
 
-    public init(status: Status? = nil, property: String? = nil, connectUrl: String? = nil) {
+    public init(status: Status? = nil, property: String? = nil, connectUrl: String? = nil, propertiesCount: Int? = nil) {
         self.status = status
         self.property = property
         self.connectUrl = connectUrl
+        self.propertiesCount = propertiesCount
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case status
         case property
         case connectUrl = "connect_url"
+        case propertiesCount = "properties_count"
     }
 
     // Encodable protocol methods
@@ -40,6 +44,7 @@ public struct ProjectDetailsAllOfSearchConsole: Sendable, Codable, Hashable {
         try container.encodeIfPresent(status, forKey: .status)
         try container.encodeIfPresent(property, forKey: .property)
         try container.encodeIfPresent(connectUrl, forKey: .connectUrl)
+        try container.encodeIfPresent(propertiesCount, forKey: .propertiesCount)
     }
 }
 

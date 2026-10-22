@@ -82,7 +82,7 @@ Starts a suggestion run with one of the generators behind the app's Add prompts 
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import LLMPulse
 
-let promptGenerationRequest = PromptGenerationRequest(projectId: 123, source: "source_example", query: "query_example", count: 123, countryCode: "countryCode_example", languageCode: "languageCode_example", competitorId: 123, searchType: "searchType_example", keywords: ["keywords_example"], sourceCountryCode: "sourceCountryCode_example", sourceLanguageCode: "sourceLanguageCode_example", minWords: 123, allCountries: false) // PromptGenerationRequest | 
+let promptGenerationRequest = PromptGenerationRequest(projectId: 123, source: "source_example", query: "query_example", count: 123, countryCode: "countryCode_example", languageCode: "languageCode_example", competitorId: 123, searchType: "searchType_example", keywords: ["keywords_example"], sourceCountryCode: "sourceCountryCode_example", sourceLanguageCode: "sourceLanguageCode_example", minWords: 123, allCountries: false, property: "property_example") // PromptGenerationRequest | 
 
 // Generate prompt suggestions
 PromptsAPI.createPromptGeneration(promptGenerationRequest: promptGenerationRequest) { (response, error) in

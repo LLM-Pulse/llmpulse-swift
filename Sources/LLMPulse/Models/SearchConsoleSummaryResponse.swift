@@ -13,7 +13,7 @@ public struct SearchConsoleSummaryResponse: Sendable, Codable, Hashable {
     public var property: SearchConsoleProperty?
     public var from: Date?
     public var to: Date?
-    /** Latest date Google has published for the property (it lags 2-3 days). Later days are missing, not zero. */
+    /** Latest date Google has published for the property, or for every combined property (it lags 2-3 days). Later days are missing, not zero. */
     public var dataThrough: Date?
     public var totals: SearchConsoleMetrics?
     /** Present when a breakdown was requested */
@@ -23,8 +23,14 @@ public struct SearchConsoleSummaryResponse: Sendable, Codable, Hashable {
     /** Present (true) when limit or Google's 25,000-row maximum left breakdown rows out, so they add up to less than totals */
     public var breakdownTruncated: Bool?
     public var requestId: String?
+    /** With a list or all in the property parameter, the properties whose data the response holds (instead of property) */
+    public var properties: [SearchConsoleProperty]?
+    /** With a list or all, selected properties left out because another selected property already counts them */
+    public var excludedProperties: [SearchConsoleExcludedProperty]?
+    /** With a list or all, selected properties Google refused, left out of the figures */
+    public var propertyErrors: [SearchConsolePropertyError]?
 
-    public init(projectId: Int? = nil, property: SearchConsoleProperty? = nil, from: Date? = nil, to: Date? = nil, dataThrough: Date? = nil, totals: SearchConsoleMetrics? = nil, dimension: String? = nil, breakdown: [SearchConsoleSummaryResponseBreakdownInner]? = nil, breakdownTruncated: Bool? = nil, requestId: String? = nil) {
+    public init(projectId: Int? = nil, property: SearchConsoleProperty? = nil, from: Date? = nil, to: Date? = nil, dataThrough: Date? = nil, totals: SearchConsoleMetrics? = nil, dimension: String? = nil, breakdown: [SearchConsoleSummaryResponseBreakdownInner]? = nil, breakdownTruncated: Bool? = nil, requestId: String? = nil, properties: [SearchConsoleProperty]? = nil, excludedProperties: [SearchConsoleExcludedProperty]? = nil, propertyErrors: [SearchConsolePropertyError]? = nil) {
         self.projectId = projectId
         self.property = property
         self.from = from
@@ -35,6 +41,9 @@ public struct SearchConsoleSummaryResponse: Sendable, Codable, Hashable {
         self.breakdown = breakdown
         self.breakdownTruncated = breakdownTruncated
         self.requestId = requestId
+        self.properties = properties
+        self.excludedProperties = excludedProperties
+        self.propertyErrors = propertyErrors
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -48,6 +57,9 @@ public struct SearchConsoleSummaryResponse: Sendable, Codable, Hashable {
         case breakdown
         case breakdownTruncated = "breakdown_truncated"
         case requestId = "request_id"
+        case properties
+        case excludedProperties = "excluded_properties"
+        case propertyErrors = "property_errors"
     }
 
     // Encodable protocol methods
@@ -64,6 +76,9 @@ public struct SearchConsoleSummaryResponse: Sendable, Codable, Hashable {
         try container.encodeIfPresent(breakdown, forKey: .breakdown)
         try container.encodeIfPresent(breakdownTruncated, forKey: .breakdownTruncated)
         try container.encodeIfPresent(requestId, forKey: .requestId)
+        try container.encodeIfPresent(properties, forKey: .properties)
+        try container.encodeIfPresent(excludedProperties, forKey: .excludedProperties)
+        try container.encodeIfPresent(propertyErrors, forKey: .propertyErrors)
     }
 }
 
