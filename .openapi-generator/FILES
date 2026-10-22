@@ -201,6 +201,8 @@ Sources/LLMPulse/Models/ProjectCreateResponseLimits.swift
 Sources/LLMPulse/Models/ProjectCreateResponsePrompts.swift
 Sources/LLMPulse/Models/ProjectCreateResponseSameDomainProjectsInner.swift
 Sources/LLMPulse/Models/ProjectDetails.swift
+Sources/LLMPulse/Models/ProjectDetailsAllOfAgentTraffic.swift
+Sources/LLMPulse/Models/ProjectDetailsAllOfAiTraffic.swift
 Sources/LLMPulse/Models/ProjectDetailsAllOfDataCoverage.swift
 Sources/LLMPulse/Models/ProjectDetailsAllOfSearchConsole.swift
 Sources/LLMPulse/Models/ProjectDetailsAllOfStats.swift
@@ -476,6 +478,8 @@ docs/ProjectCreateResponseLimits.md
 docs/ProjectCreateResponsePrompts.md
 docs/ProjectCreateResponseSameDomainProjectsInner.md
 docs/ProjectDetails.md
+docs/ProjectDetailsAllOfAgentTraffic.md
+docs/ProjectDetailsAllOfAiTraffic.md
 docs/ProjectDetailsAllOfDataCoverage.md
 docs/ProjectDetailsAllOfSearchConsole.md
 docs/ProjectDetailsAllOfStats.md

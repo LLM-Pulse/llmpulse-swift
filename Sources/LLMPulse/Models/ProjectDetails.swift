@@ -39,9 +39,11 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
     public var stats: ProjectDetailsAllOfStats?
     public var dataCoverage: ProjectDetailsAllOfDataCoverage?
     public var searchConsole: ProjectDetailsAllOfSearchConsole?
+    public var aiTraffic: ProjectDetailsAllOfAiTraffic?
+    public var agentTraffic: ProjectDetailsAllOfAgentTraffic?
     public var requestId: String?
 
-    public init(id: Int? = nil, name: String? = nil, brandName: String? = nil, url: String? = nil, description: String? = nil, matchingNames: [String]? = nil, additionalOwnedDomains: [String]? = nil, industry: JSONValue? = nil, businessModel: String? = nil, businessModelOther: String? = nil, primaryProducts: [String]? = nil, targetAudience: String? = nil, brandVoice: String? = nil, goals: String? = nil, countryCode: String? = nil, languageCode: String? = nil, paused: Bool? = nil, googlePlayId: String? = nil, appStoreId: String? = nil, createdAt: Date? = nil, promptLimit: Int? = nil, stats: ProjectDetailsAllOfStats? = nil, dataCoverage: ProjectDetailsAllOfDataCoverage? = nil, searchConsole: ProjectDetailsAllOfSearchConsole? = nil, requestId: String? = nil) {
+    public init(id: Int? = nil, name: String? = nil, brandName: String? = nil, url: String? = nil, description: String? = nil, matchingNames: [String]? = nil, additionalOwnedDomains: [String]? = nil, industry: JSONValue? = nil, businessModel: String? = nil, businessModelOther: String? = nil, primaryProducts: [String]? = nil, targetAudience: String? = nil, brandVoice: String? = nil, goals: String? = nil, countryCode: String? = nil, languageCode: String? = nil, paused: Bool? = nil, googlePlayId: String? = nil, appStoreId: String? = nil, createdAt: Date? = nil, promptLimit: Int? = nil, stats: ProjectDetailsAllOfStats? = nil, dataCoverage: ProjectDetailsAllOfDataCoverage? = nil, searchConsole: ProjectDetailsAllOfSearchConsole? = nil, aiTraffic: ProjectDetailsAllOfAiTraffic? = nil, agentTraffic: ProjectDetailsAllOfAgentTraffic? = nil, requestId: String? = nil) {
         self.id = id
         self.name = name
         self.brandName = brandName
@@ -66,6 +68,8 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
         self.stats = stats
         self.dataCoverage = dataCoverage
         self.searchConsole = searchConsole
+        self.aiTraffic = aiTraffic
+        self.agentTraffic = agentTraffic
         self.requestId = requestId
     }
 
@@ -94,6 +98,8 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
         case stats
         case dataCoverage = "data_coverage"
         case searchConsole = "search_console"
+        case aiTraffic = "ai_traffic"
+        case agentTraffic = "agent_traffic"
         case requestId = "request_id"
     }
 
@@ -125,6 +131,8 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
         try container.encodeIfPresent(stats, forKey: .stats)
         try container.encodeIfPresent(dataCoverage, forKey: .dataCoverage)
         try container.encodeIfPresent(searchConsole, forKey: .searchConsole)
+        try container.encodeIfPresent(aiTraffic, forKey: .aiTraffic)
+        try container.encodeIfPresent(agentTraffic, forKey: .agentTraffic)
         try container.encodeIfPresent(requestId, forKey: .requestId)
     }
 }
