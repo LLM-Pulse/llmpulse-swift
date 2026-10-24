@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 **status** | **String** |  | 
 **statusChangedAt** | **Date** |  | [optional] 
 **position** | **Int** |  | 
-**metadata** | **[String: JSONValue]** |  | [optional] 
+**metadata** | **[String: JSONValue]** | Free-form details. Carries effort (low, medium or high) when the generator rated it, archive_reason (not_relevant, too_complex or competitor) on an item archived with a reason, and domain on PR &amp; Citation Building items. | [optional] 
 **createdAt** | **Date** |  | 
 **updatedAt** | **Date** |  | 
 **resolvedSourceRefs** | [[String: JSONValue]] | The evidence each source_refs code points to (prompt, citation or own page) | [optional] 

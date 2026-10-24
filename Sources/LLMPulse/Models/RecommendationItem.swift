@@ -34,6 +34,7 @@ public struct RecommendationItem: Sendable, Codable, Hashable {
     public var status: Status
     public var statusChangedAt: Date?
     public var position: Int
+    /** Free-form details. Carries effort (low, medium or high) when the generator rated it, archive_reason (not_relevant, too_complex or competitor) on an item archived with a reason, and domain on PR & Citation Building items. */
     public var metadata: [String: JSONValue]?
     public var createdAt: Date
     public var updatedAt: Date

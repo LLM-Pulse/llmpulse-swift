@@ -177,7 +177,7 @@ Name | Type | Description  | Notes
 
 Complete, archive or restore a recommendation item
 
-Moves one item of a recommendation run between `active`, `completed` and `archived`, exactly like the complete, archive and restore buttons on the Recommendations page, and stamps `status_changed_at`. Returns the item in the shape `GET /recommendations/{id}` lists items. Requires a `read_write` scope API key and, for team members, create permission on Recommendations (the permission the page uses for these buttons).
+Moves one item of a recommendation run between `active`, `completed` and `archived`, exactly like the complete, archive and restore buttons on the Recommendations page, and stamps `status_changed_at`. When archiving, an optional `reason` teaches later runs: `not_relevant` and `too_complex` steer the next recommendations away from similar ones, and on a PR & Citation Building item that targets a domain (`metadata.domain`), `competitor` or `not_relevant` stops that site from being suggested again. The reason is stored in `metadata.archive_reason` and dropped when the item leaves `archived`. A reason with another status, an unknown one, or `competitor` on an item without a domain returns `ERR_INVALID_PARAM`. Returns the item in the shape `GET /recommendations/{id}` lists items. Requires a `read_write` scope API key and, for team members, create permission on Recommendations (the permission the page uses for these buttons).
 
 ### Example
 ```swift
@@ -186,7 +186,7 @@ import LLMPulse
 
 let id = 987 // Int | Recommendation run id
 let itemId = 987 // Int | Item id, from the items of GET /recommendations/{id}
-let updateRecommendationItemRequest = updateRecommendationItem_request(projectId: 123, status: "status_example") // UpdateRecommendationItemRequest | 
+let updateRecommendationItemRequest = updateRecommendationItem_request(projectId: 123, status: "status_example", reason: "reason_example") // UpdateRecommendationItemRequest | 
 
 // Complete, archive or restore a recommendation item
 RecommendationsAPI.updateRecommendationItem(id: id, itemId: itemId, updateRecommendationItemRequest: updateRecommendationItemRequest) { (response, error) in

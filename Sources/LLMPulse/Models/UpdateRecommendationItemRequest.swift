@@ -14,18 +14,27 @@ public struct UpdateRecommendationItemRequest: Sendable, Codable, Hashable {
         case completed = "completed"
         case archived = "archived"
     }
+    public enum Reason: String, Sendable, Codable, CaseIterable {
+        case notRelevant = "not_relevant"
+        case tooComplex = "too_complex"
+        case competitor = "competitor"
+    }
     public var projectId: Int
     /** completed, archived, or active to restore the item */
     public var status: Status
+    /** Optional, with status archived only. competitor only on a PR & Citation Building item that targets a domain. */
+    public var reason: Reason?
 
-    public init(projectId: Int, status: Status) {
+    public init(projectId: Int, status: Status, reason: Reason? = nil) {
         self.projectId = projectId
         self.status = status
+        self.reason = reason
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case projectId = "project_id"
         case status
+        case reason
     }
 
     // Encodable protocol methods
@@ -34,6 +43,7 @@ public struct UpdateRecommendationItemRequest: Sendable, Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(projectId, forKey: .projectId)
         try container.encode(status, forKey: .status)
+        try container.encodeIfPresent(reason, forKey: .reason)
     }
 }
 
