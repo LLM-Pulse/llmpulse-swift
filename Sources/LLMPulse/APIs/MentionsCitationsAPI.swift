@@ -37,6 +37,15 @@ open class MentionsCitationsAPI {
     }
 
     /**
+     * enum for parameter brandKind
+     */
+    public enum BrandKind_listAllCitations: String, Sendable, CaseIterable {
+        case brand = "brand"
+        case brandOther = "brand_other"
+        case nonBrand = "non_brand"
+    }
+
+    /**
      List all citations (brand + competitor)
      
      - parameter projectId: (query) Project ID 
@@ -49,11 +58,16 @@ open class MentionsCitationsAPI {
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    open class func listAllCitations(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listAllCitations? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAllCitations? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await listAllCitationsWithRequestBuilder(projectId: projectId, competitors: competitors, page: page, perPage: perPage, model: model, collectionId: collectionId, prompt: prompt, from: from, to: to, output: output, apiConfiguration: apiConfiguration).execute().body
+    open class func listAllCitations(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listAllCitations? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAllCitations? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listAllCitations? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await listAllCitationsWithRequestBuilder(projectId: projectId, competitors: competitors, page: page, perPage: perPage, model: model, collectionId: collectionId, prompt: prompt, from: from, to: to, output: output, countryCode: countryCode, languageCode: languageCode, promptType: promptType, brandKind: brandKind, range: range, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -73,10 +87,15 @@ open class MentionsCitationsAPI {
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func listAllCitationsWithRequestBuilder(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listAllCitations? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAllCitations? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listAllCitationsWithRequestBuilder(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listAllCitations? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAllCitations? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listAllCitations? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/dimensions/all_citations"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -93,6 +112,11 @@ open class MentionsCitationsAPI {
             "from": (wrappedValue: from?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "to": (wrappedValue: to?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "output": (wrappedValue: output?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "country_code": (wrappedValue: countryCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "language_code": (wrappedValue: languageCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "prompt_type": (wrappedValue: promptType?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "brand_kind": (wrappedValue: brandKind?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "range": (wrappedValue: range?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ]
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
 
@@ -135,6 +159,15 @@ open class MentionsCitationsAPI {
     }
 
     /**
+     * enum for parameter brandKind
+     */
+    public enum BrandKind_listAllMentions: String, Sendable, CaseIterable {
+        case brand = "brand"
+        case brandOther = "brand_other"
+        case nonBrand = "non_brand"
+    }
+
+    /**
      List all mentions (brand + competitor)
      
      - parameter projectId: (query) Project ID 
@@ -147,11 +180,16 @@ open class MentionsCitationsAPI {
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    open class func listAllMentions(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listAllMentions? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAllMentions? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await listAllMentionsWithRequestBuilder(projectId: projectId, competitors: competitors, page: page, perPage: perPage, model: model, collectionId: collectionId, prompt: prompt, from: from, to: to, output: output, apiConfiguration: apiConfiguration).execute().body
+    open class func listAllMentions(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listAllMentions? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAllMentions? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listAllMentions? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await listAllMentionsWithRequestBuilder(projectId: projectId, competitors: competitors, page: page, perPage: perPage, model: model, collectionId: collectionId, prompt: prompt, from: from, to: to, output: output, countryCode: countryCode, languageCode: languageCode, promptType: promptType, brandKind: brandKind, range: range, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -171,10 +209,15 @@ open class MentionsCitationsAPI {
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func listAllMentionsWithRequestBuilder(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listAllMentions? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAllMentions? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listAllMentionsWithRequestBuilder(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listAllMentions? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAllMentions? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listAllMentions? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/dimensions/all_mentions"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -191,6 +234,11 @@ open class MentionsCitationsAPI {
             "from": (wrappedValue: from?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "to": (wrappedValue: to?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "output": (wrappedValue: output?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "country_code": (wrappedValue: countryCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "language_code": (wrappedValue: languageCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "prompt_type": (wrappedValue: promptType?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "brand_kind": (wrappedValue: brandKind?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "range": (wrappedValue: range?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ]
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
 
@@ -233,6 +281,15 @@ open class MentionsCitationsAPI {
     }
 
     /**
+     * enum for parameter brandKind
+     */
+    public enum BrandKind_listCitations: String, Sendable, CaseIterable {
+        case brand = "brand"
+        case brandOther = "brand_other"
+        case nonBrand = "non_brand"
+    }
+
+    /**
      List brand citations
      
      - parameter projectId: (query) Project ID 
@@ -246,11 +303,14 @@ open class MentionsCitationsAPI {
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: CitationsResponse
      */
-    open class func listCitations(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listCitations? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCitations? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> CitationsResponse {
-        return try await listCitationsWithRequestBuilder(projectId: projectId, page: page, perPage: perPage, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, from: from, to: to, output: output, apiConfiguration: apiConfiguration).execute().body
+    open class func listCitations(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listCitations? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCitations? = nil, promptType: String? = nil, brandKind: BrandKind_listCitations? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> CitationsResponse {
+        return try await listCitationsWithRequestBuilder(projectId: projectId, page: page, perPage: perPage, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, from: from, to: to, output: output, promptType: promptType, brandKind: brandKind, range: range, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -271,10 +331,13 @@ open class MentionsCitationsAPI {
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<CitationsResponse> 
      */
-    open class func listCitationsWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listCitations? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCitations? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<CitationsResponse> {
+    open class func listCitationsWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listCitations? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCitations? = nil, promptType: String? = nil, brandKind: BrandKind_listCitations? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<CitationsResponse> {
         let localVariablePath = "/dimensions/citations"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -292,6 +355,9 @@ open class MentionsCitationsAPI {
             "from": (wrappedValue: from?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "to": (wrappedValue: to?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "output": (wrappedValue: output?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "prompt_type": (wrappedValue: promptType?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "brand_kind": (wrappedValue: brandKind?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "range": (wrappedValue: range?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ]
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
 
@@ -334,6 +400,15 @@ open class MentionsCitationsAPI {
     }
 
     /**
+     * enum for parameter brandKind
+     */
+    public enum BrandKind_listCompetitorCitations: String, Sendable, CaseIterable {
+        case brand = "brand"
+        case brandOther = "brand_other"
+        case nonBrand = "non_brand"
+    }
+
+    /**
      List competitor citations
      
      - parameter projectId: (query) Project ID 
@@ -346,11 +421,16 @@ open class MentionsCitationsAPI {
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    open class func listCompetitorCitations(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listCompetitorCitations? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCompetitorCitations? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await listCompetitorCitationsWithRequestBuilder(projectId: projectId, competitors: competitors, page: page, perPage: perPage, model: model, collectionId: collectionId, prompt: prompt, from: from, to: to, output: output, apiConfiguration: apiConfiguration).execute().body
+    open class func listCompetitorCitations(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listCompetitorCitations? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCompetitorCitations? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listCompetitorCitations? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await listCompetitorCitationsWithRequestBuilder(projectId: projectId, competitors: competitors, page: page, perPage: perPage, model: model, collectionId: collectionId, prompt: prompt, from: from, to: to, output: output, countryCode: countryCode, languageCode: languageCode, promptType: promptType, brandKind: brandKind, range: range, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -370,10 +450,15 @@ open class MentionsCitationsAPI {
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func listCompetitorCitationsWithRequestBuilder(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listCompetitorCitations? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCompetitorCitations? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listCompetitorCitationsWithRequestBuilder(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listCompetitorCitations? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCompetitorCitations? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listCompetitorCitations? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/dimensions/competitor_citations"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -390,6 +475,11 @@ open class MentionsCitationsAPI {
             "from": (wrappedValue: from?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "to": (wrappedValue: to?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "output": (wrappedValue: output?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "country_code": (wrappedValue: countryCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "language_code": (wrappedValue: languageCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "prompt_type": (wrappedValue: promptType?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "brand_kind": (wrappedValue: brandKind?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "range": (wrappedValue: range?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ]
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
 
@@ -432,6 +522,15 @@ open class MentionsCitationsAPI {
     }
 
     /**
+     * enum for parameter brandKind
+     */
+    public enum BrandKind_listCompetitorMentions: String, Sendable, CaseIterable {
+        case brand = "brand"
+        case brandOther = "brand_other"
+        case nonBrand = "non_brand"
+    }
+
+    /**
      List competitor mentions
      
      - parameter projectId: (query) Project ID 
@@ -444,11 +543,16 @@ open class MentionsCitationsAPI {
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: CompetitorMentionsResponse
      */
-    open class func listCompetitorMentions(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listCompetitorMentions? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCompetitorMentions? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> CompetitorMentionsResponse {
-        return try await listCompetitorMentionsWithRequestBuilder(projectId: projectId, competitors: competitors, page: page, perPage: perPage, model: model, collectionId: collectionId, prompt: prompt, from: from, to: to, output: output, apiConfiguration: apiConfiguration).execute().body
+    open class func listCompetitorMentions(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listCompetitorMentions? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCompetitorMentions? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listCompetitorMentions? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> CompetitorMentionsResponse {
+        return try await listCompetitorMentionsWithRequestBuilder(projectId: projectId, competitors: competitors, page: page, perPage: perPage, model: model, collectionId: collectionId, prompt: prompt, from: from, to: to, output: output, countryCode: countryCode, languageCode: languageCode, promptType: promptType, brandKind: brandKind, range: range, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -467,10 +571,15 @@ open class MentionsCitationsAPI {
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<CompetitorMentionsResponse> 
      */
-    open class func listCompetitorMentionsWithRequestBuilder(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listCompetitorMentions? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCompetitorMentions? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<CompetitorMentionsResponse> {
+    open class func listCompetitorMentionsWithRequestBuilder(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listCompetitorMentions? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCompetitorMentions? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listCompetitorMentions? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<CompetitorMentionsResponse> {
         let localVariablePath = "/dimensions/competitor_mentions"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -487,6 +596,11 @@ open class MentionsCitationsAPI {
             "from": (wrappedValue: from?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "to": (wrappedValue: to?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "output": (wrappedValue: output?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "country_code": (wrappedValue: countryCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "language_code": (wrappedValue: languageCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "prompt_type": (wrappedValue: promptType?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "brand_kind": (wrappedValue: brandKind?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "range": (wrappedValue: range?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ]
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
 
@@ -529,6 +643,15 @@ open class MentionsCitationsAPI {
     }
 
     /**
+     * enum for parameter brandKind
+     */
+    public enum BrandKind_listMentions: String, Sendable, CaseIterable {
+        case brand = "brand"
+        case brandOther = "brand_other"
+        case nonBrand = "non_brand"
+    }
+
+    /**
      List brand mentions
      
      - parameter projectId: (query) Project ID 
@@ -542,11 +665,14 @@ open class MentionsCitationsAPI {
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: MentionsResponse
      */
-    open class func listMentions(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listMentions? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listMentions? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> MentionsResponse {
-        return try await listMentionsWithRequestBuilder(projectId: projectId, page: page, perPage: perPage, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, from: from, to: to, output: output, apiConfiguration: apiConfiguration).execute().body
+    open class func listMentions(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listMentions? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listMentions? = nil, promptType: String? = nil, brandKind: BrandKind_listMentions? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> MentionsResponse {
+        return try await listMentionsWithRequestBuilder(projectId: projectId, page: page, perPage: perPage, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, from: from, to: to, output: output, promptType: promptType, brandKind: brandKind, range: range, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -566,10 +692,13 @@ open class MentionsCitationsAPI {
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<MentionsResponse> 
      */
-    open class func listMentionsWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listMentions? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listMentions? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<MentionsResponse> {
+    open class func listMentionsWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listMentions? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listMentions? = nil, promptType: String? = nil, brandKind: BrandKind_listMentions? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<MentionsResponse> {
         let localVariablePath = "/dimensions/mentions"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -587,6 +716,9 @@ open class MentionsCitationsAPI {
             "from": (wrappedValue: from?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "to": (wrappedValue: to?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "output": (wrappedValue: output?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "prompt_type": (wrappedValue: promptType?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "brand_kind": (wrappedValue: brandKind?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "range": (wrappedValue: range?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ]
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
 

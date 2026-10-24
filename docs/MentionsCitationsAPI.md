@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 # **listAllCitations**
 ```swift
-    open class func listAllCitations(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listAllCitations? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAllCitations? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listAllCitations(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listAllCitations? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAllCitations? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listAllCitations? = nil, range: Int? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 List all citations (brand + competitor)
@@ -36,9 +36,14 @@ let prompt = 987 // Int | Filter by prompt ID (optional)
 let from = Date() // Date |  (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
 let output = "output_example" // String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (optional)
+let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+let promptType = "promptType_example" // String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+let brandKind = "brandKind_example" // String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+let range = 987 // Int | Number of days to look back (alternative to from/to) (optional)
 
 // List all citations (brand + competitor)
-MentionsCitationsAPI.listAllCitations(projectId: projectId, competitors: competitors, page: page, perPage: perPage, model: model, collectionId: collectionId, prompt: prompt, from: from, to: to, output: output) { (response, error) in
+MentionsCitationsAPI.listAllCitations(projectId: projectId, competitors: competitors, page: page, perPage: perPage, model: model, collectionId: collectionId, prompt: prompt, from: from, to: to, output: output, countryCode: countryCode, languageCode: languageCode, promptType: promptType, brandKind: brandKind, range: range) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -64,6 +69,11 @@ Name | Type | Description  | Notes
  **from** | **Date** |  | [optional] 
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **output** | **String** | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
+ **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
+ **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
+ **promptType** | **String** | One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
+ **brandKind** | **String** | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
+ **range** | **Int** | Number of days to look back (alternative to from/to) | [optional] 
 
 ### Return type
 
@@ -82,7 +92,7 @@ Void (empty response body)
 
 # **listAllMentions**
 ```swift
-    open class func listAllMentions(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listAllMentions? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAllMentions? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listAllMentions(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listAllMentions? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAllMentions? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listAllMentions? = nil, range: Int? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 List all mentions (brand + competitor)
@@ -104,9 +114,14 @@ let prompt = 987 // Int | Filter by prompt ID (optional)
 let from = Date() // Date |  (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
 let output = "output_example" // String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (optional)
+let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+let promptType = "promptType_example" // String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+let brandKind = "brandKind_example" // String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+let range = 987 // Int | Number of days to look back (alternative to from/to) (optional)
 
 // List all mentions (brand + competitor)
-MentionsCitationsAPI.listAllMentions(projectId: projectId, competitors: competitors, page: page, perPage: perPage, model: model, collectionId: collectionId, prompt: prompt, from: from, to: to, output: output) { (response, error) in
+MentionsCitationsAPI.listAllMentions(projectId: projectId, competitors: competitors, page: page, perPage: perPage, model: model, collectionId: collectionId, prompt: prompt, from: from, to: to, output: output, countryCode: countryCode, languageCode: languageCode, promptType: promptType, brandKind: brandKind, range: range) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -132,6 +147,11 @@ Name | Type | Description  | Notes
  **from** | **Date** |  | [optional] 
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **output** | **String** | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
+ **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
+ **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
+ **promptType** | **String** | One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
+ **brandKind** | **String** | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
+ **range** | **Int** | Number of days to look back (alternative to from/to) | [optional] 
 
 ### Return type
 
@@ -150,7 +170,7 @@ Void (empty response body)
 
 # **listCitations**
 ```swift
-    open class func listCitations(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listCitations? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCitations? = nil, completion: @escaping (_ data: CitationsResponse?, _ error: Error?) -> Void)
+    open class func listCitations(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listCitations? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCitations? = nil, promptType: String? = nil, brandKind: BrandKind_listCitations? = nil, range: Int? = nil, completion: @escaping (_ data: CitationsResponse?, _ error: Error?) -> Void)
 ```
 
 List brand citations
@@ -173,9 +193,12 @@ let prompt = 987 // Int | Filter by prompt ID (optional)
 let from = Date() // Date |  (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
 let output = "output_example" // String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (optional)
+let promptType = "promptType_example" // String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+let brandKind = "brandKind_example" // String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+let range = 987 // Int | Number of days to look back (alternative to from/to) (optional)
 
 // List brand citations
-MentionsCitationsAPI.listCitations(projectId: projectId, page: page, perPage: perPage, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, from: from, to: to, output: output) { (response, error) in
+MentionsCitationsAPI.listCitations(projectId: projectId, page: page, perPage: perPage, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, from: from, to: to, output: output, promptType: promptType, brandKind: brandKind, range: range) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -202,6 +225,9 @@ Name | Type | Description  | Notes
  **from** | **Date** |  | [optional] 
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **output** | **String** | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
+ **promptType** | **String** | One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
+ **brandKind** | **String** | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
+ **range** | **Int** | Number of days to look back (alternative to from/to) | [optional] 
 
 ### Return type
 
@@ -220,7 +246,7 @@ Name | Type | Description  | Notes
 
 # **listCompetitorCitations**
 ```swift
-    open class func listCompetitorCitations(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listCompetitorCitations? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCompetitorCitations? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listCompetitorCitations(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listCompetitorCitations? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCompetitorCitations? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listCompetitorCitations? = nil, range: Int? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 List competitor citations
@@ -242,9 +268,14 @@ let prompt = 987 // Int | Filter by prompt ID (optional)
 let from = Date() // Date |  (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
 let output = "output_example" // String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (optional)
+let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+let promptType = "promptType_example" // String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+let brandKind = "brandKind_example" // String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+let range = 987 // Int | Number of days to look back (alternative to from/to) (optional)
 
 // List competitor citations
-MentionsCitationsAPI.listCompetitorCitations(projectId: projectId, competitors: competitors, page: page, perPage: perPage, model: model, collectionId: collectionId, prompt: prompt, from: from, to: to, output: output) { (response, error) in
+MentionsCitationsAPI.listCompetitorCitations(projectId: projectId, competitors: competitors, page: page, perPage: perPage, model: model, collectionId: collectionId, prompt: prompt, from: from, to: to, output: output, countryCode: countryCode, languageCode: languageCode, promptType: promptType, brandKind: brandKind, range: range) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -270,6 +301,11 @@ Name | Type | Description  | Notes
  **from** | **Date** |  | [optional] 
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **output** | **String** | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
+ **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
+ **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
+ **promptType** | **String** | One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
+ **brandKind** | **String** | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
+ **range** | **Int** | Number of days to look back (alternative to from/to) | [optional] 
 
 ### Return type
 
@@ -288,7 +324,7 @@ Void (empty response body)
 
 # **listCompetitorMentions**
 ```swift
-    open class func listCompetitorMentions(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listCompetitorMentions? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCompetitorMentions? = nil, completion: @escaping (_ data: CompetitorMentionsResponse?, _ error: Error?) -> Void)
+    open class func listCompetitorMentions(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listCompetitorMentions? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCompetitorMentions? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listCompetitorMentions? = nil, range: Int? = nil, completion: @escaping (_ data: CompetitorMentionsResponse?, _ error: Error?) -> Void)
 ```
 
 List competitor mentions
@@ -308,9 +344,14 @@ let prompt = 987 // Int | Filter by prompt ID (optional)
 let from = Date() // Date |  (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
 let output = "output_example" // String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (optional)
+let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+let promptType = "promptType_example" // String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+let brandKind = "brandKind_example" // String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+let range = 987 // Int | Number of days to look back (alternative to from/to) (optional)
 
 // List competitor mentions
-MentionsCitationsAPI.listCompetitorMentions(projectId: projectId, competitors: competitors, page: page, perPage: perPage, model: model, collectionId: collectionId, prompt: prompt, from: from, to: to, output: output) { (response, error) in
+MentionsCitationsAPI.listCompetitorMentions(projectId: projectId, competitors: competitors, page: page, perPage: perPage, model: model, collectionId: collectionId, prompt: prompt, from: from, to: to, output: output, countryCode: countryCode, languageCode: languageCode, promptType: promptType, brandKind: brandKind, range: range) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -336,6 +377,11 @@ Name | Type | Description  | Notes
  **from** | **Date** |  | [optional] 
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **output** | **String** | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
+ **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
+ **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
+ **promptType** | **String** | One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
+ **brandKind** | **String** | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
+ **range** | **Int** | Number of days to look back (alternative to from/to) | [optional] 
 
 ### Return type
 
@@ -354,7 +400,7 @@ Name | Type | Description  | Notes
 
 # **listMentions**
 ```swift
-    open class func listMentions(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listMentions? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listMentions? = nil, completion: @escaping (_ data: MentionsResponse?, _ error: Error?) -> Void)
+    open class func listMentions(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listMentions? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listMentions? = nil, promptType: String? = nil, brandKind: BrandKind_listMentions? = nil, range: Int? = nil, completion: @escaping (_ data: MentionsResponse?, _ error: Error?) -> Void)
 ```
 
 List brand mentions
@@ -375,9 +421,12 @@ let prompt = 987 // Int | Filter by prompt ID (optional)
 let from = Date() // Date |  (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
 let output = "output_example" // String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (optional)
+let promptType = "promptType_example" // String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+let brandKind = "brandKind_example" // String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+let range = 987 // Int | Number of days to look back (alternative to from/to) (optional)
 
 // List brand mentions
-MentionsCitationsAPI.listMentions(projectId: projectId, page: page, perPage: perPage, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, from: from, to: to, output: output) { (response, error) in
+MentionsCitationsAPI.listMentions(projectId: projectId, page: page, perPage: perPage, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, from: from, to: to, output: output, promptType: promptType, brandKind: brandKind, range: range) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -404,6 +453,9 @@ Name | Type | Description  | Notes
  **from** | **Date** |  | [optional] 
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **output** | **String** | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
+ **promptType** | **String** | One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
+ **brandKind** | **String** | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
+ **range** | **Int** | Number of days to look back (alternative to from/to) | [optional] 
 
 ### Return type
 

@@ -323,6 +323,15 @@ open class PromptsAPI {
     }
 
     /**
+     * enum for parameter brandKind
+     */
+    public enum BrandKind_listPromptExecutions: String, Sendable, CaseIterable {
+        case brand = "brand"
+        case brandOther = "brand_other"
+        case nonBrand = "non_brand"
+    }
+
+    /**
      List prompt executions
      
      - parameter projectId: (query) Project ID 
@@ -339,11 +348,13 @@ open class PromptsAPI {
      - parameter citationFilter: (query) Same two-axis matrix applied to the domains cited in the answer instead of the brands named in it. Independent of mention_filter; pass both to intersect them (e.g. mentions_you + not_cites_you finds answers that talk about you without linking to you). (optional)
      - parameter competitors: (query) Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: PromptExecutionsResponse
      */
-    open class func listPromptExecutions(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listPromptExecutions? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, mentionFilter: MentionFilter_listPromptExecutions? = nil, citationFilter: CitationFilter_listPromptExecutions? = nil, competitors: String? = nil, output: Output_listPromptExecutions? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> PromptExecutionsResponse {
-        return try await listPromptExecutionsWithRequestBuilder(projectId: projectId, page: page, perPage: perPage, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, from: from, to: to, mentionFilter: mentionFilter, citationFilter: citationFilter, competitors: competitors, output: output, apiConfiguration: apiConfiguration).execute().body
+    open class func listPromptExecutions(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listPromptExecutions? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, mentionFilter: MentionFilter_listPromptExecutions? = nil, citationFilter: CitationFilter_listPromptExecutions? = nil, competitors: String? = nil, output: Output_listPromptExecutions? = nil, promptType: String? = nil, brandKind: BrandKind_listPromptExecutions? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> PromptExecutionsResponse {
+        return try await listPromptExecutionsWithRequestBuilder(projectId: projectId, page: page, perPage: perPage, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, from: from, to: to, mentionFilter: mentionFilter, citationFilter: citationFilter, competitors: competitors, output: output, promptType: promptType, brandKind: brandKind, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -366,10 +377,12 @@ open class PromptsAPI {
      - parameter citationFilter: (query) Same two-axis matrix applied to the domains cited in the answer instead of the brands named in it. Independent of mention_filter; pass both to intersect them (e.g. mentions_you + not_cites_you finds answers that talk about you without linking to you). (optional)
      - parameter competitors: (query) Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<PromptExecutionsResponse> 
      */
-    open class func listPromptExecutionsWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listPromptExecutions? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, mentionFilter: MentionFilter_listPromptExecutions? = nil, citationFilter: CitationFilter_listPromptExecutions? = nil, competitors: String? = nil, output: Output_listPromptExecutions? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<PromptExecutionsResponse> {
+    open class func listPromptExecutionsWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listPromptExecutions? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, mentionFilter: MentionFilter_listPromptExecutions? = nil, citationFilter: CitationFilter_listPromptExecutions? = nil, competitors: String? = nil, output: Output_listPromptExecutions? = nil, promptType: String? = nil, brandKind: BrandKind_listPromptExecutions? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<PromptExecutionsResponse> {
         let localVariablePath = "/dimensions/prompt_executions"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -390,6 +403,8 @@ open class PromptsAPI {
             "citation_filter": (wrappedValue: citationFilter?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "competitors": (wrappedValue: competitors?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "output": (wrappedValue: output?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "prompt_type": (wrappedValue: promptType?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "brand_kind": (wrappedValue: brandKind?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ]
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
 

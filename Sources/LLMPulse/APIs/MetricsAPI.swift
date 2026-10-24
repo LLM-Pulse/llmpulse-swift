@@ -236,11 +236,14 @@ open class MetricsAPI {
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter view: (query) Which Share of Voice projection to flatten. Only valid together with &#39;output&#39;. &#39;over_time&#39; (default) is one row per date and actor, &#39;current&#39; the ranked snapshot, &#39;breakdown&#39; the Top 4 plus Others. (optional, default to .overTime)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter includeProject: (query)  (optional, default to true)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: SovResponse
      */
-    open class func getShareOfVoice(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getShareOfVoice? = nil, competitors: String? = nil, model: Model_getShareOfVoice? = nil, collectionId: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getShareOfVoice? = nil, output: Output_getShareOfVoice? = nil, view: View_getShareOfVoice? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SovResponse {
-        return try await getShareOfVoiceWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, granularity: granularity, competitors: competitors, model: model, collectionId: collectionId, prompt: prompt, promptType: promptType, brandKind: brandKind, output: output, view: view, apiConfiguration: apiConfiguration).execute().body
+    open class func getShareOfVoice(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getShareOfVoice? = nil, competitors: String? = nil, model: Model_getShareOfVoice? = nil, collectionId: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getShareOfVoice? = nil, output: Output_getShareOfVoice? = nil, view: View_getShareOfVoice? = nil, countryCode: String? = nil, languageCode: String? = nil, includeProject: Bool? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SovResponse {
+        return try await getShareOfVoiceWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, granularity: granularity, competitors: competitors, model: model, collectionId: collectionId, prompt: prompt, promptType: promptType, brandKind: brandKind, output: output, view: view, countryCode: countryCode, languageCode: languageCode, includeProject: includeProject, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -263,10 +266,13 @@ open class MetricsAPI {
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter view: (query) Which Share of Voice projection to flatten. Only valid together with &#39;output&#39;. &#39;over_time&#39; (default) is one row per date and actor, &#39;current&#39; the ranked snapshot, &#39;breakdown&#39; the Top 4 plus Others. (optional, default to .overTime)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter includeProject: (query)  (optional, default to true)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<SovResponse> 
      */
-    open class func getShareOfVoiceWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getShareOfVoice? = nil, competitors: String? = nil, model: Model_getShareOfVoice? = nil, collectionId: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getShareOfVoice? = nil, output: Output_getShareOfVoice? = nil, view: View_getShareOfVoice? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SovResponse> {
+    open class func getShareOfVoiceWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getShareOfVoice? = nil, competitors: String? = nil, model: Model_getShareOfVoice? = nil, collectionId: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getShareOfVoice? = nil, output: Output_getShareOfVoice? = nil, view: View_getShareOfVoice? = nil, countryCode: String? = nil, languageCode: String? = nil, includeProject: Bool? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SovResponse> {
         let localVariablePath = "/metrics/sov"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -286,6 +292,9 @@ open class MetricsAPI {
             "brand_kind": (wrappedValue: brandKind?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "output": (wrappedValue: output?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "view": (wrappedValue: view?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "country_code": (wrappedValue: countryCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "language_code": (wrappedValue: languageCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "include_project": (wrappedValue: includeProject?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ]
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
 
@@ -361,11 +370,14 @@ open class MetricsAPI {
      - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter includeProject: (query)  (optional, default to true)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: SummaryResponse
      */
-    open class func getSummary(projectId: Int, metrics: String? = nil, granularity: Granularity_getSummary? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, competitors: String? = nil, model: Model_getSummary? = nil, collectionId: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getSummary? = nil, output: Output_getSummary? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SummaryResponse {
-        return try await getSummaryWithRequestBuilder(projectId: projectId, metrics: metrics, granularity: granularity, range: range, from: from, to: to, competitors: competitors, model: model, collectionId: collectionId, prompt: prompt, promptType: promptType, brandKind: brandKind, output: output, apiConfiguration: apiConfiguration).execute().body
+    open class func getSummary(projectId: Int, metrics: String? = nil, granularity: Granularity_getSummary? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, competitors: String? = nil, model: Model_getSummary? = nil, collectionId: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getSummary? = nil, output: Output_getSummary? = nil, countryCode: String? = nil, languageCode: String? = nil, includeProject: Bool? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SummaryResponse {
+        return try await getSummaryWithRequestBuilder(projectId: projectId, metrics: metrics, granularity: granularity, range: range, from: from, to: to, competitors: competitors, model: model, collectionId: collectionId, prompt: prompt, promptType: promptType, brandKind: brandKind, output: output, countryCode: countryCode, languageCode: languageCode, includeProject: includeProject, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -388,10 +400,13 @@ open class MetricsAPI {
      - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter includeProject: (query)  (optional, default to true)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<SummaryResponse> 
      */
-    open class func getSummaryWithRequestBuilder(projectId: Int, metrics: String? = nil, granularity: Granularity_getSummary? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, competitors: String? = nil, model: Model_getSummary? = nil, collectionId: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getSummary? = nil, output: Output_getSummary? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SummaryResponse> {
+    open class func getSummaryWithRequestBuilder(projectId: Int, metrics: String? = nil, granularity: Granularity_getSummary? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, competitors: String? = nil, model: Model_getSummary? = nil, collectionId: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getSummary? = nil, output: Output_getSummary? = nil, countryCode: String? = nil, languageCode: String? = nil, includeProject: Bool? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SummaryResponse> {
         let localVariablePath = "/metrics/summary"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -411,6 +426,9 @@ open class MetricsAPI {
             "prompt_type": (wrappedValue: promptType?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "brand_kind": (wrappedValue: brandKind?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "output": (wrappedValue: output?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "country_code": (wrappedValue: countryCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "language_code": (wrappedValue: languageCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "include_project": (wrappedValue: includeProject?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ]
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
 
@@ -623,11 +641,13 @@ open class MetricsAPI {
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter collectionIds: (query) Tags (collections) to include at once, as a union: one ID or a comma-separated list, e.g. collection_ids&#x3D;12,15 (collection_ids[]&#x3D;12&amp;collection_ids[]&#x3D;15 is also accepted). Combines with collection_id. An ID outside the project returns 422 ERR_INVALID_PARAM. (optional)
+     - parameter domains: (query) Restrict the result to these exact domains, case-insensitive: one domain or a comma-separated list, e.g. domains&#x3D;wikipedia.org,reddit.com. The bracket form domains[]&#x3D;wikipedia.org&amp;domains[]&#x3D;reddit.com is also accepted. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: TopSourcesResponse
      */
-    open class func getTopSources(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, model: Model_getTopSources? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getTopSources? = nil, sort: Sort_getTopSources? = nil, query: String? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_getTopSources? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> TopSourcesResponse {
-        return try await getTopSourcesWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, promptType: promptType, brandKind: brandKind, sort: sort, query: query, page: page, perPage: perPage, output: output, apiConfiguration: apiConfiguration).execute().body
+    open class func getTopSources(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, model: Model_getTopSources? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getTopSources? = nil, sort: Sort_getTopSources? = nil, query: String? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_getTopSources? = nil, collectionIds: [Int]? = nil, domains: [String]? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> TopSourcesResponse {
+        return try await getTopSourcesWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, promptType: promptType, brandKind: brandKind, sort: sort, query: query, page: page, perPage: perPage, output: output, collectionIds: collectionIds, domains: domains, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -653,10 +673,12 @@ open class MetricsAPI {
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
+     - parameter collectionIds: (query) Tags (collections) to include at once, as a union: one ID or a comma-separated list, e.g. collection_ids&#x3D;12,15 (collection_ids[]&#x3D;12&amp;collection_ids[]&#x3D;15 is also accepted). Combines with collection_id. An ID outside the project returns 422 ERR_INVALID_PARAM. (optional)
+     - parameter domains: (query) Restrict the result to these exact domains, case-insensitive: one domain or a comma-separated list, e.g. domains&#x3D;wikipedia.org,reddit.com. The bracket form domains[]&#x3D;wikipedia.org&amp;domains[]&#x3D;reddit.com is also accepted. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<TopSourcesResponse> 
      */
-    open class func getTopSourcesWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, model: Model_getTopSources? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getTopSources? = nil, sort: Sort_getTopSources? = nil, query: String? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_getTopSources? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<TopSourcesResponse> {
+    open class func getTopSourcesWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, model: Model_getTopSources? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getTopSources? = nil, sort: Sort_getTopSources? = nil, query: String? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_getTopSources? = nil, collectionIds: [Int]? = nil, domains: [String]? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<TopSourcesResponse> {
         let localVariablePath = "/metrics/top_sources"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -679,6 +701,8 @@ open class MetricsAPI {
             "page": (wrappedValue: page?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "per_page": (wrappedValue: perPage?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "output": (wrappedValue: output?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "collection_ids": (wrappedValue: collectionIds?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: false),
+            "domains": (wrappedValue: domains?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: false),
         ]
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
 

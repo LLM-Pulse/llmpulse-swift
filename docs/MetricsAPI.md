@@ -95,7 +95,7 @@ Name | Type | Description  | Notes
 
 # **getShareOfVoice**
 ```swift
-    open class func getShareOfVoice(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getShareOfVoice? = nil, competitors: String? = nil, model: Model_getShareOfVoice? = nil, collectionId: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getShareOfVoice? = nil, output: Output_getShareOfVoice? = nil, view: View_getShareOfVoice? = nil, completion: @escaping (_ data: SovResponse?, _ error: Error?) -> Void)
+    open class func getShareOfVoice(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getShareOfVoice? = nil, competitors: String? = nil, model: Model_getShareOfVoice? = nil, collectionId: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getShareOfVoice? = nil, output: Output_getShareOfVoice? = nil, view: View_getShareOfVoice? = nil, countryCode: String? = nil, languageCode: String? = nil, includeProject: Bool? = nil, completion: @escaping (_ data: SovResponse?, _ error: Error?) -> Void)
 ```
 
 Share of Voice
@@ -120,9 +120,12 @@ let promptType = "promptType_example" // String | One prompt type or a comma-sep
 let brandKind = "brandKind_example" // String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
 let output = "output_example" // String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (optional)
 let view = "view_example" // String | Which Share of Voice projection to flatten. Only valid together with 'output'. 'over_time' (default) is one row per date and actor, 'current' the ranked snapshot, 'breakdown' the Top 4 plus Others. (optional) (default to .overTime)
+let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+let includeProject = true // Bool |  (optional) (default to true)
 
 // Share of Voice
-MetricsAPI.getShareOfVoice(projectId: projectId, range: range, from: from, to: to, granularity: granularity, competitors: competitors, model: model, collectionId: collectionId, prompt: prompt, promptType: promptType, brandKind: brandKind, output: output, view: view) { (response, error) in
+MetricsAPI.getShareOfVoice(projectId: projectId, range: range, from: from, to: to, granularity: granularity, competitors: competitors, model: model, collectionId: collectionId, prompt: prompt, promptType: promptType, brandKind: brandKind, output: output, view: view, countryCode: countryCode, languageCode: languageCode, includeProject: includeProject) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -151,6 +154,9 @@ Name | Type | Description  | Notes
  **brandKind** | **String** | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
  **output** | **String** | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
  **view** | **String** | Which Share of Voice projection to flatten. Only valid together with &#39;output&#39;. &#39;over_time&#39; (default) is one row per date and actor, &#39;current&#39; the ranked snapshot, &#39;breakdown&#39; the Top 4 plus Others. | [optional] [default to .overTime]
+ **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
+ **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
+ **includeProject** | **Bool** |  | [optional] [default to true]
 
 ### Return type
 
@@ -169,7 +175,7 @@ Name | Type | Description  | Notes
 
 # **getSummary**
 ```swift
-    open class func getSummary(projectId: Int, metrics: String? = nil, granularity: Granularity_getSummary? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, competitors: String? = nil, model: Model_getSummary? = nil, collectionId: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getSummary? = nil, output: Output_getSummary? = nil, completion: @escaping (_ data: SummaryResponse?, _ error: Error?) -> Void)
+    open class func getSummary(projectId: Int, metrics: String? = nil, granularity: Granularity_getSummary? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, competitors: String? = nil, model: Model_getSummary? = nil, collectionId: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getSummary? = nil, output: Output_getSummary? = nil, countryCode: String? = nil, languageCode: String? = nil, includeProject: Bool? = nil, completion: @escaping (_ data: SummaryResponse?, _ error: Error?) -> Void)
 ```
 
 Aggregated metrics summary
@@ -194,9 +200,12 @@ let prompt = 987 // Int | Filter by prompt ID (optional)
 let promptType = "promptType_example" // String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
 let brandKind = "brandKind_example" // String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
 let output = "output_example" // String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (optional)
+let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+let includeProject = true // Bool |  (optional) (default to true)
 
 // Aggregated metrics summary
-MetricsAPI.getSummary(projectId: projectId, metrics: metrics, granularity: granularity, range: range, from: from, to: to, competitors: competitors, model: model, collectionId: collectionId, prompt: prompt, promptType: promptType, brandKind: brandKind, output: output) { (response, error) in
+MetricsAPI.getSummary(projectId: projectId, metrics: metrics, granularity: granularity, range: range, from: from, to: to, competitors: competitors, model: model, collectionId: collectionId, prompt: prompt, promptType: promptType, brandKind: brandKind, output: output, countryCode: countryCode, languageCode: languageCode, includeProject: includeProject) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -225,6 +234,9 @@ Name | Type | Description  | Notes
  **promptType** | **String** | One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
  **brandKind** | **String** | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
  **output** | **String** | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
+ **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
+ **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
+ **includeProject** | **Bool** |  | [optional] [default to true]
 
 ### Return type
 
@@ -323,7 +335,7 @@ Name | Type | Description  | Notes
 
 # **getTopSources**
 ```swift
-    open class func getTopSources(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, model: Model_getTopSources? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getTopSources? = nil, sort: Sort_getTopSources? = nil, query: String? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_getTopSources? = nil, completion: @escaping (_ data: TopSourcesResponse?, _ error: Error?) -> Void)
+    open class func getTopSources(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, model: Model_getTopSources? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_getTopSources? = nil, sort: Sort_getTopSources? = nil, query: String? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_getTopSources? = nil, collectionIds: [Int]? = nil, domains: [String]? = nil, completion: @escaping (_ data: TopSourcesResponse?, _ error: Error?) -> Void)
 ```
 
 Top cited sources
@@ -351,9 +363,11 @@ let query = "query_example" // String | Filter domains by case-insensitive parti
 let page = 987 // Int |  (optional) (default to 1)
 let perPage = 987 // Int |  (optional) (default to 20)
 let output = "output_example" // String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (optional)
+let collectionIds = [123] // [Int] | Tags (collections) to include at once, as a union: one ID or a comma-separated list, e.g. collection_ids=12,15 (collection_ids[]=12&collection_ids[]=15 is also accepted). Combines with collection_id. An ID outside the project returns 422 ERR_INVALID_PARAM. (optional)
+let domains = ["inner_example"] // [String] | Restrict the result to these exact domains, case-insensitive: one domain or a comma-separated list, e.g. domains=wikipedia.org,reddit.com. The bracket form domains[]=wikipedia.org&domains[]=reddit.com is also accepted. (optional)
 
 // Top cited sources
-MetricsAPI.getTopSources(projectId: projectId, range: range, from: from, to: to, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, promptType: promptType, brandKind: brandKind, sort: sort, query: query, page: page, perPage: perPage, output: output) { (response, error) in
+MetricsAPI.getTopSources(projectId: projectId, range: range, from: from, to: to, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, promptType: promptType, brandKind: brandKind, sort: sort, query: query, page: page, perPage: perPage, output: output, collectionIds: collectionIds, domains: domains) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -385,6 +399,8 @@ Name | Type | Description  | Notes
  **page** | **Int** |  | [optional] [default to 1]
  **perPage** | **Int** |  | [optional] [default to 20]
  **output** | **String** | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
+ **collectionIds** | [**[Int]**](Int.md) | Tags (collections) to include at once, as a union: one ID or a comma-separated list, e.g. collection_ids&#x3D;12,15 (collection_ids[]&#x3D;12&amp;collection_ids[]&#x3D;15 is also accepted). Combines with collection_id. An ID outside the project returns 422 ERR_INVALID_PARAM. | [optional] 
+ **domains** | [**[String]**](String.md) | Restrict the result to these exact domains, case-insensitive: one domain or a comma-separated list, e.g. domains&#x3D;wikipedia.org,reddit.com. The bracket form domains[]&#x3D;wikipedia.org&amp;domains[]&#x3D;reddit.com is also accepted. | [optional] 
 
 ### Return type
 

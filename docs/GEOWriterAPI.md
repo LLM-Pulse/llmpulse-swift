@@ -113,7 +113,7 @@ Name | Type | Description  | Notes
 
 # **listIntelligenceTasks**
 ```swift
-    open class func listIntelligenceTasks(projectId: Int, taskType: TaskType_listIntelligenceTasks? = nil, status: String? = nil, page: Int? = nil, perPage: Int? = nil, completion: @escaping (_ data: IntelligenceTasksResponse?, _ error: Error?) -> Void)
+    open class func listIntelligenceTasks(projectId: Int, taskType: TaskType_listIntelligenceTasks? = nil, status: Status_listIntelligenceTasks? = nil, page: Int? = nil, perPage: Int? = nil, completion: @escaping (_ data: IntelligenceTasksResponse?, _ error: Error?) -> Void)
 ```
 
 List GEO Writer tasks
@@ -125,7 +125,7 @@ import LLMPulse
 
 let projectId = 987 // Int | Project ID
 let taskType = "taskType_example" // String |  (optional)
-let status = "status_example" // String |  (optional)
+let status = "status_example" // String | Keep only the tasks in this status. Discarded tasks are never listed, so discarded returns an empty page. (optional)
 let page = 987 // Int |  (optional) (default to 1)
 let perPage = 987 // Int |  (optional) (default to 20)
 
@@ -148,7 +148,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **projectId** | **Int** | Project ID | 
  **taskType** | **String** |  | [optional] 
- **status** | **String** |  | [optional] 
+ **status** | **String** | Keep only the tasks in this status. Discarded tasks are never listed, so discarded returns an empty page. | [optional] 
  **page** | **Int** |  | [optional] [default to 1]
  **perPage** | **Int** |  | [optional] [default to 20]
 

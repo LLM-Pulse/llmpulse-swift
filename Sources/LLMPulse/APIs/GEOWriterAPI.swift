@@ -110,17 +110,30 @@ open class GEOWriterAPI {
     }
 
     /**
+     * enum for parameter status
+     */
+    public enum Status_listIntelligenceTasks: String, Sendable, CaseIterable {
+        case pending = "pending"
+        case processing = "processing"
+        case review = "review"
+        case completed = "completed"
+        case inProgress = "in_progress"
+        case blocked = "blocked"
+        case discarded = "discarded"
+    }
+
+    /**
      List GEO Writer tasks
      
      - parameter projectId: (query) Project ID 
      - parameter taskType: (query)  (optional)
-     - parameter status: (query)  (optional)
+     - parameter status: (query) Keep only the tasks in this status. Discarded tasks are never listed, so discarded returns an empty page. (optional)
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: IntelligenceTasksResponse
      */
-    open class func listIntelligenceTasks(projectId: Int, taskType: TaskType_listIntelligenceTasks? = nil, status: String? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> IntelligenceTasksResponse {
+    open class func listIntelligenceTasks(projectId: Int, taskType: TaskType_listIntelligenceTasks? = nil, status: Status_listIntelligenceTasks? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> IntelligenceTasksResponse {
         return try await listIntelligenceTasksWithRequestBuilder(projectId: projectId, taskType: taskType, status: status, page: page, perPage: perPage, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -132,13 +145,13 @@ open class GEOWriterAPI {
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
      - parameter taskType: (query)  (optional)
-     - parameter status: (query)  (optional)
+     - parameter status: (query) Keep only the tasks in this status. Discarded tasks are never listed, so discarded returns an empty page. (optional)
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IntelligenceTasksResponse> 
      */
-    open class func listIntelligenceTasksWithRequestBuilder(projectId: Int, taskType: TaskType_listIntelligenceTasks? = nil, status: String? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<IntelligenceTasksResponse> {
+    open class func listIntelligenceTasksWithRequestBuilder(projectId: Int, taskType: TaskType_listIntelligenceTasks? = nil, status: Status_listIntelligenceTasks? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<IntelligenceTasksResponse> {
         let localVariablePath = "/intelligence_tasks"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil

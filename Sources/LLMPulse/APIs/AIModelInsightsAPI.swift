@@ -124,18 +124,12 @@ open class AIModelInsightsAPI {
      */
     public enum Model_getAiModelPositionDistribution: String, Sendable, CaseIterable {
         case chatgpt = "chatgpt"
-        case perplexity = "perplexity"
         case aiMode = "ai_mode"
         case aiOverview = "ai_overview"
+        case perplexity = "perplexity"
         case gemini = "gemini"
-        case copilot = "copilot"
-        case amazonRufus = "amazon_rufus"
-        case claude = "claude"
-        case grok = "grok"
-        case deepseek = "deepseek"
         case naverAi = "naver_ai"
         case baiduAi = "baidu_ai"
-        case metaAi = "meta_ai"
     }
 
     /**
@@ -151,7 +145,7 @@ open class AIModelInsightsAPI {
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
-     - parameter model: (query) Restrict the comparison to one AI model: chatgpt, ai_mode, ai_overview, perplexity, gemini, naver_ai or baidu_ai, whether or not that model is enabled for the API key&#39;s user. Any other value returns 422 ERR_INVALID_PARAM (invalid model). (optional)
+     - parameter model: (query) Restrict the comparison to one AI model of AI Model Insights, whether or not that model is enabled for the API key&#39;s user. Any other value returns 422 ERR_INVALID_PARAM (invalid model). (optional)
      - parameter brand1: (query) Competitor ID for the first comparison brand (omit to compare project brand) (optional)
      - parameter brand2: (query)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
@@ -177,7 +171,7 @@ open class AIModelInsightsAPI {
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
-     - parameter model: (query) Restrict the comparison to one AI model: chatgpt, ai_mode, ai_overview, perplexity, gemini, naver_ai or baidu_ai, whether or not that model is enabled for the API key&#39;s user. Any other value returns 422 ERR_INVALID_PARAM (invalid model). (optional)
+     - parameter model: (query) Restrict the comparison to one AI model of AI Model Insights, whether or not that model is enabled for the API key&#39;s user. Any other value returns 422 ERR_INVALID_PARAM (invalid model). (optional)
      - parameter brand1: (query) Competitor ID for the first comparison brand (omit to compare project brand) (optional)
      - parameter brand2: (query)  (optional)
      - parameter apiConfiguration: The configuration for the http request.

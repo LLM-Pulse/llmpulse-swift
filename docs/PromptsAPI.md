@@ -324,7 +324,7 @@ Name | Type | Description  | Notes
 
 # **listPromptExecutions**
 ```swift
-    open class func listPromptExecutions(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listPromptExecutions? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, mentionFilter: MentionFilter_listPromptExecutions? = nil, citationFilter: CitationFilter_listPromptExecutions? = nil, competitors: String? = nil, output: Output_listPromptExecutions? = nil, completion: @escaping (_ data: PromptExecutionsResponse?, _ error: Error?) -> Void)
+    open class func listPromptExecutions(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listPromptExecutions? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, mentionFilter: MentionFilter_listPromptExecutions? = nil, citationFilter: CitationFilter_listPromptExecutions? = nil, competitors: String? = nil, output: Output_listPromptExecutions? = nil, promptType: String? = nil, brandKind: BrandKind_listPromptExecutions? = nil, completion: @escaping (_ data: PromptExecutionsResponse?, _ error: Error?) -> Void)
 ```
 
 List prompt executions
@@ -348,9 +348,11 @@ let mentionFilter = "mentionFilter_example" // String | Filter by which brands a
 let citationFilter = "citationFilter_example" // String | Same two-axis matrix applied to the domains cited in the answer instead of the brands named in it. Independent of mention_filter; pass both to intersect them (e.g. mentions_you + not_cites_you finds answers that talk about you without linking to you). (optional)
 let competitors = "competitors_example" // String | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
 let output = "output_example" // String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (optional)
+let promptType = "promptType_example" // String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+let brandKind = "brandKind_example" // String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
 
 // List prompt executions
-PromptsAPI.listPromptExecutions(projectId: projectId, page: page, perPage: perPage, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, from: from, to: to, mentionFilter: mentionFilter, citationFilter: citationFilter, competitors: competitors, output: output) { (response, error) in
+PromptsAPI.listPromptExecutions(projectId: projectId, page: page, perPage: perPage, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, from: from, to: to, mentionFilter: mentionFilter, citationFilter: citationFilter, competitors: competitors, output: output, promptType: promptType, brandKind: brandKind) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -380,6 +382,8 @@ Name | Type | Description  | Notes
  **citationFilter** | **String** | Same two-axis matrix applied to the domains cited in the answer instead of the brands named in it. Independent of mention_filter; pass both to intersect them (e.g. mentions_you + not_cites_you finds answers that talk about you without linking to you). | [optional] 
  **competitors** | **String** | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
  **output** | **String** | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
+ **promptType** | **String** | One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
+ **brandKind** | **String** | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
 
 ### Return type
 
