@@ -14,17 +14,25 @@ public struct Project: Sendable, Codable, Hashable {
     public var name: String?
     /** LLM-facing brand label (used in prompts and customer-facing charts). Null when not set, in which case prompts and charts use `name`. */
     public var brandName: String?
+    /** Whether scheduled runs include this project. False when it is paused, or when the plan's project limit leaves it out (the oldest projects up to the limit run), so its prompts do not run */
+    public var tracked: Bool?
+    /** Why tracked is false: paused or project_limit. Null when tracked */
+    public var untrackedReason: String?
 
-    public init(id: Int? = nil, name: String? = nil, brandName: String? = nil) {
+    public init(id: Int? = nil, name: String? = nil, brandName: String? = nil, tracked: Bool? = nil, untrackedReason: String? = nil) {
         self.id = id
         self.name = name
         self.brandName = brandName
+        self.tracked = tracked
+        self.untrackedReason = untrackedReason
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case name
         case brandName = "brand_name"
+        case tracked
+        case untrackedReason = "untracked_reason"
     }
 
     // Encodable protocol methods
@@ -34,6 +42,8 @@ public struct Project: Sendable, Codable, Hashable {
         try container.encodeIfPresent(id, forKey: .id)
         try container.encodeIfPresent(name, forKey: .name)
         try container.encodeIfPresent(brandName, forKey: .brandName)
+        try container.encodeIfPresent(tracked, forKey: .tracked)
+        try container.encodeIfPresent(untrackedReason, forKey: .untrackedReason)
     }
 }
 

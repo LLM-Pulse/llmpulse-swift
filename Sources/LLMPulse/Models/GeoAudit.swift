@@ -36,7 +36,7 @@ public struct GeoAudit: Sendable, Codable, Hashable {
     public var countryCode: String?
     public var cadence: Cadence?
     public var status: Status?
-    /** user, or unreachable when three runs in a row could not reach the site */
+    /** Null unless status is paused. user (paused by hand), unreachable (three runs in a row could not reach the site) or quota (the account has more active recurring audits than its plan allows; resume it once there is room) */
     public var pausedReason: String?
     public var schedule: GeoAuditSchedule?
     public var nextRunAt: Date?

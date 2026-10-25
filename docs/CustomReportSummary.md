@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **schedule** | [**CustomReportSchedule**](CustomReportSchedule.md) |  | 
 **recipientsCount** | **Int** |  | 
 **published** | **Bool** | Whether the shared link is published | 
-**publicLinkActive** | **Bool** | Whether the shared link opens (published and not made inside a client portal) | 
+**publicLinkActive** | **Bool** | Whether the shared link opens (published, not made inside a client portal, and the account is active on the Scale tier or higher) | 
 **passwordProtected** | **Bool** |  | 
 **portalOnly** | **Bool** | Made inside a client portal, so it cannot be shared or emailed | 
 **widgetCount** | **Int** |  | 

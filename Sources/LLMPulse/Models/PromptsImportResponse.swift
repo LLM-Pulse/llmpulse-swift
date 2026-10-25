@@ -24,9 +24,15 @@ public struct PromptsImportResponse: Sendable, Codable, Hashable {
     public var lengthWarning: String?
     /** Prompt slots left on the plan; null when unlimited */
     public var promptsAvailable: Int?
+    /** Whether scheduled runs include the project the prompts were imported into. False when it is paused or beyond the plan's project limit, so the new prompts do not run until that changes */
+    public var tracked: Bool
+    /** Why tracked is false: paused or project_limit. Null when tracked */
+    public var untrackedReason: String?
+    /** What to do when tracked is false. Null when tracked */
+    public var warning: String?
     public var requestId: String
 
-    public init(projectId: Int, processedRows: Int, created: Int, duplicates: Int, tagged: Int, createdTags: Int, rowErrors: [PromptsImportResponseRowErrorsInner], lengthWarning: String?, promptsAvailable: Int?, requestId: String) {
+    public init(projectId: Int, processedRows: Int, created: Int, duplicates: Int, tagged: Int, createdTags: Int, rowErrors: [PromptsImportResponseRowErrorsInner], lengthWarning: String?, promptsAvailable: Int?, tracked: Bool, untrackedReason: String?, warning: String?, requestId: String) {
         self.projectId = projectId
         self.processedRows = processedRows
         self.created = created
@@ -36,6 +42,9 @@ public struct PromptsImportResponse: Sendable, Codable, Hashable {
         self.rowErrors = rowErrors
         self.lengthWarning = lengthWarning
         self.promptsAvailable = promptsAvailable
+        self.tracked = tracked
+        self.untrackedReason = untrackedReason
+        self.warning = warning
         self.requestId = requestId
     }
 
@@ -49,6 +58,9 @@ public struct PromptsImportResponse: Sendable, Codable, Hashable {
         case rowErrors = "row_errors"
         case lengthWarning = "length_warning"
         case promptsAvailable = "prompts_available"
+        case tracked
+        case untrackedReason = "untracked_reason"
+        case warning
         case requestId = "request_id"
     }
 
@@ -65,6 +77,9 @@ public struct PromptsImportResponse: Sendable, Codable, Hashable {
         try container.encode(rowErrors, forKey: .rowErrors)
         try container.encode(lengthWarning, forKey: .lengthWarning)
         try container.encode(promptsAvailable, forKey: .promptsAvailable)
+        try container.encode(tracked, forKey: .tracked)
+        try container.encode(untrackedReason, forKey: .untrackedReason)
+        try container.encode(warning, forKey: .warning)
         try container.encode(requestId, forKey: .requestId)
     }
 }

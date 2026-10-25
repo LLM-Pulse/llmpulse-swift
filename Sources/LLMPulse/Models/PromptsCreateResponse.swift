@@ -14,15 +14,24 @@ public struct PromptsCreateResponse: Sendable, Codable, Hashable {
     public var skipped: Int?
     public var totalAfter: Int?
     public var promptsAvailable: Int?
+    /** Whether scheduled runs include the project the prompts were added to. False when it is paused or beyond the plan's project limit, so the new prompts do not run until that changes */
+    public var tracked: Bool?
+    /** Why tracked is false: paused or project_limit. Null when tracked */
+    public var untrackedReason: String?
+    /** What to do when tracked is false. Null when tracked */
+    public var warning: String?
     public var data: [PromptsCreateResponseDataInner]?
     public var requestId: String?
 
-    public init(projectId: Int? = nil, created: Int? = nil, skipped: Int? = nil, totalAfter: Int? = nil, promptsAvailable: Int? = nil, data: [PromptsCreateResponseDataInner]? = nil, requestId: String? = nil) {
+    public init(projectId: Int? = nil, created: Int? = nil, skipped: Int? = nil, totalAfter: Int? = nil, promptsAvailable: Int? = nil, tracked: Bool? = nil, untrackedReason: String? = nil, warning: String? = nil, data: [PromptsCreateResponseDataInner]? = nil, requestId: String? = nil) {
         self.projectId = projectId
         self.created = created
         self.skipped = skipped
         self.totalAfter = totalAfter
         self.promptsAvailable = promptsAvailable
+        self.tracked = tracked
+        self.untrackedReason = untrackedReason
+        self.warning = warning
         self.data = data
         self.requestId = requestId
     }
@@ -33,6 +42,9 @@ public struct PromptsCreateResponse: Sendable, Codable, Hashable {
         case skipped
         case totalAfter = "total_after"
         case promptsAvailable = "prompts_available"
+        case tracked
+        case untrackedReason = "untracked_reason"
+        case warning
         case data
         case requestId = "request_id"
     }
@@ -46,6 +58,9 @@ public struct PromptsCreateResponse: Sendable, Codable, Hashable {
         try container.encodeIfPresent(skipped, forKey: .skipped)
         try container.encodeIfPresent(totalAfter, forKey: .totalAfter)
         try container.encodeIfPresent(promptsAvailable, forKey: .promptsAvailable)
+        try container.encodeIfPresent(tracked, forKey: .tracked)
+        try container.encodeIfPresent(untrackedReason, forKey: .untrackedReason)
+        try container.encodeIfPresent(warning, forKey: .warning)
         try container.encodeIfPresent(data, forKey: .data)
         try container.encodeIfPresent(requestId, forKey: .requestId)
     }

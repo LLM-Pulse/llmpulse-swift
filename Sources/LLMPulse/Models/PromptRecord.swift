@@ -24,10 +24,14 @@ public struct PromptRecord: Sendable, Codable, Hashable {
     public var brandKind: String?
     /** Null until the prompt has run */
     public var lastExecutedAt: Date?
+    /** Whether scheduled runs include this prompt. False when its project is paused or beyond the plan's project limit, or when the prompt is beyond the plan's prompt limit (the oldest prompts up to the limit run) */
+    public var tracked: Bool
+    /** Why tracked is false: paused, project_limit or prompt_limit. Null when tracked */
+    public var untrackedReason: String?
     /** Opens this prompt in the app. The link names its project, so it opens there for any user with access to that project */
     public var appUrl: String
 
-    public init(id: Int, promptText: String, collectionId: Int?, collectionIds: [Int], tags: [TagRef], countryCode: String?, languageCode: String?, promptType: String?, brandKind: String?, lastExecutedAt: Date?, appUrl: String) {
+    public init(id: Int, promptText: String, collectionId: Int?, collectionIds: [Int], tags: [TagRef], countryCode: String?, languageCode: String?, promptType: String?, brandKind: String?, lastExecutedAt: Date?, tracked: Bool, untrackedReason: String?, appUrl: String) {
         self.id = id
         self.promptText = promptText
         self.collectionId = collectionId
@@ -38,6 +42,8 @@ public struct PromptRecord: Sendable, Codable, Hashable {
         self.promptType = promptType
         self.brandKind = brandKind
         self.lastExecutedAt = lastExecutedAt
+        self.tracked = tracked
+        self.untrackedReason = untrackedReason
         self.appUrl = appUrl
     }
 
@@ -52,6 +58,8 @@ public struct PromptRecord: Sendable, Codable, Hashable {
         case promptType = "prompt_type"
         case brandKind = "brand_kind"
         case lastExecutedAt = "last_executed_at"
+        case tracked
+        case untrackedReason = "untracked_reason"
         case appUrl = "app_url"
     }
 
@@ -69,6 +77,8 @@ public struct PromptRecord: Sendable, Codable, Hashable {
         try container.encode(promptType, forKey: .promptType)
         try container.encode(brandKind, forKey: .brandKind)
         try container.encode(lastExecutedAt, forKey: .lastExecutedAt)
+        try container.encode(tracked, forKey: .tracked)
+        try container.encode(untrackedReason, forKey: .untrackedReason)
         try container.encode(appUrl, forKey: .appUrl)
     }
 }

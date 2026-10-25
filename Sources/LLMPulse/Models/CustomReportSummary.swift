@@ -16,7 +16,7 @@ public struct CustomReportSummary: Sendable, Codable, Hashable {
     public var recipientsCount: Int
     /** Whether the shared link is published */
     public var published: Bool
-    /** Whether the shared link opens (published and not made inside a client portal) */
+    /** Whether the shared link opens (published, not made inside a client portal, and the account is active on the Scale tier or higher) */
     public var publicLinkActive: Bool
     public var passwordProtected: Bool
     /** Made inside a client portal, so it cannot be shared or emailed */
