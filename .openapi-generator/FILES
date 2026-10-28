@@ -205,6 +205,7 @@ Sources/LLMPulse/Models/ProjectCreateResponseEmailSubscription.swift
 Sources/LLMPulse/Models/ProjectCreateResponseLimits.swift
 Sources/LLMPulse/Models/ProjectCreateResponsePrompts.swift
 Sources/LLMPulse/Models/ProjectCreateResponseSameDomainProjectsInner.swift
+Sources/LLMPulse/Models/ProjectDeleteResponse.swift
 Sources/LLMPulse/Models/ProjectDetails.swift
 Sources/LLMPulse/Models/ProjectDetailsAllOfAgentTraffic.swift
 Sources/LLMPulse/Models/ProjectDetailsAllOfAiTraffic.swift
@@ -492,6 +493,7 @@ docs/ProjectCreateResponseEmailSubscription.md
 docs/ProjectCreateResponseLimits.md
 docs/ProjectCreateResponsePrompts.md
 docs/ProjectCreateResponseSameDomainProjectsInner.md
+docs/ProjectDeleteResponse.md
 docs/ProjectDetails.md
 docs/ProjectDetailsAllOfAgentTraffic.md
 docs/ProjectDetailsAllOfAiTraffic.md

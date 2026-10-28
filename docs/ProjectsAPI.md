@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**createProject**](ProjectsAPI.md#createproject) | **POST** /projects | Create a project (fast mode)
 [**createProjectDraft**](ProjectsAPI.md#createprojectdraft) | **POST** /project_drafts | Start a project draft (wizard step 1)
+[**deleteProject**](ProjectsAPI.md#deleteproject) | **DELETE** /projects/{id} | Delete a project
 [**finalizeProjectDraft**](ProjectsAPI.md#finalizeprojectdraft) | **POST** /project_drafts/{id}/finalize | Finalize a draft into a real project
 [**getProjectDetails**](ProjectsAPI.md#getprojectdetails) | **GET** /dimensions/projects/{id} | Project details
 [**getProjectDraft**](ProjectsAPI.md#getprojectdraft) | **GET** /project_drafts/{id} | Read a project draft
@@ -112,6 +113,56 @@ Void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **deleteProject**
+```swift
+    open class func deleteProject(id: Int, completion: @escaping (_ data: ProjectDeleteResponse?, _ error: Error?) -> Void)
+```
+
+Delete a project
+
+Deletes a project, like Delete Project in Project Settings, and cannot be undone. The project disappears at once from the app, GET /dimensions/projects and every other endpoint, and frees a project slot; a background job then deletes its prompts, answers, mentions, citations, sentiment, competitors and metrics history. API keys limited to it lose it, and a key left with no project is revoked. A project that is already being deleted, or that the key cannot see, answers ERR_PROJECT_NOT_FOUND. Requires an account-wide `read_write` scope API key: a key limited to some projects answers ERR_KEY_PROJECT_SCOPED. A team member needs permission to delete projects.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import LLMPulse
+
+let id = 987 // Int | 
+
+// Delete a project
+ProjectsAPI.deleteProject(id: id) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **Int** |  | 
+
+### Return type
+
+[**ProjectDeleteResponse**](ProjectDeleteResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
