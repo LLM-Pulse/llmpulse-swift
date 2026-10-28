@@ -7,6 +7,7 @@ Package.swift
 README.md
 Sources/LLMPulse/APIs/AIAgentTrafficAPI.swift
 Sources/LLMPulse/APIs/AIModelInsightsAPI.swift
+Sources/LLMPulse/APIs/APIKeysAPI.swift
 Sources/LLMPulse/APIs/AccountAPI.swift
 Sources/LLMPulse/APIs/AnnotationsAPI.swift
 Sources/LLMPulse/APIs/AnswersAPI.swift
@@ -63,6 +64,7 @@ Sources/LLMPulse/Models/AnswerDetails.swift
 Sources/LLMPulse/Models/AnswerDetailsLocale.swift
 Sources/LLMPulse/Models/ApiError.swift
 Sources/LLMPulse/Models/ApiErrorError.swift
+Sources/LLMPulse/Models/ApiKeyInfo.swift
 Sources/LLMPulse/Models/AssignPromptTagsRequest.swift
 Sources/LLMPulse/Models/CatalogProduct.swift
 Sources/LLMPulse/Models/CatalogPromptSuggestion.swift
@@ -91,6 +93,8 @@ Sources/LLMPulse/Models/CompetitorMentionsResponse.swift
 Sources/LLMPulse/Models/CompetitorSuggestion.swift
 Sources/LLMPulse/Models/CompetitorSuggestionsResponse.swift
 Sources/LLMPulse/Models/CreateAnnotationRequest.swift
+Sources/LLMPulse/Models/CreateApiKey201Response.swift
+Sources/LLMPulse/Models/CreateApiKeyRequest.swift
 Sources/LLMPulse/Models/CreateCollectionRequest.swift
 Sources/LLMPulse/Models/CreateCompetitorRequest.swift
 Sources/LLMPulse/Models/CreateProjectDraftRequest.swift
@@ -147,6 +151,7 @@ Sources/LLMPulse/Models/IntelligenceTaskUpdateRequest.swift
 Sources/LLMPulse/Models/IntelligenceTaskUpdateResponse.swift
 Sources/LLMPulse/Models/IntelligenceTasksResponse.swift
 Sources/LLMPulse/Models/LaunchRecommendationsRequest.swift
+Sources/LLMPulse/Models/ListApiKeys200Response.swift
 Sources/LLMPulse/Models/ListCompetitors200Response.swift
 Sources/LLMPulse/Models/ListProjects200Response.swift
 Sources/LLMPulse/Models/ListTeamInvitations200Response.swift
@@ -238,6 +243,7 @@ Sources/LLMPulse/Models/RecommendationSummarySummary.swift
 Sources/LLMPulse/Models/RecommendationsResponse.swift
 Sources/LLMPulse/Models/RemovePromptTagsRequest.swift
 Sources/LLMPulse/Models/RemoveTeamMember200Response.swift
+Sources/LLMPulse/Models/RevokeApiKey200Response.swift
 Sources/LLMPulse/Models/RevokeTeamInvitation200Response.swift
 Sources/LLMPulse/Models/SampleWebhookPayloads200Response.swift
 Sources/LLMPulse/Models/SampleWebhookPayloads200ResponseDataInner.swift
@@ -313,6 +319,7 @@ Sources/LLMPulse/Models/WebAnalyticsQueryResponseColumnsInner.swift
 Sources/LLMPulse/Models/WebAnalyticsSchemaResponse.swift
 docs/AIAgentTrafficAPI.md
 docs/AIModelInsightsAPI.md
+docs/APIKeysAPI.md
 docs/AccountAPI.md
 docs/AccountCapacity.md
 docs/AccountQuota.md
@@ -335,6 +342,7 @@ docs/AnswerDetailsLocale.md
 docs/AnswersAPI.md
 docs/ApiError.md
 docs/ApiErrorError.md
+docs/ApiKeyInfo.md
 docs/AssignPromptTagsRequest.md
 docs/CatalogProduct.md
 docs/CatalogPromptSuggestion.md
@@ -365,6 +373,8 @@ docs/CompetitorSuggestion.md
 docs/CompetitorSuggestionsResponse.md
 docs/CompetitorsAPI.md
 docs/CreateAnnotationRequest.md
+docs/CreateApiKey201Response.md
+docs/CreateApiKeyRequest.md
 docs/CreateCollectionRequest.md
 docs/CreateCompetitorRequest.md
 docs/CreateProjectDraftRequest.md
@@ -425,6 +435,7 @@ docs/IntelligenceTaskUpdateRequest.md
 docs/IntelligenceTaskUpdateResponse.md
 docs/IntelligenceTasksResponse.md
 docs/LaunchRecommendationsRequest.md
+docs/ListApiKeys200Response.md
 docs/ListCompetitors200Response.md
 docs/ListProjects200Response.md
 docs/ListTeamInvitations200Response.md
@@ -523,6 +534,7 @@ docs/RecommendationsResponse.md
 docs/RemovePromptTagsRequest.md
 docs/RemoveTeamMember200Response.md
 docs/ReputationStudiesAPI.md
+docs/RevokeApiKey200Response.md
 docs/RevokeTeamInvitation200Response.md
 docs/SampleWebhookPayloads200Response.md
 docs/SampleWebhookPayloads200ResponseDataInner.md
