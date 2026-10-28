@@ -130,6 +130,9 @@ open class AIModelInsightsAPI {
         case gemini = "gemini"
         case naverAi = "naver_ai"
         case baiduAi = "baidu_ai"
+        case naverAiTab = "naver_ai_tab"
+        case qwen = "qwen"
+        case doubao = "doubao"
     }
 
     /**

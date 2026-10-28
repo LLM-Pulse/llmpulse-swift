@@ -24,6 +24,9 @@ public struct ProjectDetailsAllOfDataCoverage: Sendable, Codable, Hashable {
         case naverAi = "naver_ai"
         case baiduAi = "baidu_ai"
         case metaAi = "meta_ai"
+        case naverAiTab = "naver_ai_tab"
+        case qwen = "qwen"
+        case doubao = "doubao"
     }
     public var models: [Models]?
     public var countries: [String]?

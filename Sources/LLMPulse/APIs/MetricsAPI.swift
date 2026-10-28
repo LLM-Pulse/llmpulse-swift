@@ -33,6 +33,9 @@ open class MetricsAPI {
         case naverAi = "naver_ai"
         case baiduAi = "baidu_ai"
         case metaAi = "meta_ai"
+        case naverAiTab = "naver_ai_tab"
+        case qwen = "qwen"
+        case doubao = "doubao"
     }
 
     /**
@@ -192,6 +195,9 @@ open class MetricsAPI {
         case naverAi = "naver_ai"
         case baiduAi = "baidu_ai"
         case metaAi = "meta_ai"
+        case naverAiTab = "naver_ai_tab"
+        case qwen = "qwen"
+        case doubao = "doubao"
     }
 
     /**
@@ -335,6 +341,9 @@ open class MetricsAPI {
         case naverAi = "naver_ai"
         case baiduAi = "baidu_ai"
         case metaAi = "meta_ai"
+        case naverAiTab = "naver_ai_tab"
+        case qwen = "qwen"
+        case doubao = "doubao"
     }
 
     /**
@@ -469,6 +478,9 @@ open class MetricsAPI {
         case naverAi = "naver_ai"
         case baiduAi = "baidu_ai"
         case metaAi = "meta_ai"
+        case naverAiTab = "naver_ai_tab"
+        case qwen = "qwen"
+        case doubao = "doubao"
     }
 
     /**
@@ -594,6 +606,9 @@ open class MetricsAPI {
         case naverAi = "naver_ai"
         case baiduAi = "baidu_ai"
         case metaAi = "meta_ai"
+        case naverAiTab = "naver_ai_tab"
+        case qwen = "qwen"
+        case doubao = "doubao"
     }
 
     /**
