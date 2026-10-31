@@ -470,6 +470,7 @@ open class OwnedMediaCommunitiesAPI {
         case subreddits = "subreddits"
         case authors = "authors"
         case threads = "threads"
+        case breakdowns = "breakdowns"
     }
 
     /**
@@ -555,7 +556,7 @@ open class OwnedMediaCommunitiesAPI {
      - parameter status: (query) view&#x3D;threads only (optional)
      - parameter owned: (query) Return only subreddits/authors the account has claimed as its own (optional)
      - parameter brand: (query) Filter to citations whose scraped Reddit content mentions a brand: &#39;brand&#39; for the tracked brand, or a competitor id. Reads the page content, not the AI answer. (optional)
-     - parameter order: (query) Sort field; the allowed set depends on view (optional)
+     - parameter order: (query) Sort field; the allowed set depends on view, and view&#x3D;breakdowns accepts none (optional)
      - parameter direction: (query)  (optional, default to .desc)
      - parameter model: (query) Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
      - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
@@ -576,7 +577,7 @@ open class OwnedMediaCommunitiesAPI {
     /**
      List cited Reddit content
      - GET /dimensions/reddit
-     - Which Reddit content AI answers cite for your tracked prompts. view=subreddits (default) returns one row per subreddit with its citation count, unique authors and positive/negative sentiment split; view=authors returns one row per author; view=threads returns the individual cited threads with upvotes, comments, average position and dominant sentiment. Requires the Growth plan or above.
+     - Which Reddit content AI answers cite for your tracked prompts. view=subreddits (default) returns one row per subreddit with its citation count, unique authors and positive/negative sentiment split; view=authors returns one row per author; view=threads returns the individual cited threads with upvotes, comments, average position and dominant sentiment. view=breakdowns returns the figures behind Reddit Intelligence > Sentiment and breakdowns: citations is the number of Reddit citations after the filters, and each row is one slice, with breakdown (sentiment, model or country), key, count and pct, the share within its breakdown as the page charts it. Sentiment is that of the AI answer that cited Reddit, with all five labels (very_positive to very_negative) listed, zero included; order and direction do not apply. Requires the Growth plan or above.
      - Bearer Token:
        - type: http
        - name: BearerAuth
@@ -589,7 +590,7 @@ open class OwnedMediaCommunitiesAPI {
      - parameter status: (query) view&#x3D;threads only (optional)
      - parameter owned: (query) Return only subreddits/authors the account has claimed as its own (optional)
      - parameter brand: (query) Filter to citations whose scraped Reddit content mentions a brand: &#39;brand&#39; for the tracked brand, or a competitor id. Reads the page content, not the AI answer. (optional)
-     - parameter order: (query) Sort field; the allowed set depends on view (optional)
+     - parameter order: (query) Sort field; the allowed set depends on view, and view&#x3D;breakdowns accepts none (optional)
      - parameter direction: (query)  (optional, default to .desc)
      - parameter model: (query) Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
      - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
