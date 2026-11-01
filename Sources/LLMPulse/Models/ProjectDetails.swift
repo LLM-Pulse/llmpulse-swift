@@ -14,10 +14,14 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
     public var name: String?
     /** LLM-facing brand label (used in prompts and customer-facing charts). Null when not set, in which case prompts and charts use `name`. */
     public var brandName: String?
-    /** Whether scheduled runs include this project. False when it is paused, or when the plan's project limit leaves it out (the oldest projects up to the limit run), so its prompts do not run */
+    /** Whether scheduled runs include this project. False when it is a pitch project, which runs once, when it is paused, or when the plan's project limit leaves it out (the oldest projects up to the limit run), so its prompts do not run */
     public var tracked: Bool
-    /** Why tracked is false: paused or project_limit. Null when tracked */
+    /** Why tracked is false: pitch_project, paused or project_limit. Null when tracked */
     public var untrackedReason: String?
+    /** Whether this is a pitch project, a one-off snapshot that runs its prompts once, takes no project slot and is deleted at pitch_expires_at unless it is converted (PATCH /projects/{id} with pitch false) */
+    public var pitch: Bool?
+    /** When a pitch project is deleted, with its data, unless it is converted first. Null for a tracked project */
+    public var pitchExpiresAt: Date?
     public var url: String?
     public var description: String?
     public var matchingNames: [String]?
@@ -41,18 +45,21 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
     /** The most prompts this project can hold, set by the account owner or a co-owner (Account Settings > Prompt Limits). Null when the project has no limit of its own; the account's plan allowance applies either way */
     public var promptLimit: Int?
     public var stats: ProjectDetailsAllOfStats?
+    public var pitchRun: ProjectDetailsAllOfPitchRun?
     public var dataCoverage: ProjectDetailsAllOfDataCoverage?
     public var searchConsole: ProjectDetailsAllOfSearchConsole?
     public var aiTraffic: ProjectDetailsAllOfAiTraffic?
     public var agentTraffic: ProjectDetailsAllOfAgentTraffic?
     public var requestId: String?
 
-    public init(id: Int? = nil, name: String? = nil, brandName: String? = nil, tracked: Bool, untrackedReason: String?, url: String? = nil, description: String? = nil, matchingNames: [String]? = nil, additionalOwnedDomains: [String]? = nil, industry: JSONValue? = nil, businessModel: String? = nil, businessModelOther: String? = nil, primaryProducts: [String]? = nil, targetAudience: String? = nil, brandVoice: String? = nil, goals: String? = nil, countryCode: String? = nil, languageCode: String? = nil, paused: Bool? = nil, googlePlayId: String? = nil, appStoreId: String? = nil, createdAt: Date? = nil, promptLimit: Int? = nil, stats: ProjectDetailsAllOfStats? = nil, dataCoverage: ProjectDetailsAllOfDataCoverage? = nil, searchConsole: ProjectDetailsAllOfSearchConsole? = nil, aiTraffic: ProjectDetailsAllOfAiTraffic? = nil, agentTraffic: ProjectDetailsAllOfAgentTraffic? = nil, requestId: String? = nil) {
+    public init(id: Int? = nil, name: String? = nil, brandName: String? = nil, tracked: Bool, untrackedReason: String?, pitch: Bool? = nil, pitchExpiresAt: Date? = nil, url: String? = nil, description: String? = nil, matchingNames: [String]? = nil, additionalOwnedDomains: [String]? = nil, industry: JSONValue? = nil, businessModel: String? = nil, businessModelOther: String? = nil, primaryProducts: [String]? = nil, targetAudience: String? = nil, brandVoice: String? = nil, goals: String? = nil, countryCode: String? = nil, languageCode: String? = nil, paused: Bool? = nil, googlePlayId: String? = nil, appStoreId: String? = nil, createdAt: Date? = nil, promptLimit: Int? = nil, stats: ProjectDetailsAllOfStats? = nil, pitchRun: ProjectDetailsAllOfPitchRun? = nil, dataCoverage: ProjectDetailsAllOfDataCoverage? = nil, searchConsole: ProjectDetailsAllOfSearchConsole? = nil, aiTraffic: ProjectDetailsAllOfAiTraffic? = nil, agentTraffic: ProjectDetailsAllOfAgentTraffic? = nil, requestId: String? = nil) {
         self.id = id
         self.name = name
         self.brandName = brandName
         self.tracked = tracked
         self.untrackedReason = untrackedReason
+        self.pitch = pitch
+        self.pitchExpiresAt = pitchExpiresAt
         self.url = url
         self.description = description
         self.matchingNames = matchingNames
@@ -72,6 +79,7 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
         self.createdAt = createdAt
         self.promptLimit = promptLimit
         self.stats = stats
+        self.pitchRun = pitchRun
         self.dataCoverage = dataCoverage
         self.searchConsole = searchConsole
         self.aiTraffic = aiTraffic
@@ -85,6 +93,8 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
         case brandName = "brand_name"
         case tracked
         case untrackedReason = "untracked_reason"
+        case pitch
+        case pitchExpiresAt = "pitch_expires_at"
         case url
         case description
         case matchingNames = "matching_names"
@@ -104,6 +114,7 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
         case createdAt = "created_at"
         case promptLimit = "prompt_limit"
         case stats
+        case pitchRun = "pitch_run"
         case dataCoverage = "data_coverage"
         case searchConsole = "search_console"
         case aiTraffic = "ai_traffic"
@@ -120,6 +131,8 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
         try container.encodeIfPresent(brandName, forKey: .brandName)
         try container.encode(tracked, forKey: .tracked)
         try container.encode(untrackedReason, forKey: .untrackedReason)
+        try container.encodeIfPresent(pitch, forKey: .pitch)
+        try container.encodeIfPresent(pitchExpiresAt, forKey: .pitchExpiresAt)
         try container.encodeIfPresent(url, forKey: .url)
         try container.encodeIfPresent(description, forKey: .description)
         try container.encodeIfPresent(matchingNames, forKey: .matchingNames)
@@ -139,6 +152,7 @@ public struct ProjectDetails: Sendable, Codable, Hashable {
         try container.encodeIfPresent(createdAt, forKey: .createdAt)
         try container.encodeIfPresent(promptLimit, forKey: .promptLimit)
         try container.encodeIfPresent(stats, forKey: .stats)
+        try container.encodeIfPresent(pitchRun, forKey: .pitchRun)
         try container.encodeIfPresent(dataCoverage, forKey: .dataCoverage)
         try container.encodeIfPresent(searchConsole, forKey: .searchConsole)
         try container.encodeIfPresent(aiTraffic, forKey: .aiTraffic)

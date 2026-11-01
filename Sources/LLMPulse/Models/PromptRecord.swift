@@ -26,7 +26,7 @@ public struct PromptRecord: Sendable, Codable, Hashable {
     public var lastExecutedAt: Date?
     /** Whether scheduled runs include this prompt. False when its project is paused or beyond the plan's project limit, or when the prompt is beyond the plan's prompt limit (the oldest prompts up to the limit run) */
     public var tracked: Bool
-    /** Why tracked is false: paused, project_limit or prompt_limit. Null when tracked */
+    /** Why tracked is false: pitch_project, paused, project_limit or prompt_limit. Null when tracked */
     public var untrackedReason: String?
     /** Opens this prompt in the app. The link names its project, so it opens there for any user with access to that project */
     public var appUrl: String

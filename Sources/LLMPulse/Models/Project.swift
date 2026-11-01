@@ -14,17 +14,23 @@ public struct Project: Sendable, Codable, Hashable {
     public var name: String?
     /** LLM-facing brand label (used in prompts and customer-facing charts). Null when not set, in which case prompts and charts use `name`. */
     public var brandName: String?
-    /** Whether scheduled runs include this project. False when it is paused, or when the plan's project limit leaves it out (the oldest projects up to the limit run), so its prompts do not run */
+    /** Whether scheduled runs include this project. False when it is a pitch project, which runs once, when it is paused, or when the plan's project limit leaves it out (the oldest projects up to the limit run), so its prompts do not run */
     public var tracked: Bool?
-    /** Why tracked is false: paused or project_limit. Null when tracked */
+    /** Why tracked is false: pitch_project, paused or project_limit. Null when tracked */
     public var untrackedReason: String?
+    /** Whether this is a pitch project, a one-off snapshot that runs its prompts once, takes no project slot and is deleted at pitch_expires_at unless it is converted (PATCH /projects/{id} with pitch false) */
+    public var pitch: Bool?
+    /** When a pitch project is deleted, with its data, unless it is converted first. Null for a tracked project */
+    public var pitchExpiresAt: Date?
 
-    public init(id: Int? = nil, name: String? = nil, brandName: String? = nil, tracked: Bool? = nil, untrackedReason: String? = nil) {
+    public init(id: Int? = nil, name: String? = nil, brandName: String? = nil, tracked: Bool? = nil, untrackedReason: String? = nil, pitch: Bool? = nil, pitchExpiresAt: Date? = nil) {
         self.id = id
         self.name = name
         self.brandName = brandName
         self.tracked = tracked
         self.untrackedReason = untrackedReason
+        self.pitch = pitch
+        self.pitchExpiresAt = pitchExpiresAt
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -33,6 +39,8 @@ public struct Project: Sendable, Codable, Hashable {
         case brandName = "brand_name"
         case tracked
         case untrackedReason = "untracked_reason"
+        case pitch
+        case pitchExpiresAt = "pitch_expires_at"
     }
 
     // Encodable protocol methods
@@ -44,6 +52,8 @@ public struct Project: Sendable, Codable, Hashable {
         try container.encodeIfPresent(brandName, forKey: .brandName)
         try container.encodeIfPresent(tracked, forKey: .tracked)
         try container.encodeIfPresent(untrackedReason, forKey: .untrackedReason)
+        try container.encodeIfPresent(pitch, forKey: .pitch)
+        try container.encodeIfPresent(pitchExpiresAt, forKey: .pitchExpiresAt)
     }
 }
 

@@ -47,8 +47,10 @@ public struct ProjectCreateRequest: Sendable, Codable, Hashable {
     /** Embed-enabled (Enterprise) accounts only; other accounts receive ERR_PLAN_REQUIRED. Idempotency key and embed-session join key, unique per account */
     public var externalIdentifier: String?
     public var executePromptsImmediately: Bool? = true
+    /** Create a pitch project, a one-off snapshot for a prospect. It runs its prompts once across the account's AI models right away, takes no project slot and its prompts do not count against the prompt quota, and it is deleted 90 days later unless converted by sending pitch false to PATCH /projects/{id}. It uses one of the month's pitch projects (GET /account, limits.pitch_projects), needs access approved for the account and a paid subscription on the Scale tier or higher, takes 1 to 100 prompts, and cannot use a domain the account already tracks or pitched in the last 90 days. execute_prompts_immediately must not be false */
+    public var pitch: Bool? = false
 
-    public init(websiteUrl: String, name: String, mainCountry: String, mainLanguage: String, brandName: String? = nil, description: String? = nil, industry: [String]? = nil, businessModel: String? = nil, businessModelOther: String? = nil, targetAudience: String? = nil, brandVoice: String? = nil, goals: String? = nil, primaryProducts: [String]? = nil, matchingNames: [String]? = nil, prompts: [String]? = nil, collections: [ProjectCreateRequestCollectionsInner]? = nil, competitors: [ProjectCreateRequestCompetitorsInner]? = nil, ownedMedia: ProjectCreateRequestOwnedMedia? = nil, useSubdomain: Bool? = false, weeklyEmailSubscribed: Bool? = false, externalIdentifier: String? = nil, executePromptsImmediately: Bool? = true) {
+    public init(websiteUrl: String, name: String, mainCountry: String, mainLanguage: String, brandName: String? = nil, description: String? = nil, industry: [String]? = nil, businessModel: String? = nil, businessModelOther: String? = nil, targetAudience: String? = nil, brandVoice: String? = nil, goals: String? = nil, primaryProducts: [String]? = nil, matchingNames: [String]? = nil, prompts: [String]? = nil, collections: [ProjectCreateRequestCollectionsInner]? = nil, competitors: [ProjectCreateRequestCompetitorsInner]? = nil, ownedMedia: ProjectCreateRequestOwnedMedia? = nil, useSubdomain: Bool? = false, weeklyEmailSubscribed: Bool? = false, externalIdentifier: String? = nil, executePromptsImmediately: Bool? = true, pitch: Bool? = false) {
         self.websiteUrl = websiteUrl
         self.name = name
         self.mainCountry = mainCountry
@@ -71,6 +73,7 @@ public struct ProjectCreateRequest: Sendable, Codable, Hashable {
         self.weeklyEmailSubscribed = weeklyEmailSubscribed
         self.externalIdentifier = externalIdentifier
         self.executePromptsImmediately = executePromptsImmediately
+        self.pitch = pitch
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -96,6 +99,7 @@ public struct ProjectCreateRequest: Sendable, Codable, Hashable {
         case weeklyEmailSubscribed = "weekly_email_subscribed"
         case externalIdentifier = "external_identifier"
         case executePromptsImmediately = "execute_prompts_immediately"
+        case pitch
     }
 
     // Encodable protocol methods
@@ -124,6 +128,7 @@ public struct ProjectCreateRequest: Sendable, Codable, Hashable {
         try container.encodeIfPresent(weeklyEmailSubscribed, forKey: .weeklyEmailSubscribed)
         try container.encodeIfPresent(externalIdentifier, forKey: .externalIdentifier)
         try container.encodeIfPresent(executePromptsImmediately, forKey: .executePromptsImmediately)
+        try container.encodeIfPresent(pitch, forKey: .pitch)
     }
 }
 

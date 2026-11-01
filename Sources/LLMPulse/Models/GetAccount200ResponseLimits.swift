@@ -16,8 +16,9 @@ public struct GetAccount200ResponseLimits: Sendable, Codable, Hashable {
     public var teamMembers: AccountCapacity?
     public var recurringGeoAudits: AccountQuota?
     public var geoAuditManualRuns: AccountQuota?
+    public var pitchProjects: AccountPitchQuota?
 
-    public init(prompts: AccountQuota? = nil, projects: AccountQuota? = nil, competitorsPerProject: AccountCapacity? = nil, intelligenceTasks: AccountQuota? = nil, teamMembers: AccountCapacity? = nil, recurringGeoAudits: AccountQuota? = nil, geoAuditManualRuns: AccountQuota? = nil) {
+    public init(prompts: AccountQuota? = nil, projects: AccountQuota? = nil, competitorsPerProject: AccountCapacity? = nil, intelligenceTasks: AccountQuota? = nil, teamMembers: AccountCapacity? = nil, recurringGeoAudits: AccountQuota? = nil, geoAuditManualRuns: AccountQuota? = nil, pitchProjects: AccountPitchQuota? = nil) {
         self.prompts = prompts
         self.projects = projects
         self.competitorsPerProject = competitorsPerProject
@@ -25,6 +26,7 @@ public struct GetAccount200ResponseLimits: Sendable, Codable, Hashable {
         self.teamMembers = teamMembers
         self.recurringGeoAudits = recurringGeoAudits
         self.geoAuditManualRuns = geoAuditManualRuns
+        self.pitchProjects = pitchProjects
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -35,6 +37,7 @@ public struct GetAccount200ResponseLimits: Sendable, Codable, Hashable {
         case teamMembers = "team_members"
         case recurringGeoAudits = "recurring_geo_audits"
         case geoAuditManualRuns = "geo_audit_manual_runs"
+        case pitchProjects = "pitch_projects"
     }
 
     // Encodable protocol methods
@@ -48,6 +51,7 @@ public struct GetAccount200ResponseLimits: Sendable, Codable, Hashable {
         try container.encodeIfPresent(teamMembers, forKey: .teamMembers)
         try container.encodeIfPresent(recurringGeoAudits, forKey: .recurringGeoAudits)
         try container.encodeIfPresent(geoAuditManualRuns, forKey: .geoAuditManualRuns)
+        try container.encodeIfPresent(pitchProjects, forKey: .pitchProjects)
     }
 }
 

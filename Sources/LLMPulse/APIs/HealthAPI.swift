@@ -23,7 +23,7 @@ open class HealthAPI {
     /**
      Health check
      - GET /ping
-     - Validates the API key and optionally pings a project. Returns the authenticated user_id, project (if project_id is supplied), and a request_id.
+     - Validates the API key and optionally pings a project. Returns the authenticated user_id, project (if project_id is supplied), and a request_id. The project object carries only id, name and brand_name; GET /dimensions/projects/{id} returns the rest, pitch and tracked included.
      - Bearer Token:
        - type: http
        - name: BearerAuth

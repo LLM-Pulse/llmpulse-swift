@@ -46,6 +46,7 @@ Sources/LLMPulse/Infrastructure/SynchronizedDictionary.swift
 Sources/LLMPulse/Infrastructure/URLSessionImplementations.swift
 Sources/LLMPulse/Infrastructure/Validation.swift
 Sources/LLMPulse/Models/AccountCapacity.swift
+Sources/LLMPulse/Models/AccountPitchQuota.swift
 Sources/LLMPulse/Models/AccountQuota.swift
 Sources/LLMPulse/Models/Actor.swift
 Sources/LLMPulse/Models/AgentBot.swift
@@ -210,6 +211,7 @@ Sources/LLMPulse/Models/ProjectDetails.swift
 Sources/LLMPulse/Models/ProjectDetailsAllOfAgentTraffic.swift
 Sources/LLMPulse/Models/ProjectDetailsAllOfAiTraffic.swift
 Sources/LLMPulse/Models/ProjectDetailsAllOfDataCoverage.swift
+Sources/LLMPulse/Models/ProjectDetailsAllOfPitchRun.swift
 Sources/LLMPulse/Models/ProjectDetailsAllOfSearchConsole.swift
 Sources/LLMPulse/Models/ProjectDetailsAllOfStats.swift
 Sources/LLMPulse/Models/ProjectDetailsAllOfStatsPromptsByBrandKind.swift
@@ -323,6 +325,7 @@ docs/AIModelInsightsAPI.md
 docs/APIKeysAPI.md
 docs/AccountAPI.md
 docs/AccountCapacity.md
+docs/AccountPitchQuota.md
 docs/AccountQuota.md
 docs/Actor.md
 docs/AgentBot.md
@@ -498,6 +501,7 @@ docs/ProjectDetails.md
 docs/ProjectDetailsAllOfAgentTraffic.md
 docs/ProjectDetailsAllOfAiTraffic.md
 docs/ProjectDetailsAllOfDataCoverage.md
+docs/ProjectDetailsAllOfPitchRun.md
 docs/ProjectDetailsAllOfSearchConsole.md
 docs/ProjectDetailsAllOfStats.md
 docs/ProjectDetailsAllOfStatsPromptsByBrandKind.md

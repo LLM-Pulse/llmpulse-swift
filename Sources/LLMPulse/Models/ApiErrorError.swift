@@ -42,7 +42,7 @@ public struct ApiErrorError: Sendable, Codable, Hashable {
     }
     public var code: Code?
     public var message: String?
-    /** Extra detail for some codes. A not-connected or access-revoked error from the Search Console, AI traffic, web analytics or agent traffic endpoints carries connect_url, the in-app page where the user connects or reconnects the source. */
+    /** Extra detail for some codes. A not-connected or access-revoked error from the Search Console, AI traffic, web analytics or agent traffic endpoints carries connect_url, the in-app page where the user connects or reconnects the source. A prompt write refused because a launched pitch project's prompts are fixed carries reason pitch_prompts_frozen. */
     public var meta: JSONValue?
 
     public init(code: Code? = nil, message: String? = nil, meta: JSONValue? = nil) {

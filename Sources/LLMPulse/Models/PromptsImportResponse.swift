@@ -26,7 +26,7 @@ public struct PromptsImportResponse: Sendable, Codable, Hashable {
     public var promptsAvailable: Int?
     /** Whether scheduled runs include the project the prompts were imported into. False when it is paused or beyond the plan's project limit, so the new prompts do not run until that changes */
     public var tracked: Bool
-    /** Why tracked is false: paused or project_limit. Null when tracked */
+    /** Why tracked is false: pitch_project, paused or project_limit. Null when tracked */
     public var untrackedReason: String?
     /** What to do when tracked is false. Null when tracked */
     public var warning: String?
