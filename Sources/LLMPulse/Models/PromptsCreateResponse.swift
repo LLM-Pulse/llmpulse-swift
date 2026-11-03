@@ -18,12 +18,14 @@ public struct PromptsCreateResponse: Sendable, Codable, Hashable {
     public var tracked: Bool?
     /** Why tracked is false: pitch_project, paused or project_limit. Null when tracked */
     public var untrackedReason: String?
-    /** What to do when tracked is false. Null when tracked */
+    /** What to do when tracked is false, or why some first runs wait when first_runs_wait_until is set. Null otherwise */
     public var warning: String?
+    /** Set when the account's allowance of AI answers left this cycle cannot give every new prompt one answer per enabled AI model, so the rest run when the allowance resets at this time (00:00 Europe/Madrid). It counts this request's prompts against what was left when it arrived, not first runs other requests queued moments earlier. Null otherwise, when the allowance is unlimited, when tracked is false or when the account is not active */
+    public var firstRunsWaitUntil: Date?
     public var data: [PromptsCreateResponseDataInner]?
     public var requestId: String?
 
-    public init(projectId: Int? = nil, created: Int? = nil, skipped: Int? = nil, totalAfter: Int? = nil, promptsAvailable: Int? = nil, tracked: Bool? = nil, untrackedReason: String? = nil, warning: String? = nil, data: [PromptsCreateResponseDataInner]? = nil, requestId: String? = nil) {
+    public init(projectId: Int? = nil, created: Int? = nil, skipped: Int? = nil, totalAfter: Int? = nil, promptsAvailable: Int? = nil, tracked: Bool? = nil, untrackedReason: String? = nil, warning: String? = nil, firstRunsWaitUntil: Date? = nil, data: [PromptsCreateResponseDataInner]? = nil, requestId: String? = nil) {
         self.projectId = projectId
         self.created = created
         self.skipped = skipped
@@ -32,6 +34,7 @@ public struct PromptsCreateResponse: Sendable, Codable, Hashable {
         self.tracked = tracked
         self.untrackedReason = untrackedReason
         self.warning = warning
+        self.firstRunsWaitUntil = firstRunsWaitUntil
         self.data = data
         self.requestId = requestId
     }
@@ -45,6 +48,7 @@ public struct PromptsCreateResponse: Sendable, Codable, Hashable {
         case tracked
         case untrackedReason = "untracked_reason"
         case warning
+        case firstRunsWaitUntil = "first_runs_wait_until"
         case data
         case requestId = "request_id"
     }
@@ -61,6 +65,7 @@ public struct PromptsCreateResponse: Sendable, Codable, Hashable {
         try container.encodeIfPresent(tracked, forKey: .tracked)
         try container.encodeIfPresent(untrackedReason, forKey: .untrackedReason)
         try container.encodeIfPresent(warning, forKey: .warning)
+        try container.encodeIfPresent(firstRunsWaitUntil, forKey: .firstRunsWaitUntil)
         try container.encodeIfPresent(data, forKey: .data)
         try container.encodeIfPresent(requestId, forKey: .requestId)
     }

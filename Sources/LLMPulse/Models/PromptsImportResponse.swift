@@ -28,11 +28,13 @@ public struct PromptsImportResponse: Sendable, Codable, Hashable {
     public var tracked: Bool
     /** Why tracked is false: pitch_project, paused or project_limit. Null when tracked */
     public var untrackedReason: String?
-    /** What to do when tracked is false. Null when tracked */
+    /** What to do when tracked is false, or why some first runs wait when first_runs_wait_until is set. Null otherwise */
     public var warning: String?
+    /** Set when the account's allowance of AI answers left this cycle cannot give every new prompt one answer per enabled AI model, so the rest run when the allowance resets at this time (00:00 Europe/Madrid). It counts this request's prompts against what was left when it arrived, not first runs other requests queued moments earlier. Null otherwise, when the allowance is unlimited, when tracked is false or when the account is not active */
+    public var firstRunsWaitUntil: Date?
     public var requestId: String
 
-    public init(projectId: Int, processedRows: Int, created: Int, duplicates: Int, tagged: Int, createdTags: Int, rowErrors: [PromptsImportResponseRowErrorsInner], lengthWarning: String?, promptsAvailable: Int?, tracked: Bool, untrackedReason: String?, warning: String?, requestId: String) {
+    public init(projectId: Int, processedRows: Int, created: Int, duplicates: Int, tagged: Int, createdTags: Int, rowErrors: [PromptsImportResponseRowErrorsInner], lengthWarning: String?, promptsAvailable: Int?, tracked: Bool, untrackedReason: String?, warning: String?, firstRunsWaitUntil: Date?, requestId: String) {
         self.projectId = projectId
         self.processedRows = processedRows
         self.created = created
@@ -45,6 +47,7 @@ public struct PromptsImportResponse: Sendable, Codable, Hashable {
         self.tracked = tracked
         self.untrackedReason = untrackedReason
         self.warning = warning
+        self.firstRunsWaitUntil = firstRunsWaitUntil
         self.requestId = requestId
     }
 
@@ -61,6 +64,7 @@ public struct PromptsImportResponse: Sendable, Codable, Hashable {
         case tracked
         case untrackedReason = "untracked_reason"
         case warning
+        case firstRunsWaitUntil = "first_runs_wait_until"
         case requestId = "request_id"
     }
 
@@ -80,6 +84,7 @@ public struct PromptsImportResponse: Sendable, Codable, Hashable {
         try container.encode(tracked, forKey: .tracked)
         try container.encode(untrackedReason, forKey: .untrackedReason)
         try container.encode(warning, forKey: .warning)
+        try container.encode(firstRunsWaitUntil, forKey: .firstRunsWaitUntil)
         try container.encode(requestId, forKey: .requestId)
     }
 }
