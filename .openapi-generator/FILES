@@ -46,6 +46,7 @@ Sources/LLMPulse/Infrastructure/SynchronizedDictionary.swift
 Sources/LLMPulse/Infrastructure/URLSessionImplementations.swift
 Sources/LLMPulse/Infrastructure/Validation.swift
 Sources/LLMPulse/Models/AccountCapacity.swift
+Sources/LLMPulse/Models/AccountExecutionQuota.swift
 Sources/LLMPulse/Models/AccountPitchQuota.swift
 Sources/LLMPulse/Models/AccountQuota.swift
 Sources/LLMPulse/Models/Actor.swift
@@ -346,6 +347,7 @@ docs/AIModelInsightsAPI.md
 docs/APIKeysAPI.md
 docs/AccountAPI.md
 docs/AccountCapacity.md
+docs/AccountExecutionQuota.md
 docs/AccountPitchQuota.md
 docs/AccountQuota.md
 docs/Actor.md
