@@ -11,12 +11,12 @@ Method | HTTP request | Description
 
 # **getAiModelInsightsSummary**
 ```swift
-    open class func getAiModelInsightsSummary(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getAiModelInsightsSummary? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_getAiModelInsightsSummary? = nil, competitors: String? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func getAiModelInsightsSummary(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getAiModelInsightsSummary? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_getAiModelInsightsSummary? = nil, competitors: String? = nil, completion: @escaping (_ data: AiModelInsightsSummaryResponse?, _ error: Error?) -> Void)
 ```
 
 AI Model Insights summary
 
-Per-model mentions, citations, brand net sentiment with raw counts, weighted visibility totals/shares, plus actor matrices. All actor entries use the standard shape `{ type, id, competitor_id, name, domain }` with bare (scheme-less) domains.
+Per-model mentions, citations, brand net sentiment with raw counts, weighted visibility totals/shares, plus actor matrices. All actor entries use the standard shape `{ type, id, competitor_id, name, domain }` with bare (scheme-less) domains. Rows cover the AI models the account has enabled or that answered in the window. A share, net sentiment or market share value with nothing behind it is null; counts, totals and weighted visibility scores stay 0.
 
 ### Example
 ```swift
@@ -66,7 +66,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**AiModelInsightsSummaryResponse**](AiModelInsightsSummaryResponse.md)
 
 ### Authorization
 
@@ -75,7 +75,7 @@ Void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

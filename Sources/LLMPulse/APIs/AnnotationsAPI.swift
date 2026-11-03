@@ -117,7 +117,7 @@ open class AnnotationsAPI {
     /**
      List timeline annotations
      - GET /annotations
-     - Lists project timeline annotations, newest first. Rows can come from manual notes, project automations, GEO tests, or platform events. The origin field distinguishes them; editable says whether the requesting user may modify the row. Available on every plan.
+     - Lists project timeline annotations, newest first. Rows can come from manual notes, project automations, or platform events. The origin field distinguishes them; editable says whether the requesting user may modify the row. Available on every plan.
      - Bearer Token:
        - type: http
        - name: BearerAuth
