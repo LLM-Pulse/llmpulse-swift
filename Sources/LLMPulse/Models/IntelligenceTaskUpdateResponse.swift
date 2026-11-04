@@ -34,11 +34,13 @@ public struct IntelligenceTaskUpdateResponse: Sendable, Codable, Hashable {
     public var editedByUserId: Int?
     /** Concurrency token for content edits: send it back as result_version on PATCH /intelligence_tasks/{id} so an edit composed before a regeneration is refused with ERR_STALE_CONTENT (409). It is \"0\" until the task first completes, then changes each time a generation or regeneration replaces result_data, never on a manual edit or a revert. Treat it as opaque text */
     public var resultVersion: String?
+    /** Drafts sent from this task to the connected WordPress site, newest first (up to 10). Only GET /intelligence_tasks/{id} returns it, and never on a white-label portal host */
+    public var cmsDrafts: [CmsPublication]?
     public var requestId: String?
     /** Paths whose text actually changed; empty when every value matched the stored text */
     public var changedPaths: [String]?
 
-    public init(id: Int? = nil, publicId: String? = nil, projectId: Int? = nil, taskType: String? = nil, title: String? = nil, status: String? = nil, promptId: Int? = nil, promptText: String? = nil, agenticMode: Bool? = nil, customTopic: String? = nil, userInstructions: String? = nil, outputLanguageCode: String? = nil, wordCount: Int? = nil, resultData: JSONValue? = nil, errorMessage: String? = nil, estimatedTime: String? = nil, createdAt: Date? = nil, processedAt: Date? = nil, manuallyEditedAt: Date? = nil, editedByUserId: Int? = nil, resultVersion: String? = nil, requestId: String? = nil, changedPaths: [String]? = nil) {
+    public init(id: Int? = nil, publicId: String? = nil, projectId: Int? = nil, taskType: String? = nil, title: String? = nil, status: String? = nil, promptId: Int? = nil, promptText: String? = nil, agenticMode: Bool? = nil, customTopic: String? = nil, userInstructions: String? = nil, outputLanguageCode: String? = nil, wordCount: Int? = nil, resultData: JSONValue? = nil, errorMessage: String? = nil, estimatedTime: String? = nil, createdAt: Date? = nil, processedAt: Date? = nil, manuallyEditedAt: Date? = nil, editedByUserId: Int? = nil, resultVersion: String? = nil, cmsDrafts: [CmsPublication]? = nil, requestId: String? = nil, changedPaths: [String]? = nil) {
         self.id = id
         self.publicId = publicId
         self.projectId = projectId
@@ -60,6 +62,7 @@ public struct IntelligenceTaskUpdateResponse: Sendable, Codable, Hashable {
         self.manuallyEditedAt = manuallyEditedAt
         self.editedByUserId = editedByUserId
         self.resultVersion = resultVersion
+        self.cmsDrafts = cmsDrafts
         self.requestId = requestId
         self.changedPaths = changedPaths
     }
@@ -86,6 +89,7 @@ public struct IntelligenceTaskUpdateResponse: Sendable, Codable, Hashable {
         case manuallyEditedAt = "manually_edited_at"
         case editedByUserId = "edited_by_user_id"
         case resultVersion = "result_version"
+        case cmsDrafts = "cms_drafts"
         case requestId = "request_id"
         case changedPaths = "changed_paths"
     }
@@ -115,6 +119,7 @@ public struct IntelligenceTaskUpdateResponse: Sendable, Codable, Hashable {
         try container.encodeIfPresent(manuallyEditedAt, forKey: .manuallyEditedAt)
         try container.encodeIfPresent(editedByUserId, forKey: .editedByUserId)
         try container.encodeIfPresent(resultVersion, forKey: .resultVersion)
+        try container.encodeIfPresent(cmsDrafts, forKey: .cmsDrafts)
         try container.encodeIfPresent(requestId, forKey: .requestId)
         try container.encodeIfPresent(changedPaths, forKey: .changedPaths)
     }

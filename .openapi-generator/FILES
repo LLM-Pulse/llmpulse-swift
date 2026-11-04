@@ -103,6 +103,13 @@ Sources/LLMPulse/Models/CatalogPromptSuggestionsResponse.swift
 Sources/LLMPulse/Models/CitationMatchMode.swift
 Sources/LLMPulse/Models/CitationRecord.swift
 Sources/LLMPulse/Models/CitationsResponse.swift
+Sources/LLMPulse/Models/CmsContentItem.swift
+Sources/LLMPulse/Models/CmsContentItemResponse.swift
+Sources/LLMPulse/Models/CmsContentListResponse.swift
+Sources/LLMPulse/Models/CmsContentSummary.swift
+Sources/LLMPulse/Models/CmsPublication.swift
+Sources/LLMPulse/Models/CmsSendResponse.swift
+Sources/LLMPulse/Models/CmsSite.swift
 Sources/LLMPulse/Models/CollectionCreateResponse.swift
 Sources/LLMPulse/Models/CollectionCreateResponseCollection.swift
 Sources/LLMPulse/Models/CollectionsResponse.swift
@@ -417,6 +424,13 @@ docs/CatalogPromptSuggestionsResponse.md
 docs/CitationMatchMode.md
 docs/CitationRecord.md
 docs/CitationsResponse.md
+docs/CmsContentItem.md
+docs/CmsContentItemResponse.md
+docs/CmsContentListResponse.md
+docs/CmsContentSummary.md
+docs/CmsPublication.md
+docs/CmsSendResponse.md
+docs/CmsSite.md
 docs/CollectionCreateResponse.md
 docs/CollectionCreateResponseCollection.md
 docs/CollectionsResponse.md

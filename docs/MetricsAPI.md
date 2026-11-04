@@ -26,8 +26,8 @@ Paginated per-prompt aggregated metrics. Returns responses, mentions, citations,
 import LLMPulse
 
 let projectId = 987 // Int | Project ID
-let range = 987 // Int | Number of days to look back (alternative to from/to) (optional)
-let from = Date() // Date |  (optional)
+let range = 987 // Int | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+let from = Date() // Date | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
 let breakdown = "breakdown_example" // String | Add per-(prompt, model) rows to the output (optional)
 let model = "model_example" // String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
@@ -61,8 +61,8 @@ MetricsAPI.getPromptSummary(projectId: projectId, range: range, from: from, to: 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **projectId** | **Int** | Project ID | 
- **range** | **Int** | Number of days to look back (alternative to from/to) | [optional] 
- **from** | **Date** |  | [optional] 
+ **range** | **Int** | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. | [optional] 
+ **from** | **Date** | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. | [optional] 
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **breakdown** | **String** | Add per-(prompt, model) rows to the output | [optional] 
  **model** | **String** | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. | [optional] 
@@ -108,8 +108,8 @@ Share of Voice breakdown comparing your project to competitors. Returns over_tim
 import LLMPulse
 
 let projectId = 987 // Int | Project ID
-let range = 987 // Int | Number of days to look back (alternative to from/to) (optional)
-let from = Date() // Date |  (optional)
+let range = 987 // Int | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+let from = Date() // Date | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
 let granularity = "granularity_example" // String |  (optional)
 let competitors = "competitors_example" // String | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
@@ -142,8 +142,8 @@ MetricsAPI.getShareOfVoice(projectId: projectId, range: range, from: from, to: t
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **projectId** | **Int** | Project ID | 
- **range** | **Int** | Number of days to look back (alternative to from/to) | [optional] 
- **from** | **Date** |  | [optional] 
+ **range** | **Int** | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. | [optional] 
+ **from** | **Date** | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. | [optional] 
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **granularity** | **String** |  | [optional] 
  **competitors** | **String** | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
@@ -190,8 +190,8 @@ import LLMPulse
 let projectId = 987 // Int | Project ID
 let metrics = "metrics_example" // String | Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. (optional)
 let granularity = "granularity_example" // String |  (optional)
-let range = 987 // Int | Number of days to look back (alternative to from/to) (optional)
-let from = Date() // Date |  (optional)
+let range = 987 // Int | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+let from = Date() // Date | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
 let competitors = "competitors_example" // String | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
 let model = "model_example" // String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
@@ -224,8 +224,8 @@ Name | Type | Description  | Notes
  **projectId** | **Int** | Project ID | 
  **metrics** | **String** | Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. | [optional] 
  **granularity** | **String** |  | [optional] 
- **range** | **Int** | Number of days to look back (alternative to from/to) | [optional] 
- **from** | **Date** |  | [optional] 
+ **range** | **Int** | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. | [optional] 
+ **from** | **Date** | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. | [optional] 
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **competitors** | **String** | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
  **model** | **String** | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. | [optional] 
@@ -270,8 +270,8 @@ import LLMPulse
 let projectId = 987 // Int | Project ID
 let metrics = "metrics_example" // String | Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. (optional)
 let granularity = "granularity_example" // String |  (optional)
-let range = 987 // Int | Number of days to look back (alternative to from/to) (optional)
-let from = Date() // Date |  (optional)
+let range = 987 // Int | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+let from = Date() // Date | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
 let competitors = "competitors_example" // String | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
 let model = "model_example" // String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
@@ -304,8 +304,8 @@ Name | Type | Description  | Notes
  **projectId** | **Int** | Project ID | 
  **metrics** | **String** | Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. | [optional] 
  **granularity** | **String** |  | [optional] 
- **range** | **Int** | Number of days to look back (alternative to from/to) | [optional] 
- **from** | **Date** |  | [optional] 
+ **range** | **Int** | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. | [optional] 
+ **from** | **Date** | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. | [optional] 
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **competitors** | **String** | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
  **model** | **String** | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. | [optional] 
@@ -348,8 +348,8 @@ Registrable domains most frequently cited in AI responses for the project, inclu
 import LLMPulse
 
 let projectId = 987 // Int | Project ID
-let range = 987 // Int | Number of days to look back (alternative to from/to) (optional)
-let from = Date() // Date |  (optional)
+let range = 987 // Int | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+let from = Date() // Date | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
 let model = "model_example" // String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
 let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
@@ -384,8 +384,8 @@ MetricsAPI.getTopSources(projectId: projectId, range: range, from: from, to: to,
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **projectId** | **Int** | Project ID | 
- **range** | **Int** | Number of days to look back (alternative to from/to) | [optional] 
- **from** | **Date** |  | [optional] 
+ **range** | **Int** | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. | [optional] 
+ **from** | **Date** | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. | [optional] 
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **model** | **String** | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. | [optional] 
  **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
