@@ -20,6 +20,7 @@ public struct ListWebhooks200ResponseDataInner: Sendable, Codable, Hashable {
         case intelligenceTaskPeriodUpdated = "intelligence_task.updated"
         case geoAuditRunPeriodCompleted = "geo_audit_run.completed"
         case geoAuditAlertPeriodTriggered = "geo_audit_alert.triggered"
+        case trackingRunPeriodCompleted = "tracking_run.completed"
     }
     public var id: Int?
     public var projectId: Int?
