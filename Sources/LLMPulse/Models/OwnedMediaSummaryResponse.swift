@@ -31,9 +31,17 @@ public struct OwnedMediaSummaryResponse: Sendable, Codable, Hashable {
     public var stores: [OwnedMediaStoreTotals]?
     /** provider=overview only, one row per platform the caller can read */
     public var platforms: [OwnedMediaPlatformRollup]?
+    /** All providers. One row per actual project reporting period with runs; provider=overview has null yours and other, and provider=reddit also returns positive, neutral and negative sentiment counts. Citation counts use the selected date window, and periods with runs but no citation have zero */
+    public var activity: [OwnedMediaSummaryActivityPeriod]?
+    /** provider=reddit only. One row per subreddit and actual reporting period; the top five subreddits are separate and Others has a null subreddit */
+    public var subredditActivity: [RedditSubredditActivityPeriod]?
+    /** provider=reddit only. Position distribution over the selected date window */
+    public var positions: [RedditPositionShare]?
+    /** provider=reddit only. Citation share among the tracked brand and competitors with cited mentions */
+    public var brandShare: [RedditBrandShare]?
     public var requestId: String?
 
-    public init(projectId: Int? = nil, provider: String? = nil, from: Date? = nil, to: Date? = nil, connected: Bool? = nil, kpis: OwnedMediaKpis? = nil, previous: OwnedMediaSummaryResponsePrevious? = nil, changes: OwnedMediaKpiChanges? = nil, weekly: [OwnedMediaWeek]? = nil, byModel: [OwnedMediaModelShare]? = nil, byCountry: [OwnedMediaCountryShare]? = nil, contentTypes: [OwnedMediaContentTypeShare]? = nil, ageBuckets: [OwnedMediaAgeBucketShare]? = nil, stores: [OwnedMediaStoreTotals]? = nil, platforms: [OwnedMediaPlatformRollup]? = nil, requestId: String? = nil) {
+    public init(projectId: Int? = nil, provider: String? = nil, from: Date? = nil, to: Date? = nil, connected: Bool? = nil, kpis: OwnedMediaKpis? = nil, previous: OwnedMediaSummaryResponsePrevious? = nil, changes: OwnedMediaKpiChanges? = nil, weekly: [OwnedMediaWeek]? = nil, byModel: [OwnedMediaModelShare]? = nil, byCountry: [OwnedMediaCountryShare]? = nil, contentTypes: [OwnedMediaContentTypeShare]? = nil, ageBuckets: [OwnedMediaAgeBucketShare]? = nil, stores: [OwnedMediaStoreTotals]? = nil, platforms: [OwnedMediaPlatformRollup]? = nil, activity: [OwnedMediaSummaryActivityPeriod]? = nil, subredditActivity: [RedditSubredditActivityPeriod]? = nil, positions: [RedditPositionShare]? = nil, brandShare: [RedditBrandShare]? = nil, requestId: String? = nil) {
         self.projectId = projectId
         self.provider = provider
         self.from = from
@@ -49,6 +57,10 @@ public struct OwnedMediaSummaryResponse: Sendable, Codable, Hashable {
         self.ageBuckets = ageBuckets
         self.stores = stores
         self.platforms = platforms
+        self.activity = activity
+        self.subredditActivity = subredditActivity
+        self.positions = positions
+        self.brandShare = brandShare
         self.requestId = requestId
     }
 
@@ -68,6 +80,10 @@ public struct OwnedMediaSummaryResponse: Sendable, Codable, Hashable {
         case ageBuckets = "age_buckets"
         case stores
         case platforms
+        case activity
+        case subredditActivity = "subreddit_activity"
+        case positions
+        case brandShare = "brand_share"
         case requestId = "request_id"
     }
 
@@ -90,6 +106,10 @@ public struct OwnedMediaSummaryResponse: Sendable, Codable, Hashable {
         try container.encodeIfPresent(ageBuckets, forKey: .ageBuckets)
         try container.encodeIfPresent(stores, forKey: .stores)
         try container.encodeIfPresent(platforms, forKey: .platforms)
+        try container.encodeIfPresent(activity, forKey: .activity)
+        try container.encodeIfPresent(subredditActivity, forKey: .subredditActivity)
+        try container.encodeIfPresent(positions, forKey: .positions)
+        try container.encodeIfPresent(brandShare, forKey: .brandShare)
         try container.encodeIfPresent(requestId, forKey: .requestId)
     }
 }

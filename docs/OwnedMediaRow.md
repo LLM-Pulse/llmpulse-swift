@@ -3,6 +3,12 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**date** | **Date** | The start date of the actual reporting period (view&#x3D;activity) | [optional] 
+**entityId** | **String** | Platform entity identifier (view&#x3D;activity) | [optional] 
+**entityName** | **String** | Current entity name when known (view&#x3D;activity) | [optional] 
+**entityUrl** | **String** | Current profile, channel or app listing URL when known (view&#x3D;activity) | [optional] 
+**store** | **String** | Store selected for provider&#x3D;mobile_apps (view&#x3D;activity) | [optional] 
+**competitorId** | **Int** | Competitor identifier when the activity row represents a competitor app | [optional] 
 **title** | **String** |  | [optional] 
 **url** | **String** |  | [optional] 
 **channelName** | **String** |  | [optional] 
@@ -17,7 +23,7 @@ Name | Type | Description | Notes
 **thumbnailUrl** | **String** | The post or video image. Our cached copy where one exists, so the link does not expire | [optional] 
 **avatarUrl** | **String** | The profile or channel image. Our cached copy where one exists | [optional] 
 **contentType** | **String** | The post format on its platform: reel, post or tv on Instagram, post or pulse on LinkedIn, post elsewhere | [optional] 
-**citations** | **Int** |  | [optional] 
+**citations** | **Int** | Citations for the row; for view&#x3D;activity, the count in this reporting period | [optional] 
 **uniqueVideos** | **Int** |  | [optional] 
 **uniquePosts** | **Int** |  | [optional] 
 **followers** | **Int** |  | [optional] 

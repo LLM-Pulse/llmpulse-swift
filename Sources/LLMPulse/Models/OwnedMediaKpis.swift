@@ -19,13 +19,22 @@ public struct OwnedMediaKpis: Sendable, Codable, Hashable {
     public var yourContent: Int?
     /** yours as a percentage of total (0-100) */
     public var sharePct: Double?
+    /** Number of cited subreddits (provider=reddit; null or omitted for other providers) */
+    public var uniqueSubreddits: Int?
+    /** Number of cited Reddit authors (provider=reddit; null or omitted for other providers) */
+    public var uniqueAuthors: Int?
+    /** Positive sentiment among rated Reddit citations, as a percentage (provider=reddit; null or omitted for other providers) */
+    public var positivePct: Double?
 
-    public init(total: Int? = nil, yours: Int? = nil, yourProfile: Int? = nil, yourContent: Int? = nil, sharePct: Double? = nil) {
+    public init(total: Int? = nil, yours: Int? = nil, yourProfile: Int? = nil, yourContent: Int? = nil, sharePct: Double? = nil, uniqueSubreddits: Int? = nil, uniqueAuthors: Int? = nil, positivePct: Double? = nil) {
         self.total = total
         self.yours = yours
         self.yourProfile = yourProfile
         self.yourContent = yourContent
         self.sharePct = sharePct
+        self.uniqueSubreddits = uniqueSubreddits
+        self.uniqueAuthors = uniqueAuthors
+        self.positivePct = positivePct
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -34,6 +43,9 @@ public struct OwnedMediaKpis: Sendable, Codable, Hashable {
         case yourProfile = "your_profile"
         case yourContent = "your_content"
         case sharePct = "share_pct"
+        case uniqueSubreddits = "unique_subreddits"
+        case uniqueAuthors = "unique_authors"
+        case positivePct = "positive_pct"
     }
 
     // Encodable protocol methods
@@ -45,6 +57,9 @@ public struct OwnedMediaKpis: Sendable, Codable, Hashable {
         try container.encodeIfPresent(yourProfile, forKey: .yourProfile)
         try container.encodeIfPresent(yourContent, forKey: .yourContent)
         try container.encodeIfPresent(sharePct, forKey: .sharePct)
+        try container.encodeIfPresent(uniqueSubreddits, forKey: .uniqueSubreddits)
+        try container.encodeIfPresent(uniqueAuthors, forKey: .uniqueAuthors)
+        try container.encodeIfPresent(positivePct, forKey: .positivePct)
     }
 }
 

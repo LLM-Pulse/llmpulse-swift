@@ -7,7 +7,7 @@
 
 import Foundation
 
-/** Change against the previous period. Counts in percent, share_pct in percentage points; null when the previous period has nothing to compare with */
+/** Change against the previous period. Counts in percent, share_pct and positive_pct in percentage points; null when the previous period has nothing to compare with */
 public struct OwnedMediaKpiChanges: Sendable, Codable, Hashable {
 
     public var total: Double?
@@ -15,13 +15,22 @@ public struct OwnedMediaKpiChanges: Sendable, Codable, Hashable {
     public var yourProfile: Double?
     public var yourContent: Double?
     public var sharePct: Double?
+    /** Percent change in unique subreddits; null when the previous value cannot be compared */
+    public var uniqueSubreddits: Double?
+    /** Percent change in unique authors; null when the previous value cannot be compared */
+    public var uniqueAuthors: Double?
+    /** Percentage-point change in positive sentiment; null when the previous period has no citations */
+    public var positivePct: Double?
 
-    public init(total: Double? = nil, yours: Double? = nil, yourProfile: Double? = nil, yourContent: Double? = nil, sharePct: Double? = nil) {
+    public init(total: Double? = nil, yours: Double? = nil, yourProfile: Double? = nil, yourContent: Double? = nil, sharePct: Double? = nil, uniqueSubreddits: Double? = nil, uniqueAuthors: Double? = nil, positivePct: Double? = nil) {
         self.total = total
         self.yours = yours
         self.yourProfile = yourProfile
         self.yourContent = yourContent
         self.sharePct = sharePct
+        self.uniqueSubreddits = uniqueSubreddits
+        self.uniqueAuthors = uniqueAuthors
+        self.positivePct = positivePct
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -30,6 +39,9 @@ public struct OwnedMediaKpiChanges: Sendable, Codable, Hashable {
         case yourProfile = "your_profile"
         case yourContent = "your_content"
         case sharePct = "share_pct"
+        case uniqueSubreddits = "unique_subreddits"
+        case uniqueAuthors = "unique_authors"
+        case positivePct = "positive_pct"
     }
 
     // Encodable protocol methods
@@ -41,6 +53,9 @@ public struct OwnedMediaKpiChanges: Sendable, Codable, Hashable {
         try container.encodeIfPresent(yourProfile, forKey: .yourProfile)
         try container.encodeIfPresent(yourContent, forKey: .yourContent)
         try container.encodeIfPresent(sharePct, forKey: .sharePct)
+        try container.encodeIfPresent(uniqueSubreddits, forKey: .uniqueSubreddits)
+        try container.encodeIfPresent(uniqueAuthors, forKey: .uniqueAuthors)
+        try container.encodeIfPresent(positivePct, forKey: .positivePct)
     }
 }
 

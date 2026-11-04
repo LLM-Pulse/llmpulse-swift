@@ -209,6 +209,7 @@ Sources/LLMPulse/Models/OwnedMediaKpiChanges.swift
 Sources/LLMPulse/Models/OwnedMediaKpis.swift
 Sources/LLMPulse/Models/OwnedMediaListResponse.swift
 Sources/LLMPulse/Models/OwnedMediaModelShare.swift
+Sources/LLMPulse/Models/OwnedMediaPlatformActivityPeriod.swift
 Sources/LLMPulse/Models/OwnedMediaPlatformProfiles.swift
 Sources/LLMPulse/Models/OwnedMediaPlatformRollup.swift
 Sources/LLMPulse/Models/OwnedMediaPlatformRollupWeeklyInner.swift
@@ -218,6 +219,7 @@ Sources/LLMPulse/Models/OwnedMediaProfilesResponse.swift
 Sources/LLMPulse/Models/OwnedMediaProfilesUpdateResponse.swift
 Sources/LLMPulse/Models/OwnedMediaRow.swift
 Sources/LLMPulse/Models/OwnedMediaStoreTotals.swift
+Sources/LLMPulse/Models/OwnedMediaSummaryActivityPeriod.swift
 Sources/LLMPulse/Models/OwnedMediaSummaryResponse.swift
 Sources/LLMPulse/Models/OwnedMediaSummaryResponsePrevious.swift
 Sources/LLMPulse/Models/OwnedMediaWeek.swift
@@ -273,6 +275,9 @@ Sources/LLMPulse/Models/RecommendationItemUpdateResponse.swift
 Sources/LLMPulse/Models/RecommendationSummary.swift
 Sources/LLMPulse/Models/RecommendationSummarySummary.swift
 Sources/LLMPulse/Models/RecommendationsResponse.swift
+Sources/LLMPulse/Models/RedditBrandShare.swift
+Sources/LLMPulse/Models/RedditPositionShare.swift
+Sources/LLMPulse/Models/RedditSubredditActivityPeriod.swift
 Sources/LLMPulse/Models/RemovePromptTagsRequest.swift
 Sources/LLMPulse/Models/RemoveTeamMember200Response.swift
 Sources/LLMPulse/Models/RevokeApiKey200Response.swift
@@ -539,6 +544,7 @@ docs/OwnedMediaKpiChanges.md
 docs/OwnedMediaKpis.md
 docs/OwnedMediaListResponse.md
 docs/OwnedMediaModelShare.md
+docs/OwnedMediaPlatformActivityPeriod.md
 docs/OwnedMediaPlatformProfiles.md
 docs/OwnedMediaPlatformRollup.md
 docs/OwnedMediaPlatformRollupWeeklyInner.md
@@ -548,6 +554,7 @@ docs/OwnedMediaProfilesResponse.md
 docs/OwnedMediaProfilesUpdateResponse.md
 docs/OwnedMediaRow.md
 docs/OwnedMediaStoreTotals.md
+docs/OwnedMediaSummaryActivityPeriod.md
 docs/OwnedMediaSummaryResponse.md
 docs/OwnedMediaSummaryResponsePrevious.md
 docs/OwnedMediaWeek.md
@@ -606,6 +613,9 @@ docs/RecommendationSummary.md
 docs/RecommendationSummarySummary.md
 docs/RecommendationsAPI.md
 docs/RecommendationsResponse.md
+docs/RedditBrandShare.md
+docs/RedditPositionShare.md
+docs/RedditSubredditActivityPeriod.md
 docs/RemovePromptTagsRequest.md
 docs/RemoveTeamMember200Response.md
 docs/ReputationStudiesAPI.md

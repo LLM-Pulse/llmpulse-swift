@@ -24,14 +24,17 @@ public struct OwnedMediaPlatformRollup: Sendable, Codable, Hashable {
     public var yours: Int?
     public var sharePct: Double?
     public var weekly: [OwnedMediaPlatformRollupWeeklyInner]?
+    /** One date/citation row per actual project tracking period with runs */
+    public var activity: [OwnedMediaPlatformActivityPeriod]?
 
-    public init(provider: Provider? = nil, connected: Bool? = nil, total: Int? = nil, yours: Int? = nil, sharePct: Double? = nil, weekly: [OwnedMediaPlatformRollupWeeklyInner]? = nil) {
+    public init(provider: Provider? = nil, connected: Bool? = nil, total: Int? = nil, yours: Int? = nil, sharePct: Double? = nil, weekly: [OwnedMediaPlatformRollupWeeklyInner]? = nil, activity: [OwnedMediaPlatformActivityPeriod]? = nil) {
         self.provider = provider
         self.connected = connected
         self.total = total
         self.yours = yours
         self.sharePct = sharePct
         self.weekly = weekly
+        self.activity = activity
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -41,6 +44,7 @@ public struct OwnedMediaPlatformRollup: Sendable, Codable, Hashable {
         case yours
         case sharePct = "share_pct"
         case weekly
+        case activity
     }
 
     // Encodable protocol methods
@@ -53,6 +57,7 @@ public struct OwnedMediaPlatformRollup: Sendable, Codable, Hashable {
         try container.encodeIfPresent(yours, forKey: .yours)
         try container.encodeIfPresent(sharePct, forKey: .sharePct)
         try container.encodeIfPresent(weekly, forKey: .weekly)
+        try container.encodeIfPresent(activity, forKey: .activity)
     }
 }
 

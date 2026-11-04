@@ -7,9 +7,25 @@
 
 import Foundation
 
-/** One row of /dimensions/owned_media. Fields depend on provider and view: videos (title, url, channel_name, channel_handle, channel_url, video_id, thumbnail_url, views, published_at), channels (key, name, handle, url, avatar_url, unique_videos), posts (url, caption, owner_handle, thumbnail_url, content_type, likes, comments, views, posted_at), profiles (handle, name, url, avatar_url, followers, unique_posts), own_citations (url, citation_date, position, model) and apps (domain, total_responses, rank, global_rank). Every view but own_citations carries citations and yours; videos, channels, posts and profiles carry avg_position. */
+/** One row of /dimensions/owned_media. Fields depend on provider and view: videos (title, url, channel_name, channel_handle, channel_url, video_id, thumbnail_url, views, published_at), channels (key, name, handle, url, avatar_url, unique_videos), posts (url, caption, owner_handle, thumbnail_url, content_type, likes, comments, views, posted_at), profiles (handle, name, url, avatar_url, followers, unique_posts), own_citations (url, citation_date, position, model), apps (domain, total_responses, rank, global_rank) and activity (date, entity_id, entity_name, entity_url, yours, citations, plus store and competitor_id where applicable). Activity rows identify a reporting-period start; entity metadata is optional, and entity_id, entity_name and entity_url can be null when unknown. Store and competitor_id appear only where applicable. Every view but own_citations carries citations and yours; videos, channels, posts and profiles carry avg_position. */
 public struct OwnedMediaRow: Sendable, Codable, Hashable {
 
+    public enum Store: String, Sendable, Codable, CaseIterable {
+        case googlePlay = "google_play"
+        case appStore = "app_store"
+    }
+    /** The start date of the actual reporting period (view=activity) */
+    public var date: Date?
+    /** Platform entity identifier (view=activity) */
+    public var entityId: String?
+    /** Current entity name when known (view=activity) */
+    public var entityName: String?
+    /** Current profile, channel or app listing URL when known (view=activity) */
+    public var entityUrl: String?
+    /** Store selected for provider=mobile_apps (view=activity) */
+    public var store: Store?
+    /** Competitor identifier when the activity row represents a competitor app */
+    public var competitorId: Int?
     public var title: String?
     public var url: String?
     public var channelName: String?
@@ -29,6 +45,7 @@ public struct OwnedMediaRow: Sendable, Codable, Hashable {
     public var avatarUrl: String?
     /** The post format on its platform: reel, post or tv on Instagram, post or pulse on LinkedIn, post elsewhere */
     public var contentType: String?
+    /** Citations for the row; for view=activity, the count in this reporting period */
     public var citations: Int?
     public var uniqueVideos: Int?
     public var uniquePosts: Int?
@@ -53,7 +70,13 @@ public struct OwnedMediaRow: Sendable, Codable, Hashable {
     public var rank: Int?
     public var globalRank: Int?
 
-    public init(title: String? = nil, url: String? = nil, channelName: String? = nil, channelHandle: String? = nil, channelUrl: String? = nil, videoId: String? = nil, key: String? = nil, name: String? = nil, handle: String? = nil, caption: String? = nil, ownerHandle: String? = nil, thumbnailUrl: String? = nil, avatarUrl: String? = nil, contentType: String? = nil, citations: Int? = nil, uniqueVideos: Int? = nil, uniquePosts: Int? = nil, followers: Int? = nil, likes: Int? = nil, comments: Int? = nil, views: JSONValue? = nil, publishedAt: String? = nil, postedAt: String? = nil, avgPosition: Double? = nil, yours: Bool? = nil, citationDate: Date? = nil, position: Int? = nil, model: String? = nil, domain: String? = nil, totalResponses: Int? = nil, rank: Int? = nil, globalRank: Int? = nil) {
+    public init(date: Date? = nil, entityId: String? = nil, entityName: String? = nil, entityUrl: String? = nil, store: Store? = nil, competitorId: Int? = nil, title: String? = nil, url: String? = nil, channelName: String? = nil, channelHandle: String? = nil, channelUrl: String? = nil, videoId: String? = nil, key: String? = nil, name: String? = nil, handle: String? = nil, caption: String? = nil, ownerHandle: String? = nil, thumbnailUrl: String? = nil, avatarUrl: String? = nil, contentType: String? = nil, citations: Int? = nil, uniqueVideos: Int? = nil, uniquePosts: Int? = nil, followers: Int? = nil, likes: Int? = nil, comments: Int? = nil, views: JSONValue? = nil, publishedAt: String? = nil, postedAt: String? = nil, avgPosition: Double? = nil, yours: Bool? = nil, citationDate: Date? = nil, position: Int? = nil, model: String? = nil, domain: String? = nil, totalResponses: Int? = nil, rank: Int? = nil, globalRank: Int? = nil) {
+        self.date = date
+        self.entityId = entityId
+        self.entityName = entityName
+        self.entityUrl = entityUrl
+        self.store = store
+        self.competitorId = competitorId
         self.title = title
         self.url = url
         self.channelName = channelName
@@ -89,6 +112,12 @@ public struct OwnedMediaRow: Sendable, Codable, Hashable {
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case date
+        case entityId = "entity_id"
+        case entityName = "entity_name"
+        case entityUrl = "entity_url"
+        case store
+        case competitorId = "competitor_id"
         case title
         case url
         case channelName = "channel_name"
@@ -127,6 +156,12 @@ public struct OwnedMediaRow: Sendable, Codable, Hashable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(date, forKey: .date)
+        try container.encodeIfPresent(entityId, forKey: .entityId)
+        try container.encodeIfPresent(entityName, forKey: .entityName)
+        try container.encodeIfPresent(entityUrl, forKey: .entityUrl)
+        try container.encodeIfPresent(store, forKey: .store)
+        try container.encodeIfPresent(competitorId, forKey: .competitorId)
         try container.encodeIfPresent(title, forKey: .title)
         try container.encodeIfPresent(url, forKey: .url)
         try container.encodeIfPresent(channelName, forKey: .channelName)
