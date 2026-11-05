@@ -10,6 +10,46 @@ import Foundation
 open class ReputationStudiesAPI {
 
     /**
+     Start a reputation report
+     
+     - parameter createReputationReportRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ReputationReportCreateResponse
+     */
+    open class func createReputationReport(createReputationReportRequest: CreateReputationReportRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> ReputationReportCreateResponse {
+        return try await createReputationReportWithRequestBuilder(createReputationReportRequest: createReputationReportRequest, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Start a reputation report
+     - POST /reputation/reports
+     - Starts this month's Brand Reputation report, like the Generate button on the Reputation page: 201 with the new report (status pending). When the month already holds a report that did not fail, whether it is still running or finished, nothing new starts and the answer is 200 with created false and that report. With recalculate true it uses the month's one manual recalculation instead (the Recalculate This Month button): a fresh run across every analyst model, 201 when it starts, 200 with created false while a report is still running, and ERR_LIMIT_REACHED once the month holds two reports. Generation runs in the background: poll GET /reputation/reports until status is completed, then read the scores with GET /reputation/reports/{id}. ERR_RATE_LIMITED (429, with Retry-After) means another request is starting a report for the same project; retry after a few seconds. recalculate must be true or false and unknown fields are refused (ERR_INVALID_PARAM). Requires reputation monitoring on the account, a `read_write` scope API key and, for team members, create permission on Reputation.
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter createReputationReportRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ReputationReportCreateResponse> 
+     */
+    open class func createReputationReportWithRequestBuilder(createReputationReportRequest: CreateReputationReportRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<ReputationReportCreateResponse> {
+        let localVariablePath = "/reputation/reports"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: createReputationReportRequest, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ReputationReportCreateResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      * enum for parameter model
      */
     public enum Model_getReputationReport: String, Sendable, CaseIterable {
