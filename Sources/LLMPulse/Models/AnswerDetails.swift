@@ -9,10 +9,15 @@ import Foundation
 
 public struct AnswerDetails: Sendable, Codable, Hashable {
 
+    public enum NoResultReason: String, Sendable, Codable, CaseIterable {
+        case declined = "declined"
+        case noAnswer = "no_answer"
+    }
     public var id: Int?
     public var promptId: Int?
     public var promptText: String?
     public var model: String?
+    /** The AI answer. For a declined answer (no_result_reason declined) it is the reply the model gave instead; for no_answer it is a placeholder, not an AI response */
     public var response: String?
     public var responseTruncated: Bool?
     public var executedAt: Date?
@@ -22,6 +27,8 @@ public struct AnswerDetails: Sendable, Codable, Hashable {
     public var success: Bool?
     /** True for a sentinel non-answer (no answer could be collected after all retries, or the model declined to answer, today only Gemini); excluded from platform metrics */
     public var noResult: Bool?
+    /** Present only when no_result is true. declined = the model declined to answer (today only Gemini, shown as Declined in the app) and response holds its reply; no_answer = no answer could be collected */
+    public var noResultReason: NoResultReason?
     public var fanOutQueries: [String]?
     public var mentions: [JSONValue]?
     public var citations: [JSONValue]?
@@ -41,7 +48,7 @@ public struct AnswerDetails: Sendable, Codable, Hashable {
     public var appUrl: String?
     public var requestId: String?
 
-    public init(id: Int? = nil, promptId: Int? = nil, promptText: String? = nil, model: String? = nil, response: String? = nil, responseTruncated: Bool? = nil, executedAt: Date? = nil, durationMs: Double? = nil, success: Bool? = nil, noResult: Bool? = nil, fanOutQueries: [String]? = nil, mentions: [JSONValue]? = nil, citations: [JSONValue]? = nil, competitorMentions: [JSONValue]? = nil, competitorCitations: [JSONValue]? = nil, sentiments: [JSONValue]? = nil, sources: [JSONValue]? = nil, shoppingProducts: [JSONValue]? = nil, brandEntities: [JSONValue]? = nil, localBusinesses: [JSONValue]? = nil, locale: AnswerDetailsLocale? = nil, planRequiredFields: [String], appUrl: String? = nil, requestId: String? = nil) {
+    public init(id: Int? = nil, promptId: Int? = nil, promptText: String? = nil, model: String? = nil, response: String? = nil, responseTruncated: Bool? = nil, executedAt: Date? = nil, durationMs: Double? = nil, success: Bool? = nil, noResult: Bool? = nil, noResultReason: NoResultReason? = nil, fanOutQueries: [String]? = nil, mentions: [JSONValue]? = nil, citations: [JSONValue]? = nil, competitorMentions: [JSONValue]? = nil, competitorCitations: [JSONValue]? = nil, sentiments: [JSONValue]? = nil, sources: [JSONValue]? = nil, shoppingProducts: [JSONValue]? = nil, brandEntities: [JSONValue]? = nil, localBusinesses: [JSONValue]? = nil, locale: AnswerDetailsLocale? = nil, planRequiredFields: [String], appUrl: String? = nil, requestId: String? = nil) {
         self.id = id
         self.promptId = promptId
         self.promptText = promptText
@@ -52,6 +59,7 @@ public struct AnswerDetails: Sendable, Codable, Hashable {
         self.durationMs = durationMs
         self.success = success
         self.noResult = noResult
+        self.noResultReason = noResultReason
         self.fanOutQueries = fanOutQueries
         self.mentions = mentions
         self.citations = citations
@@ -79,6 +87,7 @@ public struct AnswerDetails: Sendable, Codable, Hashable {
         case durationMs = "duration_ms"
         case success
         case noResult = "no_result"
+        case noResultReason = "no_result_reason"
         case fanOutQueries = "fan_out_queries"
         case mentions
         case citations
@@ -109,6 +118,7 @@ public struct AnswerDetails: Sendable, Codable, Hashable {
         try container.encodeIfPresent(durationMs, forKey: .durationMs)
         try container.encodeIfPresent(success, forKey: .success)
         try container.encodeIfPresent(noResult, forKey: .noResult)
+        try container.encodeIfPresent(noResultReason, forKey: .noResultReason)
         try container.encodeIfPresent(fanOutQueries, forKey: .fanOutQueries)
         try container.encodeIfPresent(mentions, forKey: .mentions)
         try container.encodeIfPresent(citations, forKey: .citations)
