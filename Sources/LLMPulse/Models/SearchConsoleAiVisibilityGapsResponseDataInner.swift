@@ -16,14 +16,16 @@ public struct SearchConsoleAiVisibilityGapsResponseDataInner: Sendable, Codable,
     public var ctr: Double?
     /** Impression-weighted average position */
     public var position: Double?
-    /** The project's prompt with the same text as the query; null when no prompt matches */
+    /** The project's prompt the query matches (see match_type); null when no prompt matches */
     public var promptId: Int?
     /** AI answers the matching prompt got in the window over the account's enabled models; null when no prompt matches */
     public var responses: Int?
     /** Brand Visibility of the matching prompt in the window, percent (0-100) of its AI answers that mention the brand, over the account's enabled models; null when no prompt matches or it has no answer */
     public var brandVisibility: Double?
+    /** How the query matched: prompt (the same text as the prompt) or fan_out (the same text as a search the prompt's AI answers ran in the window); null when no prompt matches */
+    public var matchType: String?
 
-    public init(query: String? = nil, impressions: Int? = nil, clicks: Int? = nil, ctr: Double? = nil, position: Double? = nil, promptId: Int? = nil, responses: Int? = nil, brandVisibility: Double? = nil) {
+    public init(query: String? = nil, impressions: Int? = nil, clicks: Int? = nil, ctr: Double? = nil, position: Double? = nil, promptId: Int? = nil, responses: Int? = nil, brandVisibility: Double? = nil, matchType: String? = nil) {
         self.query = query
         self.impressions = impressions
         self.clicks = clicks
@@ -32,6 +34,7 @@ public struct SearchConsoleAiVisibilityGapsResponseDataInner: Sendable, Codable,
         self.promptId = promptId
         self.responses = responses
         self.brandVisibility = brandVisibility
+        self.matchType = matchType
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -43,6 +46,7 @@ public struct SearchConsoleAiVisibilityGapsResponseDataInner: Sendable, Codable,
         case promptId = "prompt_id"
         case responses
         case brandVisibility = "brand_visibility"
+        case matchType = "match_type"
     }
 
     // Encodable protocol methods
@@ -57,6 +61,7 @@ public struct SearchConsoleAiVisibilityGapsResponseDataInner: Sendable, Codable,
         try container.encodeIfPresent(promptId, forKey: .promptId)
         try container.encodeIfPresent(responses, forKey: .responses)
         try container.encodeIfPresent(brandVisibility, forKey: .brandVisibility)
+        try container.encodeIfPresent(matchType, forKey: .matchType)
     }
 }
 
