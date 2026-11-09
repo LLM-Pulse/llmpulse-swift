@@ -16,6 +16,7 @@ public struct OwnedMediaPlatformRollup: Sendable, Codable, Hashable {
         case facebook = "facebook"
         case tiktok = "tiktok"
         case linkedin = "linkedin"
+        case trustpilot = "trustpilot"
         case reddit = "reddit"
     }
     public var provider: Provider?

@@ -35,7 +35,7 @@ public struct CmsPublication: Sendable, Codable, Hashable {
     public var remoteUrl: String?
     /** The post's edit screen in the WordPress admin */
     public var editUrl: String?
-    /** Why the send failed, for example reconnect_required, missing_capability, unreachable or rejected */
+    /** Why the send failed, the same token as error.meta.reason, for example reconnect_required, authorization_header_lost, missing_capability, firewall_blocked, timeout, unreachable or rejected */
     public var errorCode: String?
     public var createdAt: Date?
     public var sentAt: Date?

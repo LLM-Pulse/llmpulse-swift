@@ -7,12 +7,17 @@
 
 import Foundation
 
-/** One row of /dimensions/owned_media. Fields depend on provider and view: videos (title, url, channel_name, channel_handle, channel_url, video_id, thumbnail_url, views, published_at), channels (key, name, handle, url, avatar_url, unique_videos), posts (url, caption, owner_handle, thumbnail_url, content_type, likes, comments, views, posted_at), profiles (handle, name, url, avatar_url, followers, unique_posts), own_citations (url, citation_date, position, model), apps (domain, total_responses, rank, global_rank) and activity (date, entity_id, entity_name, entity_url, yours, citations, plus store and competitor_id where applicable). Activity rows identify a reporting-period start; entity metadata is optional, and entity_id, entity_name and entity_url can be null when unknown. Store and competitor_id appear only where applicable. Every view but own_citations carries citations and yours; videos, channels, posts and profiles carry avg_position. */
+/** One row of /dimensions/owned_media. Fields depend on provider and view: videos (title, url, channel_name, channel_handle, channel_url, video_id, thumbnail_url, views, published_at), channels (key, name, handle, url, avatar_url, unique_videos), posts (url, caption, owner_handle, thumbnail_url, content_type, likes, comments, views, posted_at), profiles (handle, name, url, avatar_url, followers, unique_posts), own_citations (url, citation_date, position, model), apps (domain, total_responses, rank, global_rank), the Trustpilot views profiles (key, name, rating, reviews_count, url, competitor_id), brands (name, domain, key, rating, rating_change, reviews_count, status, url, competitor_id) and reviews (id, brand, rating, title, text, author, published_at, replied, url, competitor_id), and activity (date, entity_id, entity_name, entity_url, yours, citations, plus store and competitor_id where applicable). Activity rows identify a reporting-period start; entity metadata is optional, and entity_id, entity_name and entity_url can be null when unknown. Store and competitor_id appear only where applicable. Every view but own_citations carries citations and yours; videos, channels, posts and profiles carry avg_position. */
 public struct OwnedMediaRow: Sendable, Codable, Hashable {
 
     public enum Store: String, Sendable, Codable, CaseIterable {
         case googlePlay = "google_play"
         case appStore = "app_store"
+    }
+    public enum Status: String, Sendable, Codable, CaseIterable {
+        case found = "found"
+        case notFound = "not_found"
+        case pending = "pending"
     }
     /** The start date of the actual reporting period (view=activity) */
     public var date: Date?
@@ -24,8 +29,26 @@ public struct OwnedMediaRow: Sendable, Codable, Hashable {
     public var entityUrl: String?
     /** Store selected for provider=mobile_apps (view=activity) */
     public var store: Store?
-    /** Competitor identifier when the activity row represents a competitor app */
+    /** Competitor identifier when the row represents a competitor's app or Trustpilot profile */
     public var competitorId: Int?
+    /** The review's identifier (provider=trustpilot, view=reviews) */
+    public var id: Int?
+    /** The brand or competitor whose Trustpilot profile carries the review (provider=trustpilot, view=reviews) */
+    public var brand: String?
+    /** Trustpilot rating out of 5: the profile's at its last monthly read (views profiles and brands) or the review's stars (view=reviews) */
+    public var rating: Double?
+    /** Change of the profile's rating since the previous monthly read (provider=trustpilot, view=brands); null before a second read */
+    public var ratingChange: Double?
+    /** The profile's review count on Trustpilot at its last monthly read (provider=trustpilot) */
+    public var reviewsCount: Int?
+    /** Whether the brand's Trustpilot profile has been read (found), Trustpilot has no business for its domain (not_found), or it has not been read yet (pending) (provider=trustpilot, view=brands) */
+    public var status: Status?
+    /** The review text (provider=trustpilot, view=reviews) */
+    public var text: String?
+    /** The reviewer's display name (provider=trustpilot, view=reviews) */
+    public var author: String?
+    /** Whether the business replied to the review (provider=trustpilot, view=reviews) */
+    public var replied: Bool?
     public var title: String?
     public var url: String?
     public var channelName: String?
@@ -33,7 +56,7 @@ public struct OwnedMediaRow: Sendable, Codable, Hashable {
     public var channelHandle: String?
     public var channelUrl: String?
     public var videoId: String?
-    /** The channel key (handle:..., channel:... or name:...), accepted as profile by /dimensions/owned_media/citing_prompts */
+    /** The channel key (handle:..., channel:... or name:...), accepted as profile by /dimensions/owned_media/citing_prompts; on provider=trustpilot, the business domain the profile is filed under, null for a brand without a domain */
     public var key: String?
     public var name: String?
     public var handle: String?
@@ -64,19 +87,28 @@ public struct OwnedMediaRow: Sendable, Codable, Hashable {
     public var citationDate: Date?
     public var position: Int?
     public var model: String?
-    /** The app's store listing URL (provider=mobile_apps) */
+    /** The app's store listing URL (provider=mobile_apps), or the brand's domain (provider=trustpilot, view=brands) */
     public var domain: String?
     public var totalResponses: Int?
     public var rank: Int?
     public var globalRank: Int?
 
-    public init(date: Date? = nil, entityId: String? = nil, entityName: String? = nil, entityUrl: String? = nil, store: Store? = nil, competitorId: Int? = nil, title: String? = nil, url: String? = nil, channelName: String? = nil, channelHandle: String? = nil, channelUrl: String? = nil, videoId: String? = nil, key: String? = nil, name: String? = nil, handle: String? = nil, caption: String? = nil, ownerHandle: String? = nil, thumbnailUrl: String? = nil, avatarUrl: String? = nil, contentType: String? = nil, citations: Int? = nil, uniqueVideos: Int? = nil, uniquePosts: Int? = nil, followers: Int? = nil, likes: Int? = nil, comments: Int? = nil, views: JSONValue? = nil, publishedAt: String? = nil, postedAt: String? = nil, avgPosition: Double? = nil, yours: Bool? = nil, citationDate: Date? = nil, position: Int? = nil, model: String? = nil, domain: String? = nil, totalResponses: Int? = nil, rank: Int? = nil, globalRank: Int? = nil) {
+    public init(date: Date? = nil, entityId: String? = nil, entityName: String? = nil, entityUrl: String? = nil, store: Store? = nil, competitorId: Int? = nil, id: Int? = nil, brand: String? = nil, rating: Double? = nil, ratingChange: Double? = nil, reviewsCount: Int? = nil, status: Status? = nil, text: String? = nil, author: String? = nil, replied: Bool? = nil, title: String? = nil, url: String? = nil, channelName: String? = nil, channelHandle: String? = nil, channelUrl: String? = nil, videoId: String? = nil, key: String? = nil, name: String? = nil, handle: String? = nil, caption: String? = nil, ownerHandle: String? = nil, thumbnailUrl: String? = nil, avatarUrl: String? = nil, contentType: String? = nil, citations: Int? = nil, uniqueVideos: Int? = nil, uniquePosts: Int? = nil, followers: Int? = nil, likes: Int? = nil, comments: Int? = nil, views: JSONValue? = nil, publishedAt: String? = nil, postedAt: String? = nil, avgPosition: Double? = nil, yours: Bool? = nil, citationDate: Date? = nil, position: Int? = nil, model: String? = nil, domain: String? = nil, totalResponses: Int? = nil, rank: Int? = nil, globalRank: Int? = nil) {
         self.date = date
         self.entityId = entityId
         self.entityName = entityName
         self.entityUrl = entityUrl
         self.store = store
         self.competitorId = competitorId
+        self.id = id
+        self.brand = brand
+        self.rating = rating
+        self.ratingChange = ratingChange
+        self.reviewsCount = reviewsCount
+        self.status = status
+        self.text = text
+        self.author = author
+        self.replied = replied
         self.title = title
         self.url = url
         self.channelName = channelName
@@ -118,6 +150,15 @@ public struct OwnedMediaRow: Sendable, Codable, Hashable {
         case entityUrl = "entity_url"
         case store
         case competitorId = "competitor_id"
+        case id
+        case brand
+        case rating
+        case ratingChange = "rating_change"
+        case reviewsCount = "reviews_count"
+        case status
+        case text
+        case author
+        case replied
         case title
         case url
         case channelName = "channel_name"
@@ -162,6 +203,15 @@ public struct OwnedMediaRow: Sendable, Codable, Hashable {
         try container.encodeIfPresent(entityUrl, forKey: .entityUrl)
         try container.encodeIfPresent(store, forKey: .store)
         try container.encodeIfPresent(competitorId, forKey: .competitorId)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(brand, forKey: .brand)
+        try container.encodeIfPresent(rating, forKey: .rating)
+        try container.encodeIfPresent(ratingChange, forKey: .ratingChange)
+        try container.encodeIfPresent(reviewsCount, forKey: .reviewsCount)
+        try container.encodeIfPresent(status, forKey: .status)
+        try container.encodeIfPresent(text, forKey: .text)
+        try container.encodeIfPresent(author, forKey: .author)
+        try container.encodeIfPresent(replied, forKey: .replied)
         try container.encodeIfPresent(title, forKey: .title)
         try container.encodeIfPresent(url, forKey: .url)
         try container.encodeIfPresent(channelName, forKey: .channelName)
@@ -197,3 +247,5 @@ public struct OwnedMediaRow: Sendable, Codable, Hashable {
     }
 }
 
+
+extension OwnedMediaRow: Identifiable {}
