@@ -18,7 +18,7 @@ public struct ProjectDetailsAllOfSearchConsole: Sendable, Codable, Hashable {
     public var status: Status?
     /** The primary property (e.g. sc-domain:example.com), null when not connected */
     public var property: String?
-    /** The in-app page where the property is connected or reconnected (Preferences > Project Settings > Data Connections) */
+    /** The in-app page where the property is connected or reconnected (Preferences > Project Settings > Connections) */
     public var connectUrl: String?
     /** Connected properties Google still accepts (reconnect_required ones excluded); GET /search_console/properties lists every property with its status */
     public var propertiesCount: Int?
