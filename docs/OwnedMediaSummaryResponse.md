@@ -22,6 +22,7 @@ Name | Type | Description | Notes
 **subredditActivity** | [RedditSubredditActivityPeriod] | provider&#x3D;reddit only. One row per subreddit and actual reporting period; the top five subreddits are separate and Others has a null subreddit | [optional] 
 **positions** | [RedditPositionShare] | provider&#x3D;reddit only. Position distribution over the selected date window | [optional] 
 **brandShare** | [RedditBrandShare] | provider&#x3D;reddit only. Citation share among the tracked brand and competitors with cited mentions | [optional] 
+**replies** | [**TrustpilotReplies**](TrustpilotReplies.md) |  | [optional] 
 **requestId** | **String** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

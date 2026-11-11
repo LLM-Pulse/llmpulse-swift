@@ -7,7 +7,7 @@
 
 import Foundation
 
-/** One row of /dimensions/owned_media. Fields depend on provider and view: videos (title, url, channel_name, channel_handle, channel_url, video_id, thumbnail_url, views, published_at), channels (key, name, handle, url, avatar_url, unique_videos), posts (url, caption, owner_handle, thumbnail_url, content_type, likes, comments, views, posted_at), profiles (handle, name, url, avatar_url, followers, unique_posts), own_citations (url, citation_date, position, model), apps (domain, total_responses, rank, global_rank), the Trustpilot views profiles (key, name, rating, reviews_count, url, competitor_id), brands (name, domain, key, rating, rating_change, reviews_count, status, url, competitor_id) and reviews (id, brand, rating, title, text, author, published_at, replied, url, competitor_id), and activity (date, entity_id, entity_name, entity_url, yours, citations, plus store and competitor_id where applicable). Activity rows identify a reporting-period start; entity metadata is optional, and entity_id, entity_name and entity_url can be null when unknown. Store and competitor_id appear only where applicable. Every view but own_citations carries citations and yours; videos, channels, posts and profiles carry avg_position. */
+/** One row of /dimensions/owned_media. Fields depend on provider and view: videos (title, url, channel_name, channel_handle, channel_url, video_id, thumbnail_url, views, published_at), channels (key, name, handle, url, avatar_url, unique_videos), posts (url, caption, owner_handle, thumbnail_url, content_type, likes, comments, views, posted_at), profiles (handle, name, url, avatar_url, followers, unique_posts), own_citations (url, citation_date, position, model), apps (domain, total_responses, rank, global_rank), the Trustpilot views profiles (key, name, rating, reviews_count, url, competitor_id), brands (name, domain, key, rating, rating_change, reviews_count, reviews_held, replied_count, not_replied_count, reply_rate_pct, median_reply_hours, status, url, competitor_id) and reviews (id, brand, rating, title, text, author, published_at, replied, url, competitor_id), and activity (date, entity_id, entity_name, entity_url, yours, citations, plus store and competitor_id where applicable). Activity rows identify a reporting-period start; entity metadata is optional, and entity_id, entity_name and entity_url can be null when unknown. Store and competitor_id appear only where applicable. Every view but own_citations carries citations and yours; videos, channels, posts and profiles carry avg_position. */
 public struct OwnedMediaRow: Sendable, Codable, Hashable {
 
     public enum Store: String, Sendable, Codable, CaseIterable {
@@ -49,6 +49,16 @@ public struct OwnedMediaRow: Sendable, Codable, Hashable {
     public var author: String?
     /** Whether the business replied to the review (provider=trustpilot, view=reviews) */
     public var replied: Bool?
+    /** How many of the profile's reviews LLM Pulse holds: the newest ones from each monthly read, not every review on Trustpilot (provider=trustpilot, view=brands). The reply fields count among these, whatever the date window; all of them are null until the profile has been read */
+    public var reviewsHeld: Int?
+    /** Reviews held that the business replied to (provider=trustpilot, view=brands) */
+    public var repliedCount: Int?
+    /** Reviews held that the business has not replied to (provider=trustpilot, view=brands) */
+    public var notRepliedCount: Int?
+    /** replied_count over reviews_held, on a 0-100 scale; null when no review is held (provider=trustpilot, view=brands) */
+    public var replyRatePct: Double?
+    /** Median hours from a held review's publication to the business's reply, over the replied reviews held that carry both dates (a reply dated before its review is left out); null when there is none (provider=trustpilot, view=brands) */
+    public var medianReplyHours: Double?
     public var title: String?
     public var url: String?
     public var channelName: String?
@@ -93,7 +103,7 @@ public struct OwnedMediaRow: Sendable, Codable, Hashable {
     public var rank: Int?
     public var globalRank: Int?
 
-    public init(date: Date? = nil, entityId: String? = nil, entityName: String? = nil, entityUrl: String? = nil, store: Store? = nil, competitorId: Int? = nil, id: Int? = nil, brand: String? = nil, rating: Double? = nil, ratingChange: Double? = nil, reviewsCount: Int? = nil, status: Status? = nil, text: String? = nil, author: String? = nil, replied: Bool? = nil, title: String? = nil, url: String? = nil, channelName: String? = nil, channelHandle: String? = nil, channelUrl: String? = nil, videoId: String? = nil, key: String? = nil, name: String? = nil, handle: String? = nil, caption: String? = nil, ownerHandle: String? = nil, thumbnailUrl: String? = nil, avatarUrl: String? = nil, contentType: String? = nil, citations: Int? = nil, uniqueVideos: Int? = nil, uniquePosts: Int? = nil, followers: Int? = nil, likes: Int? = nil, comments: Int? = nil, views: JSONValue? = nil, publishedAt: String? = nil, postedAt: String? = nil, avgPosition: Double? = nil, yours: Bool? = nil, citationDate: Date? = nil, position: Int? = nil, model: String? = nil, domain: String? = nil, totalResponses: Int? = nil, rank: Int? = nil, globalRank: Int? = nil) {
+    public init(date: Date? = nil, entityId: String? = nil, entityName: String? = nil, entityUrl: String? = nil, store: Store? = nil, competitorId: Int? = nil, id: Int? = nil, brand: String? = nil, rating: Double? = nil, ratingChange: Double? = nil, reviewsCount: Int? = nil, status: Status? = nil, text: String? = nil, author: String? = nil, replied: Bool? = nil, reviewsHeld: Int? = nil, repliedCount: Int? = nil, notRepliedCount: Int? = nil, replyRatePct: Double? = nil, medianReplyHours: Double? = nil, title: String? = nil, url: String? = nil, channelName: String? = nil, channelHandle: String? = nil, channelUrl: String? = nil, videoId: String? = nil, key: String? = nil, name: String? = nil, handle: String? = nil, caption: String? = nil, ownerHandle: String? = nil, thumbnailUrl: String? = nil, avatarUrl: String? = nil, contentType: String? = nil, citations: Int? = nil, uniqueVideos: Int? = nil, uniquePosts: Int? = nil, followers: Int? = nil, likes: Int? = nil, comments: Int? = nil, views: JSONValue? = nil, publishedAt: String? = nil, postedAt: String? = nil, avgPosition: Double? = nil, yours: Bool? = nil, citationDate: Date? = nil, position: Int? = nil, model: String? = nil, domain: String? = nil, totalResponses: Int? = nil, rank: Int? = nil, globalRank: Int? = nil) {
         self.date = date
         self.entityId = entityId
         self.entityName = entityName
@@ -109,6 +119,11 @@ public struct OwnedMediaRow: Sendable, Codable, Hashable {
         self.text = text
         self.author = author
         self.replied = replied
+        self.reviewsHeld = reviewsHeld
+        self.repliedCount = repliedCount
+        self.notRepliedCount = notRepliedCount
+        self.replyRatePct = replyRatePct
+        self.medianReplyHours = medianReplyHours
         self.title = title
         self.url = url
         self.channelName = channelName
@@ -159,6 +174,11 @@ public struct OwnedMediaRow: Sendable, Codable, Hashable {
         case text
         case author
         case replied
+        case reviewsHeld = "reviews_held"
+        case repliedCount = "replied_count"
+        case notRepliedCount = "not_replied_count"
+        case replyRatePct = "reply_rate_pct"
+        case medianReplyHours = "median_reply_hours"
         case title
         case url
         case channelName = "channel_name"
@@ -212,6 +232,11 @@ public struct OwnedMediaRow: Sendable, Codable, Hashable {
         try container.encodeIfPresent(text, forKey: .text)
         try container.encodeIfPresent(author, forKey: .author)
         try container.encodeIfPresent(replied, forKey: .replied)
+        try container.encodeIfPresent(reviewsHeld, forKey: .reviewsHeld)
+        try container.encodeIfPresent(repliedCount, forKey: .repliedCount)
+        try container.encodeIfPresent(notRepliedCount, forKey: .notRepliedCount)
+        try container.encodeIfPresent(replyRatePct, forKey: .replyRatePct)
+        try container.encodeIfPresent(medianReplyHours, forKey: .medianReplyHours)
         try container.encodeIfPresent(title, forKey: .title)
         try container.encodeIfPresent(url, forKey: .url)
         try container.encodeIfPresent(channelName, forKey: .channelName)

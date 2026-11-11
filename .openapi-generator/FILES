@@ -357,6 +357,7 @@ Sources/LLMPulse/Models/TimeseriesResponse.swift
 Sources/LLMPulse/Models/TimeseriesSeries.swift
 Sources/LLMPulse/Models/TopSourcesResponse.swift
 Sources/LLMPulse/Models/TopSourcesResponseDataInner.swift
+Sources/LLMPulse/Models/TrustpilotReplies.swift
 Sources/LLMPulse/Models/UpdateAnnotationRequest.swift
 Sources/LLMPulse/Models/UpdateCollectionRequest.swift
 Sources/LLMPulse/Models/UpdateCompetitorRequest.swift
@@ -706,6 +707,7 @@ docs/TimeseriesResponse.md
 docs/TimeseriesSeries.md
 docs/TopSourcesResponse.md
 docs/TopSourcesResponseDataInner.md
+docs/TrustpilotReplies.md
 docs/UpdateAnnotationRequest.md
 docs/UpdateCollectionRequest.md
 docs/UpdateCompetitorRequest.md

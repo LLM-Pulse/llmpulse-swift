@@ -39,9 +39,10 @@ public struct OwnedMediaSummaryResponse: Sendable, Codable, Hashable {
     public var positions: [RedditPositionShare]?
     /** provider=reddit only. Citation share among the tracked brand and competitors with cited mentions */
     public var brandShare: [RedditBrandShare]?
+    public var replies: TrustpilotReplies?
     public var requestId: String?
 
-    public init(projectId: Int? = nil, provider: String? = nil, from: Date? = nil, to: Date? = nil, connected: Bool? = nil, kpis: OwnedMediaKpis? = nil, previous: OwnedMediaSummaryResponsePrevious? = nil, changes: OwnedMediaKpiChanges? = nil, weekly: [OwnedMediaWeek]? = nil, byModel: [OwnedMediaModelShare]? = nil, byCountry: [OwnedMediaCountryShare]? = nil, contentTypes: [OwnedMediaContentTypeShare]? = nil, ageBuckets: [OwnedMediaAgeBucketShare]? = nil, stores: [OwnedMediaStoreTotals]? = nil, platforms: [OwnedMediaPlatformRollup]? = nil, activity: [OwnedMediaSummaryActivityPeriod]? = nil, subredditActivity: [RedditSubredditActivityPeriod]? = nil, positions: [RedditPositionShare]? = nil, brandShare: [RedditBrandShare]? = nil, requestId: String? = nil) {
+    public init(projectId: Int? = nil, provider: String? = nil, from: Date? = nil, to: Date? = nil, connected: Bool? = nil, kpis: OwnedMediaKpis? = nil, previous: OwnedMediaSummaryResponsePrevious? = nil, changes: OwnedMediaKpiChanges? = nil, weekly: [OwnedMediaWeek]? = nil, byModel: [OwnedMediaModelShare]? = nil, byCountry: [OwnedMediaCountryShare]? = nil, contentTypes: [OwnedMediaContentTypeShare]? = nil, ageBuckets: [OwnedMediaAgeBucketShare]? = nil, stores: [OwnedMediaStoreTotals]? = nil, platforms: [OwnedMediaPlatformRollup]? = nil, activity: [OwnedMediaSummaryActivityPeriod]? = nil, subredditActivity: [RedditSubredditActivityPeriod]? = nil, positions: [RedditPositionShare]? = nil, brandShare: [RedditBrandShare]? = nil, replies: TrustpilotReplies? = nil, requestId: String? = nil) {
         self.projectId = projectId
         self.provider = provider
         self.from = from
@@ -61,6 +62,7 @@ public struct OwnedMediaSummaryResponse: Sendable, Codable, Hashable {
         self.subredditActivity = subredditActivity
         self.positions = positions
         self.brandShare = brandShare
+        self.replies = replies
         self.requestId = requestId
     }
 
@@ -84,6 +86,7 @@ public struct OwnedMediaSummaryResponse: Sendable, Codable, Hashable {
         case subredditActivity = "subreddit_activity"
         case positions
         case brandShare = "brand_share"
+        case replies
         case requestId = "request_id"
     }
 
@@ -110,6 +113,7 @@ public struct OwnedMediaSummaryResponse: Sendable, Codable, Hashable {
         try container.encodeIfPresent(subredditActivity, forKey: .subredditActivity)
         try container.encodeIfPresent(positions, forKey: .positions)
         try container.encodeIfPresent(brandShare, forKey: .brandShare)
+        try container.encodeIfPresent(replies, forKey: .replies)
         try container.encodeIfPresent(requestId, forKey: .requestId)
     }
 }
