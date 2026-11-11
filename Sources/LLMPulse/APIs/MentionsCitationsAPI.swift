@@ -29,6 +29,7 @@ open class MentionsCitationsAPI {
         case naverAiTab = "naver_ai_tab"
         case qwen = "qwen"
         case doubao = "doubao"
+        case bingAiMode = "bing_ai_mode"
     }
 
     /**
@@ -154,6 +155,7 @@ open class MentionsCitationsAPI {
         case naverAiTab = "naver_ai_tab"
         case qwen = "qwen"
         case doubao = "doubao"
+        case bingAiMode = "bing_ai_mode"
     }
 
     /**
@@ -279,6 +281,7 @@ open class MentionsCitationsAPI {
         case naverAiTab = "naver_ai_tab"
         case qwen = "qwen"
         case doubao = "doubao"
+        case bingAiMode = "bing_ai_mode"
     }
 
     /**
@@ -401,6 +404,7 @@ open class MentionsCitationsAPI {
         case naverAiTab = "naver_ai_tab"
         case qwen = "qwen"
         case doubao = "doubao"
+        case bingAiMode = "bing_ai_mode"
     }
 
     /**
@@ -526,6 +530,7 @@ open class MentionsCitationsAPI {
         case naverAiTab = "naver_ai_tab"
         case qwen = "qwen"
         case doubao = "doubao"
+        case bingAiMode = "bing_ai_mode"
     }
 
     /**
@@ -650,6 +655,7 @@ open class MentionsCitationsAPI {
         case naverAiTab = "naver_ai_tab"
         case qwen = "qwen"
         case doubao = "doubao"
+        case bingAiMode = "bing_ai_mode"
     }
 
     /**

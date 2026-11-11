@@ -32,6 +32,7 @@ public struct ProjectDetailsAllOfPitchRun: Sendable, Codable, Hashable {
         case naverAiTab = "naver_ai_tab"
         case qwen = "qwen"
         case doubao = "doubao"
+        case bingAiMode = "bing_ai_mode"
     }
     /** starting before the run begins, running while answers arrive, ready once every AI model has answered or stopped trying */
     public var status: Status?

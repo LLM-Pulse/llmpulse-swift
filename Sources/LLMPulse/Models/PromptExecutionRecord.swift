@@ -26,6 +26,7 @@ public struct PromptExecutionRecord: Sendable, Codable, Hashable {
         case naverAiTab = "naver_ai_tab"
         case qwen = "qwen"
         case doubao = "doubao"
+        case bingAiMode = "bing_ai_mode"
     }
     public var id: Int
     public var promptId: Int

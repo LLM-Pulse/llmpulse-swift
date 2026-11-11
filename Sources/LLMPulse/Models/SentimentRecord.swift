@@ -26,6 +26,7 @@ public struct SentimentRecord: Sendable, Codable, Hashable {
         case naverAiTab = "naver_ai_tab"
         case qwen = "qwen"
         case doubao = "doubao"
+        case bingAiMode = "bing_ai_mode"
     }
     public enum Analysis: String, Sendable, Codable, CaseIterable {
         case veryPositive = "very_positive"
