@@ -12,21 +12,29 @@ public struct CustomReportDateRange: Sendable, Codable, Hashable {
     public enum ModelType: String, Sendable, Codable, CaseIterable {
         case rolling = "rolling"
         case previousMonth = "previous_month"
+        case previous3Months = "previous_3_months"
+        case custom = "custom"
     }
-    /** rolling (the last range_days days) or previous_month (the previous calendar month) */
+    /** rolling (the last range_days days), previous_month (the previous calendar month), previous_3_months (the 3 calendar months before the current one) or custom (fixed dates, custom_from to custom_to) */
     public var type: ModelType
-    /** Length of a rolling window; null for previous_month */
+    /** Length of a rolling window; null for the other types */
     public var rangeDays: Int?
+    /** First day chosen for a custom range; null for the other types */
+    public var customFrom: Date?
+    /** Last day chosen for a custom range, which can be after today; null for the other types */
+    public var customTo: Date?
     /** First day of the window as of now (detail only) */
     public var from: Date?
-    /** Last day of the window as of now (detail only) */
+    /** Last day of the window as of now (detail only); a custom range stops at today */
     public var to: Date?
     /** The window as the report shows it (detail only) */
     public var label: String?
 
-    public init(type: ModelType, rangeDays: Int?, from: Date? = nil, to: Date? = nil, label: String? = nil) {
+    public init(type: ModelType, rangeDays: Int?, customFrom: Date?, customTo: Date?, from: Date? = nil, to: Date? = nil, label: String? = nil) {
         self.type = type
         self.rangeDays = rangeDays
+        self.customFrom = customFrom
+        self.customTo = customTo
         self.from = from
         self.to = to
         self.label = label
@@ -35,6 +43,8 @@ public struct CustomReportDateRange: Sendable, Codable, Hashable {
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case type
         case rangeDays = "range_days"
+        case customFrom = "custom_from"
+        case customTo = "custom_to"
         case from
         case to
         case label
@@ -46,6 +56,8 @@ public struct CustomReportDateRange: Sendable, Codable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(type, forKey: .type)
         try container.encode(rangeDays, forKey: .rangeDays)
+        try container.encode(customFrom, forKey: .customFrom)
+        try container.encode(customTo, forKey: .customTo)
         try container.encodeIfPresent(from, forKey: .from)
         try container.encodeIfPresent(to, forKey: .to)
         try container.encodeIfPresent(label, forKey: .label)

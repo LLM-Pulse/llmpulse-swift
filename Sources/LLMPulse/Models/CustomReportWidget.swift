@@ -26,7 +26,7 @@ public struct CustomReportWidget: Sendable, Codable, Hashable {
     public var width: Width
     /** false when the widget's data source (web analytics, agent analytics, owned media) is not connected */
     public var available: Bool
-    /** Shaped by kind. timeseries: series [{ name, color, points [{ date, value }] }]. donut: slices [{ name, value, color }]. bar: bars [{ label, value, color }]. kpi_grid: values and changes (null unless the report compares with the previous period). table: rows, one object per row. Null when the widget is not available. */
+    /** Shaped by kind. timeseries: series [{ name, color, points [{ date, value }] }]. donut: slices [{ name, value, color }]. bar: bars [{ label, value, color }]. kpi_grid: values and changes (null unless the report compares with the previous period). table: rows, one object per row; the monthly_breakdown widget has one row per calendar month of the window with month, from, to, partial (a month the window cuts), responses, mentions, visibility, weighted_visibility, sov_share, citations and avg_mention_position. Null when the widget is not available. */
     public var data: [String: JSONValue]?
 
     public init(key: String, label: String, kind: Kind, width: Width, available: Bool, data: [String: JSONValue]? = nil) {
