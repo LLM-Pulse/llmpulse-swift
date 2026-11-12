@@ -37,10 +37,12 @@ public struct UpdateProjectRequest: Sendable, Codable, Hashable {
     public var additionalOwnedDomains: [String]?
     /** The most prompts this project can hold, a JSON integer from 1 to 2147483647; null removes the project's limit. A string, a decimal, 0 or a negative number is rejected with ERR_INVALID_PARAM. The account's plan allowance still applies, so the lower of the two wins (GET /dimensions/projects/{id} returns prompt_limit and stats.prompts_available). A limit below the current count keeps every prompt and refuses new ones until the project is under it; note says what the project can now hold. Account owner or a co-owner with Projects update permission only; a key limited to some projects answers ERR_KEY_PROJECT_SCOPED. The Swift, Kotlin, Dart and R clients leave a null field out of the request body, so they can set a limit but not remove one: remove it with a plain HTTP request that sends prompt_limit as null */
     public var promptLimit: Int?
+    /** Only for accounts billed per project type under a pricing agreement; any other account gets ERR_INVALID_PARAM. The key of one of the account's project types, such as core or lean. The new type's prompt cap applies at once and its price from the next renewal. Send it on its own: with other fields it answers ERR_INVALID_PARAM. Moving to a type whose cap is below the prompts the project holds answers ERR_INVALID_PARAM, and so do a pitch project and a project the team set up by hand (included at no cost, paused or with a raised prompt limit), which keeps its type; sending the type the project already has changes nothing. Account owner or a co-owner with Projects update permission only; a key limited to some projects answers ERR_KEY_PROJECT_SCOPED. It is applied even while a rematch runs */
+    public var projectType: String?
     /** false converts a pitch project into a tracked project. Send it on its own, without other fields; true is rejected */
     public var pitch: Bool?
 
-    public init(name: String? = nil, brandName: String? = nil, description: String? = nil, industry: String? = nil, businessModel: String? = nil, businessModelOther: String? = nil, targetAudience: String? = nil, brandVoice: String? = nil, goals: String? = nil, primaryProducts: [String]? = nil, matchingNames: [String]? = nil, additionalOwnedDomains: [String]? = nil, promptLimit: Int? = nil, pitch: Bool? = nil) {
+    public init(name: String? = nil, brandName: String? = nil, description: String? = nil, industry: String? = nil, businessModel: String? = nil, businessModelOther: String? = nil, targetAudience: String? = nil, brandVoice: String? = nil, goals: String? = nil, primaryProducts: [String]? = nil, matchingNames: [String]? = nil, additionalOwnedDomains: [String]? = nil, promptLimit: Int? = nil, projectType: String? = nil, pitch: Bool? = nil) {
         self.name = name
         self.brandName = brandName
         self.description = description
@@ -54,6 +56,7 @@ public struct UpdateProjectRequest: Sendable, Codable, Hashable {
         self.matchingNames = matchingNames
         self.additionalOwnedDomains = additionalOwnedDomains
         self.promptLimit = promptLimit
+        self.projectType = projectType
         self.pitch = pitch
     }
 
@@ -71,6 +74,7 @@ public struct UpdateProjectRequest: Sendable, Codable, Hashable {
         case matchingNames = "matching_names"
         case additionalOwnedDomains = "additional_owned_domains"
         case promptLimit = "prompt_limit"
+        case projectType = "project_type"
         case pitch
     }
 
@@ -91,6 +95,7 @@ public struct UpdateProjectRequest: Sendable, Codable, Hashable {
         try container.encodeIfPresent(matchingNames, forKey: .matchingNames)
         try container.encodeIfPresent(additionalOwnedDomains, forKey: .additionalOwnedDomains)
         try container.encodeIfPresent(promptLimit, forKey: .promptLimit)
+        try container.encodeIfPresent(projectType, forKey: .projectType)
         try container.encodeIfPresent(pitch, forKey: .pitch)
     }
 }

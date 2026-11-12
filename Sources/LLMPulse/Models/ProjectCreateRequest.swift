@@ -49,8 +49,10 @@ public struct ProjectCreateRequest: Sendable, Codable, Hashable {
     public var executePromptsImmediately: Bool? = true
     /** Create a pitch project, a one-off snapshot for a prospect. It runs its prompts once across the account's AI models right away, takes no project slot and its prompts do not count against the prompt quota, and it is deleted 90 days later unless converted by sending pitch false to PATCH /projects/{id}. It uses one of the month's pitch projects (GET /account, limits.pitch_projects), needs an agency or platform account (GET /account, limits.pitch_projects.access) and a paid subscription on the Scale tier or higher, takes 1 to 100 prompts, and cannot use a domain the account already tracks or pitched in the last 90 days. execute_prompts_immediately must not be false */
     public var pitch: Bool? = false
+    /** Only for accounts billed per project type under a pricing agreement; any other account gets ERR_INVALID_PARAM. The key of one of the account's project types, such as core or lean, which sets the most prompts the project can hold and the price it is billed at. Omitted, the project takes the account's default type. A type other than the default needs the account owner or a co-owner (ERR_INSUFFICIENT_PERMISSION). An unknown key answers ERR_INVALID_PARAM with the valid keys; a pitch project has no type */
+    public var projectType: String?
 
-    public init(websiteUrl: String, name: String, mainCountry: String, mainLanguage: String, brandName: String? = nil, description: String? = nil, industry: [String]? = nil, businessModel: String? = nil, businessModelOther: String? = nil, targetAudience: String? = nil, brandVoice: String? = nil, goals: String? = nil, primaryProducts: [String]? = nil, matchingNames: [String]? = nil, prompts: [String]? = nil, collections: [ProjectCreateRequestCollectionsInner]? = nil, competitors: [ProjectCreateRequestCompetitorsInner]? = nil, ownedMedia: ProjectCreateRequestOwnedMedia? = nil, useSubdomain: Bool? = false, weeklyEmailSubscribed: Bool? = false, externalIdentifier: String? = nil, executePromptsImmediately: Bool? = true, pitch: Bool? = false) {
+    public init(websiteUrl: String, name: String, mainCountry: String, mainLanguage: String, brandName: String? = nil, description: String? = nil, industry: [String]? = nil, businessModel: String? = nil, businessModelOther: String? = nil, targetAudience: String? = nil, brandVoice: String? = nil, goals: String? = nil, primaryProducts: [String]? = nil, matchingNames: [String]? = nil, prompts: [String]? = nil, collections: [ProjectCreateRequestCollectionsInner]? = nil, competitors: [ProjectCreateRequestCompetitorsInner]? = nil, ownedMedia: ProjectCreateRequestOwnedMedia? = nil, useSubdomain: Bool? = false, weeklyEmailSubscribed: Bool? = false, externalIdentifier: String? = nil, executePromptsImmediately: Bool? = true, pitch: Bool? = false, projectType: String? = nil) {
         self.websiteUrl = websiteUrl
         self.name = name
         self.mainCountry = mainCountry
@@ -74,6 +76,7 @@ public struct ProjectCreateRequest: Sendable, Codable, Hashable {
         self.externalIdentifier = externalIdentifier
         self.executePromptsImmediately = executePromptsImmediately
         self.pitch = pitch
+        self.projectType = projectType
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -100,6 +103,7 @@ public struct ProjectCreateRequest: Sendable, Codable, Hashable {
         case externalIdentifier = "external_identifier"
         case executePromptsImmediately = "execute_prompts_immediately"
         case pitch
+        case projectType = "project_type"
     }
 
     // Encodable protocol methods
@@ -129,6 +133,7 @@ public struct ProjectCreateRequest: Sendable, Codable, Hashable {
         try container.encodeIfPresent(externalIdentifier, forKey: .externalIdentifier)
         try container.encodeIfPresent(executePromptsImmediately, forKey: .executePromptsImmediately)
         try container.encodeIfPresent(pitch, forKey: .pitch)
+        try container.encodeIfPresent(projectType, forKey: .projectType)
     }
 }
 

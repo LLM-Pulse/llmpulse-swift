@@ -28,8 +28,10 @@ public struct ProjectProfile: Sendable, Codable, Hashable {
     public var additionalOwnedDomains: [String]
     /** The most prompts this project can hold, set by the account owner or a co-owner (Account Settings > Prompt Limits). Null when the project has no limit of its own; the account's plan allowance applies either way */
     public var promptLimit: Int?
+    /** The project type it is billed as under the account's pricing agreement, such as core or lean. Null for accounts without per-project types and for pitch projects */
+    public var projectType: String?
 
-    public init(id: Int, name: String, brandName: String? = nil, description: String? = nil, industry: JSONValue? = nil, businessModel: String? = nil, businessModelOther: String? = nil, targetAudience: String? = nil, primaryProducts: [String]? = nil, brandVoice: String? = nil, goals: String? = nil, matchingNames: [String], additionalOwnedDomains: [String], promptLimit: Int?) {
+    public init(id: Int, name: String, brandName: String? = nil, description: String? = nil, industry: JSONValue? = nil, businessModel: String? = nil, businessModelOther: String? = nil, targetAudience: String? = nil, primaryProducts: [String]? = nil, brandVoice: String? = nil, goals: String? = nil, matchingNames: [String], additionalOwnedDomains: [String], promptLimit: Int?, projectType: String?) {
         self.id = id
         self.name = name
         self.brandName = brandName
@@ -44,6 +46,7 @@ public struct ProjectProfile: Sendable, Codable, Hashable {
         self.matchingNames = matchingNames
         self.additionalOwnedDomains = additionalOwnedDomains
         self.promptLimit = promptLimit
+        self.projectType = projectType
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -61,6 +64,7 @@ public struct ProjectProfile: Sendable, Codable, Hashable {
         case matchingNames = "matching_names"
         case additionalOwnedDomains = "additional_owned_domains"
         case promptLimit = "prompt_limit"
+        case projectType = "project_type"
     }
 
     // Encodable protocol methods
@@ -81,6 +85,7 @@ public struct ProjectProfile: Sendable, Codable, Hashable {
         try container.encode(matchingNames, forKey: .matchingNames)
         try container.encode(additionalOwnedDomains, forKey: .additionalOwnedDomains)
         try container.encode(promptLimit, forKey: .promptLimit)
+        try container.encode(projectType, forKey: .projectType)
     }
 }
 
