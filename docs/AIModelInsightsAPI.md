@@ -24,7 +24,7 @@ Per-model mentions, citations, brand net sentiment with raw counts, weighted vis
 import LLMPulse
 
 let projectId = 987 // Int | Project ID
-let range = 987 // Int | Number of days to look back (alternative to from/to) (optional)
+let range = 987 // Int | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
 let from = Date() // Date |  (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
 let granularity = "granularity_example" // String |  (optional)
@@ -33,7 +33,7 @@ let countryCode = "countryCode_example" // String | One ISO country code or a co
 let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
 let promptType = "promptType_example" // String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
 let brandKind = "brandKind_example" // String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
-let competitors = "competitors_example" // String | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
+let competitors = "competitors_example" // String | Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) (optional)
 
 // AI Model Insights summary
 AIModelInsightsAPI.getAiModelInsightsSummary(projectId: projectId, range: range, from: from, to: to, granularity: granularity, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, promptType: promptType, brandKind: brandKind, competitors: competitors) { (response, error) in
@@ -53,7 +53,7 @@ AIModelInsightsAPI.getAiModelInsightsSummary(projectId: projectId, range: range,
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **projectId** | **Int** | Project ID | 
- **range** | **Int** | Number of days to look back (alternative to from/to) | [optional] 
+ **range** | **Int** | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. | [optional] 
  **from** | **Date** |  | [optional] 
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **granularity** | **String** |  | [optional] 
@@ -62,7 +62,7 @@ Name | Type | Description  | Notes
  **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
  **promptType** | **String** | One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
  **brandKind** | **String** | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
- **competitors** | **String** | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
+ **competitors** | **String** | Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) | [optional] 
 
 ### Return type
 
@@ -92,7 +92,7 @@ Position distribution comparison
 import LLMPulse
 
 let projectId = 987 // Int | Project ID
-let range = 987 // Int | Number of days to look back (alternative to from/to) (optional)
+let range = 987 // Int | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
 let from = Date() // Date |  (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
 let granularity = "granularity_example" // String |  (optional)
@@ -123,7 +123,7 @@ AIModelInsightsAPI.getAiModelPositionDistribution(projectId: projectId, range: r
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **projectId** | **Int** | Project ID | 
- **range** | **Int** | Number of days to look back (alternative to from/to) | [optional] 
+ **range** | **Int** | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. | [optional] 
  **from** | **Date** |  | [optional] 
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **granularity** | **String** |  | [optional] 
@@ -164,7 +164,7 @@ Google AI Overview result availability
 import LLMPulse
 
 let projectId = 987 // Int | Project ID
-let range = 987 // Int | Number of days to look back (alternative to from/to) (optional)
+let range = 987 // Int | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
 let from = Date() // Date |  (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
 let granularity = "granularity_example" // String |  (optional)
@@ -194,7 +194,7 @@ AIModelInsightsAPI.getAiOverviewResults(projectId: projectId, range: range, from
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **projectId** | **Int** | Project ID | 
- **range** | **Int** | Number of days to look back (alternative to from/to) | [optional] 
+ **range** | **Int** | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. | [optional] 
  **from** | **Date** |  | [optional] 
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **granularity** | **String** |  | [optional] 

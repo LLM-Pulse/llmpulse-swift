@@ -73,7 +73,7 @@ open class SentimentsAPI {
      Sentiment by tag (Growth plan or above)
      
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back, today included (default 28, like the Sentiment page). Ignored when from or to is given. (optional)
+     - parameter range: (query) Number of days to look back, today included (default 28, like the Sentiment page). from or to win over it, but a value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside them. (optional)
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter model: (query) Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
@@ -105,7 +105,7 @@ open class SentimentsAPI {
        - type: http
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back, today included (default 28, like the Sentiment page). Ignored when from or to is given. (optional)
+     - parameter range: (query) Number of days to look back, today included (default 28, like the Sentiment page). from or to win over it, but a value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside them. (optional)
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter model: (query) Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
@@ -228,7 +228,7 @@ open class SentimentsAPI {
      Sentiment by topic (Growth plan or above)
      
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back, today included (default 28, like the Sentiment page). Ignored when from or to is given. (optional)
+     - parameter range: (query) Number of days to look back, today included (default 28, like the Sentiment page). from or to win over it, but a value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside them. (optional)
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter model: (query) Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
@@ -260,7 +260,7 @@ open class SentimentsAPI {
        - type: http
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back, today included (default 28, like the Sentiment page). Ignored when from or to is given. (optional)
+     - parameter range: (query) Number of days to look back, today included (default 28, like the Sentiment page). from or to win over it, but a value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside them. (optional)
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter model: (query) Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
@@ -401,15 +401,15 @@ open class SentimentsAPI {
      List sentiment records (Growth plan or above)
      
      - parameter projectId: (query) Project ID 
-     - parameter competitorId: (query)  (optional)
-     - parameter brandOnly: (query)  (optional)
+     - parameter competitorId: (query) Keep the sentiments about this competitor. An id that is not a plain positive number, or that names no competitor of the project, returns 422 ERR_INVALID_PARAM. (optional)
+     - parameter brandOnly: (query) true keeps only the sentiments about your own brand. (optional)
      - parameter analysis: (query) One sentiment level or a comma-separated list: very_positive, positive, neutral, negative, very_negative (optional)
-     - parameter model: (query) Filter by one AI model. Here an unknown value, or a model the API key&#39;s user has not enabled, is ignored rather than rejected: the request succeeds and returns the records of every enabled model, as if model were omitted. (optional)
+     - parameter model: (query) Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
      - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
-     - parameter from: (query)  (optional)
-     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter from: (query) Start of the window. Sent alone, the window runs from it to the end of today. A from later than to, or a window longer than 1,500 days, returns 422 ERR_INVALID_PARAM. (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it. (optional)
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
      - parameter apiConfiguration: The configuration for the http request.
@@ -427,15 +427,15 @@ open class SentimentsAPI {
        - type: http
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
-     - parameter competitorId: (query)  (optional)
-     - parameter brandOnly: (query)  (optional)
+     - parameter competitorId: (query) Keep the sentiments about this competitor. An id that is not a plain positive number, or that names no competitor of the project, returns 422 ERR_INVALID_PARAM. (optional)
+     - parameter brandOnly: (query) true keeps only the sentiments about your own brand. (optional)
      - parameter analysis: (query) One sentiment level or a comma-separated list: very_positive, positive, neutral, negative, very_negative (optional)
-     - parameter model: (query) Filter by one AI model. Here an unknown value, or a model the API key&#39;s user has not enabled, is ignored rather than rejected: the request succeeds and returns the records of every enabled model, as if model were omitted. (optional)
+     - parameter model: (query) Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
      - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
-     - parameter from: (query)  (optional)
-     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter from: (query) Start of the window. Sent alone, the window runs from it to the end of today. A from later than to, or a window longer than 1,500 days, returns 422 ERR_INVALID_PARAM. (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it. (optional)
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
      - parameter apiConfiguration: The configuration for the http request.

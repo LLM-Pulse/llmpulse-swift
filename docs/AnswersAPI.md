@@ -64,7 +64,7 @@ Name | Type | Description  | Notes
 
 # **listAnswers**
 ```swift
-    open class func listAnswers(projectId: Int, model: Model_listAnswers? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, mentionFilter: MentionFilter_listAnswers? = nil, citationFilter: CitationFilter_listAnswers? = nil, competitors: String? = nil, from: Date? = nil, to: Date? = nil, page: Int? = nil, perPage: Int? = nil, query: String? = nil, noResult: Bool? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listAnswers(projectId: Int, model: Model_listAnswers? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listAnswers? = nil, mentionFilter: MentionFilter_listAnswers? = nil, citationFilter: CitationFilter_listAnswers? = nil, competitors: String? = nil, from: Date? = nil, to: Date? = nil, page: Int? = nil, perPage: Int? = nil, query: String? = nil, noResult: Bool? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 List AI responses
@@ -81,19 +81,21 @@ let model = "model_example" // String | Filter by one AI model. It must be a mod
 let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
 let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
-let prompt = 987 // Int | Filter by prompt ID (optional)
+let prompt = 987 // Int | Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (optional)
+let promptType = "promptType_example" // String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+let brandKind = "brandKind_example" // String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
 let mentionFilter = "mentionFilter_example" // String | Filter by which brands are mentioned, as a two-axis matrix (your brand x competitors): mentions_you / not_mentions_you, mentions_competitor / not_mentions_competitor, and the four combined cells you_and_competitor, competitor_not_you (a rival wins and you are absent), you_not_competitor, no_brands (no tracked brand appears, i.e. open space; on answers, finished answers only). Combine with 'competitors' to narrow the competitor side to specific rivals; on a negative cell that reads 'none of these'. On /dimensions/sources it applies to the crawled content of each cited page instead of the answer text. The legacy value 'competitors_only' is still accepted as an alias of competitor_not_you. (optional)
 let citationFilter = "citationFilter_example" // String | Same two-axis matrix applied to the domains cited in the answer instead of the brands named in it (cites_no_brands still allows other domains), plus no_citations, finished answers that cite no source at all. Independent of mention_filter; pass both to intersect them (e.g. mentions_you + not_cites_you finds answers that talk about you without linking to you). (optional)
-let competitors = "competitors_example" // String | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
-let from = Date() // Date |  (optional)
-let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+let competitors = "competitors_example" // String | Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) (optional)
+let from = Date() // Date | Start of the window. Sent alone, the window runs from it to the end of today. A from later than to, or a window longer than 1,500 days, returns 422 ERR_INVALID_PARAM. (optional)
+let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it. (optional)
 let page = 987 // Int |  (optional) (default to 1)
 let perPage = 987 // Int |  (optional) (default to 20)
 let query = "query_example" // String | Case-insensitive full-text search inside AI response texts. Switches items to snippet + match_count mode. (optional)
 let noResult = true // Bool | Filter sentinel non-answers (no answer could be collected after all retries, or the model declined to answer, today only Gemini; excluded from platform metrics). false = only real answers, true = only sentinels, omit = both. Every item carries its own no_result flag, and a sentinel also carries no_result_reason (declined or no_answer). (optional)
 
 // List AI responses
-AnswersAPI.listAnswers(projectId: projectId, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, mentionFilter: mentionFilter, citationFilter: citationFilter, competitors: competitors, from: from, to: to, page: page, perPage: perPage, query: query, noResult: noResult) { (response, error) in
+AnswersAPI.listAnswers(projectId: projectId, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, promptType: promptType, brandKind: brandKind, mentionFilter: mentionFilter, citationFilter: citationFilter, competitors: competitors, from: from, to: to, page: page, perPage: perPage, query: query, noResult: noResult) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -114,12 +116,14 @@ Name | Type | Description  | Notes
  **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
- **prompt** | **Int** | Filter by prompt ID | [optional] 
+ **prompt** | **Int** | Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. | [optional] 
+ **promptType** | **String** | One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
+ **brandKind** | **String** | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
  **mentionFilter** | **String** | Filter by which brands are mentioned, as a two-axis matrix (your brand x competitors): mentions_you / not_mentions_you, mentions_competitor / not_mentions_competitor, and the four combined cells you_and_competitor, competitor_not_you (a rival wins and you are absent), you_not_competitor, no_brands (no tracked brand appears, i.e. open space; on answers, finished answers only). Combine with &#39;competitors&#39; to narrow the competitor side to specific rivals; on a negative cell that reads &#39;none of these&#39;. On /dimensions/sources it applies to the crawled content of each cited page instead of the answer text. The legacy value &#39;competitors_only&#39; is still accepted as an alias of competitor_not_you. | [optional] 
  **citationFilter** | **String** | Same two-axis matrix applied to the domains cited in the answer instead of the brands named in it (cites_no_brands still allows other domains), plus no_citations, finished answers that cite no source at all. Independent of mention_filter; pass both to intersect them (e.g. mentions_you + not_cites_you finds answers that talk about you without linking to you). | [optional] 
- **competitors** | **String** | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
- **from** | **Date** |  | [optional] 
- **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
+ **competitors** | **String** | Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) | [optional] 
+ **from** | **Date** | Start of the window. Sent alone, the window runs from it to the end of today. A from later than to, or a window longer than 1,500 days, returns 422 ERR_INVALID_PARAM. | [optional] 
+ **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it. | [optional] 
  **page** | **Int** |  | [optional] [default to 1]
  **perPage** | **Int** |  | [optional] [default to 20]
  **query** | **String** | Case-insensitive full-text search inside AI response texts. Switches items to snippet + match_count mode. | [optional] 

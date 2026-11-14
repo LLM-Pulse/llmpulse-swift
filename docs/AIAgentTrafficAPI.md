@@ -26,7 +26,7 @@ Aggregated AI bot traffic hitting the project's origin server (GPTBot, Perplexit
 import LLMPulse
 
 let projectId = 987 // Int | Project ID
-let range = 987 // Int | Number of days to look back (alternative to from/to) (optional)
+let range = 987 // Int | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
 let from = Date() // Date |  (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
 let bot = "bot_example" // String | Filter by bot slug (e.g. gptbot, claudebot, perplexitybot) (optional)
@@ -52,7 +52,7 @@ AIAgentTrafficAPI.getAgentTraffic(projectId: projectId, range: range, from: from
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **projectId** | **Int** | Project ID | 
- **range** | **Int** | Number of days to look back (alternative to from/to) | [optional] 
+ **range** | **Int** | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. | [optional] 
  **from** | **Date** |  | [optional] 
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **bot** | **String** | Filter by bot slug (e.g. gptbot, claudebot, perplexitybot) | [optional] 
@@ -90,7 +90,7 @@ AI referral traffic for a project: human visits arriving from AI assistants (Cha
 import LLMPulse
 
 let projectId = 987 // Int | Project ID
-let range = 987 // Int | Number of days to look back (alternative to from/to) (optional)
+let range = 987 // Int | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
 let from = Date() // Date |  (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
 let source = "source_example" // String | Filter by a single AI source slug (e.g. chatgpt, perplexity, gemini, claude) (optional)
@@ -114,7 +114,7 @@ AIAgentTrafficAPI.getAiTraffic(projectId: projectId, range: range, from: from, t
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **projectId** | **Int** | Project ID | 
- **range** | **Int** | Number of days to look back (alternative to from/to) | [optional] 
+ **range** | **Int** | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. | [optional] 
  **from** | **Date** |  | [optional] 
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **source** | **String** | Filter by a single AI source slug (e.g. chatgpt, perplexity, gemini, claude) | [optional] 

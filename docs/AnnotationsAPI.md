@@ -129,7 +129,7 @@ import LLMPulse
 let projectId = 987 // Int | Project ID
 let from = Date() // Date |  (optional)
 let to = Date() // Date |  (optional)
-let annotationCategoryId = 987 // Int |  (optional)
+let annotationCategoryId = 987 // Int | Keep the annotations filed under this category, one of the project's or a system category. Any other id returns 422 ERR_INVALID_PARAM. (optional)
 let page = 987 // Int |  (optional) (default to 1)
 let perPage = 987 // Int |  (optional) (default to 20)
 
@@ -153,7 +153,7 @@ Name | Type | Description  | Notes
  **projectId** | **Int** | Project ID | 
  **from** | **Date** |  | [optional] 
  **to** | **Date** |  | [optional] 
- **annotationCategoryId** | **Int** |  | [optional] 
+ **annotationCategoryId** | **Int** | Keep the annotations filed under this category, one of the project&#39;s or a system category. Any other id returns 422 ERR_INVALID_PARAM. | [optional] 
  **page** | **Int** |  | [optional] [default to 1]
  **perPage** | **Int** |  | [optional] [default to 20]
 

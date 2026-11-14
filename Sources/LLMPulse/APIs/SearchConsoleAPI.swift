@@ -51,7 +51,7 @@ open class SearchConsoleAPI {
      
      - parameter projectId: (query) Project ID 
      - parameter property: (query) Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
-     - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     - parameter range: (query) Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. (optional)
      - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
      - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
      - parameter minImpressions: (query) Smallest impressions a query needs. (optional, default to 100)
@@ -79,7 +79,7 @@ open class SearchConsoleAPI {
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
      - parameter property: (query) Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
-     - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     - parameter range: (query) Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. (optional)
      - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
      - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
      - parameter minImpressions: (query) Smallest impressions a query needs. (optional, default to 100)
@@ -163,7 +163,7 @@ open class SearchConsoleAPI {
      
      - parameter projectId: (query) Project ID 
      - parameter property: (query) Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
-     - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     - parameter range: (query) Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. (optional)
      - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
      - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
      - parameter searchType: (query) Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to .web)
@@ -186,7 +186,7 @@ open class SearchConsoleAPI {
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
      - parameter property: (query) Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
-     - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     - parameter range: (query) Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. (optional)
      - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
      - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
      - parameter searchType: (query) Which search surface to measure. Defaults to web. discover and googleNews carry no query dimension, so Google rejects /search_console/queries for them. (optional, default to .web)
@@ -268,7 +268,7 @@ open class SearchConsoleAPI {
      
      - parameter projectId: (query) Project ID 
      - parameter property: (query) Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
-     - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     - parameter range: (query) Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. (optional)
      - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
      - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
      - parameter minImpressions: (query) Smallest impressions a query needs. (optional, default to 100)
@@ -296,7 +296,7 @@ open class SearchConsoleAPI {
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
      - parameter property: (query) Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
-     - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     - parameter range: (query) Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. (optional)
      - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
      - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
      - parameter minImpressions: (query) Smallest impressions a query needs. (optional, default to 100)
@@ -396,7 +396,7 @@ open class SearchConsoleAPI {
      
      - parameter projectId: (query) Project ID 
      - parameter property: (query) Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
-     - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     - parameter range: (query) Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. (optional)
      - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
      - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
      - parameter dimension: (query) Compare pages or queries. (optional, default to .page)
@@ -424,7 +424,7 @@ open class SearchConsoleAPI {
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
      - parameter property: (query) Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
-     - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     - parameter range: (query) Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. (optional)
      - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
      - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
      - parameter dimension: (query) Compare pages or queries. (optional, default to .page)
@@ -516,7 +516,7 @@ open class SearchConsoleAPI {
      
      - parameter projectId: (query) Project ID 
      - parameter property: (query) Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
-     - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     - parameter range: (query) Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. (optional)
      - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
      - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
      - parameter minImpressions: (query) Smallest impressions a query needs. (optional, default to 100)
@@ -545,7 +545,7 @@ open class SearchConsoleAPI {
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
      - parameter property: (query) Which Search Console properties to read; /search_console/properties lists them. Omit it for the primary property, or pass one property id (e.g. sc-domain:example.com) to read that one; both answer with property. A comma-separated list of ids, or all, combines several and answers with properties, excluded_properties and property_errors instead: excluded_properties are left out because another selected property already counts them (a URL-prefix property under a domain property), so no click is counted twice; property_errors are properties Google refused, left out of the figures and also named in the X-Search-Console-Property-Errors header. When Google refuses every property, the request fails as a single-property read would. (optional)
-     - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     - parameter range: (query) Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. (optional)
      - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
      - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
      - parameter minImpressions: (query) Smallest impressions a query needs. (optional, default to 100)
@@ -648,7 +648,7 @@ open class SearchConsoleAPI {
      Top Search Console pages (Growth+)
      
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     - parameter range: (query) Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. (optional)
      - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
      - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
      - parameter sort: (query)  (optional, default to .impressions)
@@ -676,7 +676,7 @@ open class SearchConsoleAPI {
        - type: http
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     - parameter range: (query) Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. (optional)
      - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
      - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
      - parameter sort: (query)  (optional, default to .impressions)
@@ -778,7 +778,7 @@ open class SearchConsoleAPI {
      Top Search Console queries (Growth+)
      
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     - parameter range: (query) Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. (optional)
      - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
      - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
      - parameter sort: (query)  (optional, default to .impressions)
@@ -806,7 +806,7 @@ open class SearchConsoleAPI {
        - type: http
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     - parameter range: (query) Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. (optional)
      - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
      - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
      - parameter sort: (query)  (optional, default to .impressions)
@@ -909,7 +909,7 @@ open class SearchConsoleAPI {
      
      - parameter projectId: (query) Project ID 
      - parameter dimensions: (query) Comma-separated dimensions to group by, 1 to 3 of date, country, device, page, query, searchAppearance, property. Each becomes a field of every row; country and device values are lowercase. property is the Search Console property the row comes from (see the property parameter). 
-     - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     - parameter range: (query) Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. (optional)
      - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
      - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
      - parameter sort: (query)  (optional, default to .impressions)
@@ -938,7 +938,7 @@ open class SearchConsoleAPI {
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
      - parameter dimensions: (query) Comma-separated dimensions to group by, 1 to 3 of date, country, device, page, query, searchAppearance, property. Each becomes a field of every row; country and device values are lowercase. property is the Search Console property the row comes from (see the property parameter). 
-     - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     - parameter range: (query) Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. (optional)
      - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
      - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
      - parameter sort: (query)  (optional, default to .impressions)
@@ -1035,7 +1035,7 @@ open class SearchConsoleAPI {
      Search Console summary (Growth+)
      
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     - parameter range: (query) Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. (optional)
      - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
      - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
      - parameter dimension: (query) Optional breakdown aggregated over the range. country and device are lowercased; page and query keep the casing Google returns, because a page URL is case sensitive. property gives one row per property read (see the property parameter). (optional)
@@ -1060,7 +1060,7 @@ open class SearchConsoleAPI {
        - type: http
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     - parameter range: (query) Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. (optional)
      - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
      - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
      - parameter dimension: (query) Optional breakdown aggregated over the range. country and device are lowercased; page and query keep the casing Google returns, because a page URL is case sensitive. property gives one row per property read (see the property parameter). (optional)
@@ -1155,7 +1155,7 @@ open class SearchConsoleAPI {
      Search Console time series (Growth+)
      
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     - parameter range: (query) Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. (optional)
      - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
      - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
      - parameter granularity: (query)  (optional)
@@ -1180,7 +1180,7 @@ open class SearchConsoleAPI {
        - type: http
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back, today included (alternative to from/to). At most 487, Google&#39;s retention. (optional)
+     - parameter range: (query) Number of days to look back, today included (alternative to from/to, which win when both are given). At most 487, Google&#39;s retention. A value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside from/to. (optional)
      - parameter from: (query) Start date (YYYY-MM-DD). Defaults to 30 days ago. (optional)
      - parameter to: (query) End date (YYYY-MM-DD), inclusive. Defaults to today. Google publishes data with a 2-3 day lag, so data_through in the response says how far it reaches. (optional)
      - parameter granularity: (query)  (optional)

@@ -85,6 +85,15 @@ open class AnswersAPI {
     }
 
     /**
+     * enum for parameter brandKind
+     */
+    public enum BrandKind_listAnswers: String, Sendable, CaseIterable {
+        case brand = "brand"
+        case brandOther = "brand_other"
+        case nonBrand = "non_brand"
+    }
+
+    /**
      * enum for parameter mentionFilter
      */
     public enum MentionFilter_listAnswers: String, Sendable, CaseIterable {
@@ -121,12 +130,14 @@ open class AnswersAPI {
      - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
-     - parameter prompt: (query) Filter by prompt ID (optional)
+     - parameter prompt: (query) Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter mentionFilter: (query) Filter by which brands are mentioned, as a two-axis matrix (your brand x competitors): mentions_you / not_mentions_you, mentions_competitor / not_mentions_competitor, and the four combined cells you_and_competitor, competitor_not_you (a rival wins and you are absent), you_not_competitor, no_brands (no tracked brand appears, i.e. open space; on answers, finished answers only). Combine with &#39;competitors&#39; to narrow the competitor side to specific rivals; on a negative cell that reads &#39;none of these&#39;. On /dimensions/sources it applies to the crawled content of each cited page instead of the answer text. The legacy value &#39;competitors_only&#39; is still accepted as an alias of competitor_not_you. (optional)
      - parameter citationFilter: (query) Same two-axis matrix applied to the domains cited in the answer instead of the brands named in it (cites_no_brands still allows other domains), plus no_citations, finished answers that cite no source at all. Independent of mention_filter; pass both to intersect them (e.g. mentions_you + not_cites_you finds answers that talk about you without linking to you). (optional)
-     - parameter competitors: (query) Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
-     - parameter from: (query)  (optional)
-     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter competitors: (query) Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) (optional)
+     - parameter from: (query) Start of the window. Sent alone, the window runs from it to the end of today. A from later than to, or a window longer than 1,500 days, returns 422 ERR_INVALID_PARAM. (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it. (optional)
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
      - parameter query: (query) Case-insensitive full-text search inside AI response texts. Switches items to snippet + match_count mode. (optional)
@@ -134,8 +145,8 @@ open class AnswersAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    open class func listAnswers(projectId: Int, model: Model_listAnswers? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, mentionFilter: MentionFilter_listAnswers? = nil, citationFilter: CitationFilter_listAnswers? = nil, competitors: String? = nil, from: Date? = nil, to: Date? = nil, page: Int? = nil, perPage: Int? = nil, query: String? = nil, noResult: Bool? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await listAnswersWithRequestBuilder(projectId: projectId, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, mentionFilter: mentionFilter, citationFilter: citationFilter, competitors: competitors, from: from, to: to, page: page, perPage: perPage, query: query, noResult: noResult, apiConfiguration: apiConfiguration).execute().body
+    open class func listAnswers(projectId: Int, model: Model_listAnswers? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listAnswers? = nil, mentionFilter: MentionFilter_listAnswers? = nil, citationFilter: CitationFilter_listAnswers? = nil, competitors: String? = nil, from: Date? = nil, to: Date? = nil, page: Int? = nil, perPage: Int? = nil, query: String? = nil, noResult: Bool? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await listAnswersWithRequestBuilder(projectId: projectId, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, promptType: promptType, brandKind: brandKind, mentionFilter: mentionFilter, citationFilter: citationFilter, competitors: competitors, from: from, to: to, page: page, perPage: perPage, query: query, noResult: noResult, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -150,12 +161,14 @@ open class AnswersAPI {
      - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
-     - parameter prompt: (query) Filter by prompt ID (optional)
+     - parameter prompt: (query) Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter mentionFilter: (query) Filter by which brands are mentioned, as a two-axis matrix (your brand x competitors): mentions_you / not_mentions_you, mentions_competitor / not_mentions_competitor, and the four combined cells you_and_competitor, competitor_not_you (a rival wins and you are absent), you_not_competitor, no_brands (no tracked brand appears, i.e. open space; on answers, finished answers only). Combine with &#39;competitors&#39; to narrow the competitor side to specific rivals; on a negative cell that reads &#39;none of these&#39;. On /dimensions/sources it applies to the crawled content of each cited page instead of the answer text. The legacy value &#39;competitors_only&#39; is still accepted as an alias of competitor_not_you. (optional)
      - parameter citationFilter: (query) Same two-axis matrix applied to the domains cited in the answer instead of the brands named in it (cites_no_brands still allows other domains), plus no_citations, finished answers that cite no source at all. Independent of mention_filter; pass both to intersect them (e.g. mentions_you + not_cites_you finds answers that talk about you without linking to you). (optional)
-     - parameter competitors: (query) Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
-     - parameter from: (query)  (optional)
-     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter competitors: (query) Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) (optional)
+     - parameter from: (query) Start of the window. Sent alone, the window runs from it to the end of today. A from later than to, or a window longer than 1,500 days, returns 422 ERR_INVALID_PARAM. (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it. (optional)
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
      - parameter query: (query) Case-insensitive full-text search inside AI response texts. Switches items to snippet + match_count mode. (optional)
@@ -163,7 +176,7 @@ open class AnswersAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func listAnswersWithRequestBuilder(projectId: Int, model: Model_listAnswers? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, mentionFilter: MentionFilter_listAnswers? = nil, citationFilter: CitationFilter_listAnswers? = nil, competitors: String? = nil, from: Date? = nil, to: Date? = nil, page: Int? = nil, perPage: Int? = nil, query: String? = nil, noResult: Bool? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listAnswersWithRequestBuilder(projectId: Int, model: Model_listAnswers? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listAnswers? = nil, mentionFilter: MentionFilter_listAnswers? = nil, citationFilter: CitationFilter_listAnswers? = nil, competitors: String? = nil, from: Date? = nil, to: Date? = nil, page: Int? = nil, perPage: Int? = nil, query: String? = nil, noResult: Bool? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/answers"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -176,6 +189,8 @@ open class AnswersAPI {
             "country_code": (wrappedValue: countryCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "language_code": (wrappedValue: languageCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "prompt": (wrappedValue: prompt?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "prompt_type": (wrappedValue: promptType?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "brand_kind": (wrappedValue: brandKind?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "mention_filter": (wrappedValue: mentionFilter?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "citation_filter": (wrappedValue: citationFilter?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "competitors": (wrappedValue: competitors?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),

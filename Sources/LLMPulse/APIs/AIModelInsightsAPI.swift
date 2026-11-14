@@ -31,7 +31,7 @@ open class AIModelInsightsAPI {
      AI Model Insights summary
      
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter granularity: (query)  (optional)
@@ -40,7 +40,7 @@ open class AIModelInsightsAPI {
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
-     - parameter competitors: (query) Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
+     - parameter competitors: (query) Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AiModelInsightsSummaryResponse
      */
@@ -56,7 +56,7 @@ open class AIModelInsightsAPI {
        - type: http
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter granularity: (query)  (optional)
@@ -65,7 +65,7 @@ open class AIModelInsightsAPI {
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
-     - parameter competitors: (query) Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
+     - parameter competitors: (query) Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<AiModelInsightsSummaryResponse> 
      */
@@ -140,7 +140,7 @@ open class AIModelInsightsAPI {
      Position distribution comparison
      
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter granularity: (query)  (optional)
@@ -166,7 +166,7 @@ open class AIModelInsightsAPI {
        - type: http
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter granularity: (query)  (optional)
@@ -237,7 +237,7 @@ open class AIModelInsightsAPI {
      Google AI Overview result availability
      
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter granularity: (query)  (optional)
@@ -262,7 +262,7 @@ open class AIModelInsightsAPI {
        - type: http
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter granularity: (query)  (optional)

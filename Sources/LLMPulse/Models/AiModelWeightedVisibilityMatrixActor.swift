@@ -22,7 +22,7 @@ public struct AiModelWeightedVisibilityMatrixActor: Sendable, Codable, Hashable 
     public var name: String?
     /** Bare (scheme-less) domain. Null for the project actor when the project has no URL. */
     public var domain: String?
-    /** The actor's AI Visibility Score points summed over the models */
+    /** The actor's AI Visibility Score across the enabled models, its points there divided by the project's days with answers in them, so actors compare */
     public var totalWeightedVisibilityScore: Double?
     /** One cell per model, keyed by model */
     public var models: [String: AiModelWeightedVisibilityCell]?

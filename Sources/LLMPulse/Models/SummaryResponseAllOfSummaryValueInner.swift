@@ -15,8 +15,9 @@ public struct SummaryResponseAllOfSummaryValueInner: Sendable, Codable, Hashable
     }
     public var actor: Actor?
     public var metric: String?
+    /** Count metrics sum the buckets; rate, position and sentiment metrics average them. ai_visibility_score (weighted_visibility) is the window's points divided by its data days (the days with responses under the filters), the number the app shows, whatever the granularity. */
     public var total: Double?
-    /** How total combines the buckets */
+    /** How total combines the buckets (average for ai_visibility_score, a per-data-day score) */
     public var aggregation: Aggregation?
     public var min: Double?
     public var max: Double?

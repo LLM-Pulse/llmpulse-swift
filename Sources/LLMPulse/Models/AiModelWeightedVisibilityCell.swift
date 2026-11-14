@@ -9,7 +9,7 @@ import Foundation
 
 public struct AiModelWeightedVisibilityCell: Sendable, Codable, Hashable {
 
-    /** The actor's AI Visibility Score points in the model; 0 when it has none */
+    /** The actor's AI Visibility Score in the model, its points there divided by the project's days with answers in that model; 0 when it has none */
     public var value: Double?
 
     public init(value: Double? = nil) {

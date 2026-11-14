@@ -26,7 +26,7 @@ Paginated per-prompt aggregated metrics. Returns responses, mentions, citations,
 import LLMPulse
 
 let projectId = 987 // Int | Project ID
-let range = 987 // Int | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+let range = 987 // Int | Number of days to look back, today included. Required unless from is given, and from/to win when both are given: a request with neither range nor from, or a range that is not a plain positive number (even beside from/to), returns 422 ERR_INVALID_PARAM. (optional)
 let from = Date() // Date | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
 let breakdown = "breakdown_example" // String | Add per-(prompt, model) rows to the output (optional)
@@ -34,7 +34,7 @@ let model = "model_example" // String | Filter by one AI model. It must be a mod
 let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
 let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
-let prompt = 987 // Int | Filter by prompt ID (optional)
+let prompt = 987 // Int | Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (optional)
 let promptType = "promptType_example" // String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
 let brandKind = "brandKind_example" // String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
 let sort = "sort_example" // String |  (optional) (default to .responses)
@@ -61,7 +61,7 @@ MetricsAPI.getPromptSummary(projectId: projectId, range: range, from: from, to: 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **projectId** | **Int** | Project ID | 
- **range** | **Int** | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. | [optional] 
+ **range** | **Int** | Number of days to look back, today included. Required unless from is given, and from/to win when both are given: a request with neither range nor from, or a range that is not a plain positive number (even beside from/to), returns 422 ERR_INVALID_PARAM. | [optional] 
  **from** | **Date** | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. | [optional] 
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **breakdown** | **String** | Add per-(prompt, model) rows to the output | [optional] 
@@ -69,7 +69,7 @@ Name | Type | Description  | Notes
  **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
- **prompt** | **Int** | Filter by prompt ID | [optional] 
+ **prompt** | **Int** | Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. | [optional] 
  **promptType** | **String** | One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
  **brandKind** | **String** | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
  **sort** | **String** |  | [optional] [default to .responses]
@@ -108,18 +108,18 @@ Share of Voice breakdown comparing your project to competitors. Returns over_tim
 import LLMPulse
 
 let projectId = 987 // Int | Project ID
-let range = 987 // Int | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+let range = 987 // Int | Number of days to look back, today included. Required unless from is given, and from/to win when both are given: a request with neither range nor from, or a range that is not a plain positive number (even beside from/to), returns 422 ERR_INVALID_PARAM. (optional)
 let from = Date() // Date | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
 let granularity = "granularity_example" // String |  (optional)
-let competitors = "competitors_example" // String | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
+let competitors = "competitors_example" // String | Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) (optional)
 let model = "model_example" // String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
 let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
-let prompt = 987 // Int | Filter by prompt ID (optional)
+let prompt = 987 // Int | Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (optional)
 let promptType = "promptType_example" // String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
 let brandKind = "brandKind_example" // String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
 let output = "output_example" // String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (optional)
-let view = "view_example" // String | Which Share of Voice projection to flatten. Only valid together with 'output'. 'over_time' (default) is one row per date and actor, 'current' the ranked snapshot, 'breakdown' the Top 4 plus Others. (optional) (default to .overTime)
+let view = "view_example" // String | Which Share of Voice projection to flatten. It applies only together with 'output'; an unknown value returns 422 ERR_INVALID_PARAM with or without it. 'over_time' (default) is one row per date and actor, 'current' the ranked snapshot, 'breakdown' the Top 4 plus Others. (optional) (default to .overTime)
 let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
 let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
 let includeProject = true // Bool |  (optional) (default to true)
@@ -142,18 +142,18 @@ MetricsAPI.getShareOfVoice(projectId: projectId, range: range, from: from, to: t
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **projectId** | **Int** | Project ID | 
- **range** | **Int** | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. | [optional] 
+ **range** | **Int** | Number of days to look back, today included. Required unless from is given, and from/to win when both are given: a request with neither range nor from, or a range that is not a plain positive number (even beside from/to), returns 422 ERR_INVALID_PARAM. | [optional] 
  **from** | **Date** | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. | [optional] 
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **granularity** | **String** |  | [optional] 
- **competitors** | **String** | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
+ **competitors** | **String** | Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) | [optional] 
  **model** | **String** | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. | [optional] 
  **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
- **prompt** | **Int** | Filter by prompt ID | [optional] 
+ **prompt** | **Int** | Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. | [optional] 
  **promptType** | **String** | One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
  **brandKind** | **String** | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
  **output** | **String** | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
- **view** | **String** | Which Share of Voice projection to flatten. Only valid together with &#39;output&#39;. &#39;over_time&#39; (default) is one row per date and actor, &#39;current&#39; the ranked snapshot, &#39;breakdown&#39; the Top 4 plus Others. | [optional] [default to .overTime]
+ **view** | **String** | Which Share of Voice projection to flatten. It applies only together with &#39;output&#39;; an unknown value returns 422 ERR_INVALID_PARAM with or without it. &#39;over_time&#39; (default) is one row per date and actor, &#39;current&#39; the ranked snapshot, &#39;breakdown&#39; the Top 4 plus Others. | [optional] [default to .overTime]
  **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
  **includeProject** | **Bool** |  | [optional] [default to true]
@@ -188,15 +188,15 @@ Same as /metrics/timeseries but adds a `summary` block with total/min/max/last p
 import LLMPulse
 
 let projectId = 987 // Int | Project ID
-let metrics = "metrics_example" // String | Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. (optional)
+let metrics = "metrics_example" // String | Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. weighted_visibility (ai_visibility_score) is position-weighted points divided by the days with responses, per period and for the summary total. (optional)
 let granularity = "granularity_example" // String |  (optional)
-let range = 987 // Int | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+let range = 987 // Int | Number of days to look back, today included. Required unless from is given, and from/to win when both are given: a request with neither range nor from, or a range that is not a plain positive number (even beside from/to), returns 422 ERR_INVALID_PARAM. (optional)
 let from = Date() // Date | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
-let competitors = "competitors_example" // String | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
+let competitors = "competitors_example" // String | Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) (optional)
 let model = "model_example" // String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
 let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
-let prompt = 987 // Int | Filter by prompt ID (optional)
+let prompt = 987 // Int | Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (optional)
 let promptType = "promptType_example" // String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
 let brandKind = "brandKind_example" // String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
 let output = "output_example" // String | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. 'flat' returns the same metadata plus 'columns' and 'rows'; 'csv' returns those rows as text/csv. Errors are always returned as JSON. (optional)
@@ -222,15 +222,15 @@ MetricsAPI.getSummary(projectId: projectId, metrics: metrics, granularity: granu
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **projectId** | **Int** | Project ID | 
- **metrics** | **String** | Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. | [optional] 
+ **metrics** | **String** | Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. weighted_visibility (ai_visibility_score) is position-weighted points divided by the days with responses, per period and for the summary total. | [optional] 
  **granularity** | **String** |  | [optional] 
- **range** | **Int** | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. | [optional] 
+ **range** | **Int** | Number of days to look back, today included. Required unless from is given, and from/to win when both are given: a request with neither range nor from, or a range that is not a plain positive number (even beside from/to), returns 422 ERR_INVALID_PARAM. | [optional] 
  **from** | **Date** | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. | [optional] 
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
- **competitors** | **String** | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
+ **competitors** | **String** | Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) | [optional] 
  **model** | **String** | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. | [optional] 
  **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
- **prompt** | **Int** | Filter by prompt ID | [optional] 
+ **prompt** | **Int** | Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. | [optional] 
  **promptType** | **String** | One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
  **brandKind** | **String** | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
  **output** | **String** | Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. | [optional] 
@@ -268,17 +268,17 @@ Returns time-series data for one or more metrics, broken down by actor (project 
 import LLMPulse
 
 let projectId = 987 // Int | Project ID
-let metrics = "metrics_example" // String | Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. (optional)
+let metrics = "metrics_example" // String | Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. weighted_visibility (ai_visibility_score) is position-weighted points divided by the days with responses, per period and for the summary total. (optional)
 let granularity = "granularity_example" // String |  (optional)
-let range = 987 // Int | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+let range = 987 // Int | Number of days to look back, today included. Required unless from is given, and from/to win when both are given: a request with neither range nor from, or a range that is not a plain positive number (even beside from/to), returns 422 ERR_INVALID_PARAM. (optional)
 let from = Date() // Date | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
-let competitors = "competitors_example" // String | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
+let competitors = "competitors_example" // String | Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) (optional)
 let model = "model_example" // String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
 let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
 let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
-let prompt = 987 // Int | Filter by prompt ID (optional)
+let prompt = 987 // Int | Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (optional)
 let promptType = "promptType_example" // String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
 let brandKind = "brandKind_example" // String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
 let includeProject = true // Bool |  (optional) (default to true)
@@ -302,17 +302,17 @@ MetricsAPI.getTimeseries(projectId: projectId, metrics: metrics, granularity: gr
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **projectId** | **Int** | Project ID | 
- **metrics** | **String** | Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. | [optional] 
+ **metrics** | **String** | Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. weighted_visibility (ai_visibility_score) is position-weighted points divided by the days with responses, per period and for the summary total. | [optional] 
  **granularity** | **String** |  | [optional] 
- **range** | **Int** | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. | [optional] 
+ **range** | **Int** | Number of days to look back, today included. Required unless from is given, and from/to win when both are given: a request with neither range nor from, or a range that is not a plain positive number (even beside from/to), returns 422 ERR_INVALID_PARAM. | [optional] 
  **from** | **Date** | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. | [optional] 
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
- **competitors** | **String** | Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) | [optional] 
+ **competitors** | **String** | Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) | [optional] 
  **model** | **String** | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. | [optional] 
  **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
- **prompt** | **Int** | Filter by prompt ID | [optional] 
+ **prompt** | **Int** | Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. | [optional] 
  **promptType** | **String** | One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
  **brandKind** | **String** | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
  **includeProject** | **Bool** |  | [optional] [default to true]
@@ -348,14 +348,14 @@ Registrable domains most frequently cited in AI responses for the project, inclu
 import LLMPulse
 
 let projectId = 987 // Int | Project ID
-let range = 987 // Int | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+let range = 987 // Int | Number of days to look back, today included. Required unless from is given, and from/to win when both are given: a request with neither range nor from, or a range that is not a plain positive number (even beside from/to), returns 422 ERR_INVALID_PARAM. (optional)
 let from = Date() // Date | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
 let model = "model_example" // String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
 let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
 let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
-let prompt = 987 // Int | Filter by prompt ID (optional)
+let prompt = 987 // Int | Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (optional)
 let promptType = "promptType_example" // String | One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
 let brandKind = "brandKind_example" // String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
 let sort = "sort_example" // String |  (optional) (default to .totalResponses)
@@ -384,14 +384,14 @@ MetricsAPI.getTopSources(projectId: projectId, range: range, from: from, to: to,
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **projectId** | **Int** | Project ID | 
- **range** | **Int** | Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. | [optional] 
+ **range** | **Int** | Number of days to look back, today included. Required unless from is given, and from/to win when both are given: a request with neither range nor from, or a range that is not a plain positive number (even beside from/to), returns 422 ERR_INVALID_PARAM. | [optional] 
  **from** | **Date** | Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. | [optional] 
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **model** | **String** | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. | [optional] 
  **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
- **prompt** | **Int** | Filter by prompt ID | [optional] 
+ **prompt** | **Int** | Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. | [optional] 
  **promptType** | **String** | One prompt type or a comma-separated list: informational, navigational, commercial, transactional | [optional] 
  **brandKind** | **String** | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
  **sort** | **String** |  | [optional] [default to .totalResponses]

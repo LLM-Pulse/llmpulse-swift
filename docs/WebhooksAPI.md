@@ -124,7 +124,7 @@ Lists active webhook subscriptions for the account, optionally filtered by proje
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import LLMPulse
 
-let projectId = 987 // Int | Optional project filter (optional)
+let projectId = 987 // Int | Optional project filter. An id that is not a plain number, or that names no project of the account, returns ERR_PROJECT_NOT_FOUND. (optional)
 let page = 987 // Int |  (optional)
 let perPage = 987 // Int | Max 100 (optional)
 
@@ -145,7 +145,7 @@ WebhooksAPI.listWebhooks(projectId: projectId, page: page, perPage: perPage) { (
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **projectId** | **Int** | Optional project filter | [optional] 
+ **projectId** | **Int** | Optional project filter. An id that is not a plain number, or that names no project of the account, returns ERR_PROJECT_NOT_FOUND. | [optional] 
  **page** | **Int** |  | [optional] 
  **perPage** | **Int** | Max 100 | [optional] 
 

@@ -95,7 +95,7 @@ open class WebhooksAPI {
     /**
      List webhook subscriptions
      
-     - parameter projectId: (query) Optional project filter (optional)
+     - parameter projectId: (query) Optional project filter. An id that is not a plain number, or that names no project of the account, returns ERR_PROJECT_NOT_FOUND. (optional)
      - parameter page: (query)  (optional)
      - parameter perPage: (query) Max 100 (optional)
      - parameter apiConfiguration: The configuration for the http request.
@@ -112,7 +112,7 @@ open class WebhooksAPI {
      - Bearer Token:
        - type: http
        - name: BearerAuth
-     - parameter projectId: (query) Optional project filter (optional)
+     - parameter projectId: (query) Optional project filter. An id that is not a plain number, or that names no project of the account, returns ERR_PROJECT_NOT_FOUND. (optional)
      - parameter page: (query)  (optional)
      - parameter perPage: (query) Max 100 (optional)
      - parameter apiConfiguration: The configuration for the http request.

@@ -82,7 +82,7 @@ open class MetricsAPI {
      Per-prompt metrics summary
      
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+     - parameter range: (query) Number of days to look back, today included. Required unless from is given, and from/to win when both are given: a request with neither range nor from, or a range that is not a plain positive number (even beside from/to), returns 422 ERR_INVALID_PARAM. (optional)
      - parameter from: (query) Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter breakdown: (query) Add per-(prompt, model) rows to the output (optional)
@@ -90,7 +90,7 @@ open class MetricsAPI {
      - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
-     - parameter prompt: (query) Filter by prompt ID (optional)
+     - parameter prompt: (query) Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (optional)
      - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter sort: (query)  (optional, default to .responses)
@@ -113,7 +113,7 @@ open class MetricsAPI {
        - type: http
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+     - parameter range: (query) Number of days to look back, today included. Required unless from is given, and from/to win when both are given: a request with neither range nor from, or a range that is not a plain positive number (even beside from/to), returns 422 ERR_INVALID_PARAM. (optional)
      - parameter from: (query) Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter breakdown: (query) Add per-(prompt, model) rows to the output (optional)
@@ -121,7 +121,7 @@ open class MetricsAPI {
      - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
-     - parameter prompt: (query) Filter by prompt ID (optional)
+     - parameter prompt: (query) Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (optional)
      - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter sort: (query)  (optional, default to .responses)
@@ -232,18 +232,18 @@ open class MetricsAPI {
      Share of Voice
      
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+     - parameter range: (query) Number of days to look back, today included. Required unless from is given, and from/to win when both are given: a request with neither range nor from, or a range that is not a plain positive number (even beside from/to), returns 422 ERR_INVALID_PARAM. (optional)
      - parameter from: (query) Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter granularity: (query)  (optional)
-     - parameter competitors: (query) Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
+     - parameter competitors: (query) Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) (optional)
      - parameter model: (query) Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
      - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
-     - parameter prompt: (query) Filter by prompt ID (optional)
+     - parameter prompt: (query) Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (optional)
      - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     - parameter view: (query) Which Share of Voice projection to flatten. Only valid together with &#39;output&#39;. &#39;over_time&#39; (default) is one row per date and actor, &#39;current&#39; the ranked snapshot, &#39;breakdown&#39; the Top 4 plus Others. (optional, default to .overTime)
+     - parameter view: (query) Which Share of Voice projection to flatten. It applies only together with &#39;output&#39;; an unknown value returns 422 ERR_INVALID_PARAM with or without it. &#39;over_time&#39; (default) is one row per date and actor, &#39;current&#39; the ranked snapshot, &#39;breakdown&#39; the Top 4 plus Others. (optional, default to .overTime)
      - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      - parameter includeProject: (query)  (optional, default to true)
@@ -262,18 +262,18 @@ open class MetricsAPI {
        - type: http
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+     - parameter range: (query) Number of days to look back, today included. Required unless from is given, and from/to win when both are given: a request with neither range nor from, or a range that is not a plain positive number (even beside from/to), returns 422 ERR_INVALID_PARAM. (optional)
      - parameter from: (query) Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter granularity: (query)  (optional)
-     - parameter competitors: (query) Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
+     - parameter competitors: (query) Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) (optional)
      - parameter model: (query) Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
      - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
-     - parameter prompt: (query) Filter by prompt ID (optional)
+     - parameter prompt: (query) Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (optional)
      - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
-     - parameter view: (query) Which Share of Voice projection to flatten. Only valid together with &#39;output&#39;. &#39;over_time&#39; (default) is one row per date and actor, &#39;current&#39; the ranked snapshot, &#39;breakdown&#39; the Top 4 plus Others. (optional, default to .overTime)
+     - parameter view: (query) Which Share of Voice projection to flatten. It applies only together with &#39;output&#39;; an unknown value returns 422 ERR_INVALID_PARAM with or without it. &#39;over_time&#39; (default) is one row per date and actor, &#39;current&#39; the ranked snapshot, &#39;breakdown&#39; the Top 4 plus Others. (optional, default to .overTime)
      - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
      - parameter includeProject: (query)  (optional, default to true)
@@ -370,15 +370,15 @@ open class MetricsAPI {
      Aggregated metrics summary
      
      - parameter projectId: (query) Project ID 
-     - parameter metrics: (query) Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. (optional)
+     - parameter metrics: (query) Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. weighted_visibility (ai_visibility_score) is position-weighted points divided by the days with responses, per period and for the summary total. (optional)
      - parameter granularity: (query)  (optional)
-     - parameter range: (query) Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+     - parameter range: (query) Number of days to look back, today included. Required unless from is given, and from/to win when both are given: a request with neither range nor from, or a range that is not a plain positive number (even beside from/to), returns 422 ERR_INVALID_PARAM. (optional)
      - parameter from: (query) Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
-     - parameter competitors: (query) Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
+     - parameter competitors: (query) Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) (optional)
      - parameter model: (query) Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
      - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
-     - parameter prompt: (query) Filter by prompt ID (optional)
+     - parameter prompt: (query) Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (optional)
      - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
@@ -400,15 +400,15 @@ open class MetricsAPI {
        - type: http
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
-     - parameter metrics: (query) Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. (optional)
+     - parameter metrics: (query) Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. weighted_visibility (ai_visibility_score) is position-weighted points divided by the days with responses, per period and for the summary total. (optional)
      - parameter granularity: (query)  (optional)
-     - parameter range: (query) Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+     - parameter range: (query) Number of days to look back, today included. Required unless from is given, and from/to win when both are given: a request with neither range nor from, or a range that is not a plain positive number (even beside from/to), returns 422 ERR_INVALID_PARAM. (optional)
      - parameter from: (query) Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
-     - parameter competitors: (query) Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
+     - parameter competitors: (query) Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) (optional)
      - parameter model: (query) Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
      - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
-     - parameter prompt: (query) Filter by prompt ID (optional)
+     - parameter prompt: (query) Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (optional)
      - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
@@ -508,17 +508,17 @@ open class MetricsAPI {
      Time-series metrics
      
      - parameter projectId: (query) Project ID 
-     - parameter metrics: (query) Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. (optional)
+     - parameter metrics: (query) Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. weighted_visibility (ai_visibility_score) is position-weighted points divided by the days with responses, per period and for the summary total. (optional)
      - parameter granularity: (query)  (optional)
-     - parameter range: (query) Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+     - parameter range: (query) Number of days to look back, today included. Required unless from is given, and from/to win when both are given: a request with neither range nor from, or a range that is not a plain positive number (even beside from/to), returns 422 ERR_INVALID_PARAM. (optional)
      - parameter from: (query) Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
-     - parameter competitors: (query) Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
+     - parameter competitors: (query) Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) (optional)
      - parameter model: (query) Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
      - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
-     - parameter prompt: (query) Filter by prompt ID (optional)
+     - parameter prompt: (query) Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (optional)
      - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter includeProject: (query)  (optional, default to true)
@@ -538,17 +538,17 @@ open class MetricsAPI {
        - type: http
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
-     - parameter metrics: (query) Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. (optional)
+     - parameter metrics: (query) Comma-separated list of metrics: mentions, citations, responses, mention_rate, visibility (alias for mention_rate), weighted_visibility, ai_visibility_score (alias for weighted_visibility), citation_rate, avg_position, avg_mention_position, net_sentiment, sentiment_very_positive, sentiment_positive, sentiment_neutral, sentiment_negative, sentiment_very_negative. Citations and citation_rate include visible citations and background source references; avg_position uses visible citations only. weighted_visibility (ai_visibility_score) is position-weighted points divided by the days with responses, per period and for the summary total. (optional)
      - parameter granularity: (query)  (optional)
-     - parameter range: (query) Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+     - parameter range: (query) Number of days to look back, today included. Required unless from is given, and from/to win when both are given: a request with neither range nor from, or a range that is not a plain positive number (even beside from/to), returns 422 ERR_INVALID_PARAM. (optional)
      - parameter from: (query) Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
-     - parameter competitors: (query) Comma-separated competitor IDs (unknown IDs return ERR_INVALID_PARAM) (optional)
+     - parameter competitors: (query) Comma-separated competitor IDs (a malformed or unknown ID returns ERR_INVALID_PARAM) (optional)
      - parameter model: (query) Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
      - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
-     - parameter prompt: (query) Filter by prompt ID (optional)
+     - parameter prompt: (query) Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (optional)
      - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter includeProject: (query)  (optional, default to true)
@@ -646,14 +646,14 @@ open class MetricsAPI {
      Top cited sources
      
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+     - parameter range: (query) Number of days to look back, today included. Required unless from is given, and from/to win when both are given: a request with neither range nor from, or a range that is not a plain positive number (even beside from/to), returns 422 ERR_INVALID_PARAM. (optional)
      - parameter from: (query) Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter model: (query) Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
      - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
-     - parameter prompt: (query) Filter by prompt ID (optional)
+     - parameter prompt: (query) Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (optional)
      - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter sort: (query)  (optional, default to .totalResponses)
@@ -678,14 +678,14 @@ open class MetricsAPI {
        - type: http
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back, today included. Required unless from is given: a request with neither range nor from returns 422 ERR_INVALID_PARAM. (optional)
+     - parameter range: (query) Number of days to look back, today included. Required unless from is given, and from/to win when both are given: a request with neither range nor from, or a range that is not a plain positive number (even beside from/to), returns 422 ERR_INVALID_PARAM. (optional)
      - parameter from: (query) Start of the window, instead of range (to then defaults to the end of today). Required unless range is given. (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter model: (query) Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. The legacy values google-ai-mode and google-ai-overview are also accepted, as ai_mode and ai_overview. (optional)
      - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
      - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
      - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
-     - parameter prompt: (query) Filter by prompt ID (optional)
+     - parameter prompt: (query) Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (optional)
      - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter sort: (query)  (optional, default to .totalResponses)

@@ -30,7 +30,7 @@ open class AIAgentTrafficAPI {
      AI bot crawler traffic (Scale plan or above, Beta)
      
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter bot: (query) Filter by bot slug (e.g. gptbot, claudebot, perplexitybot) (optional)
@@ -52,7 +52,7 @@ open class AIAgentTrafficAPI {
        - type: http
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter bot: (query) Filter by bot slug (e.g. gptbot, claudebot, perplexitybot) (optional)
@@ -104,7 +104,7 @@ open class AIAgentTrafficAPI {
      AI referral traffic (Scale plan or above)
      
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter source: (query) Filter by a single AI source slug (e.g. chatgpt, perplexity, gemini, claude) (optional)
@@ -124,7 +124,7 @@ open class AIAgentTrafficAPI {
        - type: http
        - name: BearerAuth
      - parameter projectId: (query) Project ID 
-     - parameter range: (query) Number of days to look back (alternative to from/to) (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter source: (query) Filter by a single AI source slug (e.g. chatgpt, perplexity, gemini, claude) (optional)

@@ -15,9 +15,9 @@ public struct AiModelWeightedVisibilityRow: Sendable, Codable, Hashable {
     public var label: String?
     /** Hex color the app charts the model with */
     public var color: String?
-    /** The brand's AI Visibility Score points in the model; 0 when it has none */
+    /** The brand's AI Visibility Score in the model, its points there divided by the days the model answered; 0 when it has none */
     public var weightedVisibilityScore: Double?
-    /** The model's percentage (0-100) of total_weighted_visibility_score; null when that total is 0 */
+    /** The model's percentage (0-100) of the brand's AI Visibility Score points; null when the brand has none */
     public var shareOfTotal: Double?
 
     public init(model: String? = nil, label: String? = nil, color: String? = nil, weightedVisibilityScore: Double? = nil, shareOfTotal: Double? = nil) {

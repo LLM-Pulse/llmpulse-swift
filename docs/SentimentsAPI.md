@@ -25,7 +25,7 @@ One row per tag of the project with at least one analyzed mention, with the posi
 import LLMPulse
 
 let projectId = 987 // Int | Project ID
-let range = 987 // Int | Number of days to look back, today included (default 28, like the Sentiment page). Ignored when from or to is given. (optional)
+let range = 987 // Int | Number of days to look back, today included (default 28, like the Sentiment page). from or to win over it, but a value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside them. (optional)
 let from = Date() // Date |  (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
 let model = "model_example" // String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
@@ -61,7 +61,7 @@ SentimentsAPI.getSentimentTags(projectId: projectId, range: range, from: from, t
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **projectId** | **Int** | Project ID | 
- **range** | **Int** | Number of days to look back, today included (default 28, like the Sentiment page). Ignored when from or to is given. | [optional] 
+ **range** | **Int** | Number of days to look back, today included (default 28, like the Sentiment page). from or to win over it, but a value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside them. | [optional] 
  **from** | **Date** |  | [optional] 
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **model** | **String** | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. | [optional] 
@@ -109,7 +109,7 @@ One row per topic AI answers associate with the brand (topics are matched case-i
 import LLMPulse
 
 let projectId = 987 // Int | Project ID
-let range = 987 // Int | Number of days to look back, today included (default 28, like the Sentiment page). Ignored when from or to is given. (optional)
+let range = 987 // Int | Number of days to look back, today included (default 28, like the Sentiment page). from or to win over it, but a value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside them. (optional)
 let from = Date() // Date |  (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
 let model = "model_example" // String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
@@ -145,7 +145,7 @@ SentimentsAPI.getSentimentTopics(projectId: projectId, range: range, from: from,
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **projectId** | **Int** | Project ID | 
- **range** | **Int** | Number of days to look back, today included (default 28, like the Sentiment page). Ignored when from or to is given. | [optional] 
+ **range** | **Int** | Number of days to look back, today included (default 28, like the Sentiment page). from or to win over it, but a value that is not a plain positive number returns 422 ERR_INVALID_PARAM even beside them. | [optional] 
  **from** | **Date** |  | [optional] 
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **model** | **String** | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. | [optional] 
@@ -245,15 +245,15 @@ Requires the Growth plan; lower tiers receive ERR_PLAN_REQUIRED.
 import LLMPulse
 
 let projectId = 987 // Int | Project ID
-let competitorId = 987 // Int |  (optional)
-let brandOnly = true // Bool |  (optional)
+let competitorId = 987 // Int | Keep the sentiments about this competitor. An id that is not a plain positive number, or that names no competitor of the project, returns 422 ERR_INVALID_PARAM. (optional)
+let brandOnly = true // Bool | true keeps only the sentiments about your own brand. (optional)
 let analysis = "analysis_example" // String | One sentiment level or a comma-separated list: very_positive, positive, neutral, negative, very_negative (optional)
-let model = "model_example" // String | Filter by one AI model. Here an unknown value, or a model the API key's user has not enabled, is ignored rather than rejected: the request succeeds and returns the records of every enabled model, as if model were omitted. (optional)
+let model = "model_example" // String | Filter by one AI model. It must be a model enabled for the API key's user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. (optional)
 let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
 let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
 let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
-let from = Date() // Date |  (optional)
-let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+let from = Date() // Date | Start of the window. Sent alone, the window runs from it to the end of today. A from later than to, or a window longer than 1,500 days, returns 422 ERR_INVALID_PARAM. (optional)
+let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it. (optional)
 let page = 987 // Int |  (optional) (default to 1)
 let perPage = 987 // Int |  (optional) (default to 20)
 
@@ -275,15 +275,15 @@ SentimentsAPI.listSentimentRecords(projectId: projectId, competitorId: competito
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **projectId** | **Int** | Project ID | 
- **competitorId** | **Int** |  | [optional] 
- **brandOnly** | **Bool** |  | [optional] 
+ **competitorId** | **Int** | Keep the sentiments about this competitor. An id that is not a plain positive number, or that names no competitor of the project, returns 422 ERR_INVALID_PARAM. | [optional] 
+ **brandOnly** | **Bool** | true keeps only the sentiments about your own brand. | [optional] 
  **analysis** | **String** | One sentiment level or a comma-separated list: very_positive, positive, neutral, negative, very_negative | [optional] 
- **model** | **String** | Filter by one AI model. Here an unknown value, or a model the API key&#39;s user has not enabled, is ignored rather than rejected: the request succeeds and returns the records of every enabled model, as if model were omitted. | [optional] 
+ **model** | **String** | Filter by one AI model. It must be a model enabled for the API key&#39;s user: an unknown value, or a model the user has not enabled, returns 422 ERR_INVALID_PARAM with the valid values in the message. | [optional] 
  **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
  **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
  **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
- **from** | **Date** |  | [optional] 
- **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
+ **from** | **Date** | Start of the window. Sent alone, the window runs from it to the end of today. A from later than to, or a window longer than 1,500 days, returns 422 ERR_INVALID_PARAM. | [optional] 
+ **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it. | [optional] 
  **page** | **Int** |  | [optional] [default to 1]
  **perPage** | **Int** |  | [optional] [default to 20]
 

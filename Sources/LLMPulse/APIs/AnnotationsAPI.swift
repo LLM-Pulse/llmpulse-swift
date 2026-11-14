@@ -104,7 +104,7 @@ open class AnnotationsAPI {
      - parameter projectId: (query) Project ID 
      - parameter from: (query)  (optional)
      - parameter to: (query)  (optional)
-     - parameter annotationCategoryId: (query)  (optional)
+     - parameter annotationCategoryId: (query) Keep the annotations filed under this category, one of the project&#39;s or a system category. Any other id returns 422 ERR_INVALID_PARAM. (optional)
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
      - parameter apiConfiguration: The configuration for the http request.
@@ -124,7 +124,7 @@ open class AnnotationsAPI {
      - parameter projectId: (query) Project ID 
      - parameter from: (query)  (optional)
      - parameter to: (query)  (optional)
-     - parameter annotationCategoryId: (query)  (optional)
+     - parameter annotationCategoryId: (query) Keep the annotations filed under this category, one of the project&#39;s or a system category. Any other id returns 422 ERR_INVALID_PARAM. (optional)
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
      - parameter apiConfiguration: The configuration for the http request.
