@@ -15,10 +15,12 @@ public struct UpdateProjectDraftRequest: Sendable, Codable, Hashable {
         case competitors = "competitors"
         case ownedMedia = "owned_media"
     }
+    public static let brandNameRule = StringRule(minLength: nil, maxLength: 100, pattern: nil)
     public static let matchingNamesRule = ArrayRule(minItems: nil, maxItems: 50, uniqueItems: false)
     public static let promptsRule = ArrayRule(minItems: nil, maxItems: 100, uniqueItems: false)
     public var step: Step
     public var name: String?
+    /** Defaults to name. Up to 100 characters, the name included when it stands in; finalize refuses a longer one with ERR_INVALID_PARAM */
     public var brandName: String?
     public var description: String?
     public var industry: [String]?

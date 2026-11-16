@@ -9,11 +9,12 @@ import Foundation
 
 public struct UpdateProjectRequest: Sendable, Codable, Hashable {
 
+    public static let brandNameRule = StringRule(minLength: nil, maxLength: 100, pattern: nil)
     public static let matchingNamesRule = ArrayRule(minItems: nil, maxItems: 50, uniqueItems: false)
     public static let promptLimitRule = NumericRule<Int>(minimum: 1, exclusiveMinimum: false, maximum: 2147483647, exclusiveMaximum: false, multipleOf: nil)
     /** Project name shown in the app. A label: it does not change mention detection unless brand_name is empty. Cannot be blank */
     public var name: String?
-    /** Brand name used to detect mentions. Applies to future runs; it does not rewrite history */
+    /** Brand name used to detect mentions, up to 100 characters (a longer one is refused with ERR_INVALID_PARAM). Applies to future runs; it does not rewrite history */
     public var brandName: String?
     /** What the brand does. Context for Recommendations and GEO Writer (Brand Book) */
     public var description: String?

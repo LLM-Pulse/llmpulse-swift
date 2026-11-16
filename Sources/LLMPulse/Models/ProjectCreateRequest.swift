@@ -9,6 +9,7 @@ import Foundation
 
 public struct ProjectCreateRequest: Sendable, Codable, Hashable {
 
+    public static let brandNameRule = StringRule(minLength: nil, maxLength: 100, pattern: nil)
     public static let matchingNamesRule = ArrayRule(minItems: nil, maxItems: 50, uniqueItems: false)
     public static let promptsRule = ArrayRule(minItems: nil, maxItems: 100, uniqueItems: false)
     public static let collectionsRule = ArrayRule(minItems: nil, maxItems: 50, uniqueItems: false)
@@ -19,6 +20,7 @@ public struct ProjectCreateRequest: Sendable, Codable, Hashable {
     public var name: String
     public var mainCountry: String
     public var mainLanguage: String
+    /** Defaults to name. Up to 100 characters, the name included when it stands in; a longer one is refused with ERR_INVALID_PARAM */
     public var brandName: String?
     public var description: String?
     /** Industry keys, case-insensitive; a single key string is also accepted. An unknown key returns ERR_INVALID_PARAM listing the valid keys (the same list as the in-app industry picker, e.g. TECHNOLOGY, SAAS, ECOMMERCE) */
