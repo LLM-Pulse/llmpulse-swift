@@ -4,13 +4,174 @@ All URIs are relative to *https://api.llmpulse.ai/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**addUrlListEntries**](SourcesCitationIntelligenceAPI.md#addurllistentries) | **POST** /url_lists/{id}/entries | Add entries to a URL list
+[**createUrlList**](SourcesCitationIntelligenceAPI.md#createurllist) | **POST** /url_lists | Create a URL list
+[**deleteUrlList**](SourcesCitationIntelligenceAPI.md#deleteurllist) | **DELETE** /url_lists/{id} | Delete a URL list
 [**getCitedUrlContent**](SourcesCitationIntelligenceAPI.md#getcitedurlcontent) | **GET** /citation_intelligence/urls/{url_sha256}/content | Cited URL cached content
 [**getCitedUrlDetail**](SourcesCitationIntelligenceAPI.md#getcitedurldetail) | **GET** /citation_intelligence/urls/{url_sha256} | Cited URL detail
 [**getMentionsByCitingDomain**](SourcesCitationIntelligenceAPI.md#getmentionsbycitingdomain) | **GET** /citation_intelligence/mentions_by_domain | Mention share by citing domain
+[**getUrlList**](SourcesCitationIntelligenceAPI.md#geturllist) | **GET** /url_lists/{id} | Get a URL list report
 [**listCitationGroups**](SourcesCitationIntelligenceAPI.md#listcitationgroups) | **GET** /citation_intelligence/groups | Grouped citation intelligence
 [**listCitedUrlOccurrences**](SourcesCitationIntelligenceAPI.md#listcitedurloccurrences) | **GET** /citation_intelligence/urls/{url_sha256}/occurrences | Cited URL occurrences
 [**listSources**](SourcesCitationIntelligenceAPI.md#listsources) | **GET** /dimensions/sources | List source URLs
+[**listUrlLists**](SourcesCitationIntelligenceAPI.md#listurllists) | **GET** /url_lists | List URL lists
+[**removeUrlListEntries**](SourcesCitationIntelligenceAPI.md#removeurllistentries) | **POST** /url_lists/{id}/entries/remove | Remove entries from a URL list
+[**updateUrlList**](SourcesCitationIntelligenceAPI.md#updateurllist) | **PATCH** /url_lists/{id} | Update a URL list
 
+
+# **addUrlListEntries**
+```swift
+    open class func addUrlListEntries(id: Int, urlListEntriesAddRequest: UrlListEntriesAddRequest, completion: @escaping (_ data: UrlListEntriesAddResponse?, _ error: Error?) -> Void)
+```
+
+Add entries to a URL list
+
+Adds entries, as POST /url_lists reads them. A rule the list already holds keeps its place and takes only the added_on, cost and channel this request sends for it. Values that do not parse come back in invalid_entries. Requires a `read_write` scope API key and the Growth plan.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import LLMPulse
+
+let id = 987 // Int | 
+let urlListEntriesAddRequest = UrlListEntriesAddRequest(projectId: 123, entries: [UrlListEntryInput(value: "value_example", matchType: "matchType_example", addedOn: Date(), cost: 123, channel: "channel_example")], matchType: "matchType_example") // UrlListEntriesAddRequest | 
+
+// Add entries to a URL list
+SourcesCitationIntelligenceAPI.addUrlListEntries(id: id, urlListEntriesAddRequest: urlListEntriesAddRequest) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **Int** |  | 
+ **urlListEntriesAddRequest** | [**UrlListEntriesAddRequest**](UrlListEntriesAddRequest.md) |  | 
+
+### Return type
+
+[**UrlListEntriesAddResponse**](UrlListEntriesAddResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **createUrlList**
+```swift
+    open class func createUrlList(urlListCreateRequest: UrlListCreateRequest, completion: @escaping (_ data: UrlListCreateResponse?, _ error: Error?) -> Void)
+```
+
+Create a URL list
+
+Creates a URL list. Each entry is a string or an object with value, match_type, added_on (YYYY-MM-DD, default today), cost (in the list currency) and channel. Without a match_type, \"acme.com/blog/_*\" is a prefix, a value with a path or query an exact URL and a bare host a domain. A list holds at most 1000 entries and a project at most 100 lists; the name is unique per project, case-insensitive. Refusals answer ERR_INVALID_PARAM with a reason token in error.meta.reason. Requires a `read_write` scope API key and the Growth plan.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import LLMPulse
+
+let urlListCreateRequest = UrlListCreateRequest(projectId: 123, name: "name_example", description: "description_example", currency: "currency_example", entries: [UrlListEntryInput(value: "value_example", matchType: "matchType_example", addedOn: Date(), cost: 123, channel: "channel_example")], matchType: "matchType_example") // UrlListCreateRequest | 
+
+// Create a URL list
+SourcesCitationIntelligenceAPI.createUrlList(urlListCreateRequest: urlListCreateRequest) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **urlListCreateRequest** | [**UrlListCreateRequest**](UrlListCreateRequest.md) |  | 
+
+### Return type
+
+[**UrlListCreateResponse**](UrlListCreateResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **deleteUrlList**
+```swift
+    open class func deleteUrlList(projectId: Int, id: Int, completion: @escaping (_ data: UrlListDeleteResponse?, _ error: Error?) -> Void)
+```
+
+Delete a URL list
+
+Deletes a URL list and its entries. Citation data is not affected. Requires a `read_write` scope API key and the Growth plan.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import LLMPulse
+
+let projectId = 987 // Int | Project ID
+let id = 987 // Int | 
+
+// Delete a URL list
+SourcesCitationIntelligenceAPI.deleteUrlList(projectId: projectId, id: id) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **projectId** | **Int** | Project ID | 
+ **id** | **Int** |  | 
+
+### Return type
+
+[**UrlListDeleteResponse**](UrlListDeleteResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getCitedUrlContent**
 ```swift
@@ -196,6 +357,86 @@ Name | Type | Description  | Notes
 ### Return type
 
 Void (empty response body)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getUrlList**
+```swift
+    open class func getUrlList(id: Int, projectId: Int, status: Status_getUrlList? = nil, order: Order_getUrlList? = nil, direction: Direction_getUrlList? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_getUrlList? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, brandKind: BrandKind_getUrlList? = nil, from: Date? = nil, to: Date? = nil, range: Int? = nil, completion: @escaping (_ data: UrlListDetailResponse?, _ error: Error?) -> Void)
+```
+
+Get a URL list report
+
+The list, its summary (entries_count, cited_entries, citations, answers in the window, citation_rate, avg_citation_position, median_days_to_first_citation, total_cost, cost_per_cited_entry) and a page of its entries. An entry's status is cited (an answer cited it in the window), lost (cited before the window, not in it) or not_cited. first_cited_at reads the filtered answers up to the window's end. days_to_first_citation is null before the first citation or when the page was cited before it was added. brand_mentioned is set for exact URLs once their page was read, else null. Without from/to or range the window is all time. Requires the Growth plan.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import LLMPulse
+
+let id = 987 // Int | 
+let projectId = 987 // Int | Project ID
+let status = "status_example" // String | Only entries with this status. (optional)
+let order = "order_example" // String |  (optional) (default to .citations)
+let direction = "direction_example" // String |  (optional) (default to .desc)
+let page = 987 // Int |  (optional) (default to 1)
+let perPage = 987 // Int |  (optional) (default to 20)
+let model = "model_example" // String | Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao and bing_ai_mode are accepted: any other value, including another model enabled for the API key's user, returns 422 ERR_INVALID_PARAM (invalid model). One of those eleven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
+let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+let prompt = 987 // Int | Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (optional)
+let brandKind = "brandKind_example" // String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+let from = Date() // Date |  (optional)
+let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+let range = 987 // Int | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
+
+// Get a URL list report
+SourcesCitationIntelligenceAPI.getUrlList(id: id, projectId: projectId, status: status, order: order, direction: direction, page: page, perPage: perPage, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, brandKind: brandKind, from: from, to: to, range: range) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **Int** |  | 
+ **projectId** | **Int** | Project ID | 
+ **status** | **String** | Only entries with this status. | [optional] 
+ **order** | **String** |  | [optional] [default to .citations]
+ **direction** | **String** |  | [optional] [default to .desc]
+ **page** | **Int** |  | [optional] [default to 1]
+ **perPage** | **Int** |  | [optional] [default to 20]
+ **model** | **String** | Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao and bing_ai_mode are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those eleven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. | [optional] 
+ **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
+ **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
+ **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
+ **prompt** | **Int** | Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. | [optional] 
+ **brandKind** | **String** | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
+ **from** | **Date** |  | [optional] 
+ **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
+ **range** | **Int** | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. | [optional] 
+
+### Return type
+
+[**UrlListDetailResponse**](UrlListDetailResponse.md)
 
 ### Authorization
 
@@ -426,6 +667,178 @@ Void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **listUrlLists**
+```swift
+    open class func listUrlLists(projectId: Int, model: Model_listUrlLists? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, brandKind: BrandKind_listUrlLists? = nil, from: Date? = nil, to: Date? = nil, range: Int? = nil, completion: @escaping (_ data: UrlListsResponse?, _ error: Error?) -> Void)
+```
+
+List URL lists
+
+A URL list is a named set of rules, each an exact URL (matched over http and https, with or without www), a URL prefix (every page under host/path) or a domain (the site and its subdomains). Its numbers count the AI answers to the prompts tracked in the project: cited_entries is the entries an answer cited in the window and citations the answers citing any entry, each once. Without from/to or range the window is all time. Requires the Growth plan; lower tiers receive ERR_PLAN_REQUIRED.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import LLMPulse
+
+let projectId = 987 // Int | Project ID
+let model = "model_example" // String | Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao and bing_ai_mode are accepted: any other value, including another model enabled for the API key's user, returns 422 ERR_INVALID_PARAM (invalid model). One of those eleven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
+let collectionId = "collectionId_example" // String | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+let countryCode = "countryCode_example" // String | One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+let languageCode = "languageCode_example" // String | One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+let prompt = 987 // Int | Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (optional)
+let brandKind = "brandKind_example" // String | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+let from = Date() // Date |  (optional)
+let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+let range = 987 // Int | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
+
+// List URL lists
+SourcesCitationIntelligenceAPI.listUrlLists(projectId: projectId, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, brandKind: brandKind, from: from, to: to, range: range) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **projectId** | **Int** | Project ID | 
+ **model** | **String** | Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao and bing_ai_mode are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those eleven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. | [optional] 
+ **collectionId** | **String** | One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. | [optional] 
+ **countryCode** | **String** | One ISO country code or a comma-separated list (e.g. US,GB,DE) | [optional] 
+ **languageCode** | **String** | One ISO language code or a comma-separated list (e.g. en,es,de) | [optional] 
+ **prompt** | **Int** | Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. | [optional] 
+ **brandKind** | **String** | Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. | [optional] 
+ **from** | **Date** |  | [optional] 
+ **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
+ **range** | **Int** | Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. | [optional] 
+
+### Return type
+
+[**UrlListsResponse**](UrlListsResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **removeUrlListEntries**
+```swift
+    open class func removeUrlListEntries(id: Int, urlListEntriesRemoveRequest: UrlListEntriesRemoveRequest, completion: @escaping (_ data: UrlListEntriesRemoveResponse?, _ error: Error?) -> Void)
+```
+
+Remove entries from a URL list
+
+Removes entries by id (from GET /url_lists/{id}) or by value as written (\"https://acme.com/a\", \"acme.com/blog/_*\", \"acme.com\"). Sending neither answers ERR_INVALID_PARAM. Requires a `read_write` scope API key and the Growth plan.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import LLMPulse
+
+let id = 987 // Int | 
+let urlListEntriesRemoveRequest = UrlListEntriesRemoveRequest(projectId: 123, entryIds: [123], values: ["values_example"]) // UrlListEntriesRemoveRequest | 
+
+// Remove entries from a URL list
+SourcesCitationIntelligenceAPI.removeUrlListEntries(id: id, urlListEntriesRemoveRequest: urlListEntriesRemoveRequest) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **Int** |  | 
+ **urlListEntriesRemoveRequest** | [**UrlListEntriesRemoveRequest**](UrlListEntriesRemoveRequest.md) |  | 
+
+### Return type
+
+[**UrlListEntriesRemoveResponse**](UrlListEntriesRemoveResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **updateUrlList**
+```swift
+    open class func updateUrlList(id: Int, urlListUpdateRequest: UrlListUpdateRequest, completion: @escaping (_ data: UrlListUpdateResponse?, _ error: Error?) -> Void)
+```
+
+Update a URL list
+
+Changes the name, description or currency of a URL list. Entries are added with POST /url_lists/{id}/entries and removed with POST /url_lists/{id}/entries/remove. Requires a `read_write` scope API key and the Growth plan.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import LLMPulse
+
+let id = 987 // Int | 
+let urlListUpdateRequest = UrlListUpdateRequest(projectId: 123, name: "name_example", description: "description_example", currency: "currency_example") // UrlListUpdateRequest | 
+
+// Update a URL list
+SourcesCitationIntelligenceAPI.updateUrlList(id: id, urlListUpdateRequest: urlListUpdateRequest) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **Int** |  | 
+ **urlListUpdateRequest** | [**UrlListUpdateRequest**](UrlListUpdateRequest.md) |  | 
+
+### Return type
+
+[**UrlListUpdateResponse**](UrlListUpdateResponse.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

@@ -10,6 +10,140 @@ import Foundation
 open class SourcesCitationIntelligenceAPI {
 
     /**
+     Add entries to a URL list
+     
+     - parameter id: (path)  
+     - parameter urlListEntriesAddRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: UrlListEntriesAddResponse
+     */
+    open class func addUrlListEntries(id: Int, urlListEntriesAddRequest: UrlListEntriesAddRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> UrlListEntriesAddResponse {
+        return try await addUrlListEntriesWithRequestBuilder(id: id, urlListEntriesAddRequest: urlListEntriesAddRequest, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Add entries to a URL list
+     - POST /url_lists/{id}/entries
+     - Adds entries, as POST /url_lists reads them. A rule the list already holds keeps its place and takes only the added_on, cost and channel this request sends for it. Values that do not parse come back in invalid_entries. Requires a `read_write` scope API key and the Growth plan.
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter id: (path)  
+     - parameter urlListEntriesAddRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<UrlListEntriesAddResponse> 
+     */
+    open class func addUrlListEntriesWithRequestBuilder(id: Int, urlListEntriesAddRequest: UrlListEntriesAddRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<UrlListEntriesAddResponse> {
+        var localVariablePath = "/url_lists/{id}/entries"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: urlListEntriesAddRequest, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<UrlListEntriesAddResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Create a URL list
+     
+     - parameter urlListCreateRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: UrlListCreateResponse
+     */
+    open class func createUrlList(urlListCreateRequest: UrlListCreateRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> UrlListCreateResponse {
+        return try await createUrlListWithRequestBuilder(urlListCreateRequest: urlListCreateRequest, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Create a URL list
+     - POST /url_lists
+     - Creates a URL list. Each entry is a string or an object with value, match_type, added_on (YYYY-MM-DD, default today), cost (in the list currency) and channel. Without a match_type, \"acme.com/blog/_*\" is a prefix, a value with a path or query an exact URL and a bare host a domain. A list holds at most 1000 entries and a project at most 100 lists; the name is unique per project, case-insensitive. Refusals answer ERR_INVALID_PARAM with a reason token in error.meta.reason. Requires a `read_write` scope API key and the Growth plan.
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter urlListCreateRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<UrlListCreateResponse> 
+     */
+    open class func createUrlListWithRequestBuilder(urlListCreateRequest: UrlListCreateRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<UrlListCreateResponse> {
+        let localVariablePath = "/url_lists"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: urlListCreateRequest, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<UrlListCreateResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Delete a URL list
+     
+     - parameter projectId: (query) Project ID 
+     - parameter id: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: UrlListDeleteResponse
+     */
+    open class func deleteUrlList(projectId: Int, id: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> UrlListDeleteResponse {
+        return try await deleteUrlListWithRequestBuilder(projectId: projectId, id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Delete a URL list
+     - DELETE /url_lists/{id}
+     - Deletes a URL list and its entries. Citation data is not affected. Requires a `read_write` scope API key and the Growth plan.
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter projectId: (query) Project ID 
+     - parameter id: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<UrlListDeleteResponse> 
+     */
+    open class func deleteUrlListWithRequestBuilder(projectId: Int, id: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<UrlListDeleteResponse> {
+        var localVariablePath = "/url_lists/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        let localVariableQueryItems: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
+            "project_id": (wrappedValue: projectId.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<UrlListDeleteResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      Cited URL cached content
      
      - parameter projectId: (query) Project ID 
@@ -302,6 +436,161 @@ open class SourcesCitationIntelligenceAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     * enum for parameter status
+     */
+    public enum Status_getUrlList: String, Sendable, CaseIterable {
+        case cited = "cited"
+        case lost = "lost"
+        case notCited = "not_cited"
+    }
+
+    /**
+     * enum for parameter order
+     */
+    public enum Order_getUrlList: String, Sendable, CaseIterable {
+        case value = "value"
+        case status = "status"
+        case addedOn = "added_on"
+        case firstCitedAt = "first_cited_at"
+        case daysToCite = "days_to_cite"
+        case citations = "citations"
+        case avgPosition = "avg_position"
+        case cost = "cost"
+        case channel = "channel"
+    }
+
+    /**
+     * enum for parameter direction
+     */
+    public enum Direction_getUrlList: String, Sendable, CaseIterable {
+        case asc = "asc"
+        case desc = "desc"
+    }
+
+    /**
+     * enum for parameter model
+     */
+    public enum Model_getUrlList: String, Sendable, CaseIterable {
+        case chatgpt = "chatgpt"
+        case perplexity = "perplexity"
+        case aiMode = "ai_mode"
+        case aiOverview = "ai_overview"
+        case gemini = "gemini"
+        case copilot = "copilot"
+        case amazonRufus = "amazon_rufus"
+        case claude = "claude"
+        case grok = "grok"
+        case deepseek = "deepseek"
+        case naverAi = "naver_ai"
+        case baiduAi = "baidu_ai"
+        case metaAi = "meta_ai"
+        case naverAiTab = "naver_ai_tab"
+        case qwen = "qwen"
+        case doubao = "doubao"
+        case bingAiMode = "bing_ai_mode"
+    }
+
+    /**
+     * enum for parameter brandKind
+     */
+    public enum BrandKind_getUrlList: String, Sendable, CaseIterable {
+        case brand = "brand"
+        case brandOther = "brand_other"
+        case nonBrand = "non_brand"
+    }
+
+    /**
+     Get a URL list report
+     
+     - parameter id: (path)  
+     - parameter projectId: (query) Project ID 
+     - parameter status: (query) Only entries with this status. (optional)
+     - parameter order: (query)  (optional, default to .citations)
+     - parameter direction: (query)  (optional, default to .desc)
+     - parameter page: (query)  (optional, default to 1)
+     - parameter perPage: (query)  (optional, default to 20)
+     - parameter model: (query) Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao and bing_ai_mode are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those eleven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter prompt: (query) Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     - parameter from: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: UrlListDetailResponse
+     */
+    open class func getUrlList(id: Int, projectId: Int, status: Status_getUrlList? = nil, order: Order_getUrlList? = nil, direction: Direction_getUrlList? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_getUrlList? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, brandKind: BrandKind_getUrlList? = nil, from: Date? = nil, to: Date? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> UrlListDetailResponse {
+        return try await getUrlListWithRequestBuilder(id: id, projectId: projectId, status: status, order: order, direction: direction, page: page, perPage: perPage, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, brandKind: brandKind, from: from, to: to, range: range, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Get a URL list report
+     - GET /url_lists/{id}
+     - The list, its summary (entries_count, cited_entries, citations, answers in the window, citation_rate, avg_citation_position, median_days_to_first_citation, total_cost, cost_per_cited_entry) and a page of its entries. An entry's status is cited (an answer cited it in the window), lost (cited before the window, not in it) or not_cited. first_cited_at reads the filtered answers up to the window's end. days_to_first_citation is null before the first citation or when the page was cited before it was added. brand_mentioned is set for exact URLs once their page was read, else null. Without from/to or range the window is all time. Requires the Growth plan.
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter id: (path)  
+     - parameter projectId: (query) Project ID 
+     - parameter status: (query) Only entries with this status. (optional)
+     - parameter order: (query)  (optional, default to .citations)
+     - parameter direction: (query)  (optional, default to .desc)
+     - parameter page: (query)  (optional, default to 1)
+     - parameter perPage: (query)  (optional, default to 20)
+     - parameter model: (query) Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao and bing_ai_mode are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those eleven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter prompt: (query) Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     - parameter from: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<UrlListDetailResponse> 
+     */
+    open class func getUrlListWithRequestBuilder(id: Int, projectId: Int, status: Status_getUrlList? = nil, order: Order_getUrlList? = nil, direction: Direction_getUrlList? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_getUrlList? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, brandKind: BrandKind_getUrlList? = nil, from: Date? = nil, to: Date? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<UrlListDetailResponse> {
+        var localVariablePath = "/url_lists/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        let localVariableQueryItems: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
+            "project_id": (wrappedValue: projectId.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "status": (wrappedValue: status?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "order": (wrappedValue: order?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "direction": (wrappedValue: direction?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "page": (wrappedValue: page?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "per_page": (wrappedValue: perPage?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "model": (wrappedValue: model?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "collection_id": (wrappedValue: collectionId?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "country_code": (wrappedValue: countryCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "language_code": (wrappedValue: languageCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "prompt": (wrappedValue: prompt?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "brand_kind": (wrappedValue: brandKind?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "from": (wrappedValue: from?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "to": (wrappedValue: to?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "range": (wrappedValue: range?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<UrlListDetailResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -703,5 +992,198 @@ open class SourcesCitationIntelligenceAPI {
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     * enum for parameter model
+     */
+    public enum Model_listUrlLists: String, Sendable, CaseIterable {
+        case chatgpt = "chatgpt"
+        case perplexity = "perplexity"
+        case aiMode = "ai_mode"
+        case aiOverview = "ai_overview"
+        case gemini = "gemini"
+        case copilot = "copilot"
+        case amazonRufus = "amazon_rufus"
+        case claude = "claude"
+        case grok = "grok"
+        case deepseek = "deepseek"
+        case naverAi = "naver_ai"
+        case baiduAi = "baidu_ai"
+        case metaAi = "meta_ai"
+        case naverAiTab = "naver_ai_tab"
+        case qwen = "qwen"
+        case doubao = "doubao"
+        case bingAiMode = "bing_ai_mode"
+    }
+
+    /**
+     * enum for parameter brandKind
+     */
+    public enum BrandKind_listUrlLists: String, Sendable, CaseIterable {
+        case brand = "brand"
+        case brandOther = "brand_other"
+        case nonBrand = "non_brand"
+    }
+
+    /**
+     List URL lists
+     
+     - parameter projectId: (query) Project ID 
+     - parameter model: (query) Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao and bing_ai_mode are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those eleven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter prompt: (query) Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     - parameter from: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: UrlListsResponse
+     */
+    open class func listUrlLists(projectId: Int, model: Model_listUrlLists? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, brandKind: BrandKind_listUrlLists? = nil, from: Date? = nil, to: Date? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> UrlListsResponse {
+        return try await listUrlListsWithRequestBuilder(projectId: projectId, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, brandKind: brandKind, from: from, to: to, range: range, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     List URL lists
+     - GET /url_lists
+     - A URL list is a named set of rules, each an exact URL (matched over http and https, with or without www), a URL prefix (every page under host/path) or a domain (the site and its subdomains). Its numbers count the AI answers to the prompts tracked in the project: cited_entries is the entries an answer cited in the window and citations the answers citing any entry, each once. Without from/to or range the window is all time. Requires the Growth plan; lower tiers receive ERR_PLAN_REQUIRED.
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter projectId: (query) Project ID 
+     - parameter model: (query) Filter by one AI model. Only chatgpt, ai_overview, ai_mode, perplexity, gemini, naver_ai, baidu_ai, naver_ai_tab, qwen, doubao and bing_ai_mode are accepted: any other value, including another model enabled for the API key&#39;s user, returns 422 ERR_INVALID_PARAM (invalid model). One of those eleven that the user has not enabled also returns 422 ERR_INVALID_PARAM, with the valid values in the message. (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter prompt: (query) Filter by prompt ID. An id that is not a plain positive number, or that names no prompt of the project, returns 422 ERR_INVALID_PARAM. (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     - parameter from: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter range: (query) Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<UrlListsResponse> 
+     */
+    open class func listUrlListsWithRequestBuilder(projectId: Int, model: Model_listUrlLists? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, brandKind: BrandKind_listUrlLists? = nil, from: Date? = nil, to: Date? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<UrlListsResponse> {
+        let localVariablePath = "/url_lists"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        let localVariableQueryItems: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
+            "project_id": (wrappedValue: projectId.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "model": (wrappedValue: model?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "collection_id": (wrappedValue: collectionId?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "country_code": (wrappedValue: countryCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "language_code": (wrappedValue: languageCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "prompt": (wrappedValue: prompt?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "brand_kind": (wrappedValue: brandKind?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "from": (wrappedValue: from?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "to": (wrappedValue: to?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "range": (wrappedValue: range?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<UrlListsResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Remove entries from a URL list
+     
+     - parameter id: (path)  
+     - parameter urlListEntriesRemoveRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: UrlListEntriesRemoveResponse
+     */
+    open class func removeUrlListEntries(id: Int, urlListEntriesRemoveRequest: UrlListEntriesRemoveRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> UrlListEntriesRemoveResponse {
+        return try await removeUrlListEntriesWithRequestBuilder(id: id, urlListEntriesRemoveRequest: urlListEntriesRemoveRequest, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Remove entries from a URL list
+     - POST /url_lists/{id}/entries/remove
+     - Removes entries by id (from GET /url_lists/{id}) or by value as written (\"https://acme.com/a\", \"acme.com/blog/_*\", \"acme.com\"). Sending neither answers ERR_INVALID_PARAM. Requires a `read_write` scope API key and the Growth plan.
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter id: (path)  
+     - parameter urlListEntriesRemoveRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<UrlListEntriesRemoveResponse> 
+     */
+    open class func removeUrlListEntriesWithRequestBuilder(id: Int, urlListEntriesRemoveRequest: UrlListEntriesRemoveRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<UrlListEntriesRemoveResponse> {
+        var localVariablePath = "/url_lists/{id}/entries/remove"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: urlListEntriesRemoveRequest, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<UrlListEntriesRemoveResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Update a URL list
+     
+     - parameter id: (path)  
+     - parameter urlListUpdateRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: UrlListUpdateResponse
+     */
+    open class func updateUrlList(id: Int, urlListUpdateRequest: UrlListUpdateRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> UrlListUpdateResponse {
+        return try await updateUrlListWithRequestBuilder(id: id, urlListUpdateRequest: urlListUpdateRequest, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Update a URL list
+     - PATCH /url_lists/{id}
+     - Changes the name, description or currency of a URL list. Entries are added with POST /url_lists/{id}/entries and removed with POST /url_lists/{id}/entries/remove. Requires a `read_write` scope API key and the Growth plan.
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter id: (path)  
+     - parameter urlListUpdateRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<UrlListUpdateResponse> 
+     */
+    open class func updateUrlListWithRequestBuilder(id: Int, urlListUpdateRequest: UrlListUpdateRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<UrlListUpdateResponse> {
+        var localVariablePath = "/url_lists/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: urlListUpdateRequest, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<UrlListUpdateResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }
