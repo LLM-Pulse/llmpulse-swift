@@ -308,4 +308,97 @@ open class AIModelInsightsAPI {
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
+
+    /**
+     * enum for parameter model
+     */
+    public enum Model_getDeclinedAnswers: String, Sendable, CaseIterable {
+        case gemini = "gemini"
+    }
+
+    /**
+     * enum for parameter brandKind
+     */
+    public enum BrandKind_getDeclinedAnswers: String, Sendable, CaseIterable {
+        case brand = "brand"
+        case brandOther = "brand_other"
+        case nonBrand = "non_brand"
+    }
+
+    /**
+     Declined answers (decline rate)
+     
+     - parameter projectId: (query) Project ID 
+     - parameter range: (query) Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
+     - parameter from: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter model: (query) The model whose declines to read, whether or not it is enabled for the API key&#39;s user. Default: gemini. Any other model returns 422 ERR_INVALID_PARAM (invalid model). (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     - parameter page: (query)  (optional, default to 1)
+     - parameter perPage: (query)  (optional, default to 20)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AiModelDeclinedAnswersResponse
+     */
+    open class func getDeclinedAnswers(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, model: Model_getDeclinedAnswers? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_getDeclinedAnswers? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> AiModelDeclinedAnswersResponse {
+        return try await getDeclinedAnswersWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, promptType: promptType, brandKind: brandKind, page: page, perPage: perPage, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Declined answers (decline rate)
+     - GET /reports/ai_model_insights/declined_answers
+     - The Declined answers tab of AI Model Insights. A model declines a prompt for its own safety filters (safety_filter) or because it refuses the topic itself, such as tobacco, gambling or alcohol (topic_refusal); today only Gemini declines. A declined answer counts as no answer and never lowers visibility. The chart has one point per tracking period at the account's cadence that holds an answer of the model, and the window starts at the tracking period holding its first day.
+     - Bearer Token:
+       - type: http
+       - name: BearerAuth
+     - parameter projectId: (query) Project ID 
+     - parameter range: (query) Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
+     - parameter from: (query)  (optional)
+     - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
+     - parameter model: (query) The model whose declines to read, whether or not it is enabled for the API key&#39;s user. Default: gemini. Any other model returns 422 ERR_INVALID_PARAM (invalid model). (optional)
+     - parameter collectionId: (query) One collection/tag ID or a comma-separated list of IDs. A query value is always a string on the wire, so it is typed as one: the previous integer-or-string union made generators emit a wrapper type they could not serialize. (optional)
+     - parameter countryCode: (query) One ISO country code or a comma-separated list (e.g. US,GB,DE) (optional)
+     - parameter languageCode: (query) One ISO language code or a comma-separated list (e.g. en,es,de) (optional)
+     - parameter promptType: (query) One prompt type or a comma-separated list: informational, navigational, commercial, transactional (optional)
+     - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
+     - parameter page: (query)  (optional, default to 1)
+     - parameter perPage: (query)  (optional, default to 20)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AiModelDeclinedAnswersResponse> 
+     */
+    open class func getDeclinedAnswersWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, model: Model_getDeclinedAnswers? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_getDeclinedAnswers? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<AiModelDeclinedAnswersResponse> {
+        let localVariablePath = "/reports/ai_model_insights/declined_answers"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        let localVariableQueryItems: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
+            "project_id": (wrappedValue: projectId.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "range": (wrappedValue: range?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "from": (wrappedValue: from?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "to": (wrappedValue: to?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "model": (wrappedValue: model?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "collection_id": (wrappedValue: collectionId?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "country_code": (wrappedValue: countryCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "language_code": (wrappedValue: languageCode?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "prompt_type": (wrappedValue: promptType?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "brand_kind": (wrappedValue: brandKind?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "page": (wrappedValue: page?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "per_page": (wrappedValue: perPage?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AiModelDeclinedAnswersResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
 }

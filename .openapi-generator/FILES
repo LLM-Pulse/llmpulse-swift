@@ -54,6 +54,13 @@ Sources/LLMPulse/Models/AgentBot.swift
 Sources/LLMPulse/Models/AgentBotsResponse.swift
 Sources/LLMPulse/Models/AgentTrafficResponse.swift
 Sources/LLMPulse/Models/AiModelCitationsRow.swift
+Sources/LLMPulse/Models/AiModelDeclineCounts.swift
+Sources/LLMPulse/Models/AiModelDeclinedAnswersResponse.swift
+Sources/LLMPulse/Models/AiModelDeclinedAnswersResponseByPrompt.swift
+Sources/LLMPulse/Models/AiModelDeclinedAnswersResponseByPromptDataInner.swift
+Sources/LLMPulse/Models/AiModelDeclinedAnswersResponseChartInner.swift
+Sources/LLMPulse/Models/AiModelDeclinedAnswersResponseFilters.swift
+Sources/LLMPulse/Models/AiModelDeclinedAnswersResponseSummary.swift
 Sources/LLMPulse/Models/AiModelInsightsFiltersEcho.swift
 Sources/LLMPulse/Models/AiModelInsightsModel.swift
 Sources/LLMPulse/Models/AiModelInsightsSummaryResponse.swift
@@ -402,6 +409,13 @@ docs/AgentBot.md
 docs/AgentBotsResponse.md
 docs/AgentTrafficResponse.md
 docs/AiModelCitationsRow.md
+docs/AiModelDeclineCounts.md
+docs/AiModelDeclinedAnswersResponse.md
+docs/AiModelDeclinedAnswersResponseByPrompt.md
+docs/AiModelDeclinedAnswersResponseByPromptDataInner.md
+docs/AiModelDeclinedAnswersResponseChartInner.md
+docs/AiModelDeclinedAnswersResponseFilters.md
+docs/AiModelDeclinedAnswersResponseSummary.md
 docs/AiModelInsightsFiltersEcho.md
 docs/AiModelInsightsModel.md
 docs/AiModelInsightsSummaryResponse.md
