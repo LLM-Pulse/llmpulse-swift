@@ -33,7 +33,7 @@ public struct PromptSummaryRow: Sendable, Codable, Hashable {
     public var brandKind: String?
     /** Every tag the prompt belongs to */
     public var tags: [TagRef]?
-    /** Responses in the window with a sentiment verdict for the brand, the base of the sentiment percentages (deduplicated like the sentiment timeseries) */
+    /** Responses in the window with a sentiment verdict for the brand, the base of the sentiment percentages (deduplicated like the sentiment timeseries). Needs the Growth plan or above, like every sentiment field of the row; below it they are left out and named in plan_required_fields */
     public var sentimentResponses: Int?
     /** Percentage (0-100) of sentiment_responses whose brand verdict is very positive; null when sentiment_responses is 0 */
     public var sentimentVeryPositive: Double?

@@ -7,6 +7,7 @@
 
 import Foundation
 
+/** Needs the Growth plan or above; left out below it and named in plan_required_fields */
 public struct AiModelInsightsSummaryResponseSummaryBrandNetSentimentByModel: Sendable, Codable, Hashable {
 
     /** Brand sentiment verdicts across the models */

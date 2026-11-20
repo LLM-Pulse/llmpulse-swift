@@ -17,15 +17,18 @@ public struct AiModelInsightsSummaryResponse: Sendable, Codable, Hashable {
     /** The AI models the account has enabled or that answered in the window, in the in-app column order */
     public var models: [AiModelInsightsModel]?
     public var summary: AiModelInsightsSummaryResponseSummary?
+    /** The summary sections left out because they need a higher plan (brand_net_sentiment_by_model and sentiment_market_share below Growth); empty when none is */
+    public var planRequiredFields: [String]
     public var requestId: String?
 
-    public init(projectId: Int? = nil, from: Date? = nil, to: Date? = nil, filters: AiModelInsightsFiltersEcho? = nil, models: [AiModelInsightsModel]? = nil, summary: AiModelInsightsSummaryResponseSummary? = nil, requestId: String? = nil) {
+    public init(projectId: Int? = nil, from: Date? = nil, to: Date? = nil, filters: AiModelInsightsFiltersEcho? = nil, models: [AiModelInsightsModel]? = nil, summary: AiModelInsightsSummaryResponseSummary? = nil, planRequiredFields: [String], requestId: String? = nil) {
         self.projectId = projectId
         self.from = from
         self.to = to
         self.filters = filters
         self.models = models
         self.summary = summary
+        self.planRequiredFields = planRequiredFields
         self.requestId = requestId
     }
 
@@ -36,6 +39,7 @@ public struct AiModelInsightsSummaryResponse: Sendable, Codable, Hashable {
         case filters
         case models
         case summary
+        case planRequiredFields = "plan_required_fields"
         case requestId = "request_id"
     }
 
@@ -49,6 +53,7 @@ public struct AiModelInsightsSummaryResponse: Sendable, Codable, Hashable {
         try container.encodeIfPresent(filters, forKey: .filters)
         try container.encodeIfPresent(models, forKey: .models)
         try container.encodeIfPresent(summary, forKey: .summary)
+        try container.encode(planRequiredFields, forKey: .planRequiredFields)
         try container.encodeIfPresent(requestId, forKey: .requestId)
     }
 }

@@ -250,7 +250,7 @@ let brandKind = "brandKind_example" // String | Filter by brand kind: brand (own
 let from = Date() // Date |  (optional)
 let to = Date() // Date | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
 let sourceType = "sourceType_example" // String |  (optional)
-let sentiment = "sentiment_example" // String |  (optional)
+let sentiment = "sentiment_example" // String | Keeps the citations of answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (optional)
 let contentGap = "contentGap_example" // String | mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. (optional)
 let includeSeries = true // Bool | Adds citation_series. Without it the response is unchanged. (optional) (default to false)
 
@@ -282,7 +282,7 @@ Name | Type | Description  | Notes
  **from** | **Date** |  | [optional] 
  **to** | **Date** | End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. | [optional] 
  **sourceType** | **String** |  | [optional] 
- **sentiment** | **String** |  | [optional] 
+ **sentiment** | **String** | Keeps the citations of answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. | [optional] 
  **contentGap** | **String** | mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. | [optional] 
  **includeSeries** | **Bool** | Adds citation_series. Without it the response is unchanged. | [optional] [default to false]
 
@@ -481,7 +481,7 @@ let key = "key_example" // String | Return only this group of the chosen view: a
 let includeSeries = true // Bool | Requires key, else 422 ERR_INVALID_PARAM. Adds citation_series to the group's row. (optional) (default to false)
 let query = "query_example" // String |  (optional)
 let sourceType = "sourceType_example" // String |  (optional)
-let sentiment = "sentiment_example" // String |  (optional)
+let sentiment = "sentiment_example" // String | Keeps the citations of answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (optional)
 let contentGap = "contentGap_example" // String | mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. (optional)
 
 // Grouped citation intelligence
@@ -519,7 +519,7 @@ Name | Type | Description  | Notes
  **includeSeries** | **Bool** | Requires key, else 422 ERR_INVALID_PARAM. Adds citation_series to the group&#39;s row. | [optional] [default to false]
  **query** | **String** |  | [optional] 
  **sourceType** | **String** |  | [optional] 
- **sentiment** | **String** |  | [optional] 
+ **sentiment** | **String** | Keeps the citations of answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. | [optional] 
  **contentGap** | **String** | mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. | [optional] 
 
 ### Return type
@@ -539,7 +539,7 @@ Void (empty response body)
 
 # **listCitedUrlOccurrences**
 ```swift
-    open class func listCitedUrlOccurrences(projectId: Int, urlSha256: String, page: Int? = nil, perPage: Int? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listCitedUrlOccurrences(projectId: Int, urlSha256: String, page: Int? = nil, perPage: Int? = nil, sentiment: Sentiment_listCitedUrlOccurrences? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Cited URL occurrences
@@ -553,9 +553,10 @@ let projectId = 987 // Int | Project ID
 let urlSha256 = "urlSha256_example" // String | 64-character hex SHA-256 of the cited URL
 let page = 987 // Int |  (optional) (default to 1)
 let perPage = 987 // Int |  (optional) (default to 20)
+let sentiment = "sentiment_example" // String | Keeps the occurrences in answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (optional)
 
 // Cited URL occurrences
-SourcesCitationIntelligenceAPI.listCitedUrlOccurrences(projectId: projectId, urlSha256: urlSha256, page: page, perPage: perPage) { (response, error) in
+SourcesCitationIntelligenceAPI.listCitedUrlOccurrences(projectId: projectId, urlSha256: urlSha256, page: page, perPage: perPage, sentiment: sentiment) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -575,6 +576,7 @@ Name | Type | Description  | Notes
  **urlSha256** | **String** | 64-character hex SHA-256 of the cited URL | 
  **page** | **Int** |  | [optional] [default to 1]
  **perPage** | **Int** |  | [optional] [default to 20]
+ **sentiment** | **String** | Keeps the occurrences in answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. | [optional] 
 
 ### Return type
 

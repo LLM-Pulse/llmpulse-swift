@@ -266,7 +266,7 @@ open class SourcesCitationIntelligenceAPI {
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter sourceType: (query)  (optional)
-     - parameter sentiment: (query)  (optional)
+     - parameter sentiment: (query) Keeps the citations of answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (optional)
      - parameter contentGap: (query) mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. (optional)
      - parameter includeSeries: (query) Adds citation_series. Without it the response is unchanged. (optional, default to false)
      - parameter apiConfiguration: The configuration for the http request.
@@ -294,7 +294,7 @@ open class SourcesCitationIntelligenceAPI {
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter sourceType: (query)  (optional)
-     - parameter sentiment: (query)  (optional)
+     - parameter sentiment: (query) Keeps the citations of answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (optional)
      - parameter contentGap: (query) mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. (optional)
      - parameter includeSeries: (query) Adds citation_series. Without it the response is unchanged. (optional, default to false)
      - parameter apiConfiguration: The configuration for the http request.
@@ -706,7 +706,7 @@ open class SourcesCitationIntelligenceAPI {
      - parameter includeSeries: (query) Requires key, else 422 ERR_INVALID_PARAM. Adds citation_series to the group&#39;s row. (optional, default to false)
      - parameter query: (query)  (optional)
      - parameter sourceType: (query)  (optional)
-     - parameter sentiment: (query)  (optional)
+     - parameter sentiment: (query) Keeps the citations of answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (optional)
      - parameter contentGap: (query) mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
@@ -740,7 +740,7 @@ open class SourcesCitationIntelligenceAPI {
      - parameter includeSeries: (query) Requires key, else 422 ERR_INVALID_PARAM. Adds citation_series to the group&#39;s row. (optional, default to false)
      - parameter query: (query)  (optional)
      - parameter sourceType: (query)  (optional)
-     - parameter sentiment: (query)  (optional)
+     - parameter sentiment: (query) Keeps the citations of answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (optional)
      - parameter contentGap: (query) mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
@@ -787,17 +787,25 @@ open class SourcesCitationIntelligenceAPI {
     }
 
     /**
+     * enum for parameter sentiment
+     */
+    public enum Sentiment_listCitedUrlOccurrences: String, Sendable, CaseIterable {
+        case negative = "negative"
+    }
+
+    /**
      Cited URL occurrences
      
      - parameter projectId: (query) Project ID 
      - parameter urlSha256: (path) 64-character hex SHA-256 of the cited URL 
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
+     - parameter sentiment: (query) Keeps the occurrences in answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    open class func listCitedUrlOccurrences(projectId: Int, urlSha256: String, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await listCitedUrlOccurrencesWithRequestBuilder(projectId: projectId, urlSha256: urlSha256, page: page, perPage: perPage, apiConfiguration: apiConfiguration).execute().body
+    open class func listCitedUrlOccurrences(projectId: Int, urlSha256: String, page: Int? = nil, perPage: Int? = nil, sentiment: Sentiment_listCitedUrlOccurrences? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await listCitedUrlOccurrencesWithRequestBuilder(projectId: projectId, urlSha256: urlSha256, page: page, perPage: perPage, sentiment: sentiment, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -810,10 +818,11 @@ open class SourcesCitationIntelligenceAPI {
      - parameter urlSha256: (path) 64-character hex SHA-256 of the cited URL 
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
+     - parameter sentiment: (query) Keeps the occurrences in answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func listCitedUrlOccurrencesWithRequestBuilder(projectId: Int, urlSha256: String, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listCitedUrlOccurrencesWithRequestBuilder(projectId: Int, urlSha256: String, page: Int? = nil, perPage: Int? = nil, sentiment: Sentiment_listCitedUrlOccurrences? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/citation_intelligence/urls/{url_sha256}/occurrences"
         let urlSha256PreEscape = "\(APIHelper.mapValueToPathItem(urlSha256))"
         let urlSha256PostEscape = urlSha256PreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -826,6 +835,7 @@ open class SourcesCitationIntelligenceAPI {
             "project_id": (wrappedValue: projectId.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "page": (wrappedValue: page?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "per_page": (wrappedValue: perPage?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "sentiment": (wrappedValue: sentiment?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ]
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryItems)
 

@@ -20,9 +20,11 @@ public struct PromptSummaryResponse: Sendable, Codable, Hashable {
     public var perPage: Int?
     public var total: Int?
     public var data: [PromptSummaryRow]?
+    /** The row fields left out because they need a higher plan (the sentiment fields below Growth); empty when none is */
+    public var planRequiredFields: [String]
     public var requestId: String?
 
-    public init(projectId: Int? = nil, from: Date? = nil, to: Date? = nil, filters: MetricsFiltersEcho? = nil, breakdown: String? = nil, sort: String? = nil, sortDir: String? = nil, page: Int? = nil, perPage: Int? = nil, total: Int? = nil, data: [PromptSummaryRow]? = nil, requestId: String? = nil) {
+    public init(projectId: Int? = nil, from: Date? = nil, to: Date? = nil, filters: MetricsFiltersEcho? = nil, breakdown: String? = nil, sort: String? = nil, sortDir: String? = nil, page: Int? = nil, perPage: Int? = nil, total: Int? = nil, data: [PromptSummaryRow]? = nil, planRequiredFields: [String], requestId: String? = nil) {
         self.projectId = projectId
         self.from = from
         self.to = to
@@ -34,6 +36,7 @@ public struct PromptSummaryResponse: Sendable, Codable, Hashable {
         self.perPage = perPage
         self.total = total
         self.data = data
+        self.planRequiredFields = planRequiredFields
         self.requestId = requestId
     }
 
@@ -49,6 +52,7 @@ public struct PromptSummaryResponse: Sendable, Codable, Hashable {
         case perPage = "per_page"
         case total
         case data
+        case planRequiredFields = "plan_required_fields"
         case requestId = "request_id"
     }
 
@@ -67,6 +71,7 @@ public struct PromptSummaryResponse: Sendable, Codable, Hashable {
         try container.encodeIfPresent(perPage, forKey: .perPage)
         try container.encodeIfPresent(total, forKey: .total)
         try container.encodeIfPresent(data, forKey: .data)
+        try container.encode(planRequiredFields, forKey: .planRequiredFields)
         try container.encodeIfPresent(requestId, forKey: .requestId)
     }
 }
