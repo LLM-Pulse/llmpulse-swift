@@ -37,6 +37,7 @@ public struct ApiErrorError: Sendable, Codable, Hashable {
         case errWebAnalyticsAccessRevoked = "ERR_WEB_ANALYTICS_ACCESS_REVOKED"
         case errWebAnalyticsUpstream = "ERR_WEB_ANALYTICS_UPSTREAM"
         case errAgentTrafficNotConnected = "ERR_AGENT_TRAFFIC_NOT_CONNECTED"
+        case errBingWebmasterNotConnected = "ERR_BING_WEBMASTER_NOT_CONNECTED"
         case errInvalidParam = "ERR_INVALID_PARAM"
         case errInvalidRange = "ERR_INVALID_RANGE"
         case errLimitReached = "ERR_LIMIT_REACHED"
@@ -46,7 +47,7 @@ public struct ApiErrorError: Sendable, Codable, Hashable {
     }
     public var code: Code?
     public var message: String?
-    /** Extra detail for some codes. A not-connected or access-revoked error from the Search Console, AI traffic, web analytics or agent traffic endpoints carries connect_url, the in-app page where the user connects or reconnects the source. A prompt write refused because a launched pitch project's prompts are fixed carries reason pitch_prompts_frozen. */
+    /** Extra detail for some codes. A not-connected or access-revoked error from the Search Console, Bing Webmaster Tools, AI traffic, web analytics or agent traffic endpoints carries connect_url, the in-app page where the user connects or reconnects the source. A prompt write refused because a launched pitch project's prompts are fixed carries reason pitch_prompts_frozen. */
     public var meta: JSONValue?
 
     public init(code: Code? = nil, message: String? = nil, meta: JSONValue? = nil) {

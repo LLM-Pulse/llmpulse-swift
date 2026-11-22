@@ -11,6 +11,7 @@ Sources/LLMPulse/APIs/APIKeysAPI.swift
 Sources/LLMPulse/APIs/AccountAPI.swift
 Sources/LLMPulse/APIs/AnnotationsAPI.swift
 Sources/LLMPulse/APIs/AnswersAPI.swift
+Sources/LLMPulse/APIs/BingWebmasterToolsAPI.swift
 Sources/LLMPulse/APIs/CollectionsTagsAPI.swift
 Sources/LLMPulse/APIs/CompetitorsAPI.swift
 Sources/LLMPulse/APIs/CustomReportsAPI.swift
@@ -96,6 +97,12 @@ Sources/LLMPulse/Models/ApiError.swift
 Sources/LLMPulse/Models/ApiErrorError.swift
 Sources/LLMPulse/Models/ApiKeyInfo.swift
 Sources/LLMPulse/Models/AssignPromptTagsRequest.swift
+Sources/LLMPulse/Models/BingWebmasterListResponse.swift
+Sources/LLMPulse/Models/BingWebmasterListResponseDataInner.swift
+Sources/LLMPulse/Models/BingWebmasterMetrics.swift
+Sources/LLMPulse/Models/BingWebmasterSummaryResponse.swift
+Sources/LLMPulse/Models/BingWebmasterTimeseriesResponse.swift
+Sources/LLMPulse/Models/BingWebmasterTimeseriesResponseDataInner.swift
 Sources/LLMPulse/Models/CatalogProduct.swift
 Sources/LLMPulse/Models/CatalogPromptSuggestion.swift
 Sources/LLMPulse/Models/CatalogPromptSuggestionIdsRequest.swift
@@ -249,6 +256,7 @@ Sources/LLMPulse/Models/ProjectDeleteResponse.swift
 Sources/LLMPulse/Models/ProjectDetails.swift
 Sources/LLMPulse/Models/ProjectDetailsAllOfAgentTraffic.swift
 Sources/LLMPulse/Models/ProjectDetailsAllOfAiTraffic.swift
+Sources/LLMPulse/Models/ProjectDetailsAllOfBingWebmaster.swift
 Sources/LLMPulse/Models/ProjectDetailsAllOfDataCoverage.swift
 Sources/LLMPulse/Models/ProjectDetailsAllOfPitchRun.swift
 Sources/LLMPulse/Models/ProjectDetailsAllOfSearchConsole.swift
@@ -453,6 +461,13 @@ docs/ApiError.md
 docs/ApiErrorError.md
 docs/ApiKeyInfo.md
 docs/AssignPromptTagsRequest.md
+docs/BingWebmasterListResponse.md
+docs/BingWebmasterListResponseDataInner.md
+docs/BingWebmasterMetrics.md
+docs/BingWebmasterSummaryResponse.md
+docs/BingWebmasterTimeseriesResponse.md
+docs/BingWebmasterTimeseriesResponseDataInner.md
+docs/BingWebmasterToolsAPI.md
 docs/CatalogProduct.md
 docs/CatalogPromptSuggestion.md
 docs/CatalogPromptSuggestionIdsRequest.md
@@ -615,6 +630,7 @@ docs/ProjectDeleteResponse.md
 docs/ProjectDetails.md
 docs/ProjectDetailsAllOfAgentTraffic.md
 docs/ProjectDetailsAllOfAiTraffic.md
+docs/ProjectDetailsAllOfBingWebmaster.md
 docs/ProjectDetailsAllOfDataCoverage.md
 docs/ProjectDetailsAllOfPitchRun.md
 docs/ProjectDetailsAllOfSearchConsole.md
