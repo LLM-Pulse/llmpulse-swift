@@ -288,6 +288,7 @@ open class PromptsAPI {
         case qwen = "qwen"
         case doubao = "doubao"
         case bingAiMode = "bing_ai_mode"
+        case bingAiOverview = "bing_ai_overview"
     }
 
     /**
@@ -445,6 +446,7 @@ open class PromptsAPI {
         case qwen = "qwen"
         case doubao = "doubao"
         case bingAiMode = "bing_ai_mode"
+        case bingAiOverview = "bing_ai_overview"
     }
 
     /**
@@ -592,6 +594,7 @@ open class PromptsAPI {
         case qwen = "qwen"
         case doubao = "doubao"
         case bingAiMode = "bing_ai_mode"
+        case bingAiOverview = "bing_ai_overview"
     }
 
     /**

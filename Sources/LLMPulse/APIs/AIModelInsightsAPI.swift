@@ -134,6 +134,7 @@ open class AIModelInsightsAPI {
         case qwen = "qwen"
         case doubao = "doubao"
         case bingAiMode = "bing_ai_mode"
+        case bingAiOverview = "bing_ai_overview"
     }
 
     /**

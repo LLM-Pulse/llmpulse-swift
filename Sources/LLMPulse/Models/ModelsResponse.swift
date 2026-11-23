@@ -27,6 +27,7 @@ public struct ModelsResponse: Sendable, Codable, Hashable {
         case qwen = "qwen"
         case doubao = "doubao"
         case bingAiMode = "bing_ai_mode"
+        case bingAiOverview = "bing_ai_overview"
     }
     public var projectId: Int
     public var models: [Models]
