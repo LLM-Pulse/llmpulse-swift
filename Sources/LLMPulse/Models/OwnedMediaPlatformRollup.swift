@@ -25,7 +25,7 @@ public struct OwnedMediaPlatformRollup: Sendable, Codable, Hashable {
     public var yours: Int?
     public var sharePct: Double?
     public var weekly: [OwnedMediaPlatformRollupWeeklyInner]?
-    /** One date/citation row per actual project tracking period with runs */
+    /** One date/citation row per project tracking period that holds a run inside the window; a period whose runs all fell before from is left out */
     public var activity: [OwnedMediaPlatformActivityPeriod]?
 
     public init(provider: Provider? = nil, connected: Bool? = nil, total: Int? = nil, yours: Int? = nil, sharePct: Double? = nil, weekly: [OwnedMediaPlatformRollupWeeklyInner]? = nil, activity: [OwnedMediaPlatformActivityPeriod]? = nil) {

@@ -25,8 +25,10 @@ public struct OwnedMediaKpis: Sendable, Codable, Hashable {
     public var uniqueAuthors: Int?
     /** Positive sentiment among rated Reddit citations, as a percentage (provider=reddit; null or omitted for other providers) */
     public var positivePct: Double?
+    /** provider=overview only. The platforms with a connected profile, channel or app, out of the rows in platforms (the Connected sources card). It describes the current setup, so previous.kpis and changes leave it out */
+    public var connectedCount: Int?
 
-    public init(total: Int? = nil, yours: Int? = nil, yourProfile: Int? = nil, yourContent: Int? = nil, sharePct: Double? = nil, uniqueSubreddits: Int? = nil, uniqueAuthors: Int? = nil, positivePct: Double? = nil) {
+    public init(total: Int? = nil, yours: Int? = nil, yourProfile: Int? = nil, yourContent: Int? = nil, sharePct: Double? = nil, uniqueSubreddits: Int? = nil, uniqueAuthors: Int? = nil, positivePct: Double? = nil, connectedCount: Int? = nil) {
         self.total = total
         self.yours = yours
         self.yourProfile = yourProfile
@@ -35,6 +37,7 @@ public struct OwnedMediaKpis: Sendable, Codable, Hashable {
         self.uniqueSubreddits = uniqueSubreddits
         self.uniqueAuthors = uniqueAuthors
         self.positivePct = positivePct
+        self.connectedCount = connectedCount
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -46,6 +49,7 @@ public struct OwnedMediaKpis: Sendable, Codable, Hashable {
         case uniqueSubreddits = "unique_subreddits"
         case uniqueAuthors = "unique_authors"
         case positivePct = "positive_pct"
+        case connectedCount = "connected_count"
     }
 
     // Encodable protocol methods
@@ -60,6 +64,7 @@ public struct OwnedMediaKpis: Sendable, Codable, Hashable {
         try container.encodeIfPresent(uniqueSubreddits, forKey: .uniqueSubreddits)
         try container.encodeIfPresent(uniqueAuthors, forKey: .uniqueAuthors)
         try container.encodeIfPresent(positivePct, forKey: .positivePct)
+        try container.encodeIfPresent(connectedCount, forKey: .connectedCount)
     }
 }
 
