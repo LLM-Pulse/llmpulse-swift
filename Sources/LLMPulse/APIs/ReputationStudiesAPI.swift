@@ -81,9 +81,9 @@ open class ReputationStudiesAPI {
      - parameter dimension: (query) Restrict to one reputation dimension key (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: ReputationReportScoresResponse
      */
-    open class func getReputationReport(id: String, projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_getReputationReport? = nil, brand: String? = nil, dimension: String? = nil, output: Output_getReputationReport? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getReputationReport(id: String, projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_getReputationReport? = nil, brand: String? = nil, dimension: String? = nil, output: Output_getReputationReport? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> ReputationReportScoresResponse {
         return try await getReputationReportWithRequestBuilder(id: id, projectId: projectId, page: page, perPage: perPage, model: model, brand: brand, dimension: dimension, output: output, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -103,9 +103,9 @@ open class ReputationStudiesAPI {
      - parameter dimension: (query) Restrict to one reputation dimension key (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<ReputationReportScoresResponse> 
      */
-    open class func getReputationReportWithRequestBuilder(id: String, projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_getReputationReport? = nil, brand: String? = nil, dimension: String? = nil, output: Output_getReputationReport? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getReputationReportWithRequestBuilder(id: String, projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_getReputationReport? = nil, brand: String? = nil, dimension: String? = nil, output: Output_getReputationReport? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<ReputationReportScoresResponse> {
         var localVariablePath = "/reputation/reports/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -131,7 +131,7 @@ open class ReputationStudiesAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ReputationReportScoresResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -141,9 +141,9 @@ open class ReputationStudiesAPI {
      
      - parameter id: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: StudyResponse
      */
-    open class func getStudy(id: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getStudy(id: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> StudyResponse {
         return try await getStudyWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -156,9 +156,9 @@ open class ReputationStudiesAPI {
        - name: BearerAuth
      - parameter id: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<StudyResponse> 
      */
-    open class func getStudyWithRequestBuilder(id: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getStudyWithRequestBuilder(id: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<StudyResponse> {
         var localVariablePath = "/studies/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -174,7 +174,7 @@ open class ReputationStudiesAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<StudyResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -211,9 +211,9 @@ open class ReputationStudiesAPI {
      - parameter dimension: (query) Restrict to one dimension key (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: StudyReportScoresResponse
      */
-    open class func getStudyReport(id: Int, reportId: String, page: Int? = nil, perPage: Int? = nil, model: Model_getStudyReport? = nil, subject: String? = nil, dimension: String? = nil, output: Output_getStudyReport? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getStudyReport(id: Int, reportId: String, page: Int? = nil, perPage: Int? = nil, model: Model_getStudyReport? = nil, subject: String? = nil, dimension: String? = nil, output: Output_getStudyReport? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> StudyReportScoresResponse {
         return try await getStudyReportWithRequestBuilder(id: id, reportId: reportId, page: page, perPage: perPage, model: model, subject: subject, dimension: dimension, output: output, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -233,9 +233,9 @@ open class ReputationStudiesAPI {
      - parameter dimension: (query) Restrict to one dimension key (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<StudyReportScoresResponse> 
      */
-    open class func getStudyReportWithRequestBuilder(id: Int, reportId: String, page: Int? = nil, perPage: Int? = nil, model: Model_getStudyReport? = nil, subject: String? = nil, dimension: String? = nil, output: Output_getStudyReport? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getStudyReportWithRequestBuilder(id: Int, reportId: String, page: Int? = nil, perPage: Int? = nil, model: Model_getStudyReport? = nil, subject: String? = nil, dimension: String? = nil, output: Output_getStudyReport? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<StudyReportScoresResponse> {
         var localVariablePath = "/studies/{id}/reports/{report_id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -263,7 +263,7 @@ open class ReputationStudiesAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<StudyReportScoresResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -284,9 +284,9 @@ open class ReputationStudiesAPI {
      - parameter perPage: (query)  (optional, default to 20)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: ReputationReportsResponse
      */
-    open class func listReputationReports(projectId: Int, page: Int? = nil, perPage: Int? = nil, output: Output_listReputationReports? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listReputationReports(projectId: Int, page: Int? = nil, perPage: Int? = nil, output: Output_listReputationReports? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> ReputationReportsResponse {
         return try await listReputationReportsWithRequestBuilder(projectId: projectId, page: page, perPage: perPage, output: output, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -302,9 +302,9 @@ open class ReputationStudiesAPI {
      - parameter perPage: (query)  (optional, default to 20)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<ReputationReportsResponse> 
      */
-    open class func listReputationReportsWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, output: Output_listReputationReports? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listReputationReportsWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, output: Output_listReputationReports? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<ReputationReportsResponse> {
         let localVariablePath = "/reputation/reports"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -324,7 +324,7 @@ open class ReputationStudiesAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ReputationReportsResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -354,9 +354,9 @@ open class ReputationStudiesAPI {
      - parameter perPage: (query)  (optional, default to 20)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: StudiesResponse
      */
-    open class func listStudies(projectId: Int? = nil, status: Status_listStudies? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_listStudies? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listStudies(projectId: Int? = nil, status: Status_listStudies? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_listStudies? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> StudiesResponse {
         return try await listStudiesWithRequestBuilder(projectId: projectId, status: status, page: page, perPage: perPage, output: output, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -373,9 +373,9 @@ open class ReputationStudiesAPI {
      - parameter perPage: (query)  (optional, default to 20)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<StudiesResponse> 
      */
-    open class func listStudiesWithRequestBuilder(projectId: Int? = nil, status: Status_listStudies? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_listStudies? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listStudiesWithRequestBuilder(projectId: Int? = nil, status: Status_listStudies? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_listStudies? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<StudiesResponse> {
         let localVariablePath = "/studies"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -396,7 +396,7 @@ open class ReputationStudiesAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<StudiesResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

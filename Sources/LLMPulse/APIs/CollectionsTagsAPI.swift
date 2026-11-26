@@ -95,9 +95,9 @@ open class CollectionsTagsAPI {
      - parameter projectId: (query) Project ID 
      - parameter id: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: CollectionDeleteResponse
      */
-    open class func deleteCollection(projectId: Int, id: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func deleteCollection(projectId: Int, id: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> CollectionDeleteResponse {
         return try await deleteCollectionWithRequestBuilder(projectId: projectId, id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -111,9 +111,9 @@ open class CollectionsTagsAPI {
      - parameter projectId: (query) Project ID 
      - parameter id: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<CollectionDeleteResponse> 
      */
-    open class func deleteCollectionWithRequestBuilder(projectId: Int, id: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func deleteCollectionWithRequestBuilder(projectId: Int, id: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<CollectionDeleteResponse> {
         var localVariablePath = "/collections/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -133,7 +133,7 @@ open class CollectionsTagsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CollectionDeleteResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -292,9 +292,9 @@ open class CollectionsTagsAPI {
      - parameter id: (path)  
      - parameter updateCollectionRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: CollectionUpdateResponse
      */
-    open class func updateCollection(id: Int, updateCollectionRequest: UpdateCollectionRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func updateCollection(id: Int, updateCollectionRequest: UpdateCollectionRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> CollectionUpdateResponse {
         return try await updateCollectionWithRequestBuilder(id: id, updateCollectionRequest: updateCollectionRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -308,9 +308,9 @@ open class CollectionsTagsAPI {
      - parameter id: (path)  
      - parameter updateCollectionRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<CollectionUpdateResponse> 
      */
-    open class func updateCollectionWithRequestBuilder(id: Int, updateCollectionRequest: UpdateCollectionRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func updateCollectionWithRequestBuilder(id: Int, updateCollectionRequest: UpdateCollectionRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<CollectionUpdateResponse> {
         var localVariablePath = "/collections/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -326,7 +326,7 @@ open class CollectionsTagsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CollectionUpdateResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

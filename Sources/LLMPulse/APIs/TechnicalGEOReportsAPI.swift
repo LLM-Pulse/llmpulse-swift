@@ -14,9 +14,9 @@ open class TechnicalGEOReportsAPI {
      
      - parameter createTechnicalGeoReportsRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: TechnicalGeoReportsCreateResponse
      */
-    open class func createTechnicalGeoReports(createTechnicalGeoReportsRequest: CreateTechnicalGeoReportsRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func createTechnicalGeoReports(createTechnicalGeoReportsRequest: CreateTechnicalGeoReportsRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> TechnicalGeoReportsCreateResponse {
         return try await createTechnicalGeoReportsWithRequestBuilder(createTechnicalGeoReportsRequest: createTechnicalGeoReportsRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -29,9 +29,9 @@ open class TechnicalGEOReportsAPI {
        - name: BearerAuth
      - parameter createTechnicalGeoReportsRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<TechnicalGeoReportsCreateResponse> 
      */
-    open class func createTechnicalGeoReportsWithRequestBuilder(createTechnicalGeoReportsRequest: CreateTechnicalGeoReportsRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func createTechnicalGeoReportsWithRequestBuilder(createTechnicalGeoReportsRequest: CreateTechnicalGeoReportsRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<TechnicalGeoReportsCreateResponse> {
         let localVariablePath = "/technical_geo_reports"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: createTechnicalGeoReportsRequest, codableHelper: apiConfiguration.codableHelper)
@@ -44,7 +44,7 @@ open class TechnicalGEOReportsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<TechnicalGeoReportsCreateResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -71,9 +71,9 @@ open class TechnicalGEOReportsAPI {
      - parameter reportType: (query)  
      - parameter id: (path) Report id returned by POST /technical_geo_reports or GET /technical_geo_reports 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: TechnicalGeoReportResponse
      */
-    open class func getTechnicalGeoReport(projectId: Int, reportType: ReportType_getTechnicalGeoReport, id: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getTechnicalGeoReport(projectId: Int, reportType: ReportType_getTechnicalGeoReport, id: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> TechnicalGeoReportResponse {
         return try await getTechnicalGeoReportWithRequestBuilder(projectId: projectId, reportType: reportType, id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -88,9 +88,9 @@ open class TechnicalGEOReportsAPI {
      - parameter reportType: (query)  
      - parameter id: (path) Report id returned by POST /technical_geo_reports or GET /technical_geo_reports 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<TechnicalGeoReportResponse> 
      */
-    open class func getTechnicalGeoReportWithRequestBuilder(projectId: Int, reportType: ReportType_getTechnicalGeoReport, id: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getTechnicalGeoReportWithRequestBuilder(projectId: Int, reportType: ReportType_getTechnicalGeoReport, id: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<TechnicalGeoReportResponse> {
         var localVariablePath = "/technical_geo_reports/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -111,7 +111,7 @@ open class TechnicalGEOReportsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<TechnicalGeoReportResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -141,9 +141,9 @@ open class TechnicalGEOReportsAPI {
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: TechnicalGeoReportsResponse
      */
-    open class func listTechnicalGeoReports(projectId: Int, reportType: ReportType_listTechnicalGeoReports, status: String? = nil, batchId: Int? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listTechnicalGeoReports(projectId: Int, reportType: ReportType_listTechnicalGeoReports, status: String? = nil, batchId: Int? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> TechnicalGeoReportsResponse {
         return try await listTechnicalGeoReportsWithRequestBuilder(projectId: projectId, reportType: reportType, status: status, batchId: batchId, page: page, perPage: perPage, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -161,9 +161,9 @@ open class TechnicalGEOReportsAPI {
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<TechnicalGeoReportsResponse> 
      */
-    open class func listTechnicalGeoReportsWithRequestBuilder(projectId: Int, reportType: ReportType_listTechnicalGeoReports, status: String? = nil, batchId: Int? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listTechnicalGeoReportsWithRequestBuilder(projectId: Int, reportType: ReportType_listTechnicalGeoReports, status: String? = nil, batchId: Int? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<TechnicalGeoReportsResponse> {
         let localVariablePath = "/technical_geo_reports"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -185,7 +185,7 @@ open class TechnicalGEOReportsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<TechnicalGeoReportsResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

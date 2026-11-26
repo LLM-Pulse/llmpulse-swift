@@ -149,9 +149,9 @@ open class SourcesCitationIntelligenceAPI {
      - parameter projectId: (query) Project ID 
      - parameter urlSha256: (path) 64-character hex SHA-256 of the cited URL 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: CitedUrlContentResponse
      */
-    open class func getCitedUrlContent(projectId: Int, urlSha256: String, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getCitedUrlContent(projectId: Int, urlSha256: String, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> CitedUrlContentResponse {
         return try await getCitedUrlContentWithRequestBuilder(projectId: projectId, urlSha256: urlSha256, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -165,9 +165,9 @@ open class SourcesCitationIntelligenceAPI {
      - parameter projectId: (query) Project ID 
      - parameter urlSha256: (path) 64-character hex SHA-256 of the cited URL 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<CitedUrlContentResponse> 
      */
-    open class func getCitedUrlContentWithRequestBuilder(projectId: Int, urlSha256: String, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getCitedUrlContentWithRequestBuilder(projectId: Int, urlSha256: String, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<CitedUrlContentResponse> {
         var localVariablePath = "/citation_intelligence/urls/{url_sha256}/content"
         let urlSha256PreEscape = "\(APIHelper.mapValueToPathItem(urlSha256))"
         let urlSha256PostEscape = urlSha256PreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -187,7 +187,7 @@ open class SourcesCitationIntelligenceAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CitedUrlContentResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -271,9 +271,9 @@ open class SourcesCitationIntelligenceAPI {
      - parameter contentGap: (query) mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. (optional)
      - parameter includeSeries: (query) Adds citation_series. Without it the response is unchanged. (optional, default to false)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: CitedUrlDetailsResponse
      */
-    open class func getCitedUrlDetail(projectId: Int, urlSha256: String, model: Model_getCitedUrlDetail? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, brandKind: BrandKind_getCitedUrlDetail? = nil, from: Date? = nil, to: Date? = nil, sourceType: SourceType_getCitedUrlDetail? = nil, sentiment: Sentiment_getCitedUrlDetail? = nil, contentGap: ContentGap_getCitedUrlDetail? = nil, includeSeries: Bool? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getCitedUrlDetail(projectId: Int, urlSha256: String, model: Model_getCitedUrlDetail? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, brandKind: BrandKind_getCitedUrlDetail? = nil, from: Date? = nil, to: Date? = nil, sourceType: SourceType_getCitedUrlDetail? = nil, sentiment: Sentiment_getCitedUrlDetail? = nil, contentGap: ContentGap_getCitedUrlDetail? = nil, includeSeries: Bool? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> CitedUrlDetailsResponse {
         return try await getCitedUrlDetailWithRequestBuilder(projectId: projectId, urlSha256: urlSha256, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, brandKind: brandKind, from: from, to: to, sourceType: sourceType, sentiment: sentiment, contentGap: contentGap, includeSeries: includeSeries, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -299,9 +299,9 @@ open class SourcesCitationIntelligenceAPI {
      - parameter contentGap: (query) mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. (optional)
      - parameter includeSeries: (query) Adds citation_series. Without it the response is unchanged. (optional, default to false)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<CitedUrlDetailsResponse> 
      */
-    open class func getCitedUrlDetailWithRequestBuilder(projectId: Int, urlSha256: String, model: Model_getCitedUrlDetail? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, brandKind: BrandKind_getCitedUrlDetail? = nil, from: Date? = nil, to: Date? = nil, sourceType: SourceType_getCitedUrlDetail? = nil, sentiment: Sentiment_getCitedUrlDetail? = nil, contentGap: ContentGap_getCitedUrlDetail? = nil, includeSeries: Bool? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getCitedUrlDetailWithRequestBuilder(projectId: Int, urlSha256: String, model: Model_getCitedUrlDetail? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, brandKind: BrandKind_getCitedUrlDetail? = nil, from: Date? = nil, to: Date? = nil, sourceType: SourceType_getCitedUrlDetail? = nil, sentiment: Sentiment_getCitedUrlDetail? = nil, contentGap: ContentGap_getCitedUrlDetail? = nil, includeSeries: Bool? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<CitedUrlDetailsResponse> {
         var localVariablePath = "/citation_intelligence/urls/{url_sha256}"
         let urlSha256PreEscape = "\(APIHelper.mapValueToPathItem(urlSha256))"
         let urlSha256PostEscape = urlSha256PreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -333,7 +333,7 @@ open class SourcesCitationIntelligenceAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CitedUrlDetailsResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -385,9 +385,9 @@ open class SourcesCitationIntelligenceAPI {
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: CitingDomainMentionShareResponse
      */
-    open class func getMentionsByCitingDomain(projectId: Int, domains: [String], model: Model_getMentionsByCitingDomain? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, brandKind: BrandKind_getMentionsByCitingDomain? = nil, from: Date? = nil, to: Date? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getMentionsByCitingDomain(projectId: Int, domains: [String], model: Model_getMentionsByCitingDomain? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, brandKind: BrandKind_getMentionsByCitingDomain? = nil, from: Date? = nil, to: Date? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> CitingDomainMentionShareResponse {
         return try await getMentionsByCitingDomainWithRequestBuilder(projectId: projectId, domains: domains, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, brandKind: brandKind, from: from, to: to, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -409,9 +409,9 @@ open class SourcesCitationIntelligenceAPI {
      - parameter from: (query)  (optional)
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<CitingDomainMentionShareResponse> 
      */
-    open class func getMentionsByCitingDomainWithRequestBuilder(projectId: Int, domains: [String], model: Model_getMentionsByCitingDomain? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, brandKind: BrandKind_getMentionsByCitingDomain? = nil, from: Date? = nil, to: Date? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getMentionsByCitingDomainWithRequestBuilder(projectId: Int, domains: [String], model: Model_getMentionsByCitingDomain? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, brandKind: BrandKind_getMentionsByCitingDomain? = nil, from: Date? = nil, to: Date? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<CitingDomainMentionShareResponse> {
         let localVariablePath = "/citation_intelligence/mentions_by_domain"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -437,7 +437,7 @@ open class SourcesCitationIntelligenceAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CitingDomainMentionShareResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -713,9 +713,9 @@ open class SourcesCitationIntelligenceAPI {
      - parameter sentiment: (query) Keeps the citations of answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (optional)
      - parameter contentGap: (query) mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: CitationGroupsResponse
      */
-    open class func listCitationGroups(projectId: Int, view: View_listCitationGroups? = nil, page: Int? = nil, perPage: Int? = nil, order: Order_listCitationGroups? = nil, direction: Direction_listCitationGroups? = nil, model: Model_listCitationGroups? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, brandKind: BrandKind_listCitationGroups? = nil, from: Date? = nil, to: Date? = nil, key: String? = nil, includeSeries: Bool? = nil, query: String? = nil, sourceType: SourceType_listCitationGroups? = nil, sentiment: Sentiment_listCitationGroups? = nil, contentGap: ContentGap_listCitationGroups? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listCitationGroups(projectId: Int, view: View_listCitationGroups? = nil, page: Int? = nil, perPage: Int? = nil, order: Order_listCitationGroups? = nil, direction: Direction_listCitationGroups? = nil, model: Model_listCitationGroups? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, brandKind: BrandKind_listCitationGroups? = nil, from: Date? = nil, to: Date? = nil, key: String? = nil, includeSeries: Bool? = nil, query: String? = nil, sourceType: SourceType_listCitationGroups? = nil, sentiment: Sentiment_listCitationGroups? = nil, contentGap: ContentGap_listCitationGroups? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> CitationGroupsResponse {
         return try await listCitationGroupsWithRequestBuilder(projectId: projectId, view: view, page: page, perPage: perPage, order: order, direction: direction, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, brandKind: brandKind, from: from, to: to, key: key, includeSeries: includeSeries, query: query, sourceType: sourceType, sentiment: sentiment, contentGap: contentGap, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -747,9 +747,9 @@ open class SourcesCitationIntelligenceAPI {
      - parameter sentiment: (query) Keeps the citations of answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (optional)
      - parameter contentGap: (query) mentioned: the cited page mentions your brand. gap: it mentions a competitor but not your brand. Only pages with usable content whose mention analysis has completed for this project match. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<CitationGroupsResponse> 
      */
-    open class func listCitationGroupsWithRequestBuilder(projectId: Int, view: View_listCitationGroups? = nil, page: Int? = nil, perPage: Int? = nil, order: Order_listCitationGroups? = nil, direction: Direction_listCitationGroups? = nil, model: Model_listCitationGroups? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, brandKind: BrandKind_listCitationGroups? = nil, from: Date? = nil, to: Date? = nil, key: String? = nil, includeSeries: Bool? = nil, query: String? = nil, sourceType: SourceType_listCitationGroups? = nil, sentiment: Sentiment_listCitationGroups? = nil, contentGap: ContentGap_listCitationGroups? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listCitationGroupsWithRequestBuilder(projectId: Int, view: View_listCitationGroups? = nil, page: Int? = nil, perPage: Int? = nil, order: Order_listCitationGroups? = nil, direction: Direction_listCitationGroups? = nil, model: Model_listCitationGroups? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, brandKind: BrandKind_listCitationGroups? = nil, from: Date? = nil, to: Date? = nil, key: String? = nil, includeSeries: Bool? = nil, query: String? = nil, sourceType: SourceType_listCitationGroups? = nil, sentiment: Sentiment_listCitationGroups? = nil, contentGap: ContentGap_listCitationGroups? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<CitationGroupsResponse> {
         let localVariablePath = "/citation_intelligence/groups"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -785,7 +785,7 @@ open class SourcesCitationIntelligenceAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CitationGroupsResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -806,9 +806,9 @@ open class SourcesCitationIntelligenceAPI {
      - parameter perPage: (query)  (optional, default to 20)
      - parameter sentiment: (query) Keeps the occurrences in answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: CitedUrlOccurrencesResponse
      */
-    open class func listCitedUrlOccurrences(projectId: Int, urlSha256: String, page: Int? = nil, perPage: Int? = nil, sentiment: Sentiment_listCitedUrlOccurrences? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listCitedUrlOccurrences(projectId: Int, urlSha256: String, page: Int? = nil, perPage: Int? = nil, sentiment: Sentiment_listCitedUrlOccurrences? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> CitedUrlOccurrencesResponse {
         return try await listCitedUrlOccurrencesWithRequestBuilder(projectId: projectId, urlSha256: urlSha256, page: page, perPage: perPage, sentiment: sentiment, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -824,9 +824,9 @@ open class SourcesCitationIntelligenceAPI {
      - parameter perPage: (query)  (optional, default to 20)
      - parameter sentiment: (query) Keeps the occurrences in answers with a negative brand sentiment. Needs the Growth plan or above: below it the filter answers 403 ERR_PLAN_REQUIRED. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<CitedUrlOccurrencesResponse> 
      */
-    open class func listCitedUrlOccurrencesWithRequestBuilder(projectId: Int, urlSha256: String, page: Int? = nil, perPage: Int? = nil, sentiment: Sentiment_listCitedUrlOccurrences? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listCitedUrlOccurrencesWithRequestBuilder(projectId: Int, urlSha256: String, page: Int? = nil, perPage: Int? = nil, sentiment: Sentiment_listCitedUrlOccurrences? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<CitedUrlOccurrencesResponse> {
         var localVariablePath = "/citation_intelligence/urls/{url_sha256}/occurrences"
         let urlSha256PreEscape = "\(APIHelper.mapValueToPathItem(urlSha256))"
         let urlSha256PostEscape = urlSha256PreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -849,7 +849,7 @@ open class SourcesCitationIntelligenceAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CitedUrlOccurrencesResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -939,9 +939,9 @@ open class SourcesCitationIntelligenceAPI {
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter range: (query) Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: SourcesResponse
      */
-    open class func listSources(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listSources? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, sourceType: SourceType_listSources? = nil, mentionFilter: MentionFilter_listSources? = nil, competitors: String? = nil, output: Output_listSources? = nil, promptType: String? = nil, brandKind: BrandKind_listSources? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listSources(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listSources? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, sourceType: SourceType_listSources? = nil, mentionFilter: MentionFilter_listSources? = nil, competitors: String? = nil, output: Output_listSources? = nil, promptType: String? = nil, brandKind: BrandKind_listSources? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SourcesResponse {
         return try await listSourcesWithRequestBuilder(projectId: projectId, page: page, perPage: perPage, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, from: from, to: to, sourceType: sourceType, mentionFilter: mentionFilter, competitors: competitors, output: output, promptType: promptType, brandKind: brandKind, range: range, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -969,9 +969,9 @@ open class SourcesCitationIntelligenceAPI {
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter range: (query) Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<SourcesResponse> 
      */
-    open class func listSourcesWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listSources? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, sourceType: SourceType_listSources? = nil, mentionFilter: MentionFilter_listSources? = nil, competitors: String? = nil, output: Output_listSources? = nil, promptType: String? = nil, brandKind: BrandKind_listSources? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listSourcesWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listSources? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, sourceType: SourceType_listSources? = nil, mentionFilter: MentionFilter_listSources? = nil, competitors: String? = nil, output: Output_listSources? = nil, promptType: String? = nil, brandKind: BrandKind_listSources? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SourcesResponse> {
         let localVariablePath = "/dimensions/sources"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -1004,7 +1004,7 @@ open class SourcesCitationIntelligenceAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<SourcesResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

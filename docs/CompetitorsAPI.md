@@ -64,7 +64,7 @@ Name | Type | Description  | Notes
 
 # **deleteCompetitor**
 ```swift
-    open class func deleteCompetitor(projectId: Int, id: Int, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func deleteCompetitor(projectId: Int, id: Int, completion: @escaping (_ data: CompetitorDeleteResponse?, _ error: Error?) -> Void)
 ```
 
 Delete a competitor
@@ -101,7 +101,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**CompetitorDeleteResponse**](CompetitorDeleteResponse.md)
 
 ### Authorization
 
@@ -278,7 +278,7 @@ Name | Type | Description  | Notes
 
 # **updateCompetitor**
 ```swift
-    open class func updateCompetitor(id: Int, updateCompetitorRequest: UpdateCompetitorRequest, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func updateCompetitor(id: Int, updateCompetitorRequest: UpdateCompetitorRequest, completion: @escaping (_ data: CompetitorUpdateResponse?, _ error: Error?) -> Void)
 ```
 
 Update a competitor
@@ -315,7 +315,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**CompetitorUpdateResponse**](CompetitorUpdateResponse.md)
 
 ### Authorization
 

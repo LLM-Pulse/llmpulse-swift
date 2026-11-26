@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 # **listAllCitations**
 ```swift
-    open class func listAllCitations(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listAllCitations? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAllCitations? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listAllCitations? = nil, range: Int? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listAllCitations(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listAllCitations? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAllCitations? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listAllCitations? = nil, range: Int? = nil, completion: @escaping (_ data: AllCitationsResponse?, _ error: Error?) -> Void)
 ```
 
 List all citations (brand + competitor)
@@ -77,7 +77,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**AllCitationsResponse**](AllCitationsResponse.md)
 
 ### Authorization
 
@@ -86,13 +86,13 @@ Void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **listAllMentions**
 ```swift
-    open class func listAllMentions(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listAllMentions? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAllMentions? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listAllMentions? = nil, range: Int? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listAllMentions(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listAllMentions? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAllMentions? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listAllMentions? = nil, range: Int? = nil, completion: @escaping (_ data: AllMentionsResponse?, _ error: Error?) -> Void)
 ```
 
 List all mentions (brand + competitor)
@@ -155,7 +155,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**AllMentionsResponse**](AllMentionsResponse.md)
 
 ### Authorization
 
@@ -164,7 +164,7 @@ Void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -246,7 +246,7 @@ Name | Type | Description  | Notes
 
 # **listCompetitorCitations**
 ```swift
-    open class func listCompetitorCitations(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listCompetitorCitations? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCompetitorCitations? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listCompetitorCitations? = nil, range: Int? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listCompetitorCitations(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listCompetitorCitations? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCompetitorCitations? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listCompetitorCitations? = nil, range: Int? = nil, completion: @escaping (_ data: CompetitorCitationsResponse?, _ error: Error?) -> Void)
 ```
 
 List competitor citations
@@ -309,7 +309,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**CompetitorCitationsResponse**](CompetitorCitationsResponse.md)
 
 ### Authorization
 
@@ -318,7 +318,7 @@ Void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

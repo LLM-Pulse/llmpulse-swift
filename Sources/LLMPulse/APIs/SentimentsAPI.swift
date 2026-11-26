@@ -335,9 +335,9 @@ open class SentimentsAPI {
      - parameter projectId: (query) Project ID 
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: SentimentCategoriesResponse
      */
-    open class func listSentimentCategories(projectId: Int, output: Output_listSentimentCategories? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listSentimentCategories(projectId: Int, output: Output_listSentimentCategories? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> SentimentCategoriesResponse {
         return try await listSentimentCategoriesWithRequestBuilder(projectId: projectId, output: output, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -351,9 +351,9 @@ open class SentimentsAPI {
      - parameter projectId: (query) Project ID 
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<SentimentCategoriesResponse> 
      */
-    open class func listSentimentCategoriesWithRequestBuilder(projectId: Int, output: Output_listSentimentCategories? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listSentimentCategoriesWithRequestBuilder(projectId: Int, output: Output_listSentimentCategories? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<SentimentCategoriesResponse> {
         let localVariablePath = "/dimensions/sentiments"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -371,7 +371,7 @@ open class SentimentsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<SentimentCategoriesResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

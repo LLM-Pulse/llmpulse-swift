@@ -110,9 +110,9 @@ open class AIAgentTrafficAPI {
      - parameter source: (query) Filter by a single AI source slug (e.g. chatgpt, perplexity, gemini, claude) (optional)
      - parameter granularity: (query)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: AiTrafficResponse
      */
-    open class func getAiTraffic(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, source: String? = nil, granularity: Granularity_getAiTraffic? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getAiTraffic(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, source: String? = nil, granularity: Granularity_getAiTraffic? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> AiTrafficResponse {
         return try await getAiTrafficWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, source: source, granularity: granularity, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -130,9 +130,9 @@ open class AIAgentTrafficAPI {
      - parameter source: (query) Filter by a single AI source slug (e.g. chatgpt, perplexity, gemini, claude) (optional)
      - parameter granularity: (query)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<AiTrafficResponse> 
      */
-    open class func getAiTrafficWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, source: String? = nil, granularity: Granularity_getAiTraffic? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getAiTrafficWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, source: String? = nil, granularity: Granularity_getAiTraffic? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<AiTrafficResponse> {
         let localVariablePath = "/metrics/ai_traffic"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -154,7 +154,7 @@ open class AIAgentTrafficAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<AiTrafficResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

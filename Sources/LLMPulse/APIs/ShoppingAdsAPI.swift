@@ -102,9 +102,9 @@ open class ShoppingAdsAPI {
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: AdsResponse
      */
-    open class func listAds(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listAds? = nil, owned: Bool? = nil, order: Order_listAds? = nil, direction: Direction_listAds? = nil, query: String? = nil, model: Model_listAds? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listAds? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAds? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listAds(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listAds? = nil, owned: Bool? = nil, order: Order_listAds? = nil, direction: Direction_listAds? = nil, query: String? = nil, model: Model_listAds? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listAds? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAds? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> AdsResponse {
         return try await listAdsWithRequestBuilder(projectId: projectId, page: page, perPage: perPage, view: view, owned: owned, order: order, direction: direction, query: query, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, promptType: promptType, brandKind: brandKind, range: range, from: from, to: to, output: output, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -135,9 +135,9 @@ open class ShoppingAdsAPI {
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<AdsResponse> 
      */
-    open class func listAdsWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listAds? = nil, owned: Bool? = nil, order: Order_listAds? = nil, direction: Direction_listAds? = nil, query: String? = nil, model: Model_listAds? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listAds? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAds? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listAdsWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listAds? = nil, owned: Bool? = nil, order: Order_listAds? = nil, direction: Direction_listAds? = nil, query: String? = nil, model: Model_listAds? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listAds? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAds? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<AdsResponse> {
         let localVariablePath = "/dimensions/ads"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -172,7 +172,7 @@ open class ShoppingAdsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<AdsResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -427,9 +427,9 @@ open class ShoppingAdsAPI {
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: ShoppingResponse
      */
-    open class func listShopping(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listShopping? = nil, owned: Bool? = nil, order: Order_listShopping? = nil, direction: Direction_listShopping? = nil, query: String? = nil, model: Model_listShopping? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listShopping? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listShopping? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listShopping(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listShopping? = nil, owned: Bool? = nil, order: Order_listShopping? = nil, direction: Direction_listShopping? = nil, query: String? = nil, model: Model_listShopping? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listShopping? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listShopping? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> ShoppingResponse {
         return try await listShoppingWithRequestBuilder(projectId: projectId, page: page, perPage: perPage, view: view, owned: owned, order: order, direction: direction, query: query, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, promptType: promptType, brandKind: brandKind, range: range, from: from, to: to, output: output, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -460,9 +460,9 @@ open class ShoppingAdsAPI {
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<ShoppingResponse> 
      */
-    open class func listShoppingWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listShopping? = nil, owned: Bool? = nil, order: Order_listShopping? = nil, direction: Direction_listShopping? = nil, query: String? = nil, model: Model_listShopping? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listShopping? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listShopping? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listShoppingWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listShopping? = nil, owned: Bool? = nil, order: Order_listShopping? = nil, direction: Direction_listShopping? = nil, query: String? = nil, model: Model_listShopping? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listShopping? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listShopping? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<ShoppingResponse> {
         let localVariablePath = "/dimensions/shopping"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -497,7 +497,7 @@ open class ShoppingAdsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ShoppingResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

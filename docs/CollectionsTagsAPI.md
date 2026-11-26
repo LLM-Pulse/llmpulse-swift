@@ -115,7 +115,7 @@ Name | Type | Description  | Notes
 
 # **deleteCollection**
 ```swift
-    open class func deleteCollection(projectId: Int, id: Int, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func deleteCollection(projectId: Int, id: Int, completion: @escaping (_ data: CollectionDeleteResponse?, _ error: Error?) -> Void)
 ```
 
 Delete a tag
@@ -152,7 +152,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**CollectionDeleteResponse**](CollectionDeleteResponse.md)
 
 ### Authorization
 
@@ -317,7 +317,7 @@ Name | Type | Description  | Notes
 
 # **updateCollection**
 ```swift
-    open class func updateCollection(id: Int, updateCollectionRequest: UpdateCollectionRequest, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func updateCollection(id: Int, updateCollectionRequest: UpdateCollectionRequest, completion: @escaping (_ data: CollectionUpdateResponse?, _ error: Error?) -> Void)
 ```
 
 Update a tag
@@ -354,7 +354,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**CollectionUpdateResponse**](CollectionUpdateResponse.md)
 
 ### Authorization
 

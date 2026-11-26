@@ -82,7 +82,7 @@ Name | Type | Description  | Notes
 
 # **getAiModelPositionDistribution**
 ```swift
-    open class func getAiModelPositionDistribution(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getAiModelPositionDistribution? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_getAiModelPositionDistribution? = nil, model: Model_getAiModelPositionDistribution? = nil, brand1: Int? = nil, brand2: Int? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func getAiModelPositionDistribution(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getAiModelPositionDistribution? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_getAiModelPositionDistribution? = nil, model: Model_getAiModelPositionDistribution? = nil, brand1: Int? = nil, brand2: Int? = nil, completion: @escaping (_ data: AiModelPositionDistributionResponse?, _ error: Error?) -> Void)
 ```
 
 Position distribution comparison
@@ -139,7 +139,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**AiModelPositionDistributionResponse**](AiModelPositionDistributionResponse.md)
 
 ### Authorization
 
@@ -148,13 +148,13 @@ Void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getAiOverviewResults**
 ```swift
-    open class func getAiOverviewResults(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getAiOverviewResults? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_getAiOverviewResults? = nil, page: Int? = nil, perPage: Int? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func getAiOverviewResults(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getAiOverviewResults? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_getAiOverviewResults? = nil, page: Int? = nil, perPage: Int? = nil, completion: @escaping (_ data: AiOverviewResultsResponse?, _ error: Error?) -> Void)
 ```
 
 Google AI Overview result availability
@@ -209,7 +209,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**AiOverviewResultsResponse**](AiOverviewResultsResponse.md)
 
 ### Authorization
 
@@ -218,7 +218,7 @@ Void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

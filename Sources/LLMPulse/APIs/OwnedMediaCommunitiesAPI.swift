@@ -582,9 +582,9 @@ open class OwnedMediaCommunitiesAPI {
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: RedditResponse
      */
-    open class func listRedditCitations(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listRedditCitations? = nil, subreddit: String? = nil, author: String? = nil, status: Status_listRedditCitations? = nil, owned: Bool? = nil, brand: String? = nil, order: Order_listRedditCitations? = nil, direction: Direction_listRedditCitations? = nil, model: Model_listRedditCitations? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, brandKind: BrandKind_listRedditCitations? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listRedditCitations? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listRedditCitations(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listRedditCitations? = nil, subreddit: String? = nil, author: String? = nil, status: Status_listRedditCitations? = nil, owned: Bool? = nil, brand: String? = nil, order: Order_listRedditCitations? = nil, direction: Direction_listRedditCitations? = nil, model: Model_listRedditCitations? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, brandKind: BrandKind_listRedditCitations? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listRedditCitations? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> RedditResponse {
         return try await listRedditCitationsWithRequestBuilder(projectId: projectId, page: page, perPage: perPage, view: view, subreddit: subreddit, author: author, status: status, owned: owned, brand: brand, order: order, direction: direction, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, brandKind: brandKind, range: range, from: from, to: to, output: output, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -616,9 +616,9 @@ open class OwnedMediaCommunitiesAPI {
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<RedditResponse> 
      */
-    open class func listRedditCitationsWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listRedditCitations? = nil, subreddit: String? = nil, author: String? = nil, status: Status_listRedditCitations? = nil, owned: Bool? = nil, brand: String? = nil, order: Order_listRedditCitations? = nil, direction: Direction_listRedditCitations? = nil, model: Model_listRedditCitations? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, brandKind: BrandKind_listRedditCitations? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listRedditCitations? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listRedditCitationsWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listRedditCitations? = nil, subreddit: String? = nil, author: String? = nil, status: Status_listRedditCitations? = nil, owned: Bool? = nil, brand: String? = nil, order: Order_listRedditCitations? = nil, direction: Direction_listRedditCitations? = nil, model: Model_listRedditCitations? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, brandKind: BrandKind_listRedditCitations? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listRedditCitations? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<RedditResponse> {
         let localVariablePath = "/dimensions/reddit"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -654,7 +654,7 @@ open class OwnedMediaCommunitiesAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<RedditResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

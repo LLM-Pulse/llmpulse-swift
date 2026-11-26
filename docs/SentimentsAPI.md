@@ -180,7 +180,7 @@ Name | Type | Description  | Notes
 
 # **listSentimentCategories**
 ```swift
-    open class func listSentimentCategories(projectId: Int, output: Output_listSentimentCategories? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listSentimentCategories(projectId: Int, output: Output_listSentimentCategories? = nil, completion: @escaping (_ data: SentimentCategoriesResponse?, _ error: Error?) -> Void)
 ```
 
 List sentiment categories (Growth plan or above)
@@ -217,7 +217,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**SentimentCategoriesResponse**](SentimentCategoriesResponse.md)
 
 ### Authorization
 

@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 # **createTechnicalGeoReports**
 ```swift
-    open class func createTechnicalGeoReports(createTechnicalGeoReportsRequest: CreateTechnicalGeoReportsRequest, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func createTechnicalGeoReports(createTechnicalGeoReportsRequest: CreateTechnicalGeoReportsRequest, completion: @escaping (_ data: TechnicalGeoReportsCreateResponse?, _ error: Error?) -> Void)
 ```
 
 Run technical GEO analysis
@@ -48,7 +48,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**TechnicalGeoReportsCreateResponse**](TechnicalGeoReportsCreateResponse.md)
 
 ### Authorization
 
@@ -63,7 +63,7 @@ Void (empty response body)
 
 # **getTechnicalGeoReport**
 ```swift
-    open class func getTechnicalGeoReport(projectId: Int, reportType: ReportType_getTechnicalGeoReport, id: Int, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func getTechnicalGeoReport(projectId: Int, reportType: ReportType_getTechnicalGeoReport, id: Int, completion: @escaping (_ data: TechnicalGeoReportResponse?, _ error: Error?) -> Void)
 ```
 
 Get a technical GEO report
@@ -102,7 +102,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**TechnicalGeoReportResponse**](TechnicalGeoReportResponse.md)
 
 ### Authorization
 
@@ -117,7 +117,7 @@ Void (empty response body)
 
 # **listTechnicalGeoReports**
 ```swift
-    open class func listTechnicalGeoReports(projectId: Int, reportType: ReportType_listTechnicalGeoReports, status: String? = nil, batchId: Int? = nil, page: Int? = nil, perPage: Int? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listTechnicalGeoReports(projectId: Int, reportType: ReportType_listTechnicalGeoReports, status: String? = nil, batchId: Int? = nil, page: Int? = nil, perPage: Int? = nil, completion: @escaping (_ data: TechnicalGeoReportsResponse?, _ error: Error?) -> Void)
 ```
 
 List technical GEO reports
@@ -162,7 +162,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**TechnicalGeoReportsResponse**](TechnicalGeoReportsResponse.md)
 
 ### Authorization
 

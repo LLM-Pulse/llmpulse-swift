@@ -54,9 +54,9 @@ open class ProjectsAPI {
      
      - parameter createProjectDraftRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: ProjectDraftResponse
      */
-    open class func createProjectDraft(createProjectDraftRequest: CreateProjectDraftRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func createProjectDraft(createProjectDraftRequest: CreateProjectDraftRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> ProjectDraftResponse {
         return try await createProjectDraftWithRequestBuilder(createProjectDraftRequest: createProjectDraftRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -69,9 +69,9 @@ open class ProjectsAPI {
        - name: BearerAuth
      - parameter createProjectDraftRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<ProjectDraftResponse> 
      */
-    open class func createProjectDraftWithRequestBuilder(createProjectDraftRequest: CreateProjectDraftRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func createProjectDraftWithRequestBuilder(createProjectDraftRequest: CreateProjectDraftRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<ProjectDraftResponse> {
         let localVariablePath = "/project_drafts"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: createProjectDraftRequest, codableHelper: apiConfiguration.codableHelper)
@@ -84,7 +84,7 @@ open class ProjectsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ProjectDraftResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -226,9 +226,9 @@ open class ProjectsAPI {
      - parameter id: (path) Draft id (draft_...) 
      - parameter includeSuggestions: (query) Cache-only: returns suggestions for the current step if already generated, never triggers AI (optional, default to false)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: ProjectDraftResponse
      */
-    open class func getProjectDraft(id: String, includeSuggestions: Bool? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getProjectDraft(id: String, includeSuggestions: Bool? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> ProjectDraftResponse {
         return try await getProjectDraftWithRequestBuilder(id: id, includeSuggestions: includeSuggestions, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -241,9 +241,9 @@ open class ProjectsAPI {
      - parameter id: (path) Draft id (draft_...) 
      - parameter includeSuggestions: (query) Cache-only: returns suggestions for the current step if already generated, never triggers AI (optional, default to false)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<ProjectDraftResponse> 
      */
-    open class func getProjectDraftWithRequestBuilder(id: String, includeSuggestions: Bool? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getProjectDraftWithRequestBuilder(id: String, includeSuggestions: Bool? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<ProjectDraftResponse> {
         var localVariablePath = "/project_drafts/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -263,7 +263,7 @@ open class ProjectsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ProjectDraftResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -469,9 +469,9 @@ open class ProjectsAPI {
      - parameter id: (path)  
      - parameter updateProjectDraftRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: ProjectDraftResponse
      */
-    open class func updateProjectDraft(id: String, updateProjectDraftRequest: UpdateProjectDraftRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func updateProjectDraft(id: String, updateProjectDraftRequest: UpdateProjectDraftRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> ProjectDraftResponse {
         return try await updateProjectDraftWithRequestBuilder(id: id, updateProjectDraftRequest: updateProjectDraftRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -485,9 +485,9 @@ open class ProjectsAPI {
      - parameter id: (path)  
      - parameter updateProjectDraftRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<ProjectDraftResponse> 
      */
-    open class func updateProjectDraftWithRequestBuilder(id: String, updateProjectDraftRequest: UpdateProjectDraftRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func updateProjectDraftWithRequestBuilder(id: String, updateProjectDraftRequest: UpdateProjectDraftRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<ProjectDraftResponse> {
         var localVariablePath = "/project_drafts/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -503,7 +503,7 @@ open class ProjectsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ProjectDraftResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

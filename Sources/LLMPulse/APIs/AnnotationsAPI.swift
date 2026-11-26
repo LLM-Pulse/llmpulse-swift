@@ -55,9 +55,9 @@ open class AnnotationsAPI {
      - parameter projectId: (query) Project ID 
      - parameter id: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: AnnotationDeleteResponse
      */
-    open class func deleteAnnotation(projectId: Int, id: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func deleteAnnotation(projectId: Int, id: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> AnnotationDeleteResponse {
         return try await deleteAnnotationWithRequestBuilder(projectId: projectId, id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -71,9 +71,9 @@ open class AnnotationsAPI {
      - parameter projectId: (query) Project ID 
      - parameter id: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<AnnotationDeleteResponse> 
      */
-    open class func deleteAnnotationWithRequestBuilder(projectId: Int, id: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func deleteAnnotationWithRequestBuilder(projectId: Int, id: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<AnnotationDeleteResponse> {
         var localVariablePath = "/annotations/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -93,7 +93,7 @@ open class AnnotationsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<AnnotationDeleteResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -108,9 +108,9 @@ open class AnnotationsAPI {
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: AnnotationsResponse
      */
-    open class func listAnnotations(projectId: Int, from: Date? = nil, to: Date? = nil, annotationCategoryId: Int? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listAnnotations(projectId: Int, from: Date? = nil, to: Date? = nil, annotationCategoryId: Int? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> AnnotationsResponse {
         return try await listAnnotationsWithRequestBuilder(projectId: projectId, from: from, to: to, annotationCategoryId: annotationCategoryId, page: page, perPage: perPage, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -128,9 +128,9 @@ open class AnnotationsAPI {
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<AnnotationsResponse> 
      */
-    open class func listAnnotationsWithRequestBuilder(projectId: Int, from: Date? = nil, to: Date? = nil, annotationCategoryId: Int? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listAnnotationsWithRequestBuilder(projectId: Int, from: Date? = nil, to: Date? = nil, annotationCategoryId: Int? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<AnnotationsResponse> {
         let localVariablePath = "/annotations"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -152,7 +152,7 @@ open class AnnotationsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<AnnotationsResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -163,9 +163,9 @@ open class AnnotationsAPI {
      - parameter id: (path)  
      - parameter updateAnnotationRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: AnnotationUpdateResponse
      */
-    open class func updateAnnotation(id: Int, updateAnnotationRequest: UpdateAnnotationRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func updateAnnotation(id: Int, updateAnnotationRequest: UpdateAnnotationRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> AnnotationUpdateResponse {
         return try await updateAnnotationWithRequestBuilder(id: id, updateAnnotationRequest: updateAnnotationRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -179,9 +179,9 @@ open class AnnotationsAPI {
      - parameter id: (path)  
      - parameter updateAnnotationRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<AnnotationUpdateResponse> 
      */
-    open class func updateAnnotationWithRequestBuilder(id: Int, updateAnnotationRequest: UpdateAnnotationRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func updateAnnotationWithRequestBuilder(id: Int, updateAnnotationRequest: UpdateAnnotationRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<AnnotationUpdateResponse> {
         var localVariablePath = "/annotations/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -197,7 +197,7 @@ open class AnnotationsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<AnnotationUpdateResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

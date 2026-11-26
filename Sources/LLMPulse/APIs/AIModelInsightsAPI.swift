@@ -154,9 +154,9 @@ open class AIModelInsightsAPI {
      - parameter brand1: (query) Competitor ID for the first comparison brand (omit to compare project brand) (optional)
      - parameter brand2: (query)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: AiModelPositionDistributionResponse
      */
-    open class func getAiModelPositionDistribution(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getAiModelPositionDistribution? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_getAiModelPositionDistribution? = nil, model: Model_getAiModelPositionDistribution? = nil, brand1: Int? = nil, brand2: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getAiModelPositionDistribution(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getAiModelPositionDistribution? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_getAiModelPositionDistribution? = nil, model: Model_getAiModelPositionDistribution? = nil, brand1: Int? = nil, brand2: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> AiModelPositionDistributionResponse {
         return try await getAiModelPositionDistributionWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, granularity: granularity, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, promptType: promptType, brandKind: brandKind, model: model, brand1: brand1, brand2: brand2, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -180,9 +180,9 @@ open class AIModelInsightsAPI {
      - parameter brand1: (query) Competitor ID for the first comparison brand (omit to compare project brand) (optional)
      - parameter brand2: (query)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<AiModelPositionDistributionResponse> 
      */
-    open class func getAiModelPositionDistributionWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getAiModelPositionDistribution? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_getAiModelPositionDistribution? = nil, model: Model_getAiModelPositionDistribution? = nil, brand1: Int? = nil, brand2: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getAiModelPositionDistributionWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getAiModelPositionDistribution? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_getAiModelPositionDistribution? = nil, model: Model_getAiModelPositionDistribution? = nil, brand1: Int? = nil, brand2: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<AiModelPositionDistributionResponse> {
         let localVariablePath = "/reports/ai_model_insights/position_distribution"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -211,7 +211,7 @@ open class AIModelInsightsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<AiModelPositionDistributionResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -250,9 +250,9 @@ open class AIModelInsightsAPI {
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: AiOverviewResultsResponse
      */
-    open class func getAiOverviewResults(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getAiOverviewResults? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_getAiOverviewResults? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getAiOverviewResults(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getAiOverviewResults? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_getAiOverviewResults? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> AiOverviewResultsResponse {
         return try await getAiOverviewResultsWithRequestBuilder(projectId: projectId, range: range, from: from, to: to, granularity: granularity, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, promptType: promptType, brandKind: brandKind, page: page, perPage: perPage, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -275,9 +275,9 @@ open class AIModelInsightsAPI {
      - parameter page: (query)  (optional, default to 1)
      - parameter perPage: (query)  (optional, default to 20)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<AiOverviewResultsResponse> 
      */
-    open class func getAiOverviewResultsWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getAiOverviewResults? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_getAiOverviewResults? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getAiOverviewResultsWithRequestBuilder(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, granularity: Granularity_getAiOverviewResults? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_getAiOverviewResults? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<AiOverviewResultsResponse> {
         let localVariablePath = "/reports/ai_model_insights/ai_overview_results"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -305,7 +305,7 @@ open class AIModelInsightsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<AiOverviewResultsResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

@@ -175,7 +175,7 @@ Name | Type | Description  | Notes
 
 # **getCitedUrlContent**
 ```swift
-    open class func getCitedUrlContent(projectId: Int, urlSha256: String, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func getCitedUrlContent(projectId: Int, urlSha256: String, completion: @escaping (_ data: CitedUrlContentResponse?, _ error: Error?) -> Void)
 ```
 
 Cited URL cached content
@@ -212,7 +212,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**CitedUrlContentResponse**](CitedUrlContentResponse.md)
 
 ### Authorization
 
@@ -227,7 +227,7 @@ Void (empty response body)
 
 # **getCitedUrlDetail**
 ```swift
-    open class func getCitedUrlDetail(projectId: Int, urlSha256: String, model: Model_getCitedUrlDetail? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, brandKind: BrandKind_getCitedUrlDetail? = nil, from: Date? = nil, to: Date? = nil, sourceType: SourceType_getCitedUrlDetail? = nil, sentiment: Sentiment_getCitedUrlDetail? = nil, contentGap: ContentGap_getCitedUrlDetail? = nil, includeSeries: Bool? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func getCitedUrlDetail(projectId: Int, urlSha256: String, model: Model_getCitedUrlDetail? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, brandKind: BrandKind_getCitedUrlDetail? = nil, from: Date? = nil, to: Date? = nil, sourceType: SourceType_getCitedUrlDetail? = nil, sentiment: Sentiment_getCitedUrlDetail? = nil, contentGap: ContentGap_getCitedUrlDetail? = nil, includeSeries: Bool? = nil, completion: @escaping (_ data: CitedUrlDetailsResponse?, _ error: Error?) -> Void)
 ```
 
 Cited URL detail
@@ -288,7 +288,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**CitedUrlDetailsResponse**](CitedUrlDetailsResponse.md)
 
 ### Authorization
 
@@ -303,7 +303,7 @@ Void (empty response body)
 
 # **getMentionsByCitingDomain**
 ```swift
-    open class func getMentionsByCitingDomain(projectId: Int, domains: [String], model: Model_getMentionsByCitingDomain? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, brandKind: BrandKind_getMentionsByCitingDomain? = nil, from: Date? = nil, to: Date? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func getMentionsByCitingDomain(projectId: Int, domains: [String], model: Model_getMentionsByCitingDomain? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, brandKind: BrandKind_getMentionsByCitingDomain? = nil, from: Date? = nil, to: Date? = nil, completion: @escaping (_ data: CitingDomainMentionShareResponse?, _ error: Error?) -> Void)
 ```
 
 Mention share by citing domain
@@ -356,7 +356,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**CitingDomainMentionShareResponse**](CitingDomainMentionShareResponse.md)
 
 ### Authorization
 
@@ -451,7 +451,7 @@ Name | Type | Description  | Notes
 
 # **listCitationGroups**
 ```swift
-    open class func listCitationGroups(projectId: Int, view: View_listCitationGroups? = nil, page: Int? = nil, perPage: Int? = nil, order: Order_listCitationGroups? = nil, direction: Direction_listCitationGroups? = nil, model: Model_listCitationGroups? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, brandKind: BrandKind_listCitationGroups? = nil, from: Date? = nil, to: Date? = nil, key: String? = nil, includeSeries: Bool? = nil, query: String? = nil, sourceType: SourceType_listCitationGroups? = nil, sentiment: Sentiment_listCitationGroups? = nil, contentGap: ContentGap_listCitationGroups? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listCitationGroups(projectId: Int, view: View_listCitationGroups? = nil, page: Int? = nil, perPage: Int? = nil, order: Order_listCitationGroups? = nil, direction: Direction_listCitationGroups? = nil, model: Model_listCitationGroups? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, brandKind: BrandKind_listCitationGroups? = nil, from: Date? = nil, to: Date? = nil, key: String? = nil, includeSeries: Bool? = nil, query: String? = nil, sourceType: SourceType_listCitationGroups? = nil, sentiment: Sentiment_listCitationGroups? = nil, contentGap: ContentGap_listCitationGroups? = nil, completion: @escaping (_ data: CitationGroupsResponse?, _ error: Error?) -> Void)
 ```
 
 Grouped citation intelligence
@@ -524,7 +524,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**CitationGroupsResponse**](CitationGroupsResponse.md)
 
 ### Authorization
 
@@ -539,7 +539,7 @@ Void (empty response body)
 
 # **listCitedUrlOccurrences**
 ```swift
-    open class func listCitedUrlOccurrences(projectId: Int, urlSha256: String, page: Int? = nil, perPage: Int? = nil, sentiment: Sentiment_listCitedUrlOccurrences? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listCitedUrlOccurrences(projectId: Int, urlSha256: String, page: Int? = nil, perPage: Int? = nil, sentiment: Sentiment_listCitedUrlOccurrences? = nil, completion: @escaping (_ data: CitedUrlOccurrencesResponse?, _ error: Error?) -> Void)
 ```
 
 Cited URL occurrences
@@ -580,7 +580,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**CitedUrlOccurrencesResponse**](CitedUrlOccurrencesResponse.md)
 
 ### Authorization
 
@@ -595,7 +595,7 @@ Void (empty response body)
 
 # **listSources**
 ```swift
-    open class func listSources(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listSources? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, sourceType: SourceType_listSources? = nil, mentionFilter: MentionFilter_listSources? = nil, competitors: String? = nil, output: Output_listSources? = nil, promptType: String? = nil, brandKind: BrandKind_listSources? = nil, range: Int? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listSources(projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_listSources? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, sourceType: SourceType_listSources? = nil, mentionFilter: MentionFilter_listSources? = nil, competitors: String? = nil, output: Output_listSources? = nil, promptType: String? = nil, brandKind: BrandKind_listSources? = nil, range: Int? = nil, completion: @escaping (_ data: SourcesResponse?, _ error: Error?) -> Void)
 ```
 
 List source URLs
@@ -660,7 +660,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**SourcesResponse**](SourcesResponse.md)
 
 ### Authorization
 

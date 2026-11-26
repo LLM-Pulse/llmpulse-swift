@@ -64,7 +64,7 @@ Name | Type | Description  | Notes
 
 # **listAnswers**
 ```swift
-    open class func listAnswers(projectId: Int, model: Model_listAnswers? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listAnswers? = nil, mentionFilter: MentionFilter_listAnswers? = nil, citationFilter: CitationFilter_listAnswers? = nil, competitors: String? = nil, from: Date? = nil, to: Date? = nil, page: Int? = nil, perPage: Int? = nil, query: String? = nil, noResult: Bool? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listAnswers(projectId: Int, model: Model_listAnswers? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listAnswers? = nil, mentionFilter: MentionFilter_listAnswers? = nil, citationFilter: CitationFilter_listAnswers? = nil, competitors: String? = nil, from: Date? = nil, to: Date? = nil, page: Int? = nil, perPage: Int? = nil, query: String? = nil, noResult: Bool? = nil, completion: @escaping (_ data: AnswersResponse?, _ error: Error?) -> Void)
 ```
 
 List AI responses
@@ -131,7 +131,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**AnswersResponse**](AnswersResponse.md)
 
 ### Authorization
 

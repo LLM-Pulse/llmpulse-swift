@@ -290,7 +290,7 @@ Name | Type | Description  | Notes
 
 # **listRedditCitations**
 ```swift
-    open class func listRedditCitations(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listRedditCitations? = nil, subreddit: String? = nil, author: String? = nil, status: Status_listRedditCitations? = nil, owned: Bool? = nil, brand: String? = nil, order: Order_listRedditCitations? = nil, direction: Direction_listRedditCitations? = nil, model: Model_listRedditCitations? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, brandKind: BrandKind_listRedditCitations? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listRedditCitations? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listRedditCitations(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listRedditCitations? = nil, subreddit: String? = nil, author: String? = nil, status: Status_listRedditCitations? = nil, owned: Bool? = nil, brand: String? = nil, order: Order_listRedditCitations? = nil, direction: Direction_listRedditCitations? = nil, model: Model_listRedditCitations? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, brandKind: BrandKind_listRedditCitations? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listRedditCitations? = nil, completion: @escaping (_ data: RedditResponse?, _ error: Error?) -> Void)
 ```
 
 List cited Reddit content
@@ -363,7 +363,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**RedditResponse**](RedditResponse.md)
 
 ### Authorization
 

@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 # **listAds**
 ```swift
-    open class func listAds(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listAds? = nil, owned: Bool? = nil, order: Order_listAds? = nil, direction: Direction_listAds? = nil, query: String? = nil, model: Model_listAds? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listAds? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAds? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listAds(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listAds? = nil, owned: Bool? = nil, order: Order_listAds? = nil, direction: Direction_listAds? = nil, query: String? = nil, model: Model_listAds? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listAds? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAds? = nil, completion: @escaping (_ data: AdsResponse?, _ error: Error?) -> Void)
 ```
 
 List AI ad placements
@@ -82,7 +82,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**AdsResponse**](AdsResponse.md)
 
 ### Authorization
 
@@ -181,7 +181,7 @@ Name | Type | Description  | Notes
 
 # **listShopping**
 ```swift
-    open class func listShopping(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listShopping? = nil, owned: Bool? = nil, order: Order_listShopping? = nil, direction: Direction_listShopping? = nil, query: String? = nil, model: Model_listShopping? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listShopping? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listShopping? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listShopping(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listShopping? = nil, owned: Bool? = nil, order: Order_listShopping? = nil, direction: Direction_listShopping? = nil, query: String? = nil, model: Model_listShopping? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listShopping? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listShopping? = nil, completion: @escaping (_ data: ShoppingResponse?, _ error: Error?) -> Void)
 ```
 
 List shopping results
@@ -252,7 +252,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**ShoppingResponse**](ShoppingResponse.md)
 
 ### Authorization
 

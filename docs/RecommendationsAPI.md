@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 # **getRecommendation**
 ```swift
-    open class func getRecommendation(projectId: Int, id: Int, itemStatus: ItemStatus_getRecommendation? = nil, resolveSourceRefs: Bool? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func getRecommendation(projectId: Int, id: Int, itemStatus: ItemStatus_getRecommendation? = nil, resolveSourceRefs: Bool? = nil, completion: @escaping (_ data: RecommendationDetailResponse?, _ error: Error?) -> Void)
 ```
 
 Get recommendation run with items
@@ -51,7 +51,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**RecommendationDetailResponse**](RecommendationDetailResponse.md)
 
 ### Authorization
 
@@ -66,7 +66,7 @@ Void (empty response body)
 
 # **launchRecommendations**
 ```swift
-    open class func launchRecommendations(launchRecommendationsRequest: LaunchRecommendationsRequest, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func launchRecommendations(launchRecommendationsRequest: LaunchRecommendationsRequest, completion: @escaping (_ data: RecommendationLaunchResponse?, _ error: Error?) -> Void)
 ```
 
 Launch a recommendations generation
@@ -101,7 +101,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**RecommendationLaunchResponse**](RecommendationLaunchResponse.md)
 
 ### Authorization
 

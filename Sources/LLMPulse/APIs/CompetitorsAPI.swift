@@ -55,9 +55,9 @@ open class CompetitorsAPI {
      - parameter projectId: (query) Project ID 
      - parameter id: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: CompetitorDeleteResponse
      */
-    open class func deleteCompetitor(projectId: Int, id: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func deleteCompetitor(projectId: Int, id: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> CompetitorDeleteResponse {
         return try await deleteCompetitorWithRequestBuilder(projectId: projectId, id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -71,9 +71,9 @@ open class CompetitorsAPI {
      - parameter projectId: (query) Project ID 
      - parameter id: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<CompetitorDeleteResponse> 
      */
-    open class func deleteCompetitorWithRequestBuilder(projectId: Int, id: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func deleteCompetitorWithRequestBuilder(projectId: Int, id: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<CompetitorDeleteResponse> {
         var localVariablePath = "/competitors/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -93,7 +93,7 @@ open class CompetitorsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CompetitorDeleteResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -284,9 +284,9 @@ open class CompetitorsAPI {
      - parameter id: (path)  
      - parameter updateCompetitorRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: CompetitorUpdateResponse
      */
-    open class func updateCompetitor(id: Int, updateCompetitorRequest: UpdateCompetitorRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func updateCompetitor(id: Int, updateCompetitorRequest: UpdateCompetitorRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> CompetitorUpdateResponse {
         return try await updateCompetitorWithRequestBuilder(id: id, updateCompetitorRequest: updateCompetitorRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -300,9 +300,9 @@ open class CompetitorsAPI {
      - parameter id: (path)  
      - parameter updateCompetitorRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<CompetitorUpdateResponse> 
      */
-    open class func updateCompetitorWithRequestBuilder(id: Int, updateCompetitorRequest: UpdateCompetitorRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func updateCompetitorWithRequestBuilder(id: Int, updateCompetitorRequest: UpdateCompetitorRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<CompetitorUpdateResponse> {
         var localVariablePath = "/competitors/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -318,7 +318,7 @@ open class CompetitorsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CompetitorUpdateResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

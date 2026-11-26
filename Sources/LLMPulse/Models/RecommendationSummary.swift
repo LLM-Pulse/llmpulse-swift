@@ -33,11 +33,11 @@ public struct RecommendationSummary: Sendable, Codable, Hashable {
     public var updatedAt: Date
     public var totalRecommendations: Int
     public var highPriorityCount: Int
-    public var summary: RecommendationSummarySummary
+    public var summary: RecommendationDetailResponseSummary
     /** Generation context and run diagnostics as stored; empty until the generation completes. Its keys are not a stable contract */
     public var context: JSONValue
 
-    public init(id: Int, projectId: Int, recommendationType: RecommendationType, status: Status, errorMessage: String?, generatedAt: Date?, createdAt: Date, updatedAt: Date, totalRecommendations: Int, highPriorityCount: Int, summary: RecommendationSummarySummary, context: JSONValue) {
+    public init(id: Int, projectId: Int, recommendationType: RecommendationType, status: Status, errorMessage: String?, generatedAt: Date?, createdAt: Date, updatedAt: Date, totalRecommendations: Int, highPriorityCount: Int, summary: RecommendationDetailResponseSummary, context: JSONValue) {
         self.id = id
         self.projectId = projectId
         self.recommendationType = recommendationType

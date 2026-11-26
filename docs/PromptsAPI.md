@@ -170,7 +170,7 @@ Name | Type | Description  | Notes
 
 # **deletePrompt**
 ```swift
-    open class func deletePrompt(projectId: Int, id: Int, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func deletePrompt(projectId: Int, id: Int, completion: @escaping (_ data: PromptDeleteResponse?, _ error: Error?) -> Void)
 ```
 
 Delete a prompt
@@ -207,7 +207,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**PromptDeleteResponse**](PromptDeleteResponse.md)
 
 ### Authorization
 
@@ -474,7 +474,7 @@ Name | Type | Description  | Notes
 
 # **listQueryFanOuts**
 ```swift
-    open class func listQueryFanOuts(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listQueryFanOuts? = nil, order: Order_listQueryFanOuts? = nil, direction: Direction_listQueryFanOuts? = nil, query: String? = nil, model: Model_listQueryFanOuts? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listQueryFanOuts? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listQueryFanOuts? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listQueryFanOuts(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listQueryFanOuts? = nil, order: Order_listQueryFanOuts? = nil, direction: Direction_listQueryFanOuts? = nil, query: String? = nil, model: Model_listQueryFanOuts? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listQueryFanOuts? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listQueryFanOuts? = nil, completion: @escaping (_ data: QueryFanOutsResponse?, _ error: Error?) -> Void)
 ```
 
 List query fan-out
@@ -543,7 +543,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**QueryFanOutsResponse**](QueryFanOutsResponse.md)
 
 ### Authorization
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-/** One reputation report&#39;s status and analyst model coverage */
+/** One reputation or custom-study report&#39;s status and analyst model coverage */
 public struct ReputationReportSummary: Sendable, Codable, Hashable {
 
     public enum Status: String, Sendable, Codable, CaseIterable {
@@ -32,7 +32,7 @@ public struct ReputationReportSummary: Sendable, Codable, Hashable {
         case grok = "grok"
         case claude = "claude"
     }
-    /** Report id for GET /reputation/reports/{id} */
+    /** Report id for GET /reputation/reports/{id}, or GET /studies/{id}/reports/{report_id} for a study report */
     public var id: String
     public var status: Status
     public var createdAt: Date

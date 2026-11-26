@@ -62,7 +62,7 @@ Name | Type | Description  | Notes
 
 # **deleteAnnotation**
 ```swift
-    open class func deleteAnnotation(projectId: Int, id: Int, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func deleteAnnotation(projectId: Int, id: Int, completion: @escaping (_ data: AnnotationDeleteResponse?, _ error: Error?) -> Void)
 ```
 
 Delete a timeline annotation
@@ -99,7 +99,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**AnnotationDeleteResponse**](AnnotationDeleteResponse.md)
 
 ### Authorization
 
@@ -114,7 +114,7 @@ Void (empty response body)
 
 # **listAnnotations**
 ```swift
-    open class func listAnnotations(projectId: Int, from: Date? = nil, to: Date? = nil, annotationCategoryId: Int? = nil, page: Int? = nil, perPage: Int? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listAnnotations(projectId: Int, from: Date? = nil, to: Date? = nil, annotationCategoryId: Int? = nil, page: Int? = nil, perPage: Int? = nil, completion: @escaping (_ data: AnnotationsResponse?, _ error: Error?) -> Void)
 ```
 
 List timeline annotations
@@ -159,7 +159,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**AnnotationsResponse**](AnnotationsResponse.md)
 
 ### Authorization
 
@@ -174,7 +174,7 @@ Void (empty response body)
 
 # **updateAnnotation**
 ```swift
-    open class func updateAnnotation(id: Int, updateAnnotationRequest: UpdateAnnotationRequest, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func updateAnnotation(id: Int, updateAnnotationRequest: UpdateAnnotationRequest, completion: @escaping (_ data: AnnotationUpdateResponse?, _ error: Error?) -> Void)
 ```
 
 Update a timeline annotation
@@ -211,7 +211,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**AnnotationUpdateResponse**](AnnotationUpdateResponse.md)
 
 ### Authorization
 

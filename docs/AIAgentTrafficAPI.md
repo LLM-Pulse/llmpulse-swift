@@ -77,7 +77,7 @@ Name | Type | Description  | Notes
 
 # **getAiTraffic**
 ```swift
-    open class func getAiTraffic(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, source: String? = nil, granularity: Granularity_getAiTraffic? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func getAiTraffic(projectId: Int, range: Int? = nil, from: Date? = nil, to: Date? = nil, source: String? = nil, granularity: Granularity_getAiTraffic? = nil, completion: @escaping (_ data: AiTrafficResponse?, _ error: Error?) -> Void)
 ```
 
 AI referral traffic (Scale plan or above)
@@ -122,7 +122,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**AiTrafficResponse**](AiTrafficResponse.md)
 
 ### Authorization
 

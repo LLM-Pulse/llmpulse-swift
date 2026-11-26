@@ -69,9 +69,9 @@ open class MentionsCitationsAPI {
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter range: (query) Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: AllCitationsResponse
      */
-    open class func listAllCitations(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listAllCitations? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAllCitations? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listAllCitations? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listAllCitations(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listAllCitations? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAllCitations? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listAllCitations? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> AllCitationsResponse {
         return try await listAllCitationsWithRequestBuilder(projectId: projectId, competitors: competitors, page: page, perPage: perPage, model: model, collectionId: collectionId, prompt: prompt, from: from, to: to, output: output, countryCode: countryCode, languageCode: languageCode, promptType: promptType, brandKind: brandKind, range: range, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -98,9 +98,9 @@ open class MentionsCitationsAPI {
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter range: (query) Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<AllCitationsResponse> 
      */
-    open class func listAllCitationsWithRequestBuilder(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listAllCitations? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAllCitations? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listAllCitations? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listAllCitationsWithRequestBuilder(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listAllCitations? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAllCitations? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listAllCitations? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<AllCitationsResponse> {
         let localVariablePath = "/dimensions/all_citations"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -131,7 +131,7 @@ open class MentionsCitationsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<AllCitationsResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -196,9 +196,9 @@ open class MentionsCitationsAPI {
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter range: (query) Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: AllMentionsResponse
      */
-    open class func listAllMentions(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listAllMentions? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAllMentions? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listAllMentions? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listAllMentions(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listAllMentions? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAllMentions? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listAllMentions? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> AllMentionsResponse {
         return try await listAllMentionsWithRequestBuilder(projectId: projectId, competitors: competitors, page: page, perPage: perPage, model: model, collectionId: collectionId, prompt: prompt, from: from, to: to, output: output, countryCode: countryCode, languageCode: languageCode, promptType: promptType, brandKind: brandKind, range: range, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -225,9 +225,9 @@ open class MentionsCitationsAPI {
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter range: (query) Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<AllMentionsResponse> 
      */
-    open class func listAllMentionsWithRequestBuilder(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listAllMentions? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAllMentions? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listAllMentions? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listAllMentionsWithRequestBuilder(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listAllMentions? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listAllMentions? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listAllMentions? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<AllMentionsResponse> {
         let localVariablePath = "/dimensions/all_mentions"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -258,7 +258,7 @@ open class MentionsCitationsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<AllMentionsResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -447,9 +447,9 @@ open class MentionsCitationsAPI {
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter range: (query) Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: CompetitorCitationsResponse
      */
-    open class func listCompetitorCitations(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listCompetitorCitations? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCompetitorCitations? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listCompetitorCitations? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listCompetitorCitations(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listCompetitorCitations? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCompetitorCitations? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listCompetitorCitations? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> CompetitorCitationsResponse {
         return try await listCompetitorCitationsWithRequestBuilder(projectId: projectId, competitors: competitors, page: page, perPage: perPage, model: model, collectionId: collectionId, prompt: prompt, from: from, to: to, output: output, countryCode: countryCode, languageCode: languageCode, promptType: promptType, brandKind: brandKind, range: range, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -476,9 +476,9 @@ open class MentionsCitationsAPI {
      - parameter brandKind: (query) Filter by brand kind: brand (own brand/products), brand_other (competitors/other brands), non_brand (generic, no brand named). For fair 1:1 brand-vs-competitor comparisons (visibility, share of voice), use non_brand: brand-focused prompts skew results toward the brand they name. The in-app Overview page applies non_brand by default. (optional)
      - parameter range: (query) Number of days to look back (alternative to from/to, which win when both are given). A value that is not a plain positive number returns 422 ERR_INVALID_PARAM, even beside from/to. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<CompetitorCitationsResponse> 
      */
-    open class func listCompetitorCitationsWithRequestBuilder(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listCompetitorCitations? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCompetitorCitations? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listCompetitorCitations? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listCompetitorCitationsWithRequestBuilder(projectId: Int, competitors: String? = nil, page: Int? = nil, perPage: Int? = nil, model: Model_listCompetitorCitations? = nil, collectionId: String? = nil, prompt: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listCompetitorCitations? = nil, countryCode: String? = nil, languageCode: String? = nil, promptType: String? = nil, brandKind: BrandKind_listCompetitorCitations? = nil, range: Int? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<CompetitorCitationsResponse> {
         let localVariablePath = "/dimensions/competitor_citations"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -509,7 +509,7 @@ open class MentionsCitationsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CompetitorCitationsResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

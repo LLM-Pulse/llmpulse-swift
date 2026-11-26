@@ -26,9 +26,9 @@ open class RecommendationsAPI {
      - parameter itemStatus: (query)  (optional)
      - parameter resolveSourceRefs: (query)  (optional, default to true)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: RecommendationDetailResponse
      */
-    open class func getRecommendation(projectId: Int, id: Int, itemStatus: ItemStatus_getRecommendation? = nil, resolveSourceRefs: Bool? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getRecommendation(projectId: Int, id: Int, itemStatus: ItemStatus_getRecommendation? = nil, resolveSourceRefs: Bool? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> RecommendationDetailResponse {
         return try await getRecommendationWithRequestBuilder(projectId: projectId, id: id, itemStatus: itemStatus, resolveSourceRefs: resolveSourceRefs, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -43,9 +43,9 @@ open class RecommendationsAPI {
      - parameter itemStatus: (query)  (optional)
      - parameter resolveSourceRefs: (query)  (optional, default to true)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<RecommendationDetailResponse> 
      */
-    open class func getRecommendationWithRequestBuilder(projectId: Int, id: Int, itemStatus: ItemStatus_getRecommendation? = nil, resolveSourceRefs: Bool? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getRecommendationWithRequestBuilder(projectId: Int, id: Int, itemStatus: ItemStatus_getRecommendation? = nil, resolveSourceRefs: Bool? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<RecommendationDetailResponse> {
         var localVariablePath = "/recommendations/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -67,7 +67,7 @@ open class RecommendationsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<RecommendationDetailResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -77,9 +77,9 @@ open class RecommendationsAPI {
      
      - parameter launchRecommendationsRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: RecommendationLaunchResponse
      */
-    open class func launchRecommendations(launchRecommendationsRequest: LaunchRecommendationsRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func launchRecommendations(launchRecommendationsRequest: LaunchRecommendationsRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> RecommendationLaunchResponse {
         return try await launchRecommendationsWithRequestBuilder(launchRecommendationsRequest: launchRecommendationsRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -92,9 +92,9 @@ open class RecommendationsAPI {
        - name: BearerAuth
      - parameter launchRecommendationsRequest: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<RecommendationLaunchResponse> 
      */
-    open class func launchRecommendationsWithRequestBuilder(launchRecommendationsRequest: LaunchRecommendationsRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func launchRecommendationsWithRequestBuilder(launchRecommendationsRequest: LaunchRecommendationsRequest, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<RecommendationLaunchResponse> {
         let localVariablePath = "/recommendations"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: launchRecommendationsRequest, codableHelper: apiConfiguration.codableHelper)
@@ -107,7 +107,7 @@ open class RecommendationsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<RecommendationLaunchResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

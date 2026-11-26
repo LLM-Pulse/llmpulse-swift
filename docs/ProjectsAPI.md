@@ -69,7 +69,7 @@ Name | Type | Description  | Notes
 
 # **createProjectDraft**
 ```swift
-    open class func createProjectDraft(createProjectDraftRequest: CreateProjectDraftRequest, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func createProjectDraft(createProjectDraftRequest: CreateProjectDraftRequest, completion: @escaping (_ data: ProjectDraftResponse?, _ error: Error?) -> Void)
 ```
 
 Start a project draft (wizard step 1)
@@ -104,7 +104,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**ProjectDraftResponse**](ProjectDraftResponse.md)
 
 ### Authorization
 
@@ -271,7 +271,7 @@ Name | Type | Description  | Notes
 
 # **getProjectDraft**
 ```swift
-    open class func getProjectDraft(id: String, includeSuggestions: Bool? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func getProjectDraft(id: String, includeSuggestions: Bool? = nil, completion: @escaping (_ data: ProjectDraftResponse?, _ error: Error?) -> Void)
 ```
 
 Read a project draft
@@ -306,7 +306,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**ProjectDraftResponse**](ProjectDraftResponse.md)
 
 ### Authorization
 
@@ -521,7 +521,7 @@ Name | Type | Description  | Notes
 
 # **updateProjectDraft**
 ```swift
-    open class func updateProjectDraft(id: String, updateProjectDraftRequest: UpdateProjectDraftRequest, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func updateProjectDraft(id: String, updateProjectDraftRequest: UpdateProjectDraftRequest, completion: @escaping (_ data: ProjectDraftResponse?, _ error: Error?) -> Void)
 ```
 
 Submit a wizard step
@@ -558,7 +558,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**ProjectDraftResponse**](ProjectDraftResponse.md)
 
 ### Authorization
 

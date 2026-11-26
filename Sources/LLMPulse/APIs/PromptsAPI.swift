@@ -135,9 +135,9 @@ open class PromptsAPI {
      - parameter projectId: (query) Project ID 
      - parameter id: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: PromptDeleteResponse
      */
-    open class func deletePrompt(projectId: Int, id: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func deletePrompt(projectId: Int, id: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> PromptDeleteResponse {
         return try await deletePromptWithRequestBuilder(projectId: projectId, id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -151,9 +151,9 @@ open class PromptsAPI {
      - parameter projectId: (query) Project ID 
      - parameter id: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<PromptDeleteResponse> 
      */
-    open class func deletePromptWithRequestBuilder(projectId: Int, id: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func deletePromptWithRequestBuilder(projectId: Int, id: Int, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<PromptDeleteResponse> {
         var localVariablePath = "/prompts/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -173,7 +173,7 @@ open class PromptsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<PromptDeleteResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -636,9 +636,9 @@ open class PromptsAPI {
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: QueryFanOutsResponse
      */
-    open class func listQueryFanOuts(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listQueryFanOuts? = nil, order: Order_listQueryFanOuts? = nil, direction: Direction_listQueryFanOuts? = nil, query: String? = nil, model: Model_listQueryFanOuts? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listQueryFanOuts? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listQueryFanOuts? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listQueryFanOuts(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listQueryFanOuts? = nil, order: Order_listQueryFanOuts? = nil, direction: Direction_listQueryFanOuts? = nil, query: String? = nil, model: Model_listQueryFanOuts? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listQueryFanOuts? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listQueryFanOuts? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> QueryFanOutsResponse {
         return try await listQueryFanOutsWithRequestBuilder(projectId: projectId, page: page, perPage: perPage, view: view, order: order, direction: direction, query: query, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, promptType: promptType, brandKind: brandKind, range: range, from: from, to: to, output: output, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -668,9 +668,9 @@ open class PromptsAPI {
      - parameter to: (query) End of the window. A date-only value such as 2026-09-01 covers that whole day. Pass a full timestamp to end the window earlier. Sent without from, the window covers the 30 days that end on it. (optional)
      - parameter output: (query) Rectangular output for BI tools (Tableau, Excel, Sheets, ELT). Omit for the default nested JSON. &#39;flat&#39; returns the same metadata plus &#39;columns&#39; and &#39;rows&#39;; &#39;csv&#39; returns those rows as text/csv. Errors are always returned as JSON. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<QueryFanOutsResponse> 
      */
-    open class func listQueryFanOutsWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listQueryFanOuts? = nil, order: Order_listQueryFanOuts? = nil, direction: Direction_listQueryFanOuts? = nil, query: String? = nil, model: Model_listQueryFanOuts? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listQueryFanOuts? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listQueryFanOuts? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listQueryFanOutsWithRequestBuilder(projectId: Int, page: Int? = nil, perPage: Int? = nil, view: View_listQueryFanOuts? = nil, order: Order_listQueryFanOuts? = nil, direction: Direction_listQueryFanOuts? = nil, query: String? = nil, model: Model_listQueryFanOuts? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listQueryFanOuts? = nil, range: Int? = nil, from: Date? = nil, to: Date? = nil, output: Output_listQueryFanOuts? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<QueryFanOutsResponse> {
         let localVariablePath = "/dimensions/query_fan_outs"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -704,7 +704,7 @@ open class PromptsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<QueryFanOutsResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

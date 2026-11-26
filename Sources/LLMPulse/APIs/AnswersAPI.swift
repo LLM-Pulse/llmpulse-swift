@@ -144,9 +144,9 @@ open class AnswersAPI {
      - parameter query: (query) Case-insensitive full-text search inside AI response texts. Switches items to snippet + match_count mode. (optional)
      - parameter noResult: (query) Filter sentinel non-answers (no answer could be collected after all retries, or the model declined to answer, today only Gemini; excluded from platform metrics). false &#x3D; only real answers, true &#x3D; only sentinels, omit &#x3D; both. Every item carries its own no_result flag, and a sentinel also carries no_result_reason (declined or no_answer). (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: AnswersResponse
      */
-    open class func listAnswers(projectId: Int, model: Model_listAnswers? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listAnswers? = nil, mentionFilter: MentionFilter_listAnswers? = nil, citationFilter: CitationFilter_listAnswers? = nil, competitors: String? = nil, from: Date? = nil, to: Date? = nil, page: Int? = nil, perPage: Int? = nil, query: String? = nil, noResult: Bool? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func listAnswers(projectId: Int, model: Model_listAnswers? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listAnswers? = nil, mentionFilter: MentionFilter_listAnswers? = nil, citationFilter: CitationFilter_listAnswers? = nil, competitors: String? = nil, from: Date? = nil, to: Date? = nil, page: Int? = nil, perPage: Int? = nil, query: String? = nil, noResult: Bool? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) async throws(ErrorResponse) -> AnswersResponse {
         return try await listAnswersWithRequestBuilder(projectId: projectId, model: model, collectionId: collectionId, countryCode: countryCode, languageCode: languageCode, prompt: prompt, promptType: promptType, brandKind: brandKind, mentionFilter: mentionFilter, citationFilter: citationFilter, competitors: competitors, from: from, to: to, page: page, perPage: perPage, query: query, noResult: noResult, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -175,9 +175,9 @@ open class AnswersAPI {
      - parameter query: (query) Case-insensitive full-text search inside AI response texts. Switches items to snippet + match_count mode. (optional)
      - parameter noResult: (query) Filter sentinel non-answers (no answer could be collected after all retries, or the model declined to answer, today only Gemini; excluded from platform metrics). false &#x3D; only real answers, true &#x3D; only sentinels, omit &#x3D; both. Every item carries its own no_result flag, and a sentinel also carries no_result_reason (declined or no_answer). (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<AnswersResponse> 
      */
-    open class func listAnswersWithRequestBuilder(projectId: Int, model: Model_listAnswers? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listAnswers? = nil, mentionFilter: MentionFilter_listAnswers? = nil, citationFilter: CitationFilter_listAnswers? = nil, competitors: String? = nil, from: Date? = nil, to: Date? = nil, page: Int? = nil, perPage: Int? = nil, query: String? = nil, noResult: Bool? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func listAnswersWithRequestBuilder(projectId: Int, model: Model_listAnswers? = nil, collectionId: String? = nil, countryCode: String? = nil, languageCode: String? = nil, prompt: Int? = nil, promptType: String? = nil, brandKind: BrandKind_listAnswers? = nil, mentionFilter: MentionFilter_listAnswers? = nil, citationFilter: CitationFilter_listAnswers? = nil, competitors: String? = nil, from: Date? = nil, to: Date? = nil, page: Int? = nil, perPage: Int? = nil, query: String? = nil, noResult: Bool? = nil, apiConfiguration: LLMPulseAPIConfiguration = LLMPulseAPIConfiguration.shared) -> RequestBuilder<AnswersResponse> {
         let localVariablePath = "/answers"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -210,7 +210,7 @@ open class AnswersAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<AnswersResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

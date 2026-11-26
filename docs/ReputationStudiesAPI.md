@@ -64,7 +64,7 @@ Name | Type | Description  | Notes
 
 # **getReputationReport**
 ```swift
-    open class func getReputationReport(id: String, projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_getReputationReport? = nil, brand: String? = nil, dimension: String? = nil, output: Output_getReputationReport? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func getReputationReport(id: String, projectId: Int, page: Int? = nil, perPage: Int? = nil, model: Model_getReputationReport? = nil, brand: String? = nil, dimension: String? = nil, output: Output_getReputationReport? = nil, completion: @escaping (_ data: ReputationReportScoresResponse?, _ error: Error?) -> Void)
 ```
 
 Get reputation report scores
@@ -113,7 +113,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**ReputationReportScoresResponse**](ReputationReportScoresResponse.md)
 
 ### Authorization
 
@@ -128,7 +128,7 @@ Void (empty response body)
 
 # **getStudy**
 ```swift
-    open class func getStudy(id: Int, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func getStudy(id: Int, completion: @escaping (_ data: StudyResponse?, _ error: Error?) -> Void)
 ```
 
 Get a custom AI study
@@ -163,7 +163,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**StudyResponse**](StudyResponse.md)
 
 ### Authorization
 
@@ -178,7 +178,7 @@ Void (empty response body)
 
 # **getStudyReport**
 ```swift
-    open class func getStudyReport(id: Int, reportId: String, page: Int? = nil, perPage: Int? = nil, model: Model_getStudyReport? = nil, subject: String? = nil, dimension: String? = nil, output: Output_getStudyReport? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func getStudyReport(id: Int, reportId: String, page: Int? = nil, perPage: Int? = nil, model: Model_getStudyReport? = nil, subject: String? = nil, dimension: String? = nil, output: Output_getStudyReport? = nil, completion: @escaping (_ data: StudyReportScoresResponse?, _ error: Error?) -> Void)
 ```
 
 Get custom study report scores
@@ -227,7 +227,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**StudyReportScoresResponse**](StudyReportScoresResponse.md)
 
 ### Authorization
 
@@ -242,7 +242,7 @@ Void (empty response body)
 
 # **listReputationReports**
 ```swift
-    open class func listReputationReports(projectId: Int, page: Int? = nil, perPage: Int? = nil, output: Output_listReputationReports? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listReputationReports(projectId: Int, page: Int? = nil, perPage: Int? = nil, output: Output_listReputationReports? = nil, completion: @escaping (_ data: ReputationReportsResponse?, _ error: Error?) -> Void)
 ```
 
 List reputation reports
@@ -283,7 +283,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**ReputationReportsResponse**](ReputationReportsResponse.md)
 
 ### Authorization
 
@@ -292,13 +292,13 @@ Void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **listStudies**
 ```swift
-    open class func listStudies(projectId: Int? = nil, status: Status_listStudies? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_listStudies? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
+    open class func listStudies(projectId: Int? = nil, status: Status_listStudies? = nil, page: Int? = nil, perPage: Int? = nil, output: Output_listStudies? = nil, completion: @escaping (_ data: StudiesResponse?, _ error: Error?) -> Void)
 ```
 
 List custom AI studies
@@ -341,7 +341,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-Void (empty response body)
+[**StudiesResponse**](StudiesResponse.md)
 
 ### Authorization
 
@@ -350,7 +350,7 @@ Void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
