@@ -18,8 +18,9 @@ public struct GetAccount200ResponseLimits: Sendable, Codable, Hashable {
     public var geoAuditManualRuns: AccountQuota?
     public var promptExecutions: AccountExecutionQuota?
     public var pitchProjects: AccountPitchQuota?
+    public var agentUsage: AccountAgentUsage?
 
-    public init(prompts: AccountQuota? = nil, projects: AccountQuota? = nil, competitorsPerProject: AccountCapacity? = nil, intelligenceTasks: AccountQuota? = nil, teamMembers: AccountCapacity? = nil, recurringGeoAudits: AccountQuota? = nil, geoAuditManualRuns: AccountQuota? = nil, promptExecutions: AccountExecutionQuota? = nil, pitchProjects: AccountPitchQuota? = nil) {
+    public init(prompts: AccountQuota? = nil, projects: AccountQuota? = nil, competitorsPerProject: AccountCapacity? = nil, intelligenceTasks: AccountQuota? = nil, teamMembers: AccountCapacity? = nil, recurringGeoAudits: AccountQuota? = nil, geoAuditManualRuns: AccountQuota? = nil, promptExecutions: AccountExecutionQuota? = nil, pitchProjects: AccountPitchQuota? = nil, agentUsage: AccountAgentUsage? = nil) {
         self.prompts = prompts
         self.projects = projects
         self.competitorsPerProject = competitorsPerProject
@@ -29,6 +30,7 @@ public struct GetAccount200ResponseLimits: Sendable, Codable, Hashable {
         self.geoAuditManualRuns = geoAuditManualRuns
         self.promptExecutions = promptExecutions
         self.pitchProjects = pitchProjects
+        self.agentUsage = agentUsage
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -41,6 +43,7 @@ public struct GetAccount200ResponseLimits: Sendable, Codable, Hashable {
         case geoAuditManualRuns = "geo_audit_manual_runs"
         case promptExecutions = "prompt_executions"
         case pitchProjects = "pitch_projects"
+        case agentUsage = "agent_usage"
     }
 
     // Encodable protocol methods
@@ -56,6 +59,7 @@ public struct GetAccount200ResponseLimits: Sendable, Codable, Hashable {
         try container.encodeIfPresent(geoAuditManualRuns, forKey: .geoAuditManualRuns)
         try container.encodeIfPresent(promptExecutions, forKey: .promptExecutions)
         try container.encodeIfPresent(pitchProjects, forKey: .pitchProjects)
+        try container.encodeIfPresent(agentUsage, forKey: .agentUsage)
     }
 }
 
