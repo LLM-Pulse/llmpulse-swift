@@ -296,6 +296,7 @@ Sources/LLMPulse/Models/OwnedMediaSummaryResponse.swift
 Sources/LLMPulse/Models/OwnedMediaSummaryResponsePrevious.swift
 Sources/LLMPulse/Models/OwnedMediaWeek.swift
 Sources/LLMPulse/Models/PaginatedEnvelope.swift
+Sources/LLMPulse/Models/PeecExportImportResponse.swift
 Sources/LLMPulse/Models/Ping200Response.swift
 Sources/LLMPulse/Models/Project.swift
 Sources/LLMPulse/Models/ProjectCreateRequest.swift
@@ -346,6 +347,7 @@ Sources/LLMPulse/Models/PromptTagsRemoveResponse.swift
 Sources/LLMPulse/Models/PromptsCreateRequest.swift
 Sources/LLMPulse/Models/PromptsCreateResponse.swift
 Sources/LLMPulse/Models/PromptsCreateResponseDataInner.swift
+Sources/LLMPulse/Models/PromptsImportFileResponse.swift
 Sources/LLMPulse/Models/PromptsImportRequest.swift
 Sources/LLMPulse/Models/PromptsImportRequestRowsInner.swift
 Sources/LLMPulse/Models/PromptsImportResponse.swift
@@ -763,6 +765,7 @@ docs/OwnedMediaSummaryResponse.md
 docs/OwnedMediaSummaryResponsePrevious.md
 docs/OwnedMediaWeek.md
 docs/PaginatedEnvelope.md
+docs/PeecExportImportResponse.md
 docs/Ping200Response.md
 docs/Project.md
 docs/ProjectCreateRequest.md
@@ -815,6 +818,7 @@ docs/PromptsAPI.md
 docs/PromptsCreateRequest.md
 docs/PromptsCreateResponse.md
 docs/PromptsCreateResponseDataInner.md
+docs/PromptsImportFileResponse.md
 docs/PromptsImportRequest.md
 docs/PromptsImportRequestRowsInner.md
 docs/PromptsImportResponse.md

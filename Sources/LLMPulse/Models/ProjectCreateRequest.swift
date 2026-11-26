@@ -39,6 +39,7 @@ public struct ProjectCreateRequest: Sendable, Codable, Hashable {
     public var primaryProducts: [String]?
     /** Brand-name variants used to detect mentions. At most 50 names of up to 100 characters each; a longer list or name is refused with ERR_INVALID_PARAM (422) and nothing is created */
     public var matchingNames: [String]?
+    /** Prompt texts (max 100), each up to 2,000 bytes of UTF-8 text (about 2,000 characters in English, fewer with accented letters or non-Latin scripts). A longer one returns ERR_INVALID_PARAM with error.meta.reason prompt_too_long before anything is created */
     public var prompts: [String]?
     /** Collections (prompt tags) created with the project, each tagging prompts of this request by their exact text, so no separate tagging calls are needed. A text that is not in prompts returns ERR_INVALID_PARAM. A team member also needs Tags: Create permission. */
     public var collections: [ProjectCreateRequestCollectionsInner]?

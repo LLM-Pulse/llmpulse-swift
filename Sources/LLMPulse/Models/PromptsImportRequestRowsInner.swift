@@ -9,6 +9,7 @@ import Foundation
 
 public struct PromptsImportRequestRowsInner: Sendable, Codable, Hashable {
 
+    /** The prompt text, up to 2,000 bytes of UTF-8 text (about 2,000 characters in English, fewer with accented letters or non-Latin scripts). A longer new prompt skips the row, which comes back in row_errors; a row matching a prompt the project already tracks counts as a duplicate */
     public var prompt: String
     /** ISO 3166-1 alpha-2 code or country name (default the project country) */
     public var countryCode: String?
