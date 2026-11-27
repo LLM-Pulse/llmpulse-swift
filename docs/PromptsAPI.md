@@ -9,7 +9,6 @@ Method | HTTP request | Description
 [**createPrompts**](PromptsAPI.md#createprompts) | **POST** /prompts | Bulk-create prompts
 [**deletePrompt**](PromptsAPI.md#deleteprompt) | **DELETE** /prompts/{id} | Delete a prompt
 [**getPromptGeneration**](PromptsAPI.md#getpromptgeneration) | **GET** /prompt_generations/{id} | Get a prompt generation run
-[**importPeecExport**](PromptsAPI.md#importpeecexport) | **POST** /prompts/import_peec_export | Import a Peec AI export
 [**importPrompts**](PromptsAPI.md#importprompts) | **POST** /prompts/import | Import prompts
 [**importPromptsFile**](PromptsAPI.md#importpromptsfile) | **POST** /prompts/import_file | Import prompts from a file
 [**listPromptExecutions**](PromptsAPI.md#listpromptexecutions) | **GET** /dimensions/prompt_executions | List prompt executions
@@ -270,58 +269,6 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **importPeecExport**
-```swift
-    open class func importPeecExport(projectId: Int, file: URL, completion: @escaping (_ data: PeecExportImportResponse?, _ error: Error?) -> Void)
-```
-
-Import a Peec AI export
-
-Not available yet: until file imports are enabled, the call returns ERR_INTEGRATION_UNAVAILABLE (403). Imports the answers export of Peec AI, sent as a multipart/form-data body with project_id and the file as a part named file: a CSV of up to 8 MB and 20,000 answers with Peec AI's column names (user, assistant, model, created, and optionally country and mentions). Every prompt of the file becomes a tracked prompt of the project, and each answer from an AI model the account tracks is filed as that week's answer for its model and analysed for mentions, sources and sentiment like a tracked one; answers from other models are skipped and listed in skipped_models. Competitors are not created: detected_brands lists the names the export mentions, to add with POST /competitors. The file is checked whole before anything is written: a file that cannot be read returns ERR_INVALID_PARAM with error.meta.reason file_missing, file_empty, file_too_large, columns_missing, models_not_tracked, nothing_to_import or too_large (more than 20,000 weekly answers: prompts x AI models x weeks), dates_out_of_range (an answer dated before 2022-11-30 or after today), answer_too_long (an answer over 50,000 characters) or prompt_too_long (a prompt over 2,000 bytes), or a message naming the problem. The prompt limits count only the prompts the project does not hold yet, together with those of the account's imports still finishing: when they would exceed the project or the plan, the call returns ERR_LIMIT_REACHED and imports nothing, so a full account can still add answers to the prompts it holds. The analysis is paid on-demand work, so an account that is not active gets ERR_ACCOUNT_INACTIVE. The import is planned in the request and finishes in the background, usually within minutes: 202 means it started, and app_url opens the project's prompts. The MCP tool import_peec_export takes the same file through the MCP files extension. Requires a `read_write` scope API key and, for team members, create access to Prompts.
-
-### Example
-```swift
-// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import LLMPulse
-
-let projectId = 987 // Int | 
-let file = URL(string: "https://example.com")! // URL | The answers export of Peec AI, a CSV of up to 8 MB and 20,000 answers
-
-// Import a Peec AI export
-PromptsAPI.importPeecExport(projectId: projectId, file: file) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **projectId** | **Int** |  | 
- **file** | **URL** | The answers export of Peec AI, a CSV of up to 8 MB and 20,000 answers | 
-
-### Return type
-
-[**PeecExportImportResponse**](PeecExportImportResponse.md)
-
-### Authorization
-
-[BearerAuth](../README.md#BearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: multipart/form-data
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

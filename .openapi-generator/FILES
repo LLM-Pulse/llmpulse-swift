@@ -296,7 +296,6 @@ Sources/LLMPulse/Models/OwnedMediaSummaryResponse.swift
 Sources/LLMPulse/Models/OwnedMediaSummaryResponsePrevious.swift
 Sources/LLMPulse/Models/OwnedMediaWeek.swift
 Sources/LLMPulse/Models/PaginatedEnvelope.swift
-Sources/LLMPulse/Models/PeecExportImportResponse.swift
 Sources/LLMPulse/Models/Ping200Response.swift
 Sources/LLMPulse/Models/Project.swift
 Sources/LLMPulse/Models/ProjectCreateRequest.swift
@@ -765,7 +764,6 @@ docs/OwnedMediaSummaryResponse.md
 docs/OwnedMediaSummaryResponsePrevious.md
 docs/OwnedMediaWeek.md
 docs/PaginatedEnvelope.md
-docs/PeecExportImportResponse.md
 docs/Ping200Response.md
 docs/Project.md
 docs/ProjectCreateRequest.md
